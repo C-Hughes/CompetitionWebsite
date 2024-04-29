@@ -911,6 +911,119 @@
   --bulma-pre: var(--bulma-text);
   --bulma-pre-background: var(--bulma-background);
   --bulma-shadow: 0 0.5em 1em -0.125em hsla(var(--bulma-shadow-h), var(--bulma-shadow-s), var(--bulma-shadow-l), 0.1), 0 0px 0 1px hsla(var(--bulma-shadow-h), var(--bulma-shadow-s), var(--bulma-shadow-l), 0.02);
+
+  --bulma-facebook: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-l),1);
+  --bulma-facebook-base: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-l),1);
+  --bulma-facebook-rgb: 24,119,242;
+  --bulma-facebook-h: 214deg;
+  --bulma-facebook-s: 89%;
+  --bulma-facebook-l: 52%;
+  --bulma-facebook-00-l: 2%;
+  --bulma-facebook-05-l: 7%;
+  --bulma-facebook-10-l: 12%;
+  --bulma-facebook-15-l: 17%;
+  --bulma-facebook-20-l: 22%;
+  --bulma-facebook-25-l: 27%;
+  --bulma-facebook-30-l: 32%;
+  --bulma-facebook-35-l: 37%;
+  --bulma-facebook-40-l: 42%;
+  --bulma-facebook-45-l: 47%;
+  --bulma-facebook-50-l: 52%;
+  --bulma-facebook-55-l: 57%;
+  --bulma-facebook-60-l: 62%;
+  --bulma-facebook-65-l: 67%;
+  --bulma-facebook-70-l: 72%;
+  --bulma-facebook-75-l: 77%;
+  --bulma-facebook-80-l: 82%;
+  --bulma-facebook-85-l: 87%;
+  --bulma-facebook-90-l: 92%;
+  --bulma-facebook-95-l: 97%;
+  --bulma-facebook-100-l: 100%;
+  --bulma-facebook-00: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-00-l),1);
+  --bulma-facebook-00-invert-l: var(--bulma-facebook-60-l);
+  --bulma-facebook-00-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-00-invert-l),1);
+  --bulma-facebook-05: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-05-l),1);
+  --bulma-facebook-05-invert-l: var(--bulma-facebook-65-l);
+  --bulma-facebook-05-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-05-invert-l),1);
+  --bulma-facebook-10: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-10-l),1);
+  --bulma-facebook-10-invert-l: var(--bulma-facebook-70-l);
+  --bulma-facebook-10-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-10-invert-l),1);
+  --bulma-facebook-15: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-15-l),1);
+  --bulma-facebook-15-invert-l: var(--bulma-facebook-80-l);
+  --bulma-facebook-15-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-15-invert-l),1);
+  --bulma-facebook-20: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-20-l),1);
+  --bulma-facebook-20-invert-l: var(--bulma-facebook-85-l);
+  --bulma-facebook-20-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-20-invert-l),1);
+  --bulma-facebook-25: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-25-l),1);
+  --bulma-facebook-25-invert-l: var(--bulma-facebook-95-l);
+  --bulma-facebook-25-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-25-invert-l),1);
+  --bulma-facebook-30: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-30-l),1);
+  --bulma-facebook-30-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-30-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-30-invert-l),1);
+  --bulma-facebook-35: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-35-l),1);
+  --bulma-facebook-35-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-35-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-35-invert-l),1);
+  --bulma-facebook-40: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-40-l),1);
+  --bulma-facebook-40-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-40-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-40-invert-l),1);
+  --bulma-facebook-45: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-45-l),1);
+  --bulma-facebook-45-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-45-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-45-invert-l),1);
+  --bulma-facebook-50: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-50-l),1);
+  --bulma-facebook-50-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-50-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-50-invert-l),1);
+  --bulma-facebook-55: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-55-l),1);
+  --bulma-facebook-55-invert-l: var(--bulma-facebook-100-l);
+  --bulma-facebook-55-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-55-invert-l),1);
+  --bulma-facebook-60: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-60-l),1);
+  --bulma-facebook-60-invert-l: var(--bulma-facebook-00-l);
+  --bulma-facebook-60-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-60-invert-l),1);
+  --bulma-facebook-65: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-65-l),1);
+  --bulma-facebook-65-invert-l: var(--bulma-facebook-05-l);
+  --bulma-facebook-65-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-65-invert-l),1);
+  --bulma-facebook-70: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-70-l),1);
+  --bulma-facebook-70-invert-l: var(--bulma-facebook-10-l);
+  --bulma-facebook-70-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-70-invert-l),1);
+  --bulma-facebook-75: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-75-l),1);
+  --bulma-facebook-75-invert-l: var(--bulma-facebook-10-l);
+  --bulma-facebook-75-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-75-invert-l),1);
+  --bulma-facebook-80: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-80-l),1);
+  --bulma-facebook-80-invert-l: var(--bulma-facebook-15-l);
+  --bulma-facebook-80-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-80-invert-l),1);
+  --bulma-facebook-85: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-85-l),1);
+  --bulma-facebook-85-invert-l: var(--bulma-facebook-20-l);
+  --bulma-facebook-85-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-85-invert-l),1);
+  --bulma-facebook-90: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-90-l),1);
+  --bulma-facebook-90-invert-l: var(--bulma-facebook-20-l);
+  --bulma-facebook-90-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-90-invert-l),1);
+  --bulma-facebook-95: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-95-l),1);
+  --bulma-facebook-95-invert-l: var(--bulma-facebook-25-l);
+  --bulma-facebook-95-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-95-invert-l),1);
+  --bulma-facebook-100: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-100-l),1);
+  --bulma-facebook-100-invert-l: var(--bulma-facebook-25-l);
+  --bulma-facebook-100-invert: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-100-invert-l),1);
+  --bulma-facebook-invert-l: 100%;
+  --bulma-facebook-invert: #fff;
+  --bulma-facebook-light-l: 96%;
+  --bulma-facebook-dark-invert-l: 96%;
+  --bulma-facebook-light: #ecf4fe;
+  --bulma-facebook-dark-invert: #ecf4fe;
+  --bulma-facebook-dark-l: 44%;
+  --bulma-facebook-light-invert-l: 44%;
+  --bulma-facebook-dark: #0c63d4;
+  --bulma-facebook-light-invert: #0c63d4;
+  --bulma-facebook-on-scheme-l: 37.1568627451%;
+  --bulma-facebook-on-scheme: hsla(var(--bulma-facebook-h),var(--bulma-facebook-s),var(--bulma-facebook-on-scheme-l),1);
+  --bulma-twitter-invert-l: 100%;
+  --bulma-twitter-invert: #fff;
+  --bulma-twitter-light-l: 96%;
+  --bulma-twitter-dark-invert-l: 96%;
+  --bulma-twitter-light: #ecf6fd;
+  --bulma-twitter-dark-invert: #ecf6fd;
+  --bulma-twitter-dark-l: 34%;
+  --bulma-twitter-light-invert-l: 34%;
+  --bulma-twitter-dark: #10609e;
+  --bulma-twitter-light-invert: #10609e;
 }
 
 @media (prefers-color-scheme: light) {
@@ -22435,3 +22548,85 @@ has-background-danger.is-hoverable:active {
 }
 
 /*# sourceMappingURL=bulma.css.map */
+
+.button.is-facebook {
+  --bulma-button-h: var(--bulma-facebook-h);
+  --bulma-button-s: var(--bulma-facebook-s);
+  --bulma-button-l: var(--bulma-facebook-l);
+  --bulma-button-background-l: var(--bulma-facebook-l);
+  --bulma-button-border-l: var(--bulma-facebook-l);
+  --bulma-button-border-width: 0px;
+  --bulma-button-color-l: var(--bulma-facebook-invert-l);
+  --bulma-button-outer-shadow-a: 0
+}
+
+.button.is-facebook.is-focused,.button.is-facebook:focus-visible {
+  --bulma-button-border-width: 1px
+}
+
+.button.is-facebook.is-light {
+  --bulma-button-background-l: var(--bulma-light-l);
+  --bulma-button-color-l: var(--bulma-facebook-light-invert-l)
+}
+
+.button.is-facebook.is-dark {
+  --bulma-button-background-l: var(--bulma-dark-l);
+  --bulma-button-color-l: var(--bulma-facebook-dark-invert-l)
+}
+
+.button.is-facebook.is-soft {
+  --bulma-button-background-l: var(--bulma-soft-l);
+  --bulma-button-color-l: var(--bulma-soft-invert-l)
+}
+
+.button.is-facebook.is-bold {
+  --bulma-button-background-l: var(--bulma-bold-l);
+  --bulma-button-color-l: var(--bulma-bold-invert-l)
+}
+
+.button.is-facebook[disabled],fieldset[disabled] .button.is-facebook {
+  background-color: var(--bulma-facebook);
+  border-color: var(--bulma-facebook);
+  box-shadow: none
+}
+
+.button.is-twitter {
+  --bulma-button-h: var(--bulma-twitter-h);
+  --bulma-button-s: var(--bulma-twitter-s);
+  --bulma-button-l: var(--bulma-twitter-l);
+  --bulma-button-background-l: var(--bulma-twitter-l);
+  --bulma-button-border-l: var(--bulma-twitter-l);
+  --bulma-button-border-width: 0px;
+  --bulma-button-color-l: var(--bulma-twitter-invert-l);
+  --bulma-button-outer-shadow-a: 0
+}
+
+.button.is-twitter.is-focused,.button.is-twitter:focus-visible {
+  --bulma-button-border-width: 1px
+}
+
+.button.is-twitter.is-light {
+  --bulma-button-background-l: var(--bulma-light-l);
+  --bulma-button-color-l: var(--bulma-twitter-light-invert-l)
+}
+
+.button.is-twitter.is-dark {
+  --bulma-button-background-l: var(--bulma-dark-l);
+  --bulma-button-color-l: var(--bulma-twitter-dark-invert-l)
+}
+
+.button.is-twitter.is-soft {
+  --bulma-button-background-l: var(--bulma-soft-l);
+  --bulma-button-color-l: var(--bulma-soft-invert-l)
+}
+
+.button.is-twitter.is-bold {
+  --bulma-button-background-l: var(--bulma-bold-l);
+  --bulma-button-color-l: var(--bulma-bold-invert-l)
+}
+
+.button.is-twitter[disabled],fieldset[disabled] .button.is-twitter {
+  background-color: var(--bulma-twitter);
+  border-color: var(--bulma-twitter);
+  box-shadow: none
+}
