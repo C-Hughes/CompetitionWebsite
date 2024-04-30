@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/address', function(req, res, next) {
-  res.render('user/address', { title: 'Address', active: { address: true } });
+  res.render('user/address', { title: 'Addresses', active: { address: true } });
 });
 
 router.get('/accountDetails', function(req, res, next) {
