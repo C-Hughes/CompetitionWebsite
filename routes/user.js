@@ -15,8 +15,8 @@ router.get('/accountDetails', function(req, res, next) {
   res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true } });
 });
 
-router.get('/communicationPreferences', function(req, res, next) {
-  res.render('user/communicationPreferences', { title: 'Communication Preferences', active: { communicationPreferences: true } });
+router.get('/rewards', function(req, res, next) {
+  res.render('user/rewards', { title: 'Rewards', active: { communicationPreferences: true } });
 });
 
 router.get('/safePlaying', function(req, res, next) {
