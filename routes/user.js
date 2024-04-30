@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('user/profile', { title: 'User Profile' });
+  res.render('user/dashboard', { title: 'My Account' });
 });
 
 
