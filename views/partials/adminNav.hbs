@@ -1,0 +1,42 @@
+<div class="columns is-multiline is-gapless my-4">
+    <div class="column mx-1">
+        <a href="/admin" class="button is-danger is-fullwidth {{#unless active.dashboard}}is-outlined{{/unless}}">
+            <span class="icon">
+                <i class="fa-solid fa-dice"></i>
+            </span>
+            <span>Competitions</span>
+        </a>
+    </div>
+    <div class="column mx-1">
+        <a href="/admin/winners" class="button is-danger is-fullwidth {{#unless active.winners}}is-outlined{{/unless}}">
+        <span class="icon">
+            <i class="fa-solid fa-crown"></i>
+        </span>
+        <span>Winners</span>
+        </a>
+    </div>
+    <div class="column mx-1">
+        <a href="/admin/discounts" class="button is-danger is-fullwidth {{#unless active.discounts}}is-outlined{{/unless}}">
+        <span class="icon">
+            <i class="fa-solid fa-percent"></i>
+        </span>
+        <span>Discounts</span>
+        </a>
+    </div>
+    <div class="column mx-1">
+        <a href="/admin/users" class="button is-danger is-fullwidth {{#unless active.users}}is-outlined{{/unless}}">
+        <span class="icon">
+            <i class="fa-solid fa-user"></i>
+        </span>
+        <span>Users</span>
+        </a>
+    </div>
+    <div class="column mx-1">
+        <a href="/" class="button is-danger is-fullwidth is-outlined">
+        <span class="icon">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </span>
+        <span>Logout</span>
+        </a>
+    </div>
+</div>

@@ -1,77 +1,43 @@
-<div class="section">
-    <article class="panel is-danger">
-    <p class="panel-heading">
-        <span class="icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span>
-            <span>Admin Dashboard</span>
-   
-    <div class="tabs is-centered is-boxed">
-    <ul>
-        <li class="is-active">
-        <a>
-            <span class="icon is-small"
-            ><i class="fa-solid fa-dice" aria-hidden="true"></i
-            ></span>
-            <span>Competitions</span>
-        </a>
-        </li>
-        <li>
-        <a>
-            <span class="icon is-small"
-            ><i class="fa-solid fa-user" aria-hidden="true"></i
-            ></span>
-            <span>Users</span>
-        </a>
-        </li>
-        <li>
-        <a>
-            <span class="icon is-small"
-            ><i class="fa-solid fa-crown" aria-hidden="true"></i
-            ></span>
-            <span>Winners</span>
-        </a>
-        </li>
-        <li>
-        <a>
-            <span class="icon is-small"
-            ><i class="fa-solid fa-percent" aria-hidden="true"></i></span>
-            <span>Discounts</span>
-        </a>
-        </li>
-    </ul>
-    </div>
+<section class="hero is-danger">
+  <div class="hero-body">
+    <p class="title">Administrator Dashboard</p>
+  </div>
+</section>
 
+{{> adminNav}}
 
+<div class="container">
+    <nav class="panel">
+    <p class="panel-heading">Competitions</p>
     <div class="panel-block">
         <p class="control has-icons-left">
-        <input class="input is-danger" type="text" placeholder="Search" />
+        <input class="input" type="text" placeholder="Search" />
         <span class="icon is-left">
             <i class="fas fa-search" aria-hidden="true"></i>
         </span>
         </p>
     </div>
+    <p class="panel-tabs">
+        <a class="is-active">Current</a>
+        <a>Past</a>
+    </p>
     <a class="panel-block is-active">
         <span class="panel-icon">
         <i class="fas fa-book" aria-hidden="true"></i>
         </span>
-        bulma
+        Xbox Series X 1TB
     </a>
     <a class="panel-block">
         <span class="panel-icon">
         <i class="fas fa-book" aria-hidden="true"></i>
         </span>
-        marksheet
+        LEGO StarWars Millennium Falcon 
     </a>
     <a class="panel-block">
         <span class="panel-icon">
         <i class="fas fa-book" aria-hidden="true"></i>
         </span>
-        minireset.css
+        2TB Samsung SSD Evo
     </a>
-    <a class="panel-block">
-        <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
-        </span>
-        jgthms.github.io
-    </a>
-    </article>
+    </nav>
 </div>
