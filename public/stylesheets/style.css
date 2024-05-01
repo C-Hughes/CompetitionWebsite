@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+.tabs-content li {
+  display: none;
+  list-style: none;
+}
+
+.tabs-content li.is-active {
+  display: block;
+}
