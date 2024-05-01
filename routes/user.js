@@ -16,7 +16,7 @@ router.get('/accountDetails', function(req, res, next) {
 });
 
 router.get('/rewards', function(req, res, next) {
-  res.render('user/rewards', { title: 'Rewards', active: { communicationPreferences: true } });
+  res.render('user/rewards', { title: 'Rewards', active: { rewards: true } });
 });
 
 router.get('/safePlaying', function(req, res, next) {
