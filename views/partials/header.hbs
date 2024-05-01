@@ -14,19 +14,19 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-end">
-      <a class="navbar-item is-active" href="/">
+      <a class="navbar-item {{#if active.home}}is-active{{/if}}" href="/">
         Home
       </a>
 
-      <a class="navbar-item">
+      <a href="/" class="navbar-item {{#if active.competitions}}is-active{{/if}}">
         Competitions
       </a>
 
-      <a class="navbar-item">
+      <a href="/" class="navbar-item {{#if active.results}}is-active{{/if}}">
         Draw Results
       </a>
 
-      <a class="navbar-item" href="/faq">
+      <a class="navbar-item {{#if active.faq}}is-active{{/if}}" href="/faq">
         FAQ
       </a>
     </div>

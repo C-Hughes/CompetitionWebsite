@@ -3,23 +3,24 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Giveaway' });
+  res.render('index', { title: 'Giveaway', active: { home: true } });
+});
+
+router.get('/faq', function(req, res, next) {
+  res.render('faq', { title: 'FAQ', active: { faq: true } });
+});
+
+router.get('/results', function(req, res, next) {
+  res.render('results', { title: 'Draw Results', active: { results: true } });
+});
+
+
+router.get('/cart', function(req, res, next) {
+  res.render('cart', { title: 'Basket' });
 });
 
 router.get('/competition', function(req, res, next) {
   res.render('competition', { title: 'Win This...' });
-});
-
-router.get('/faq', function(req, res, next) {
-  res.render('faq', { title: 'FAQ' });
-});
-
-router.get('/results', function(req, res, next) {
-  res.render('results', { title: 'Draw Results' });
-});
-
-router.get('/cart', function(req, res, next) {
-  res.render('cart', { title: 'Basket' });
 });
 
 module.exports = router;
