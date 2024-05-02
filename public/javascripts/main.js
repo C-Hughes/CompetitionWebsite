@@ -1,3 +1,4 @@
+//
 function updateTicketCount(change){
 
   var sliderWithValue = document.getElementById("sliderWithValue");
@@ -10,7 +11,7 @@ function updateTicketCount(change){
   if (change == '-') {
     ticketCount--;
 
-    //Make sure you cannot add more than max or less than min number of tickets.
+    //Make sure you cannot add less than min number of tickets.
     if (ticketCount < sliderWithValue.min) {
       ticketCount = sliderWithValue.min;
       ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
@@ -19,7 +20,7 @@ function updateTicketCount(change){
   } else if (change == '+'){
     ticketCount++;
 
-    //Make sure you cannot add more than max or less than min number of tickets.
+    //Make sure you cannot add more than max number of tickets.
     if (ticketCount > sliderWithValue.max) {
       ticketCount = sliderWithValue.max;
       ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
