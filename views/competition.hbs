@@ -113,14 +113,14 @@
                                             How many tickets?
                                             </p>
                                             <div>
-                                                <input id="sliderWithValue" class="slider has-output is-fullwidth" min="0" max="100" value="10" step="1" type="range">
-                                                <output for="sliderWithValue">10</output>
+                                                <input id="sliderWithValue" class="slider has-output is-fullwidth" min="0" max="100" value="10" step="1" type="range" oninput="updateTicketCount()" onmouseup="updateTicketCount()" onchange="updateTicketCount()">
+                                                <output id="ticketSliderCount" for="sliderWithValue">10</output>
                                             </div>
 
                                             <div class="buttons has-addons is-centered">
-                                                <button class="button is-dark">-</button>
-                                                <button class="button is-static">Number of tickets: 10</button>
-                                                <button class="button is-dark">+</button>
+                                                <button class="button is-dark" onclick="updateTicketCount('-')">-</button>
+                                                <button id="ticketButtonCount" class="button is-static">Number of tickets: 10</button>
+                                                <button class="button is-dark" onclick="updateTicketCount('+')">+</button>
                                             </div>
                                         </div>
                                         <footer class="card-footer">
