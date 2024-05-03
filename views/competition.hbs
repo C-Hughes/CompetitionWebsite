@@ -341,7 +341,7 @@
     <div class="card">
         <header class="card-header">
             <p class="card-header-title">You've added tickets to basket</p>
-            <button class="card-header-icon" aria-label="more options" onclick="closeModal(this)">
+            <button class="card-header-icon" aria-label="close">
                 <span class="icon">
                     <i class="fa-solid fa-xmark"></i>
                 </span>
@@ -364,12 +364,12 @@
             </div>
 
             <div class="buttons is-centered">
-                <button class="button is-primary is-outlined">
+                <button class="button is-primary is-outlined" aria-label="close">
                     <span>Keep Shopping</span>
                 </button>
-                <button class="button is-primary">
+                <a href="/cart" class="button is-primary">
                     <span>View Basket</span>
-                </button>
+                </a>
             </div>
             <hr />
             <div class="block has-text-centered">
@@ -383,7 +383,7 @@
         </div>
 
         <footer class="card-footer">
-            <a class="button is-primary card-footer-item ">
+            <a href="/competition" class="button is-primary card-footer-item ">
                 <span>Enter Here</span>
                 <span class="icon">
                     <i class="fa-solid fa-ticket"></i>
