@@ -19,7 +19,7 @@ router.get('/winners', function(req, res, next) {
 });
 
 router.get('/winner', function(req, res, next) {
-  res.render('winner', { title: 'Winner', active: { winner: true } });
+  res.render('winner', { title: 'Winner', active: { winners: true } });
 });
 
 
