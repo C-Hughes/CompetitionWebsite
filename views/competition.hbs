@@ -335,62 +335,62 @@
 
 
 <div id="modal-js-example" class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-content">
+    <div class="modal-background"></div>
+    <div class="modal-content">
 
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">You've added tickets to basket</p>
-            <button class="card-header-icon" aria-label="close">
-                <span class="icon">
-                    <i class="fa-solid fa-xmark"></i>
-                </span>
-            </button>
-        </header>
-        <div class="card-content">
-            <div class="media">
-                <div class="media-left">
-                    <figure class="image is-96x96">
-                    <img
-                        src="https://bulma.io/assets/images/placeholders/96x96.png"
-                        alt="Placeholder image"
-                    />
-                    </figure>
-                </div>
-                <div class="media-content py-1">
-                    <p class="subtitle is-6">Win this Xbox Series X 1TB</p>
-                    <p class="title is-4">X Tickets</p>
-                </div>
-            </div>
-
-            <div class="buttons is-centered">
-                <button class="button is-primary is-outlined" aria-label="close">
-                    <span>Keep Shopping</span>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">You've added tickets to basket</p>
+                <button class="card-header-icon" aria-label="close" onclick="closeBasketModal()">
+                    <span class="icon">
+                        <i class="fa-solid fa-xmark"></i>
+                    </span>
                 </button>
-                <a href="/cart" class="button is-primary">
-                    <span>View Basket</span>
-                </a>
-            </div>
-            <hr />
-            <div class="block has-text-centered">
-                <div>
-                    <figure class="image is-1by1 is-128x128 mx-auto">
-                        <img src="https://bulma.io/assets/images/placeholders/256x256.png" />
-                    </figure>
+            </header>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-96x96">
+                        <img
+                            src="https://bulma.io/assets/images/placeholders/96x96.png"
+                            alt="Placeholder image"
+                        />
+                        </figure>
+                    </div>
+                    <div class="media-content py-1">
+                        <p class="subtitle is-6">Win this Xbox Series X 1TB</p>
+                        <p class="title is-4">X Tickets</p>
+                    </div>
                 </div>
-                <p class="subtitle mt-4">Want to also win this <strong>2TB Samsung SSD Evo<strong>?</p>
-            </div>
-        </div>
 
-        <footer class="card-footer">
-            <a href="/competition" class="button is-primary card-footer-item ">
-                <span>Enter Here</span>
-                <span class="icon">
-                    <i class="fa-solid fa-ticket"></i>
-                </span>
-            </a>
-        </footer>
-        </div>
-  </div>
-  <button class="modal-close is-large" aria-label="close"></button>
+                <div class="buttons is-centered">
+                    <button class="button is-primary is-outlined" aria-label="close" onclick="closeBasketModal()">
+                        <span>Keep Shopping</span>
+                    </button>
+                    <a href="/cart" class="button is-primary">
+                        <span>View Basket</span>
+                    </a>
+                </div>
+                <hr />
+                <div class="block has-text-centered">
+                    <div>
+                        <figure class="image is-1by1 is-128x128 mx-auto">
+                            <img src="https://bulma.io/assets/images/placeholders/256x256.png" />
+                        </figure>
+                    </div>
+                    <p class="subtitle mt-4">Want to also win this <strong>2TB Samsung SSD Evo<strong>?</p>
+                </div>
+            </div>
+
+            <footer class="card-footer">
+                <a href="/competition" class="button is-primary card-footer-item ">
+                    <span>Enter Here</span>
+                    <span class="icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </span>
+                </a>
+            </footer>
+            </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
 </div>

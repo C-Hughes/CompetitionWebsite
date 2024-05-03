@@ -105,3 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function closeBasketModal(){
+    var modal = document.getElementById("modal-js-example");
+    
+    modal.classList.remove('is-active');
+}
