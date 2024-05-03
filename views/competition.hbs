@@ -136,11 +136,11 @@
                                             <div class="buttons has-addons is-centered">
                                                 <button class="button is-dark" onclick="updateTicketCount('-')">-</button>
                                                 <button id="ticketButtonCount" class="button is-static">Number of tickets: 10</button>
-                                                <button class="button is-dark" onclick="updateTicketCount('+')">+</button>
+                                                <button class="button is-dark js-modal-trigger" data-target="modal-js-example">+</button>
                                             </div>
                                         </div>
                                         <footer class="card-footer">
-                                                <a href="#" class="button card-footer-item is-primary">Add tickets to basket</a>
+                                                <button class="button card-footer-item is-primary js-modal-trigger" data-target="modal-js-example">Add tickets to basket</button>
                                         </footer>
                                     </div>
                                 </li>
@@ -326,4 +326,61 @@
     </div>
 
     {{> payIcons}}
+</div>
+
+
+<div id="modal-js-example" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">You've added tickets to basket</p>
+            <button class="card-header-icon" aria-label="more options" onclick="closeModal(this)">
+            <span class="icon">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
+            </button>
+        </header>
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-96x96">
+                    <img
+                        src="https://bulma.io/assets/images/placeholders/96x96.png"
+                        alt="Placeholder image"
+                    />
+                    </figure>
+                </div>
+                <div class="media-content py-1">
+                    <p class="subtitle is-6">Win this Xbox Series X 1TB</p>
+                    <p class="title is-4">X Tickets</p>
+                </div>
+            </div>
+
+            <div class="buttons is-centered">
+                <button class="button is-primary is-outlined">
+                    <span>Keep Shopping</span>
+                </button>
+                <button class="button is-primary">
+                    <span>View Basket</span>
+                </button>
+            </div>
+            <hr />
+            <div class="block has-text-centered">
+                <div>
+                    <figure class="image is-1by1 is-128x128 mx-auto">
+                        <img src="https://bulma.io/assets/images/placeholders/256x256.png" />
+                    </figure>
+                </div>
+                <p class="subtitle mt-4">Want to also win this <strong>2TB Samsung SSD Evo<strong>?</p>
+            </div>
+        </div>
+
+        <footer class="card-footer">
+            <a href="#" class="button card-footer-item is-primary">Enter Here</a>
+        </footer>
+        </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
 </div>
