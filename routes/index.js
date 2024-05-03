@@ -11,7 +11,7 @@ router.get('/faq', function(req, res, next) {
 });
 
 router.get('/results', function(req, res, next) {
-  res.render('results', { title: 'Draw Results', active: { results: true } });
+  res.render('drawResults', { title: 'Draw Results', active: { results: true } });
 });
 
 router.get('/winners', function(req, res, next) {
