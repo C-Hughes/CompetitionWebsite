@@ -49,8 +49,15 @@ function answerQuestionsButtons(buttonNumber){
   //Remove is active from every button
   for (i = 0; i <= buttons.length - 1; i++) {
     buttons[i].classList.remove("is-focused");
-  }
-  //set is-active to the button just clicked
-  buttons[buttonNumber-1].className += " is-focused";
 
+    //If button has a tick icon, remove
+    if (buttons[i].children.length > 1){
+        buttons[i].children[0].remove();
+    }
+  }
+
+  //set is-active to the button just clicked
+  // Add tick icon to button clicked
+  buttons[buttonNumber-1].className += " is-focused";
+  buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
 }
