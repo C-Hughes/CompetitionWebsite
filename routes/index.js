@@ -14,6 +14,10 @@ router.get('/results', function(req, res, next) {
   res.render('results', { title: 'Draw Results', active: { results: true } });
 });
 
+router.get('/winners', function(req, res, next) {
+  res.render('winners', { title: 'Winners', active: { winners: true } });
+});
+
 
 router.get('/cart', function(req, res, next) {
   res.render('cart', { title: 'Basket' });
