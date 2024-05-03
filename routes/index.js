@@ -18,6 +18,10 @@ router.get('/winners', function(req, res, next) {
   res.render('winners', { title: 'Winners', active: { winners: true } });
 });
 
+router.get('/winner', function(req, res, next) {
+  res.render('winner', { title: 'Winner', active: { winner: true } });
+});
+
 
 router.get('/cart', function(req, res, next) {
   res.render('cart', { title: 'Basket' });
