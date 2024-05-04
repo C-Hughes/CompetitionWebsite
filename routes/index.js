@@ -27,6 +27,10 @@ router.get('/cart', function(req, res, next) {
   res.render('cart', { title: 'Basket' });
 });
 
+router.get('/checkout', function(req, res, next) {
+    res.render('checkout', { title: 'Checkout' });
+  });
+
 router.get('/competition', function(req, res, next) {
   res.render('competition', { title: 'Win This...' });
 });
