@@ -31,6 +31,10 @@ router.get('/checkout', function(req, res, next) {
     res.render('checkout', { title: 'Checkout' });
   });
 
+router.get('/orderReceived', function(req, res, next) {
+    res.render('orderReceived', { title: 'Order Received' });
+});
+
 router.get('/competition', function(req, res, next) {
   res.render('competition', { title: 'Win This...' });
 });
