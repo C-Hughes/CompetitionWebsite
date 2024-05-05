@@ -22,6 +22,9 @@ router.get('/winner', function(req, res, next) {
   res.render('winner', { title: 'Winner', active: { winners: true } });
 });
 
+router.get('/login', function(req, res, next) {
+    res.render('login', { title: 'Login / Register' });
+});
 
 router.get('/cart', function(req, res, next) {
   res.render('cart', { title: 'Basket' });
@@ -29,7 +32,7 @@ router.get('/cart', function(req, res, next) {
 
 router.get('/checkout', function(req, res, next) {
     res.render('checkout', { title: 'Checkout' });
-  });
+});
 
 router.get('/orderReceived', function(req, res, next) {
     res.render('orderReceived', { title: 'Order Received' });
