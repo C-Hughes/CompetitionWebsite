@@ -13,12 +13,8 @@ var adminRouter = require('./routes/admin');
 var app = express();
 
 // Connect to the database
-mongoose.connect('mongodb://localhost:27017/CompetitionMain', { useNewUrlParser: true }, function (err) {
-    if (err) {
-        console.log("connection error:", err);
-    } else {
-        console.log("MongoDB connection successful");
-    }
+mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
+    serverSelectionTimeoutMS: 5000
 });
 
 // view engine setup

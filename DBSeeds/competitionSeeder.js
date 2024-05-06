@@ -1,12 +1,8 @@
 var Competition = require('../models/competition');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/CompetitionMain', { useNewUrlParser: true }, function (err) {
-    if (err) {
-        console.log("connection error:", err);
-    } else {
-        console.log("MongoDB connection successful");
-    }
+mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
+    serverSelectionTimeoutMS: 5000
 });
 
 var Competitions = [
@@ -65,12 +61,18 @@ var Competitions = [
 
 var finished = 0;
 for (var i =0; i < Competitions.length; i++){
-    Competitions[i].save(function(err, result){
-        finished++;
+    Competitions[i].save().then(()=>{
+        console.log(finished);
+        finished++
         if(finished === Competitions.length){
             exit();
+            console.log('Exit');
         }
-    });
+    }).catch((err)=>{
+        console.log(err);
+    })
+
+
 }
 
 function exit(){
