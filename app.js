@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressHbs = require('express-handlebars');
+//var handlebarsHelpers  = require('./helpers/handlebars.js')(expressHbs);
 var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
@@ -18,11 +19,12 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 });
 
 // view engine setup
-app.engine('.hbs', expressHbs.engine({
+var hbs = app.engine('.hbs', expressHbs.engine({
   defaultLayout: 'layout',
   layoutsDir: path.join(__dirname, '/views/layouts/'),
   partialsDir: path.join(__dirname, '/views/partials/'),
   extname: '.hbs',
+  helpers: require('./helpers/handlebars'),
   runtimeOptions: {
     allowProtoPropertiesByDefault: true,
     allowProtoMethodsByDefault: true
@@ -56,5 +58,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

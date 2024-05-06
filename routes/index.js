@@ -4,14 +4,11 @@ var Competition = require('../models/competition');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    //var competitions = Competition.find(function(err, docs){
-    //   res.render('index', { title: 'Giveaway', active: { home: true }, competitions: docs }); 
-    //});
-
     Competition.find({})
       .then(foundCompetition => {
-          res.render('index', {title: 'Giveaway Home', competitions: foundCompetition});
-          console.log(foundCompetition);
+            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition});
+            console.log(foundCompetition);
+            console.log(foundCompetition);
     })
       .catch(err => {
           console.log(err);
