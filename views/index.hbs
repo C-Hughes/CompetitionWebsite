@@ -49,10 +49,39 @@
     <div class="hero-body">
         <div class="container is-max-fullhd">
             <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
-            <div class="columns is-vcentered">
+            <div class="columns is-vcentered is-multiline">
+
+            {{# each competitions}}
+                    <!-- Competition Column -->
+                    <div class="column is-4 has-text-centered">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                <img
+                                    src="{{this.imagePath}}"
+                                    alt="Competition Image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div style="height: 120px">
+                                    <p class="title is-4">Win this {{this.title}}</p>
+                                    <p class="subtitle is-6">Cash Alternative: £66</p>
+                                </div>
+                                <div class="content">
+                                    <p class="title is-1 is-spaced has-text-primary">£2.00</p>
+                                    <p class="subtitle is-6 has-text-left">Sold: 45%</p>
+                                    <progress class="progress is-info" value="45" max="100"></progress>
+                                    <a href="/competition" class="button is-medium is-fullwidth is-primary">Enter Now</a>
+                                    <p><time datetime="2024-06-02 19:00">Draw Sunday 2nd June - 7pm</time></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {{/each}}
 
             <!-- Column 1 -->
-                <div class="column has-text-centered">
+                <div class="column is-4 has-text-centered">
                     <div class="card">
                         <div class="card-image">
                             <figure class="image is-4by3">
@@ -79,7 +108,7 @@
                 </div>
 
             <!-- Column 2 -->
-                <div class="column has-text-centered">
+                <div class="column is-4 has-text-centered">
                     <div class="card">
                         <div class="card-image">
                             <figure class="image is-4by3">
@@ -107,7 +136,7 @@
                 </div>
 
                 <!-- Column 3 -->
-                <div class="column has-text-centered">
+                <div class="column is-4 has-text-centered">
                     <div class="card">
                         <div class="card-image">
                             <figure class="image is-4by3">

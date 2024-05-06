@@ -22,7 +22,11 @@ app.engine('.hbs', expressHbs.engine({
   defaultLayout: 'layout',
   layoutsDir: path.join(__dirname, '/views/layouts/'),
   partialsDir: path.join(__dirname, '/views/partials/'),
-  extname: '.hbs'
+  extname: '.hbs',
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+}
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', '.hbs');
