@@ -4,13 +4,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressHbs = require('express-handlebars');
-
+var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
 var app = express();
+
+// Connect to the database
+mongoose.connect('mongodb://localhost:27017/CompetitionMain', { useNewUrlParser: true }, function (err) {
+    if (err) {
+        console.log("connection error:", err);
+    } else {
+        console.log("MongoDB connection successful");
+    }
+});
 
 // view engine setup
 app.engine('.hbs', expressHbs.engine({
