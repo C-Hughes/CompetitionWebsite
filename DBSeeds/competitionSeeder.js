@@ -31,7 +31,7 @@ var Competitions = [
             '  More Text\n' +
             '  More Text Here\n',
         cashAlternative: 75,
-        price: 2,
+        price: 1.20,
         drawDate: new Date(),
         currentEntries: 476,
         maxEntries: 1000,

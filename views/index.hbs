@@ -69,7 +69,7 @@
                                 <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                             </div>
                             <div class="content">
-                                <p class="title is-1 is-spaced has-text-primary">£{{this.price}}</p>
+                                <p class="title is-1 is-spaced has-text-primary">£{{formatPrice price}}</p>
                                 <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
                                 <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
                                 <a href="/competition" class="button is-medium is-fullwidth is-primary">Enter Now</a>
