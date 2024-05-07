@@ -19,6 +19,9 @@ passport.use('local.signup', new LocalStrategy({
 }, function(req, username, password, done){
     var email = req.body.email;
     var passwordConf = req.body.pass2;
+    var fisrtName = req.body.fisrtName;
+    var lastName = req.body.lastName;
+
 
     //Strip illegal characters from username
     var rx = new RegExp;
@@ -31,9 +34,10 @@ passport.use('local.signup', new LocalStrategy({
     req.checkBody('password', 'Password is empty').notEmpty();
     req.checkBody('password', 'Password must be at least 8 characters').isLength({min:8});
     req.checkBody('password', 'Passwords do not match').equals(passwordConf);
-    if(email){
-        req.checkBody('email', 'Email is not valid').isEmail();
-    }
+    req.checkBody('fisrtName', 'First name is empty').notEmpty();
+    req.checkBody('lastName', 'Last name is empty').notEmpty();
+    req.checkBody('email', 'Email is not valid').isEmail();
+
     var errors = req.validationErrors();
     if (errors){
         var messages = [];
