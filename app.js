@@ -21,6 +21,7 @@ var app = express();
 mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
     serverSelectionTimeoutMS: 5000
 });
+require('./config/passport');
 
 // view engine setup
 var hbs = app.engine('.hbs', expressHbs.engine({
