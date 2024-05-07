@@ -33,7 +33,7 @@ router.get('/winner', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
     var messages = req.flash('error');
-    res.render('login', { title: 'Login / Register', messages: messages});
+    res.render('login', { title: 'Login / Register', messages: messages, hasErrors: messages.length > 0});
 });
 
 router.post('/login', passport.authenticate('local.login', {

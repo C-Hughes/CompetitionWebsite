@@ -14,6 +14,13 @@
                     <div class="container">
                         <form action="/login" method="post">
                             <p class="subtitle is-3"><strong>Login</strong></p>
+                            {{#if hasErrors}}
+                            <div class="notification is-danger is-light">
+                                {{#each messages}}
+                                    <p>{{this}}</p>
+                                {{/each}}
+                            </div>
+                            {{/if}}
                             <div class="field">
                                 <label class="label">Username or Email Address</label>
                                 <div class="control has-icons-left">
