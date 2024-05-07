@@ -11,7 +11,7 @@ var Competitions = [
         title: 'Xbox Series X 1TB',
         description: 'Introducing Xbox Series X, the fastest, most powerful Xbox ever. Play thousands of titles from four generations of consoles—all games look and play best on Xbox Series X.\n' +
             '  Experience next-gen speed and performance with the Xbox Velocity Architecture, powered by a custom SSD and integrated software\n' +
-            '  Play thousands of games from four generations of Xbox with Backward Compatibility, including optimised titles at launch\n',
+            '  Play thousands of games from four generations of Xbox with Backward Compatibility, including optimised titles at launch',
         cashAlternative: 250,
         price: 3.5,
         drawDate: new Date(),
@@ -30,7 +30,7 @@ var Competitions = [
         title: '2TB Samsung SSD Evo',
         description: 'Introducing Samsung SSD\n' +
             '  More Text\n' +
-            '  More Text Here\n',
+            '  More Text Here',
         cashAlternative: 75,
         price: 1.20,
         drawDate: new Date(),
@@ -49,7 +49,7 @@ var Competitions = [
         title: 'LEGO StarWars Millennium Falcon',
         description: 'Introducing LEGO StarWars Millennium Falcon\n' +
             '  More Text\n' +
-            '  More Text Here\n',
+            '  More Text Here',
         cashAlternative: 75,
         price: 2,
         drawDate: new Date(),
