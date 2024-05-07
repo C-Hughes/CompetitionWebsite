@@ -49,8 +49,23 @@ router.get('/orderReceived', function(req, res, next) {
     res.render('orderReceived', { title: 'Order Received' });
 });
 
-router.get('/competition', function(req, res, next) {
-    res.render('competition', { title: 'Win This...' });
+router.get('/competition/:id', function(req, res, next) {
+    var compID = req.params.id;
+
+    Competition.findOne({ _id: compID })
+    .then((foundCompetition) => {
+        if (foundCompetition) {
+            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition});
+        } else {
+            //req.flash('error', 'This competition does not exists.');
+            console.log("Not Found");
+            res.redirect('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+    });
 });
+
 
 module.exports = router;
