@@ -19,7 +19,7 @@ passport.use('local.signup', new LocalStrategy({
 }, function(req, username, password, done){
     var email = req.body.email;
     var passwordConf = req.body.pass2;
-    var fisrtName = req.body.fisrtName;
+    var firstName = req.body.fisrtName;
     var lastName = req.body.lastName;
 
 
@@ -64,6 +64,8 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.username = username;
                 newUser.password = newUser.encryptPassword(passwordConf);
                 newUser.email = email;
+                newUser.firstName = firstName;
+                newUser.lastName = lastName;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
                 newUser.save(function(err, result){
@@ -77,7 +79,7 @@ passport.use('local.signup', new LocalStrategy({
                 console.log(err);
           });
         }
-      })
+    })
       .catch(err => {
         console.log(err);
     });
