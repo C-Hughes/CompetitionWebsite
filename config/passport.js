@@ -44,26 +44,21 @@ passport.use('local.signup', new LocalStrategy({
     }
 
     //Check if email already exists
-    User.findOne({'email': email}, function (err, user) {
-        if (err) {
-            return done(err);
-        }
-        //If a user is returned with an email address that is not empty
+    User.findOne({'email': email})
+    .then((user) => {
         if (user && email != "") {
             return done(null, false, {message: 'Email is already in use.'});
         } else {
             //Check if username already exists
-            User.findOne({'username':username}, function(err, user){
-                if (err) {
-                    return done(err);
-                }
-                if (user) {
+            User.findOne({'username':username})
+            .then((foundUser) => {
+                if (foundUser) {
                     return done(null, false, {message: 'Username is already in use.'});
                 }
-                
+
                 var newUser = new User();
                 newUser.username = username;
-                newUser.password = newUser.encryptPassword(password);
+                newUser.password = newUser.encryptPassword(passwordConf);
                 newUser.email = email;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
@@ -73,10 +68,15 @@ passport.use('local.signup', new LocalStrategy({
                     }
                     return done(null, newUser);
                 });
-            });
+            })
+                .catch(err => {
+                console.log(err);
+          });
         }
+      })
+      .catch(err => {
+        console.log(err);
     });
-
 }));
 
 passport.use('local.login', new LocalStrategy({
