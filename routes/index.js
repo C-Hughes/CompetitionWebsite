@@ -33,6 +33,10 @@ router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Login / Register'});
 });
 
+router.post('/login', function(req, res, next) {
+    res.redirect('/user');
+});
+
 router.get('/cart', function(req, res, next) {
     res.render('cart', { title: 'Basket' });
 });

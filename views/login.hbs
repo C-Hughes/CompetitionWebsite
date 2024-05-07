@@ -12,64 +12,17 @@
             <div class="column is-half">
                 <div class="mx-3">
                     <div class="container">
-                        <p class="subtitle is-3"><strong>Login</strong></p>
-                        <div class="field">
-                            <label class="label">Username or Email Address</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Username or Email">
-                                <span class="icon is-small is-left">
-                                <i class="fa-solid fa-user"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <label class="label">Password</label>
-                        <div class="field has-addons">
-                            <div class="control is-expanded has-icons-left">
-                                <input type="password" class="input" placeholder="Password">
-                                <span class="icon is-left">
-                                    <i class="fas fa-lock"></i>
-                                </span>
-                            </div>
-                            <div class="control ">
-                                <a class="button is-medium">
-                                    <i class="fa-solid fa-eye-slash"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                                <a href="user" class="button is-primary is-fullwidth">Login</a>
-                            </div>
-                        </div>                 
-                    </div>
-                </div>
-            </div>
-                <div class="column">
-                    <div class="columns is-multiline">
-                        <div class="column is-full is-flex is-justify-content-center is-align-items-center">
-                            <p class="subtitle is-3"><strong>Register</strong></p>
-                        </div>
-                        <div class="column is-full">
+                        <form action="/login" method="post">
+                            <p class="subtitle is-3"><strong>Login</strong></p>
                             <div class="field">
-                            <label class="label">Username</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Username">
-                                <span class="icon is-small is-left">
+                                <label class="label">Username or Email Address</label>
+                                <div class="control has-icons-left">
+                                    <input class="input" type="text" placeholder="Username or Email">
+                                    <span class="icon is-small is-left">
                                     <i class="fa-solid fa-user"></i>
-                                </span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Email Address</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="email" placeholder="Email Address">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
                             <label class="label">Password</label>
                             <div class="field has-addons">
                                 <div class="control is-expanded has-icons-left">
@@ -84,48 +37,99 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Confirm Password</label>
-                            <div class="field has-addons">
-                                <div class="control is-expanded has-icons-left">
-                                    <input type="password" class="input" placeholder="Password">
-                                    <span class="icon is-left">
-                                        <i class="fas fa-lock"></i>
+                            <div class="field">
+                                <div class="control">
+                                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                                    <button type="submit" class="button is-primary is-fullwidth">Login</button>
+                                </div>
+                            </div>  
+                        </form>               
+                    </div>
+                </div>
+            </div>
+                <div class="column">
+                    <form action="/login" method="post">
+                        <div class="columns is-multiline">
+                            <div class="column is-full is-flex is-justify-content-center is-align-items-center">
+                                <p class="subtitle is-3"><strong>Register</strong></p>
+                            </div>
+                            <div class="column is-full">
+                                <div class="field">
+                                <label class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    <input class="input" type="text" placeholder="Username">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-user"></i>
                                     </span>
                                 </div>
-                                <div class="control ">
-                                    <a class="button is-medium">
-                                        <i class="fa-solid fa-eye-slash"></i>
-                                    </a>
+                            </div>
+                            <div class="field">
+                                <label class="label">Email Address</label>
+                                <div class="control has-icons-left">
+                                    <input class="input" type="email" placeholder="Email Address">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left">
+                                        <input type="password" class="input" placeholder="Password">
+                                        <span class="icon is-left">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control ">
+                                        <a class="button is-medium">
+                                            <i class="fa-solid fa-eye-slash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Confirm Password</label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left">
+                                        <input type="password" class="input" placeholder="Password">
+                                        <span class="icon is-left">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control ">
+                                        <a class="button is-medium">
+                                            <i class="fa-solid fa-eye-slash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">First Name</label>
+                                <div class="control has-icons-left">
+                                    <input class="input" type="text" placeholder="First Name">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Last Name</label>
+                                <div class="control has-icons-left">
+                                    <input class="input" type="text" placeholder="Last name">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                                    <button type="submit" class="button is-primary is-fullwidth">Register</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">First Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="First Name">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-user"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Last Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Last name">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-user"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                                <a href="user" class="button is-primary is-fullwidth">Register</a>
-                            </div>
-                        </div>
-                    </div>
+                    </form>    
                 </div>
             </div>
         </div>
