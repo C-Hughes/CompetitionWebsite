@@ -18,6 +18,7 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 }, function(req, username, password, done){
     var email = req.body.email;
+    var password = req.body.pass1;
     var passwordConf = req.body.pass2;
     var firstName = req.body.fisrtName;
     var lastName = req.body.lastName;
@@ -85,6 +86,8 @@ passport.use('local.signup', new LocalStrategy({
     });
 }));
 
+
+///TODO
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
