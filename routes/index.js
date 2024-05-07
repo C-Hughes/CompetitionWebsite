@@ -7,8 +7,6 @@ router.get('/', function(req, res, next) {
     Competition.find({})
       .then(foundCompetition => {
             res.render('index', {title: 'Giveaway Home', competitions: foundCompetition});
-            console.log(foundCompetition);
-            console.log(foundCompetition);
     })
       .catch(err => {
           console.log(err);
@@ -32,7 +30,7 @@ router.get('/winner', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'Login / Register' });
+    res.render('login', { title: 'Login / Register'});
 });
 
 router.get('/cart', function(req, res, next) {

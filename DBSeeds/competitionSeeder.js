@@ -81,3 +81,7 @@ for (var i =0; i < Competitions.length; i++){
 function exit(){
     mongoose.disconnect();
 }
+
+
+//   cd ../../../../../ 
+//   cd '\.Program Files\MongoDB\Server\4.2\bin'   

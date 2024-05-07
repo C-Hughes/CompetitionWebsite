@@ -6,6 +6,8 @@ var logger = require('morgan');
 var expressHbs = require('express-handlebars');
 //var handlebarsHelpers  = require('./helpers/handlebars.js')(expressHbs);
 var mongoose = require('mongoose');
+var session = require('express-session');
+const { doubleCsrfProtection, generateToken } = require('./middlewares/csrf.middleware');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
@@ -37,6 +39,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: 'SessionSecret1dheys',
+    resave: false,
+    saveUninitialized: false,
+    //store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: { maxAge: 43200 * 60 * 1000 }
+}));
+app.use(doubleCsrfProtection);
+app.use((req, res, next) => {
+    res.locals.csrfToken = generateToken(req, res);
+    next();
+  });
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
