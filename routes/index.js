@@ -37,6 +37,18 @@ router.post('/login', function(req, res, next) {
     res.redirect('/user');
 });
 
+router.post('/login', passport.authenticate('local.login', {
+    successRedirect: '/user',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
+
+router.post('/register', passport.authenticate('local.signup', {
+    successRedirect: '/user',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
+
 router.get('/cart', function(req, res, next) {
     res.render('cart', { title: 'Basket' });
 });

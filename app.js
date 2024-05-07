@@ -8,6 +8,8 @@ var expressHbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var session = require('express-session');
 const { doubleCsrfProtection, generateToken } = require('./middlewares/csrf.middleware');
+var passport = require('passport');
+var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
@@ -46,6 +48,9 @@ app.use(session({
     //store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: { maxAge: 43200 * 60 * 1000 }
 }));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(doubleCsrfProtection);
 app.use((req, res, next) => {
     res.locals.csrfToken = generateToken(req, res);

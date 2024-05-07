@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcryptjs');
 
 var userSchema = new Schema({
     username: {type: String, required: true},
@@ -20,7 +20,9 @@ var userSchema = new Schema({
 });
 
 userSchema.methods.encryptPassword = function(password){
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(5), null);
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
+    return hash;
 };
 
 userSchema.methods.validPassword = function(password){
