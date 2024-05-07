@@ -22,7 +22,8 @@ var Competitions = [
         questionText: 'Which of the below is a day of the week?',
         questionAnswers: ["January", "March", "Wednesday", "December"],
         correctAnswer: 'Wednesday',
-        created: new Date()
+        created: new Date(),
+        active: true
     }),
     new Competition({
         imagePath: 'https://images.idgesg.net/images/article/2021/01/samsung-870-evo-sata-ssd-primary-100873962-orig.jpg?quality=50&strip=all',
@@ -40,7 +41,8 @@ var Competitions = [
         questionText: 'What is the first letter of the alphabet?',
         questionAnswers: ["A", "R", "B", "P"],
         correctAnswer: 'A',
-        created: new Date()
+        created: new Date(),
+        active: true
     }),
     new Competition({
         imagePath: 'http://im.ziffdavisinternational.com/ign_es/screenshot/default/75105box3injpg-8bb66b_jj3d.jpg',
@@ -58,7 +60,8 @@ var Competitions = [
         questionText: 'What is 5 + 5?',
         questionAnswers: ["10", "25", "100", "2"],
         correctAnswer: '10',
-        created: new Date()
+        created: new Date(),
+        active: true
     })
 ];
 

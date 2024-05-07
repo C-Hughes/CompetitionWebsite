@@ -55,6 +55,7 @@ router.get('/competition/:id', function(req, res, next) {
     Competition.findOne({ _id: compID })
     .then((foundCompetition) => {
         if (foundCompetition) {
+            console.log(foundCompetition);
             res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition});
         } else {
             //req.flash('error', 'This competition does not exists.');
