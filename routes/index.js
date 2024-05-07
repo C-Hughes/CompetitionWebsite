@@ -32,11 +32,8 @@ router.get('/winner', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'Login / Register'});
-});
-
-router.post('/login', function(req, res, next) {
-    res.redirect('/user');
+    var messages = req.flash('error');
+    res.render('login', { title: 'Login / Register', messages: messages});
 });
 
 router.post('/login', passport.authenticate('local.login', {
