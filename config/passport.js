@@ -19,7 +19,6 @@ passport.use('local.signup', new LocalStrategy({
 }, function(req, username, password, done){
 
     var email = req.body.email;
-    var password = req.body.pass1;
     var passwordConf = req.body.pass2;
     var firstName = req.body.fisrtName;
     var lastName = req.body.lastName;
@@ -30,18 +29,18 @@ passport.use('local.signup', new LocalStrategy({
     username.replace(rx, "");
 
     //Input Validation
-    req.checkBody('username', 'Username is empty').notEmpty();
+    req.checkBody('username', 'Username cannot be empty').notEmpty();
+    req.checkBody('email', 'Email address cannot be empty').notEmpty();
+    req.checkBody('password', 'Password cannot be empty').notEmpty();
+    req.checkBody('fisrtName', 'First name cannot be empty').notEmpty();
+    req.checkBody('lastName', 'Last name cannot be empty').notEmpty();
     req.checkBody('username', 'Username Must be between 2 and 20 characters').isLength({min:2, max:20});
-    req.checkBody('password', 'Password is empty').notEmpty();
     req.checkBody('password', 'Password must be at least 8 characters').isLength({min:8});
     req.checkBody('password', 'Passwords do not match').equals(passwordConf);
-    req.checkBody('fisrtName', 'First name is empty').notEmpty();
-    req.checkBody('lastName', 'Last name is empty').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
 
     var errors = req.validationErrors();
     if (errors){
-        console.log(errors);
         var sMessages = [];
         errors.forEach(function(error){
             sMessages.push(error.msg);
