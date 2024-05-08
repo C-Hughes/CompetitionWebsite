@@ -6,14 +6,13 @@ passport.serializeUser(function(user, done){
    done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done){
-   User.findById({'id': id})
-    .then((user) => {
-        done(err,user);
-    })
-      .catch(err => {
-        console.log(err);
-    });
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
 });
 
 passport.use('local.signup', new LocalStrategy({
@@ -134,7 +133,7 @@ passport.use('local.login', new LocalStrategy({
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
                     console.log(3);
-                    return done(null, user);
+                    return done(null, foundUser);
                 } else {
                     console.log(4);
                     return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
