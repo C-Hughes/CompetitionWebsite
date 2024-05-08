@@ -37,10 +37,13 @@ router.get('/winner', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');
+    //var Errormessage = req.flash('error');
 
-    console.log(req.flash('error'));
-    console.log(req.flash('sError'));
-    console.log(req.flash('lError'));
+    if (Errormessage[0] == 'LOGIN Please populate required fields'){
+        lMessages.push('Please populate required fields');
+    } else if (Errormessage[0] == 'SIGNUP Please populate required fields'){
+        sMessages.push('Please populate required fields');
+    }
 
     res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
 });
@@ -48,12 +51,14 @@ router.get('/login', function(req, res, next) {
 router.post('/login', passport.authenticate('local.login', {
     successRedirect: '/user',
     failureRedirect: '/login',
+    badRequestMessage : 'LOGIN Please populate required fields',
     failureFlash: true
 }));
 
 router.post('/register', passport.authenticate('local.signup', {
     successRedirect: '/user',
     failureRedirect: '/login',
+    badRequestMessage : 'SIGNUP Please populate required fields',
     failureFlash: true
 }));
 
