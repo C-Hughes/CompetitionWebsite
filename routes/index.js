@@ -31,9 +31,11 @@ router.get('/winner', function(req, res, next) {
     res.render('winner', { title: 'Winner', active: { winners: true } });
 });
 
+
+// Login / Register //
 router.get('/login', function(req, res, next) {
-    var messages = req.flash('error');
-    res.render('login', { title: 'Login / Register', messages: messages, hasErrors: messages.length > 0});
+    var sMessages = req.flash('sError');
+    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasErrors: sMessages.length > 0});
 });
 
 router.post('/login', passport.authenticate('local.login', {
@@ -47,6 +49,9 @@ router.post('/register', passport.authenticate('local.signup', {
     failureRedirect: '/login',
     failureFlash: true
 }));
+
+///////////////////////////////////////////////////
+
 
 router.get('/cart', function(req, res, next) {
     res.render('cart', { title: 'Basket' });

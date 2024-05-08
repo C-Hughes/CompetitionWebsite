@@ -41,24 +41,24 @@ passport.use('local.signup', new LocalStrategy({
 
     var errors = req.validationErrors();
     if (errors){
-        var messages = [];
+        var sMessages = [];
         errors.forEach(function(error){
-            messages.push(error.msg);
+            sMessages.push(error.msg);
         });
-        return done(null, false, req.flash('error', messages));
+        return done(null, false, req.flash('sError', sMessages));
     }
 
     //Check if email already exists
     User.findOne({'email': email})
     .then((user) => {
         if (user && email != "") {
-            return done(null, false, {message: 'Email is already in use.'});
+            return done(null, false, {sMessage: 'Email is already in use.'});
         } else {
             //Check if username already exists
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser) {
-                    return done(null, false, {message: 'Username is already in use.'});
+                    return done(null, false, {sMessage: 'Username is already in use.'});
                 }
 
                 var newUser = new User();
