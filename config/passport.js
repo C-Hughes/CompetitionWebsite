@@ -20,7 +20,7 @@ passport.use('local.signup', new LocalStrategy({
 
     var email = req.body.email;
     var passwordConf = req.body.pass2;
-    var firstName = req.body.fisrtName;
+    var firstName = req.body.firstName;
     var lastName = req.body.lastName;
 
     //Strip illegal characters from username
