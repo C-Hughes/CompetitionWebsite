@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', isLoggedIn, function(req, res, next) {
   res.render('user/dashboard', { title: 'My Account', active: { dashboard: true } });
 });
 
@@ -24,4 +24,14 @@ router.get('/safePlaying', function(req, res, next) {
 });
 
 
+
 module.exports = router;
+
+
+//Check if logged in
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/');
+  }
