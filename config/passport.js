@@ -32,7 +32,7 @@ passport.use('local.signup', new LocalStrategy({
     req.checkBody('username', 'Username cannot be empty').notEmpty();
     req.checkBody('email', 'Email address cannot be empty').notEmpty();
     req.checkBody('password', 'Password cannot be empty').notEmpty();
-    req.checkBody('fisrtName', 'First name cannot be empty').notEmpty();
+    req.checkBody('firstName', 'First name cannot be empty').notEmpty();
     req.checkBody('lastName', 'Last name cannot be empty').notEmpty();
     req.checkBody('username', 'Username Must be between 2 and 20 characters').isLength({min:2, max:20});
     req.checkBody('password', 'Password must be at least 8 characters').isLength({min:8});
@@ -69,11 +69,12 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.lastName = lastName;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
-                newUser.save(function(err, result){
-                    if (err){
-                        return done(err);
-                    }
+                newUser.save({})
+                .then(() => {
                     return done(null, newUser);
+                })
+                .catch(err => {
+                console.log(err);
                 });
             })
                 .catch(err => {
