@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 
+router.use('/'), isLoggedIn, function(req, res, next){
+    next();
+}
+
 /* GET users listing. */
 router.get('/', isLoggedIn, function(req, res, next) {
   res.render('user/dashboard', { title: 'My Account', active: { dashboard: true } });
@@ -35,3 +39,11 @@ function isLoggedIn(req, res, next){
     }
     res.redirect('/');
   }
+
+//Check if not logged in
+function notLoggedIn(req, res, next){
+    if(!req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/');
+}

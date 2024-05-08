@@ -33,35 +33,6 @@ router.get('/winner', function(req, res, next) {
 });
 
 
-// Login / Register //
-router.get('/login', function(req, res, next) {
-    var sMessages = req.flash('sError');
-    var lMessages = req.flash('lError');
-    var Errormessage = req.flash('error');
-
-    if (Errormessage[0] == 'LOGIN Please populate required fields'){
-        lMessages.push('Please populate required fields');
-    } else if (Errormessage[0] == 'SIGNUP Please populate required fields'){
-        sMessages.push('Please populate required fields');
-    }
-
-    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
-});
-
-router.post('/login', passport.authenticate('local.login', {
-    successRedirect: '/user',
-    failureRedirect: '/login',
-    badRequestMessage : 'LOGIN Please populate required fields',
-    failureFlash: true
-}));
-
-router.post('/register', passport.authenticate('local.signup', {
-    successRedirect: '/user',
-    failureRedirect: '/login',
-    badRequestMessage : 'SIGNUP Please populate required fields',
-    failureFlash: true
-}));
-
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
@@ -69,8 +40,6 @@ router.get('/logout', function(req, res, next) {
     });
   });
 
-
-///////////////////////////////////////////////////
 
 
 router.get('/cart', function(req, res, next) {
@@ -103,4 +72,54 @@ router.get('/competition/:id', function(req, res, next) {
 });
 
 
+///////// Logged in users cannot access routes below //////////////
+
+
+router.use('/'), notLoggedIn, function(req, res, next){
+    next();
+}
+
+
+// Login / Register //
+router.get('/login', function(req, res, next) {
+    var sMessages = req.flash('sError');
+    var lMessages = req.flash('lError');
+    var Errormessage = req.flash('error');
+
+    if (Errormessage[0] == 'LOGIN Please populate required fields'){
+        lMessages.push('Please populate required fields');
+    } else if (Errormessage[0] == 'SIGNUP Please populate required fields'){
+        sMessages.push('Please populate required fields');
+    }
+
+    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
+});
+
+router.post('/login', passport.authenticate('local.login', {
+    successRedirect: '/user',
+    failureRedirect: '/login',
+    badRequestMessage : 'LOGIN Please populate required fields',
+    failureFlash: true
+}));
+
+router.post('/register', passport.authenticate('local.signup', {
+    successRedirect: '/user',
+    failureRedirect: '/login',
+    badRequestMessage : 'SIGNUP Please populate required fields',
+    failureFlash: true
+}));
+
+
+///////////////////////////////////////////////////
+
+
 module.exports = router;
+
+
+//Check if not logged in
+function notLoggedIn(req, res, next){
+    if(!req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/');
+}
