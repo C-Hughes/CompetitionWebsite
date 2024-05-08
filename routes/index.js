@@ -37,7 +37,7 @@ router.get('/winner', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');
-    //var Errormessage = req.flash('error');
+    var Errormessage = req.flash('error');
 
     if (Errormessage[0] == 'LOGIN Please populate required fields'){
         lMessages.push('Please populate required fields');
