@@ -86,8 +86,7 @@ passport.use('local.signup', new LocalStrategy({
     });
 }));
 
-
-///TODO
+//Login strategy
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -99,37 +98,39 @@ passport.use('local.login', new LocalStrategy({
 
     var errors = req.validationErrors();
     if (errors){
-        var messages = [];
+        var lMessages = [];
         errors.forEach(function(error){
-            messages.push(error.msg);
+            lMessages.push(error.msg);
         });
-        return done(null, false, req.flash('error', messages));
+        return done(null, false, req.flash('lError', lMessages));
     }
 
-    User.findOne({'email': username}, function (err, user) {
-        if (err) {
-            return done(err);
-        }
-        //If a user is returned with an email address that is not empty
-        if (!user) {
-            //Check if username already exists
-            User.findOne({'username':username}, function(err, user){
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    return done(null, false, {message: 'Username or Password is incorrect'});
-                }
-                if(!user.validPassword(password)){
-                    return done(null, false, {message: 'Username or Password is incorrect'});
-                }
+    //Find email for login
+    User.findOne({'email': email})
+    .then((user) => {
+        if (user) {
+            //If user found and password is valid
+            if(user.validPassword(password)){
                 return done(null, user);
-            });
-        } else {
-            if(!user.validPassword(password)){
-                return done(null, false, {message: 'Username or Password is incorrect'});
+            } else {
+                return done(null, false, {lMessage: 'Username or Password is incorrect'});
             }
-            return done(null, user);
+        } else {
+            //Find username for login
+            User.findOne({'username':username})
+            .then((foundUser) => {
+                if (foundUser && foundUser.validPassword(password)) {
+                    return done(null, user);
+                } else {
+                    return done(null, false, {sMessage: 'Username is already in use.'});
+                }
+            })
+                .catch(err => {
+                console.log(err);
+          });
         }
+    })
+      .catch(err => {
+        console.log(err);
     });
 }));
