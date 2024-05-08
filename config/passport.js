@@ -56,13 +56,14 @@ passport.use('local.signup', new LocalStrategy({
     User.findOne({'email': email})
     .then((user) => {
         if (user && email != "") {
-            return done(null, false, {sMessage: 'Email is already in use.'});
+            return done(null, false, req.flash('sError', 'Email is already in use.'));
         } else {
             //Check if username already exists
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser) {
-                    return done(null, false, {sMessage: 'Username is already in use.'});
+                    return done(null, false, req.flash('sError', 'Username is already in use.'));
+                    
                 }
 
                 var newUser = new User();
@@ -97,9 +98,14 @@ passport.use('local.login', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, function(req, username, password, done){
-//Input Validation
+
+    var email = req.body.email;
+
+    //Input Validation
     req.checkBody('username', 'Username is empty').notEmpty();
     req.checkBody('password', 'Password is empty').notEmpty();
+
+    console.log(222222222222);
 
     var errors = req.validationErrors();
     if (errors){
@@ -116,18 +122,23 @@ passport.use('local.login', new LocalStrategy({
         if (user) {
             //If user found and password is valid
             if(user.validPassword(password)){
+                console.log(1);
                 return done(null, user);
             } else {
-                return done(null, false, {lMessage: 'Username or Password is incorrect'});
+                console.log(2);
+                return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
             }
         } else {
             //Find username for login
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
+                    console.log(3);
                     return done(null, user);
                 } else {
-                    return done(null, false, {sMessage: 'Username is already in use.'});
+                    console.log(4);
+                    return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
+                    
                 }
             })
                 .catch(err => {

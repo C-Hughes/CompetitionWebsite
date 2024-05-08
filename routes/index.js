@@ -37,6 +37,11 @@ router.get('/winner', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');
+
+    console.log(req.flash('error'));
+    console.log(req.flash('sError'));
+    console.log(req.flash('lError'));
+
     res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
 });
 
