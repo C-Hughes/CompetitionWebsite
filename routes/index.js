@@ -1,8 +1,9 @@
+
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-
 var Competition = require('../models/competition');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -35,7 +36,8 @@ router.get('/winner', function(req, res, next) {
 // Login / Register //
 router.get('/login', function(req, res, next) {
     var sMessages = req.flash('sError');
-    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasErrors: sMessages.length > 0});
+    var lMessages = req.flash('lError');
+    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
 });
 
 router.post('/login', passport.authenticate('local.login', {
@@ -49,6 +51,7 @@ router.post('/register', passport.authenticate('local.signup', {
     failureRedirect: '/login',
     failureFlash: true
 }));
+
 
 ///////////////////////////////////////////////////
 

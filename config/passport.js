@@ -17,12 +17,12 @@ passport.use('local.signup', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, function(req, username, password, done){
+
     var email = req.body.email;
     var password = req.body.pass1;
     var passwordConf = req.body.pass2;
     var firstName = req.body.fisrtName;
     var lastName = req.body.lastName;
-
 
     //Strip illegal characters from username
     var rx = new RegExp;
@@ -41,6 +41,7 @@ passport.use('local.signup', new LocalStrategy({
 
     var errors = req.validationErrors();
     if (errors){
+        console.log(errors);
         var sMessages = [];
         errors.forEach(function(error){
             sMessages.push(error.msg);

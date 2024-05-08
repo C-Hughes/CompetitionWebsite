@@ -14,9 +14,9 @@
                     <div class="container">
                         <form action="/login" method="post">
                             <p class="subtitle is-3"><strong>Login</strong></p>
-                            {{#if hasErrors}}
+                            {{#if hasLErrors}}
                             <div class="notification is-danger is-light">
-                                {{#each messages}}
+                                {{#each lMessages}}
                                     <p>{{this}}</p>
                                 {{/each}}
                             </div>
@@ -58,7 +58,16 @@
                     <form action="/register" method="post">
                         <div class="columns is-multiline">
                             <div class="column is-full is-flex is-justify-content-center is-align-items-center">
-                                <p class="subtitle is-3"><strong>Register</strong></p>
+                                <div class="container">
+                                    <p class="subtitle is-3"><strong>Register</strong></p>
+                                    {{#if hasSErrors}}
+                                    <div class="notification is-danger is-light">
+                                        {{#each sMessages}}
+                                            <p>{{this}}</p>
+                                        {{/each}}
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             <div class="column is-full">
                                 <div class="field">
