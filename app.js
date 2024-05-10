@@ -25,6 +25,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 });
 require('./config/passport');
 
+
 // view engine setup
 var hbs = app.engine('.hbs', expressHbs.engine({
   defaultLayout: 'layout',
@@ -58,18 +59,16 @@ app.use(passport.session());
 app.use(doubleCsrfProtection);
 app.use((req, res, next) => {
     res.locals.csrfToken = generateToken(req, res);
-    next();
-  });
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function(req, res, next){
     res.locals.login = req.isAuthenticated(); 
+    next();
 });
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/', indexRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -86,6 +85,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

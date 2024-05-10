@@ -74,10 +74,10 @@ router.get('/competition/:id', function(req, res, next) {
 
 ///////// Logged in users cannot access routes below //////////////
 
-
-router.use('/'), notLoggedIn, function(req, res, next){
+/* MUST BE LOGGED IN TO ACCESS BELOW */
+router.use('/', notLoggedIn, function(req, res, next) {
     next();
-}
+});
 
 
 // Login / Register //

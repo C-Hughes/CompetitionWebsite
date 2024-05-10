@@ -2,12 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 
-router.use('/'), isLoggedIn, function(req, res, next){
+/* MUST BE LOGGED IN TO ACCESS BELOW */
+router.use('/', isLoggedIn, function(req, res, next) {
     next();
-}
+});
+
 
 /* GET users listing. */
-router.get('/', isLoggedIn, function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.render('user/dashboard', { title: 'My Account', active: { dashboard: true } });
 });
 
@@ -26,7 +28,6 @@ router.get('/rewards', function(req, res, next) {
 router.get('/safePlaying', function(req, res, next) {
   res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true } });
 });
-
 
 
 module.exports = router;
