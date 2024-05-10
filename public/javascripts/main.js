@@ -112,13 +112,22 @@ function closeBasketModal(){
     modal.classList.remove('is-active');
 }
 
-function toggleElement(id){
+function toggleElement(id, hasButton){
     var elem = document.getElementById(id);
 
-    var elem = document.getElementById(id);
     if (elem.style.display === "none") {
         elem.style.display = "block";
     } else {
         elem.style.display = "none";
+    }
+
+    if(hasButton == true){
+        var iconElem = document.getElementById('icon'+id);
+        if (elem.style.display === "none") {
+            iconElem.innerHTML = '<i class="fas fa-angle-down" aria-hidden="true"></i>';
+        
+        } else {
+            iconElem.innerHTML = '<i class="fas fa-angle-up" aria-hidden="true"></i>';
+        }        
     }
 }
