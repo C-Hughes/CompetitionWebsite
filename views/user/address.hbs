@@ -127,16 +127,103 @@
                     <p class="card-header-title">Shipping Address</p>
                 </header>
                 <div class="card-content">
-                    <div class="content">
+                    <div id="shippingAddressInfo" class="content">
                         <p>Name</p>
                         <p>Address Line 1</p>
                         <p>Phone Number</p>
                         <p>Town</p>
                         <p>Country</p>
                     </div>
+                    <div id="editShippingAddressForm" class="content" style="display: none;">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Alex" value="Alex">
+                                <span class="icon is-small is-left">
+                                <i class="fa-solid fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="email" placeholder="Smith" value="Smith">
+                                <span class="icon is-small is-left">
+                                <i class="fa-solid fa-user"></i>
+                                </span>
+                            </div>
+                        </div><label class="label">Country / Region</label>
+                        <div class="field">
+                        <p class="control has-icons-left">
+                            <span class="select is-fullwidth">
+                            <select>
+                                <option selected>United Kingdom</option>
+                                <option>Select dropdown</option>
+                                <option>With options</option>
+                            </select>
+                            </span>
+                            <span class="icon is-small is-left">
+                            <i class="fas fa-globe"></i>
+                            </span>
+                        </p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Street Address</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Street Address" value="6 Garland Place">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-road"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Street Address 2" value="">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-road"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Town / City</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Town / City" value="Dundee">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-city"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State / County</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="State / County" value="Dundee City">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Postcode</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Postcode" value="DD36HE">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Phone Number" value="07845834867">
+                                <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-phone"></i>
+                                </span>
+                            </div>
+                        </div>    
+                    </div>
                 </div>
-                <footer class="card-footer">
-                    <button class="card-footer-item">Edit</button>
+                <footer id="editShippingAddressFormButton" class="card-footer">
+                    <button class="card-footer-item" onclick="editForm('shippingAddressInfo', 'editShippingAddressForm', 'editShippingAddressFormButton');">Edit</button>
                 </footer>
             </div>
         </div>
