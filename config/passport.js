@@ -121,10 +121,8 @@ passport.use('local.login', new LocalStrategy({
         if (user) {
             //If user found and password is valid
             if(user.validPassword(password)){
-                console.log(1);
                 return done(null, user);
             } else {
-                console.log(2);
                 return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
             }
         } else {
@@ -132,12 +130,9 @@ passport.use('local.login', new LocalStrategy({
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
-                    console.log(3);
                     return done(null, foundUser);
                 } else {
-                    console.log(4);
                     return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
-                    
                 }
             })
                 .catch(err => {
