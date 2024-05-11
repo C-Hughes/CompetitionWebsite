@@ -34,12 +34,12 @@ passport.use('local.signup', new LocalStrategy({
     //Input Validation
     req.checkBody('username', 'Username cannot be empty').notEmpty();
     req.checkBody('email', 'Email address cannot be empty').notEmpty();
-    req.checkBody('password', 'Password cannot be empty').notEmpty();
+    req.checkBody('passwordS', 'Password cannot be empty').notEmpty();
     req.checkBody('firstName', 'First name cannot be empty').notEmpty();
     req.checkBody('lastName', 'Last name cannot be empty').notEmpty();
     req.checkBody('username', 'Username Must be between 2 and 20 characters').isLength({min:2, max:20});
-    req.checkBody('password', 'Password must be at least 8 characters').isLength({min:8});
-    req.checkBody('password', 'Passwords do not match').equals(passwordConf);
+    req.checkBody('passwordS', 'Password must be at least 8 characters').isLength({min:8});
+    req.checkBody('passwordS', 'Passwords do not match').equals(passwordConf);
     req.checkBody('email', 'Email is not valid').isEmail();
 
     var errors = req.validationErrors();
@@ -102,7 +102,7 @@ passport.use('local.login', new LocalStrategy({
 
     //Input Validation
     req.checkBody('username', 'Username is empty').notEmpty();
-    req.checkBody('password', 'Password is empty').notEmpty();
+    req.checkBody('passwordL', 'Password is empty').notEmpty();
 
     console.log(222222222222);
 
