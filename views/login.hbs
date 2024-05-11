@@ -33,15 +33,15 @@
                             <label class="label">Password</label>
                             <div class="field has-addons">
                                 <div class="control is-expanded has-icons-left">
-                                    <input id="password" name="password" type="password" class="input" placeholder="Password">
+                                    <input id="passwordL" name="passwordL" type="password" class="input" placeholder="Password">
                                     <span class="icon is-left">
                                         <i class="fas fa-lock"></i>
                                     </span>
                                 </div>
                                 <div class="control ">
-                                    <a class="button is-medium">
+                                    <button id="passwordLBtn" class="button is-medium" onclick="toggleHidePassword('passwordL', 'passwordLBtn')" type="button">
                                         <i class="fa-solid fa-eye-slash"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                             <div class="field">
@@ -92,15 +92,15 @@
                                 <label class="label">Password</label>
                                 <div class="field has-addons">
                                     <div class="control is-expanded has-icons-left">
-                                        <input id="password" name="password" type="password" class="input" placeholder="Password">
+                                        <input id="passwordS" name="passwordS" type="password" class="input" placeholder="Password">
                                         <span class="icon is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>
                                     </div>
-                                    <div class="control ">
-                                        <a class="button is-medium">
+                                    <div class="control">
+                                        <button id="passwordSBtn" class="button is-medium" onclick="toggleHidePassword('passwordS', 'passwordSBtn')" type="button">
                                             <i class="fa-solid fa-eye-slash"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -114,9 +114,9 @@
                                         </span>
                                     </div>
                                     <div class="control">
-                                        <a class="button is-medium">
+                                        <button id="pass2Btn" class="button is-medium" onclick="toggleHidePassword('pass2', 'pass2Btn')" type="button">
                                             <i class="fa-solid fa-eye-slash"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

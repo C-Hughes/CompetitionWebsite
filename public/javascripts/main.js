@@ -131,3 +131,16 @@ function toggleElement(id, hasButton){
         }        
     }
 }
+
+function toggleHidePassword(id, buttonId){
+    var input = document.getElementById(id);
+    var button = document.getElementById(buttonId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        button.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    } else {
+        input.type = "password";
+        button.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    }
+}

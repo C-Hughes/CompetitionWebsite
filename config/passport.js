@@ -17,7 +17,7 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'username',
-    passwordField: 'password',
+    passwordField: 'passwordS',
     passReqToCallback: true
 }, function(req, username, password, done){
 
@@ -94,7 +94,7 @@ passport.use('local.signup', new LocalStrategy({
 //Login strategy
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
-    passwordField: 'password',
+    passwordField: 'passwordL',
     passReqToCallback: true
 }, function(req, username, password, done){
 
