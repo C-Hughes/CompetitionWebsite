@@ -144,3 +144,24 @@ function toggleHidePassword(id, buttonId){
         button.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
     }
 }
+
+
+function editForm(defaultDisplay, defaultClosed, button){
+    var defaultDisplayElem = document.getElementById(defaultDisplay);
+    var defaultClosedElem = document.getElementById(defaultClosed);
+
+    if (defaultDisplayElem.style.display === "none") {
+        defaultDisplayElem.style.display = "block";
+        defaultClosedElem.style.display = "none";
+    } else {
+        defaultDisplayElem.style.display = "none";
+        defaultClosedElem.style.display = "block";
+    }
+
+    console.log(button);
+
+    if(button != ""){
+        var buttonElem = document.getElementById(button);
+        buttonElem.innerHTML = "<button class='card-footer-item has-text-link'>Save Address</button>";      
+    }
+}
