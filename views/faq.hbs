@@ -10,7 +10,7 @@
 <div class="block">
     <div class="container">
         <div class="card">
-            <header class="card-header">
+            <header class="card-header" onclick="toggleElement('faq_01', true)">
                 <p class="card-header-title title my-4">When is the draw for a Competition?</p>
                 <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_01', true)">
                     <span id="iconfaq_01" class="icon">
@@ -27,7 +27,7 @@
     </div>
     <div class="container">
         <div class="card">
-            <header class="card-header">
+            <header class="card-header" onclick="toggleElement('faq_02', true)">
                 <p class="card-header-title title my-4">Why is my order ‘Cancelled’?</p>
                 <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_02', true)">
                     <span id="iconfaq_02" class="icon">
@@ -44,7 +44,7 @@
     </div>
     <div class="container">
         <div class="card">
-            <header class="card-header">
+            <header class="card-header" onclick="toggleElement('faq_03', true)">
                 <p class="card-header-title title my-4">How is the winner chosen?</p>
                 <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_03', true)">
                     <span id="iconfaq_03" class="icon">
@@ -64,7 +64,7 @@
     </div>
     <div class="container">
         <div class="card">
-            <header class="card-header">
+            <header class="card-header" onclick="toggleElement('faq_04', true)">
                 <p class="card-header-title title my-4">What is my draw number?</p>
                 <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_04', true)">
                     <span id="iconfaq_04" class="icon">
@@ -78,6 +78,114 @@
                     <p>1. When you enter a competition your ticket numbers can be found on the confirmation page.</p>
                     <p>2. On the confirmation email sent to the email address assigned to your account.</p>
                     <p>3. Log into your account, go to <a href="/user">‘Dashboard’</a>, select ‘Current’ or ‘Past’ and click on ‘View ticket numbers’ to see your ticket numbers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header class="card-header" onclick="toggleElement('faq_05', true)">
+                <p class="card-header-title title my-4">What if a competition does not sell out?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_05', true)">
+                    <span id="iconfaq_05" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_05" class="card-content" style="display: none;">
+                <div class="content">
+                    If a traditional or automated draw that you have entered does not sell out, the draw will still take place and you will have a better chance of winning than if it had sold out! Each draw is guaranteed to take place on the date and time shown on the entry page. All sold tickets are still valid and we will generate a random number until we have a winner. If there are instant win prizes which have not been won within the time limit of the competition, they will be forfeited, however each ticket purchased into the competition will still be included in the end prize draw, if applicable.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header class="card-header" onclick="toggleElement('faq_06', true)">
+                <p class="card-header-title title my-4">Is this a scam?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_06', true)">
+                    <span id="iconfaq_06" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_06" class="card-content" style="display: none;">
+                <div class="content">
+                    We have been a fully registered limited company in the UK since February 2018 and since then have grown a huge list of winners. We run prize draws which are fully compliant with the Playing act of 2005. We have 5 star reviews on Facebook, Google, and Trustpilot which are built up from both winners and customers that play regular competitions. We do all of our live draws on Facebook and Youtube for everyone to watch.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header class="card-header" onclick="toggleElement('faq_07', true)">
+                <p class="card-header-title title my-4">Why am I receiving communications from you?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_07', true)">
+                    <span id="iconfaq_07" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_07" class="card-content" style="display: none;">
+                <div class="content">
+                    We send out SMS, emails and app notification to all customers who register with us as part of our core service. 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header class="card-header" onclick="toggleElement('faq_08', true)">
+                <p class="card-header-title title my-4">How do the instant win competitions work?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_08', true)">
+                    <span id="iconfaq_08" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_08" class="card-content" style="display: none;">
+                <div class="content">
+                    Instant win competitions have predetermined prizes with numbers allocated to them at the time the competition launches. If you buy a ticket into a competition with instant wins and one or more of your ticket numbers match the list of predetermined numbers, you will win the prize(s) allocated to it. Some instant win competitions have an ‘end prize’ where every entry purchased into the instant win competition will be entered to win the end prize, drawn as a traditional or automated draw at the end of the competition.  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card" >
+            <header class="card-header" onclick="toggleElement('faq_09', true)">
+                <p class="card-header-title title my-4">How can I ensure that I continue to play this safely?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_09', true)">
+                    <span id="iconfaq_09" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_09" class="card-content" style="display: none;">
+                <div class="content">
+                    To ensure all of our customers play within their limits, we have the below safer playing tools: 
+                    Time out - Choose a set period of time you’d like to pause playing for.
+                    All of the above tools can be accessed within your account under ‘Safe playing’
+                    If you have concerns about problem playing, there is free impartial advice available on GamCare.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header class="card-header" onclick="toggleElement('faq_10', true)">
+                <p class="card-header-title title my-4">How do I opt out from some or all of the communications?</p>
+                <button class="card-header-icon" aria-label="more options" onclick="toggleElement('faq_10', true)">
+                    <span id="iconfaq_10" class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </header>
+            <div id="faq_10" class="card-content" style="display: none;">
+                <div class="content">
+                    • To stop SMS notifications: Use the Opt out link on the SMS – this will unsubscribe you from all of our SMSs.
+                    • To stop Email notifications: Use the Unsubscribe on the bottom of the emails you receive.
+                    • To stop receiving both email and SMS you can also email us at: 
+                    • To stop receiving app notifications: You can do this on your device settings or by removing the app. This is not something we can control from our end.
                 </div>
             </div>
         </div>
