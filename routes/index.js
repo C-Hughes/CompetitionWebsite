@@ -78,7 +78,7 @@ router.get('/competition/:id', function(req, res, next) {
 
 router.get('/addToBasket/:id', function(req, res, next) {
     var compID = req.params.id;
-    var basket = new Basket(req.session.basket ? req.session.cart : {});
+    var basket = new Basket(req.session.basket ? req.session.basket : {});
 
     Competition.findOne({ _id: compID })
     .then((foundCompetition) => {
