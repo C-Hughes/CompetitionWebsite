@@ -47,48 +47,48 @@
 
 <section class="hero">
     <div class="hero-body">
-        <div class="container is-max-fullhd">
-            <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
-            <div class="columns is-multiline">
+        <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
+    </div>
+</section>       
 
-            {{# each competitions}}
-                <!-- Competition Column -->
-                <div class="column is-one-third has-text-centered">
-                    <div class="card" style="">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                            <img
-                                src="{{this.imagePath}}"
-                                alt="Competition Image"
-                            />
-                            </figure>
+<div class="container is-max-fullhd">
+    <div class="columns is-multiline">
+        {{# each competitions}}
+            <!-- Competition Column -->
+            <div class="column is-one-third has-text-centered">
+                <div class="card" style="">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                        <img
+                            src="{{this.imagePath}}"
+                            alt="Competition Image"
+                        />
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="content" style="height: 100px;">
+                            <p class="title is-4">Win this {{this.title}}</p>
+                            <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                         </div>
-                        <div class="card-content">
-                            <div class="content" style="height: 100px;">
-                                <p class="title is-4">Win this {{this.title}}</p>
-                                <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
+                        <div class="content" style="">
+                            <div style="">
+                                <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
                             </div>
-                            <div class="content" style="">
-                                <div style="">
-                                    <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
-                                </div>
-                                <div style="margin-top: 30px">
-                                    <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
-                                    <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                    <a href="/competition/{{this.id}}" class="button is-medium is-fullwidth is-primary">Enter Now</a>
-                                    <p><time datetime="2024-06-02 19:00">Draw Sunday 2nd June - 7pm</time></p>
-                                </div>
+                            <div style="margin-top: 30px">
+                                <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
+                                <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
+                                <a href="/competition/{{this.id}}" class="button is-medium is-fullwidth is-primary">Enter Now</a>
+                                <p><time datetime="2024-06-02 19:00">Draw Sunday 2nd June - 7pm</time></p>
                             </div>
                         </div>
                     </div>
                 </div>
-            {{/each}}
             </div>
-        </div>
+        {{/each}}
     </div>
-</section>
+</div>
 
-<section class="hero is-link">
+<section class="hero is-link mt-6">
     <div class="hero-body">
         <div class="container is-max-fullhd">
             <p class="title is-uppercase has-text-centered">Why Choose Us?</p>
