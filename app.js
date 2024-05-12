@@ -11,6 +11,7 @@ const { doubleCsrfProtection, generateToken } = require('./middlewares/csrf.midd
 var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
+var MongoStore = require('connect-mongo')(session);
 
 
 var indexRouter = require('./routes/index');
@@ -50,7 +51,7 @@ app.use(session({
     secret: 'SessionSecret1dheys',
     resave: false,
     saveUninitialized: false,
-    //store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: { maxAge: 43200 * 60 * 1000 }
 }));
 app.use(flash());
