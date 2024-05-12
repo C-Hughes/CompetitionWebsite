@@ -43,7 +43,12 @@ router.get('/logout', function(req, res, next) {
 
 
 router.get('/basket', function(req, res, next) {
-    res.render('basket', { title: 'Basket' });
+    if (!req.session.basket){
+        res.render('basket', { title: 'Basket', products: null});
+    } else {
+        var basket = new Basket(req.session.basket);
+        res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: cart.totalPrice});
+    }
 });
 
 router.get('/checkout', function(req, res, next) {
