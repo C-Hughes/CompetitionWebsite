@@ -35,10 +35,18 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
+                    {{#ifGreaterThan0 session.cart.totalQty}}
+                    <a href="/cart" class="button is-primary">
+                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                        <span title="Badge top right" class="badge is-danger is-right">{{session.cart.totalQty}}</span>
+                        Basket
+                    </a>
+                    {{else}}
                     <a href="/cart" class="button is-primary">
                         <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
                         <span>Basket</span>
                     </a>
+                    {{/ifGreaterThan0}}
                     {{# if login}}
                     <a href="/user" class="button is-light">
                         <span class="icon"><i class="fa-regular fa-user"></i></span>

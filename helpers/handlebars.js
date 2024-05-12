@@ -8,5 +8,11 @@ module.exports = {
     formatDescription: function(description){
         description.replaceAll("script", '');
         return description.replaceAll("\n", '</li><li>');
+    },
+    isdefined: function(value){
+        return value !== undefined;
+    },
+    ifGreaterThan0: function(cond1, options){
+        return cond1 > 0 ? options.fn(this) : options.inverse(this);
     }
-  }
+}
