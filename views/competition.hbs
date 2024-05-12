@@ -327,7 +327,7 @@
     {{> payIcons}}
 </div>
 
-<div id="modal-js-example" class="modal">
+<div id="modal-js-example" class="modal {{#if addedToBasket}}is-active{{/if}}">
     <div class="modal-background"></div>
     <div class="modal-content">
 
@@ -388,6 +388,5 @@
     <button class="modal-close is-large" aria-label="close"></button>
 </div>
 
-{{#if addedToBasket}}
-<script>Bulma('#modal-js-example').data('modal').open();</script>
-{{/if}}
+
+
