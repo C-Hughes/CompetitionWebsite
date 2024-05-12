@@ -61,6 +61,7 @@ app.use(doubleCsrfProtection);
 app.use((req, res, next) => {
     res.locals.csrfToken = generateToken(req, res);
     res.locals.login = req.isAuthenticated(); 
+    res.locals.session = req.session;
     next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
