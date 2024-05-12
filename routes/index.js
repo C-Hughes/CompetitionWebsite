@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var Competition = require('../models/competition');
-
+var Basket = require('../models/basket');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -68,6 +68,28 @@ router.get('/competition/:id', function(req, res, next) {
       })
       .catch(err => {
         console.log(err);
+    });
+});
+
+router.get('/addToBasket/:id', function(req, res, next) {
+    var compID = req.params.id;
+    var basket = new Basket(req.session.basket ? req.session.cart : {});
+
+    Competition.findOne({ _id: compID })
+    .then((foundCompetition) => {
+        if (foundCompetition) {
+            basket.add(foundCompetition, foundCompetition.id);
+            req.session.basket = basket;
+            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true});
+        } else {
+            //req.flash('error', 'This competition does not exists.');
+            console.log("Not Found");
+            res.redirect('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.redirect('/');
     });
 });
 
