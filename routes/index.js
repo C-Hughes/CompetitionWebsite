@@ -42,8 +42,8 @@ router.get('/logout', function(req, res, next) {
 
 
 
-router.get('/cart', function(req, res, next) {
-    res.render('cart', { title: 'Basket' });
+router.get('/basket', function(req, res, next) {
+    res.render('basket', { title: 'Basket' });
 });
 
 router.get('/checkout', function(req, res, next) {
