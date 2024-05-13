@@ -7,14 +7,15 @@ module.exports = function Basket(oldBasket){
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id];
         if(!storedItem){
-            var price = qty * item.price;
+            //var price = qty * item.price;
             storedItem = this.items[id] = {item: item, qty: 0, price: 0, questionAnswer: answer};
         }
+        //this.totalQty = 0;
+
         storedItem.qty+= Number(qty);
         storedItem.price = storedItem.item.price * storedItem.qty;
-        this.totalQty+= qty;
-        this.totalPrice = storedItem.item.price * storedItem.qty;
-        //this.totalPrice += storedItem.price;
+        this.totalQty+= Number(qty);
+        this.totalPrice += storedItem.item.price * storedItem.qty;
     };
 
     this.reduceByOne = function(id){

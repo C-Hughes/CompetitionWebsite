@@ -69,10 +69,12 @@ function answerQuestionsButtons(buttonNumber){
     buttons[buttonNumber-1].className += " is-focused";
     buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
 
+    var questionAnswer = buttons[buttonNumber-1].innerText;
+
     //Update addToBasketButton URL
     var url = addToBasketButton.getAttribute("href");
     var tempArray = url.split("/");
-    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+buttonNumber+"/"+tempArray[4];
+    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+questionAnswer+"/"+tempArray[4];
     addToBasketButton.href=newHREF;
 }
 
