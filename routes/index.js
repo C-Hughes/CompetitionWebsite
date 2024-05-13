@@ -43,8 +43,8 @@ router.get('/logout', function(req, res, next) {
 
 
 router.get('/basket', function(req, res, next) {
-    if (!req.session.basket){
-        res.render('basket', { title: 'Basket', products: null});
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
         res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
@@ -52,7 +52,12 @@ router.get('/basket', function(req, res, next) {
 });
 
 router.get('/checkout', function(req, res, next) {
-    res.render('checkout', { title: 'Checkout' });
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        var basket = new Basket(req.session.basket);
+        res.render('checkout', { title: 'Checkout', total: basket.totalPrice});
+    }
 });
 
 router.get('/orderReceived', function(req, res, next) {
