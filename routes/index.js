@@ -4,6 +4,7 @@ var router = express.Router();
 var passport = require('passport');
 var Competition = require('../models/competition');
 var Basket = require('../models/basket');
+var Order = require('../models/order');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
