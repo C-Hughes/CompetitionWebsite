@@ -5,10 +5,10 @@ module.exports = function Basket(oldBasket){
     this.questionAnswer = oldBasket.questionAnswer || "";
 
     this.add = function(item, id, answer, qty){
-        var storedItem = this.items[id];
+        var storedItem = this.items[id+answer];
         if(!storedItem){
             //var price = qty * item.price;
-            storedItem = this.items[id] = {item: item, qty: 0, price: 0, questionAnswer: answer};
+            storedItem = this.items[id+answer] = {item: item, qty: 0, price: 0, questionAnswer: answer};
         }
         //this.totalQty = 0;
 
