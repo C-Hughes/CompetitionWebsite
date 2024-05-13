@@ -61,6 +61,10 @@ router.get('/checkout', function(req, res, next) {
     }
 });
 
+router.get('/processCard', function(req, res, next) {
+    res.render('processCard', { title: 'Pay with Card'});
+});
+
 router.get('/orderReceived', function(req, res, next) {
     res.render('orderReceived', { title: 'Order Received' });
 });
