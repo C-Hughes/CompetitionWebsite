@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var Order = require('../models/order');
+var Basket = require('../models/basket');
+
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
 router.use('/', isLoggedIn, function(req, res, next) {
@@ -10,7 +13,18 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('user/dashboard', { title: 'My Account', active: { dashboard: true } });
+    Order.find({user: req.user})
+    .then(foundOrders => {
+        var basket;
+        foundOrders.forEach(function(order){
+            basket = new Basket(order.basket);
+            order.items = basket.generateArray();
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: orders });
 });
 
 router.get('/address', function(req, res, next) {
