@@ -13,6 +13,7 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    var foundOrders = "";
     Order.find({user: req.user})
     .then(foundOrders => {
         var basket;
@@ -24,7 +25,7 @@ router.get('/', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
-    res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: orders });
+    res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders || ""});
 });
 
 router.get('/address', function(req, res, next) {

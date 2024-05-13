@@ -48,10 +48,9 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
-        console.log(basket.generateArray());
+        //console.log(basket.generateArray());
         res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
     }
-    
 });
 
 router.get('/checkout', function(req, res, next) {
@@ -112,6 +111,14 @@ router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
     });
 });
 
+router.get('/removeItem/:id', function(req, res, next) {
+    var compID = req.params.id;
+    var basket = new Basket(req.session.basket ? req.session.basket : {});
+
+    basket.removeItem(compID);
+    req.session.basket = basket;
+    res.redirect('/basket');
+});
 
 ///////// Logged in users cannot access routes below //////////////
 
