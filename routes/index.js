@@ -48,8 +48,10 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
+        console.log(basket.generateArray());
         res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
     }
+    
 });
 
 router.get('/checkout', function(req, res, next) {
@@ -86,14 +88,16 @@ router.get('/competition/:id', function(req, res, next) {
     });
 });
 
-router.get('/addToBasket/:id', function(req, res, next) {
+router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
     var compID = req.params.id;
+    var compAnswer = req.params.answer;
+    var ticketQty = req.params.qty;
     var basket = new Basket(req.session.basket ? req.session.basket : {});
 
     Competition.findOne({ _id: compID })
     .then((foundCompetition) => {
         if (foundCompetition) {
-            basket.add(foundCompetition, foundCompetition.id);
+            basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
             req.session.basket = basket;
             res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true});
         } else {

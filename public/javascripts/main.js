@@ -1,65 +1,79 @@
 //Update the value of tickets to add to basket
 function updateTicketCount(change){
 
-  var sliderWithValue = document.getElementById("sliderWithValue");
-  var ticketButtonCount = document.getElementById("ticketButtonCount");
-  var ticketSliderCount = document.getElementById("ticketSliderCount");
+    var sliderWithValue = document.getElementById("sliderWithValue");
+    var ticketButtonCount = document.getElementById("ticketButtonCount");
+    var ticketSliderCount = document.getElementById("ticketSliderCount");
+    var addToBasketButton = document.getElementById("addToBasketButton");
 
-  var ticketCount = sliderWithValue.value;
+    var ticketCount = sliderWithValue.value;
 
-  //If buttons pressed or slider moved
-  if (change == '-') {
-    ticketCount--;
+    //If buttons pressed or slider moved
+    if (change == '-') {
+        ticketCount--;
 
-    //Make sure you cannot add less than min number of tickets.
-    if (ticketCount < sliderWithValue.min) {
-      ticketCount = sliderWithValue.min;
-      ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
-      sliderWithValue.value = ticketCount;
+        //Make sure you cannot add less than min number of tickets.
+        if (ticketCount < sliderWithValue.min) {
+            ticketCount = sliderWithValue.min;
+            ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
+            sliderWithValue.value = ticketCount;
+        }
+    } else if (change == '+'){
+        ticketCount++;
+
+        //Make sure you cannot add more than max number of tickets.
+        if (ticketCount > sliderWithValue.max) {
+            ticketCount = sliderWithValue.max;
+            ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
+            sliderWithValue.value = ticketCount;
+        }
     }
-  } else if (change == '+'){
-    ticketCount++;
-
-    //Make sure you cannot add more than max number of tickets.
-    if (ticketCount > sliderWithValue.max) {
-      ticketCount = sliderWithValue.max;
-      ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
-      sliderWithValue.value = ticketCount;
-    }
-  }
- 
-  //Update values
-  ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
-  sliderWithValue.value = ticketCount;
-  ticketSliderCount.innerText = ticketCount;
+    
+    //Update values
+    ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
+    sliderWithValue.value = ticketCount;
+    ticketSliderCount.innerText = ticketCount;
+    
+    //Update addToBasketButton URL
+    var url = addToBasketButton.getAttribute("href");
+    var tempArray = url.split("/");
+    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+tempArray[3]+"/"+ticketCount;
+    addToBasketButton.href=newHREF;
 }
 
 
 ////////////////////////// Set competition question button to active //////////////////////////////////////
 function answerQuestionsButtons(buttonNumber){
 
-  //Get every button in questionsButtons div
-  var answer1Button = document.getElementById("answer1Button");
-  var answer2Button = document.getElementById("answer2Button");
-  var answer3Button = document.getElementById("answer3Button");
-  var answer4Button = document.getElementById("answer4Button");
+    //Get every button in questionsButtons div
+    var answer1Button = document.getElementById("answer1Button");
+    var answer2Button = document.getElementById("answer2Button");
+    var answer3Button = document.getElementById("answer3Button");
+    var answer4Button = document.getElementById("answer4Button");
+    var addToBasketButton = document.getElementById("addToBasketButton");
 
-  var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
+    var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
 
-  //Remove is active from every button
-  for (i = 0; i <= buttons.length - 1; i++) {
-    buttons[i].classList.remove("is-focused");
+    //Remove is active from every button
+    for (i = 0; i <= buttons.length - 1; i++) {
+        buttons[i].classList.remove("is-focused");
 
-    //If button has a tick icon, remove
-    if (buttons[i].children.length > 1){
-        buttons[i].children[0].remove();
+        //If button has a tick icon, remove
+        if (buttons[i].children.length > 1){
+            buttons[i].children[0].remove();
+        }
     }
-  }
 
-  //set is-active to the button just clicked
-  // Add tick icon to button clicked
-  buttons[buttonNumber-1].className += " is-focused";
-  buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
+    //set is-active to the button just clicked
+    // Add tick icon to button clicked
+    buttons[buttonNumber-1].className += " is-focused";
+    buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
+
+    //Update addToBasketButton URL
+    var url = addToBasketButton.getAttribute("href");
+    var tempArray = url.split("/");
+    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+buttonNumber+"/"+tempArray[4];
+    addToBasketButton.href=newHREF;
 }
 
 ///////////////////////////////// Open modal //////////////////////////////////////////////////
