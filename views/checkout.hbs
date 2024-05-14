@@ -28,7 +28,7 @@
                         <div class="field">
                             <label class="label">First Name</label>
                             <div class="control has-icons-left">
-                                <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="">
+                                <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userBillingAddress.firstName}}">
                                 <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                                 </span>
@@ -37,7 +37,7 @@
                         <div class="field">
                             <label class="label">Last Name</label>
                             <div class="control has-icons-left">
-                                <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="">
+                                <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userBillingAddress.lastName}}">
                                 <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                                 </span>
@@ -48,7 +48,7 @@
                             <p class="control has-icons-left">
                                 <span class="select is-fullwidth">
                                 <select id="countryRegion" name="countryRegion">
-                                    <option selected>United Kingdom</option>
+                                    <option selected>{{userBillingAddress.countryRegion}}</option>
                                     <option>Select dropdown</option>
                                     <option>With options</option>
                                 </select>
@@ -61,7 +61,7 @@
                         <div class="field">
                             <label class="label">Street Address</label>
                             <div class="control has-icons-left">
-                                <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="">
+                                <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-road"></i>
                                 </span>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="field">
                             <div class="control has-icons-left">
-                                <input id="streetAddress2" name="streetAddress2" class="input" type="text" placeholder="Street Address 2" value="">
+                                <input id="streetAddress2" name="streetAddress2" class="input" type="text" placeholder="Street Address 2" value="{{userBillingAddress.streetAddress2}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-road"></i>
                                 </span>
@@ -78,7 +78,7 @@
                         <div class="field">
                             <label class="label">Town / City</label>
                             <div class="control has-icons-left">
-                                <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="">
+                                <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-city"></i>
                                 </span>
@@ -87,7 +87,7 @@
                         <div class="field">
                             <label class="label">County</label>
                             <div class="control has-icons-left">
-                                <input id="county" name="county" class="input" type="text" placeholder="County" value="">
+                                <input id="county" name="county" class="input" type="text" placeholder="County" value="{{userBillingAddress.county}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-map-location-dot"></i>
                                 </span>
@@ -96,7 +96,7 @@
                         <div class="field">
                             <label class="label">Postcode</label>
                             <div class="control has-icons-left">
-                                <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="">
+                                <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
@@ -105,7 +105,7 @@
                         <div class="field">
                             <label class="label">Phone Number</label>
                             <div class="control has-icons-left">
-                                <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="">
+                                <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}">
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-phone"></i>
                                 </span>
@@ -144,7 +144,7 @@
                         <div class="field">
                             <label class="label">Email Address</label>
                             <p class="control is-expanded has-icons-left has-icons-right">
-                                <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="">
+                                <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userBillingAddress.emailAddress}}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>

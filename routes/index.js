@@ -42,13 +42,24 @@ router.get('/logout', function(req, res, next) {
   });
 
 router.get('/checkout', function(req, res, next) {
-    //var messages = res.locals.message;//req.flash('error');
     var errors = req.flash('error');
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
-        res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
+
+        BillingAddress.findOne({userReference: req.user})
+        .then(foundBAddress => {
+            if (foundBAddress) {
+                res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("No Address Saved");
+                res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 });
 
