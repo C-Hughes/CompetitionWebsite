@@ -80,10 +80,12 @@ router.get('/orderReceived', function(req, res, next) {
 
 router.get('/competition/:id', function(req, res, next) {
     var compID = req.params.id;
+    var error = req.flash('error');
+
     Competition.findOne({ _id: compID })
     .then((foundCompetition) => {
         if (foundCompetition) {
-            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition});
+            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, error: error, hasError: error.length > 0 });
         } else {
             //req.flash('error', 'This competition does not exists.');
             console.log("Not Found");
@@ -113,22 +115,29 @@ router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
     var ticketQty = req.params.qty;
     var basket = new Basket(req.session.basket ? req.session.basket : {});
 
-    Competition.findOne({ _id: compID })
-    .then((foundCompetition) => {
-        if (foundCompetition) {
-            basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
-            req.session.basket = basket;
-            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true});
-        } else {
-            //req.flash('error', 'This competition does not exists.');
-            console.log("Not Found");
+    if(compAnswer == "1"){
+        req.flash('error', 'Please select an answer');
+        res.redirect('/competition/'+compID+'');
+    } else{
+        Competition.findOne({ _id: compID })
+        .then((foundCompetition) => {
+            if (foundCompetition) {
+                basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
+                req.session.basket = basket;
+                res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true});
+            } else {
+                //req.flash('error', 'This competition does not exists.');
+                console.log("Not Found");
+                res.redirect('/');
+            }
+        })
+        .catch(err => {
+            console.log(err);
             res.redirect('/');
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.redirect('/');
-    });
+        });
+    }
+
+
 });
 
 router.get('/removeItem/:id', function(req, res, next) {

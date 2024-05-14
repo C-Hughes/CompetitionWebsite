@@ -184,3 +184,25 @@ function editForm(defaultDisplay, defaultClosed, button, buttonType){
         buttonElem.innerHTML = "<button type='"+buttonType+"' class='card-footer-item has-text-link'>Save Address</button>";      
     }
 }
+
+
+function verifyCompAnswer(){
+    //Get every button in questionsButtons div
+    var answer1Button = document.getElementById("answer1Button");
+    var answer2Button = document.getElementById("answer2Button");
+    var answer3Button = document.getElementById("answer3Button");
+    var answer4Button = document.getElementById("answer4Button");
+
+    var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
+    var isFocused = false;
+    //Remove is active from every button
+    for (i = 0; i <= buttons.length - 1; i++) {
+        buttons[i].classList.remove("is-focused");
+
+        //If button has a tick icon, remove
+        if (buttons[i].classList.contains("is-focused")){
+            isFocused = true;
+        }
+    }
+    return isFocused;
+}
