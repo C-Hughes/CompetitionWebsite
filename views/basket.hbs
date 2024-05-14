@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <div class="column is-3 is-flex is-justify-content-center is-align-items-center">
-                                <p class="subtitle is-6"><strong>£{{this.price}}</strong></p>
+                                <p class="subtitle is-6"><strong>£{{formatPrice this.price}}</strong></p>
                             </div>
                             <div class="column is-2 is-flex is-justify-content-center is-align-items-center">
                                 <a href="/removeItem/{{this.item._id}}{{this.questionAnswer}}" class="is-link">
@@ -75,7 +75,7 @@
                             </div>
                             <div class="column is-full">
                                 <p class="subtitle is-4 is-pulled-left"><strong>Total</strong></p>
-                                <p class="subtitle is-4 is-pulled-right"><strong>£{{totalPrice}}</strong></p>
+                                <p class="subtitle is-4 is-pulled-right"><strong>£{{formatPrice totalPrice}}</strong></p>
                             </div>
                             <div class="column is-full">
                                 <a href="/checkout" class="button is-medium is-fullwidth is-primary">Proceed to Checkout</a>

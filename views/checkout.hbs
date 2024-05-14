@@ -169,7 +169,7 @@
                             {{# each products}}
                             <tr>
                                 <td>Win this {{this.item.title}}! <strong>x {{this.qty}}</strong></td>
-                                <th>£{{this.price}}</th>
+                                <th>£{{formatPrice this.price}}</th>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -177,7 +177,7 @@
                 </div>
                 <div class="column is-full">
                     <p class="subtitle is-4 is-pulled-left"><strong>Total</strong></p>
-                    <p class="subtitle is-4 is-pulled-right"><strong>£{{totalPrice}}</strong></p>
+                    <p class="subtitle is-4 is-pulled-right"><strong>£{{formatPrice totalPrice}}</strong></p>
                 </div>
                 <div class="column is-full">
                     <div class="block has-text-centered">
