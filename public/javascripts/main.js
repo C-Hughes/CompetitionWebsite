@@ -192,17 +192,20 @@ function verifyCompAnswer(){
     var answer2Button = document.getElementById("answer2Button");
     var answer3Button = document.getElementById("answer3Button");
     var answer4Button = document.getElementById("answer4Button");
+    var errorMessage = document.getElementById("errorMessage");
 
     var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
     var isFocused = false;
     //Remove is active from every button
     for (i = 0; i <= buttons.length - 1; i++) {
-        buttons[i].classList.remove("is-focused");
-
-        //If button has a tick icon, remove
+        //If button has is-focused class
         if (buttons[i].classList.contains("is-focused")){
             isFocused = true;
+            console.log(isFocused);
         }
+    }
+    if(isFocused == false){
+        errorMessage.innerText = "Please select an answer";
     }
     return isFocused;
 }

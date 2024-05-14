@@ -98,13 +98,13 @@
                                     Answer the question
                                     </p>
                                     <p class="subtitle has-text-centered">{{competition.questionText}}</p>
-                                    {{#if hasError}}
-                                        <div class="has-text-danger is-dark has-text-centered">
+                                    <div id="errorMessage" class="has-text-danger is-dark has-text-centered">
+                                        {{#if hasError}}
                                             {{#each error}}
                                                 <p>{{this}}</p>
                                             {{/each}}
-                                        </div>
-                                    {{/if}}
+                                        {{/if}}
+                                    </div>
                                     <div class="fixed-grid">
                                         <div class="grid" id="questionButtons">
                                             <div class="cell">
@@ -144,7 +144,7 @@
                                     </div>
                                 </div>
                                 <footer class="card-footer">
-                                    <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/10" class="button card-footer-item is-primary" onclick="verifyCompAnswer();">
+                                    <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/10" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
                                         <span>Add tickets to basket</span>
                                         <span class="icon">
                                             <i class="fa-solid fa-ticket"></i>
