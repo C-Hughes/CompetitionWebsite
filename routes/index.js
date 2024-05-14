@@ -43,11 +43,13 @@ router.get('/logout', function(req, res, next) {
   });
 
 router.get('/checkout', function(req, res, next) {
+    //var messages = res.locals.message;//req.flash('error');
+    var errors = req.flash('error');
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
-        res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice});
+        res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
     }
 });
 
@@ -56,7 +58,26 @@ router.post('/checkout', function(req, res, next) {
         return res.redirect('/basket');
     } else {
         //var basket = new Basket(req.session.basket);
+        //Input Validation
+        req.checkBody('firstName', 'firstName cannot be empty').notEmpty();
+        req.checkBody('lastName', 'lastName cannot be empty').notEmpty();
+        req.checkBody('countryRegion', 'countryRegion cannot be empty').notEmpty();
+        req.checkBody('streetAddress1', 'streetAddress1 cannot be empty').notEmpty();
+        req.checkBody('townCity', 'townCity cannot be empty').notEmpty();
+        req.checkBody('postcode', 'postcode cannot be empty').notEmpty();
+        req.checkBody('email', 'Email is not valid').isEmail();
 
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            //res.locals.message = req.flash();
+            return res.redirect('/checkout');
+        }
+        
         var billingAddress = new BillingAddress({
             userReference: req.user,
             firstName: req.body.firstName,

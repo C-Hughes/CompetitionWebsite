@@ -21,11 +21,15 @@
                 </header>
                 <div  class="card-content">
                     <div id="billingAddressInfo" class="content">
-                        <p>Name</p>
-                        <p>Address Line 1</p>
-                        <p>Phone Number</p>
-                        <p>Town</p>
-                        <p>Country</p>
+                        {{#if foundBAddress}}
+                            <p>{{foundBAddress.firstName}} {{foundBAddress.lastName}}</p>
+                            <p>Address Line 1</p>
+                            <p>Phone Number</p>
+                            <p>Town</p>
+                            <p>Country</p>
+                        {{else}}
+                            <p>You have not set up this type of address yet.</p>
+                        {{/if}}
                     </div>
                     <div id="editBillingAddressForm" class="content" style="display: none;">
                         <div class="field">

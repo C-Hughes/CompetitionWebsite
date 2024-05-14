@@ -5,13 +5,22 @@
 </section>
 
 <div class="container is-max-fullhd">
-    <div class="columns is-multiline">
-        <form action="/checkout" method="post">
+    <form action="/checkout" method="post">
+        <div class="columns is-multiline">
             <div class="column is-full my-6">
                 <div class="notification is-info has-text-centered">
                     Have a coupon? <a href="">Click here to enter your code</a>
                 </div>
             </div>
+            {{#if errors}}
+            <div class="column is-full my-6">
+                <div class="notification is-danger is-light">
+                    {{#each error}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
+            </div>
+            {{/if}}
             <div class="column is-three-fifths">
                 <div class="px-3">
                     <div class="container">
@@ -200,6 +209,7 @@
                         </div>
                     </div>
                     <div class="column is-full">
+                        <input type="hidden" name="csrfToken" value="{{csrfToken}}">
                         <button type="submit" class="button is-medium is-fullwidth is-primary">Pay with Card</button>
                     </div>
                     <div class="column is-full">
@@ -207,6 +217,6 @@
                     </div>
                 </div>
             </div>
-        </form>    
-    </div>
+        </div>
+    </form>
 </div>
