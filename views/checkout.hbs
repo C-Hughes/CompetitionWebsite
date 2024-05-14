@@ -158,34 +158,20 @@
                         <tfoot>
                             <tr>
                                 <th>Subtotal</th>
-                                <th>£29.70</th>
+                                <th>£{{totalPrice}}-Discounts</th>
                             </tr>
                             <tr>
                                 <th>Total</th>
-                                <th>£29.70</th>
+                                <th>£{{totalPrice}}</th>
                             </tr>
                         </tfoot>
                         <tbody>
+                            {{# each products}}
                             <tr>
-                            <td>Win this Xbox Series X 1TB! <strong>x 10</strong></td>
-                            <th>£29.70</th>
+                                <td>Win this {{this.item.title}}! <strong>x {{this.qty}}</strong></td>
+                                <th>£{{this.price}}</th>
                             </tr>
-                            <tr>
-                            <td>Win this Xbox Series X 1TB! <strong>x 10</strong></td>
-                            <th>£29.70</th>
-                            </tr>
-                            <tr>
-                            <td>Win this Xbox Series X 1TB! <strong>x 10</strong></td>
-                            <th>£29.70</th>
-                            </tr>
-                            <tr>
-                            <td>Win this Xbox Series X 1TB! <strong>x 10</strong></td>
-                            <th>£29.70</th>
-                            </tr>
-                            <tr>
-                            <td>Win this Xbox Series X 1TB! <strong>x 10</strong></td>
-                            <th>£29.70</th>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </div>

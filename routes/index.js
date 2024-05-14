@@ -58,7 +58,7 @@ router.get('/checkout', function(req, res, next) {
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
-        res.render('checkout', { title: 'Checkout', total: basket.totalPrice});
+        res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice});
     }
 });
 
