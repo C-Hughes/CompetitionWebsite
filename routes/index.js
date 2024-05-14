@@ -41,18 +41,6 @@ router.get('/logout', function(req, res, next) {
     });
   });
 
-
-
-router.get('/basket', function(req, res, next) {
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
-        return res.render('basket', { title: 'Basket', products: null});
-    } else {
-        var basket = new Basket(req.session.basket);
-        //console.log(basket.generateArray());
-        res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
-    }
-});
-
 router.get('/checkout', function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
@@ -63,7 +51,12 @@ router.get('/checkout', function(req, res, next) {
 });
 
 router.get('/processCard', function(req, res, next) {
-    res.render('processCard', { title: 'Pay with Card'});
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        var basket = new Basket(req.session.basket);
+        res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+    }
 });
 
 router.get('/orderReceived', function(req, res, next) {
@@ -85,6 +78,18 @@ router.get('/competition/:id', function(req, res, next) {
       .catch(err => {
         console.log(err);
     });
+});
+
+///////// Basket Routes //////////////
+
+router.get('/basket', function(req, res, next) {
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.render('basket', { title: 'Basket', products: null});
+    } else {
+        var basket = new Basket(req.session.basket);
+        //console.log(basket.generateArray());
+        res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
+    }
 });
 
 router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
@@ -137,6 +142,9 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
     req.session.basket = basket;
     res.redirect('/basket');
 });
+
+///////////////////////////////////////////////////////////////////
+
 
 ///////// Logged in users cannot access routes below //////////////
 
