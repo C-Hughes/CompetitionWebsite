@@ -35,6 +35,11 @@
                         {{#if hasOrders}}
                             {{# each orders}}
                                 {{# each this.items}}
+                                    {{#ifDateInPast this.item.drawDate}}
+                                        IS IN FUTURE
+                                    {{else}}
+                                        IS IN PAST
+                                    {{/ifDateInPast}}
                                     <div class="column is-one-third">
                                         <div class="box">
                                             <div class="has-text-centered">

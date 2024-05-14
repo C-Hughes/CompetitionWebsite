@@ -17,15 +17,24 @@ router.get('/', function(req, res, next) {
     Order.find({userReference: req.user})
     .then(foundOrders => {
         if (foundOrders) {
-            console.log("Orders Found");
             var basket;
             foundOrders.forEach(function(order){
                 basket = new Basket(order.basket);
                 order.items = basket.generateArray();
-            });
-                        console.log(foundOrders.length);
-            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders, hasOrders: foundOrders.length > 0});
 
+                //If order item drawDate is in the past, add to past competitions, if not add to current.
+                /*
+                for (const key in order.items) {
+                    if (order.items.hasOwnProperty(key)) {
+                    const item = order.items[key];
+                    console.log(`Item: ${JSON.stringify(item.item.title)}`);
+                    //
+                    }
+                }
+                */
+            });
+
+            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders, hasOrders: foundOrders.length > 0});
         } else {
             console.log("No Orders Found");
             return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: ""});

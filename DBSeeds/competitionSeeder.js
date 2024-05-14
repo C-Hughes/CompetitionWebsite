@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 var Competitions = [
     new Competition({
         imagePath: 'https://www.gamespot.com/a/uploads/screen_kubrick/1574/15747411/3756082-xbox-series-x-review-promothumb.jpg',
-        title: 'Xbox Series X 1TB',
+        title: 'Xbox Series X 1TB2',
         description: 'Introducing Xbox Series X, the fastest, most powerful Xbox ever. Play thousands of titles from four generations of consoles—all games look and play best on Xbox Series X.\n' +
             '  Experience next-gen speed and performance with the Xbox Velocity Architecture, powered by a custom SSD and integrated software\n' +
             '  Play thousands of games from four generations of Xbox with Backward Compatibility, including optimised titles at launch',
@@ -27,7 +27,7 @@ var Competitions = [
     }),
     new Competition({
         imagePath: 'https://images.idgesg.net/images/article/2021/01/samsung-870-evo-sata-ssd-primary-100873962-orig.jpg?quality=50&strip=all',
-        title: '2TB Samsung SSD Evo',
+        title: '2TB Samsung SSD Evo2',
         description: 'Introducing Samsung SSD\n' +
             '  More Text\n' +
             '  More Text Here',
@@ -46,13 +46,13 @@ var Competitions = [
     }),
     new Competition({
         imagePath: 'http://im.ziffdavisinternational.com/ign_es/screenshot/default/75105box3injpg-8bb66b_jj3d.jpg',
-        title: 'LEGO StarWars Millennium Falcon',
+        title: 'LEGO StarWars Millennium Falcon2',
         description: 'Introducing LEGO StarWars Millennium Falcon\n' +
             '  More Text\n' +
             '  More Text Here',
         cashAlternative: 75,
         price: 2,
-        drawDate: new Date(),
+        drawDate: Date.now() + 400*24*60*60*1000,
         currentEntries: 175,
         maxEntries: 1000,
         maxEntriesPerPerson: 100,
