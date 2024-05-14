@@ -30,15 +30,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/address', function(req, res, next) {
-    var foundAddress = "";
-    BillingAddress.find({user: req.user})
+    //var foundBAddress = "";
+    BillingAddress.findOne({userReference: req.user})
     .then(foundBAddress => {
-        return res.render('user/address', { title: 'Addresses', billingAddress: foundBAddress, active: { address: true }});
+        console.log(foundBAddress);
+        if (foundBAddress) {
+            res.render('user/address', { title: 'Addresses', active: { address: true }, userBillingAddress: foundBAddress});
+            //res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition});
+        } else {
+            console.log("No Address Saved");
+            res.render('user/address', { title: 'Addresses', active: { address: true }, userBillingAddress: ""});
+        }
     })
     .catch(err => {
         console.log(err);
     });
-    res.render('user/address', { title: 'Addresses', active: { address: true } });
+    //return res.render('user/address', { title: 'Addresses', active: { address: true } });
 });
 
 router.get('/accountDetails', function(req, res, next) {

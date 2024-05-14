@@ -21,12 +21,12 @@
                 </header>
                 <div  class="card-content">
                     <div id="billingAddressInfo" class="content">
-                        {{#if foundBAddress}}
-                            <p>{{foundBAddress.firstName}} {{foundBAddress.lastName}}</p>
-                            <p>Address Line 1</p>
-                            <p>Phone Number</p>
-                            <p>Town</p>
-                            <p>Country</p>
+                        {{#if userBillingAddress}}
+                            <p>{{userBillingAddress.firstName}} {{userBillingAddress.lastName}}</p>
+                            <p>{{userBillingAddress.streetAddress1}}</p>
+                            <p>{{userBillingAddress.phoneNumber}}</p>
+                            <p>{{userBillingAddress.townCity}}</p>
+                            <p>{{userBillingAddress.countryRegion}}</p>
                         {{else}}
                             <p>You have not set up this type of address yet.</p>
                         {{/if}}
