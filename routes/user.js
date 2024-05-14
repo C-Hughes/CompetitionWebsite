@@ -14,19 +14,26 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    var foundOrders = "";
-    Order.find({user: req.user})
+    Order.find({userReference: req.user})
     .then(foundOrders => {
-        var basket;
-        foundOrders.forEach(function(order){
-            basket = new Basket(order.basket);
-            order.items = basket.generateArray();
-        });
+        if (foundOrders) {
+            console.log("Orders Found");
+            var basket;
+            foundOrders.forEach(function(order){
+                basket = new Basket(order.basket);
+                order.items = basket.generateArray();
+            });
+                        console.log(foundOrders.length);
+            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders, hasOrders: foundOrders.length > 0});
+
+        } else {
+            console.log("No Orders Found");
+            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: ""});
+        }
     })
     .catch(err => {
         console.log(err);
     });
-    res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders || ""});
 });
 
 router.get('/address', function(req, res, next) {

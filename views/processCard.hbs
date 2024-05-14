@@ -9,47 +9,48 @@
     <div class="column is-one-third is-max-desktop" style="min-width: 400px">
         <div class="containermy-6">
             <div class="mx-3">
-                <div class="container">
-                    <div class="field">
-                        <label class="label">Card Number</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="text" placeholder="Card Number">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-credit-card"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="field-body">
+                <form action="/processCard" method="post">
+                    <div class="container">
                         <div class="field">
-                            <label class="label">Expiry date</label>
-                            <p class="control is-expanded has-icons-left">
-                                <input class="input" type="text" placeholder="MM/YY">
+                            <label class="label">Card Number</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" placeholder="Card Number">
                                 <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <i class="fa-solid fa-credit-card"></i>
                                 </span>
-                            </p>
                             </div>
+                        </div>
+                        <div class="field-body">
                             <div class="field">
-                                <label class="label">Security Code</label>
-                                <p class="control is-expanded has-icons-left has-icons-right">
-                                    <input class="input" type="text" placeholder="CVV">
+                                <label class="label">Expiry date</label>
+                                <p class="control is-expanded has-icons-left">
+                                    <input class="input" type="text" placeholder="MM/YY">
                                     <span class="icon is-small is-left">
-                                        <i class="fa-solid fa-shield"></i>
+                                        <i class="fa-solid fa-calendar-days"></i>
                                     </span>
                                 </p>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Security Code</label>
+                                    <p class="control is-expanded has-icons-left has-icons-right">
+                                        <input class="input" type="text" placeholder="CVV">
+                                        <span class="icon is-small is-left">
+                                            <i class="fa-solid fa-shield"></i>
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </div>    
-                    <div class="field-body">
-                        <div class="field my-4">
-                            <div class="control">
-                                <a href="/orderReceived" class="button is-link is-fullwidth">
-                                Pay £{{formatPrice totalPrice}}
-                                </a>
+                        </div>    
+                        <div class="field-body">
+                            <div class="field my-4">
+                                <div class="control">
+                                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                                    <button type="submit" class="button is-link is-fullwidth">Pay £{{formatPrice totalPrice}}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>    
             </div>
         </div>
     </div>

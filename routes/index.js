@@ -9,9 +9,10 @@ var BillingAddress = require('../models/billingAddress');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    var success = req.flash('success');
     Competition.find({})
       .then(foundCompetition => {
-            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, active: { home: true }});
+            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, active: { home: true }, success: success, hasSuccess: success.length > 0});
     })
       .catch(err => {
             console.log(err);
@@ -73,7 +74,8 @@ router.get('/processCard', function(req, res, next) {
 });
 
 router.get('/orderReceived', function(req, res, next) {
-    res.render('orderReceived', { title: 'Order Received' });
+    var success = req.flash('success');
+    res.render('orderReceived', { title: 'Order Received', success: success, hasSuccess: success.length > 0 });
 });
 
 router.get('/competition/:id', function(req, res, next) {
@@ -167,40 +169,38 @@ router.post('/processCard', function(req, res, next) {
     } else {
         var basket = new Basket(req.session.basket);
 
-        var order = new Order({
-            userReference: req.user,
-            basket: basket,
-            billingAddressReference: {type: Schema.Types.ObjectId, ref: 'BillingAddress', required: true},
-            paymentID: 'TESTREFERENCE',
-            paymentPrice: req.session.basket.totalPrice,
-        });
-        order.save({})
-        .then(() => {
-            req.flash('success', 'Your purchase was successful');
-            req.session.basket = null;
-            res.redirect('/');
+        //Get BillingAddress Reference from UserID
+        BillingAddress.findOne({userReference: req.user})
+        .then(foundBAddress => {
+            if (foundBAddress) {
+                var order = new Order({
+                    userReference: req.user,
+                    orderNumber: '0000000001',
+                    basket: basket,
+                    billingAddressReference: foundBAddress._id,
+                    paymentID: 'TESTREFERENCE',
+                    paymentPrice: req.session.basket.totalPrice,
+                });
+                console.log('SAVE ORDER');
+                order.save({})
+                .then(() => {
+                    console.log('SUCCESS SAVE ORDER');
+                    req.flash('success', 'Your purchase was successful');
+                    req.session.basket = null;
+                    res.redirect('/orderReceived');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            } else {
+                console.log("No Address Saved");
+                req.flash('error', 'Billing address error. Your billing address was not found. Order not saved.');
+                res.redirect('/checkout');
+            }
         })
         .catch(err => {
             console.log(err);
         });
-        /*
-            var newUser = new User();
-                newUser.username = username;
-                newUser.password = newUser.encryptPassword(passwordConf);
-                newUser.email = email;
-                newUser.firstName = firstName;
-                newUser.lastName = lastName;
-                newUser.joindate = new Date();
-                newUser.lastlogin = new Date();
-                newUser.save({})
-                .then(() => {
-                    return done(null, newUser);
-                })
-                .catch(err => {
-                console.log(err);
-                });
-        */
-
     }
 });
 
