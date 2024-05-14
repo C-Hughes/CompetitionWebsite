@@ -34,20 +34,23 @@
                     <div class="columns is-multiline">
                         {{#if hasOrders}}
                             {{# each orders}}
-                                <div class="column is-one-third">
-                                    <div class="box">
-                                        <div class="has-text-centered">
-                                            <div>
-                                                <p class="title is-6" style="height: 50px">Win this {{this.item.title}}</p>
-                                                <p class="subtitle is-6"><strong>Draw Date:</strong> 12/05/24 9:00PM</p>
-                                                <p class="subtitle is-6">You have<strong> {{this.qty}} </strong>tickets</p>
-                                                <button onclick="toggleElement('comp_1')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
-                                                <br />
-                                                <p id="comp_1" class="notification" style="display:none">61469, 77048, 68049, 02551, 24551, 71252, 91010, 80851, 17251, 13489, 71525, 45160, 96716, 5632</p>
+                                {{# each this.items}}
+                                    <div class="column is-one-third">
+                                        <div class="box">
+                                            <div class="has-text-centered">
+                                                <div>
+                                                    <p class="title is-6" style="height: 50px">Win this {{this.item.title}}!</p>
+                                                    <p class="subtitle is-6"><strong>Draw Date:</strong> 12/05/24 9:00PM</p>
+                                                    <p class="subtitle is-6">You have<strong> {{this.qty}} </strong>tickets</p>
+                                                    <p class="subtitle is-6">Answer: <strong> {{this.questionAnswer}} </strong></p>
+                                                    <button onclick="toggleElement('comp_{{this.uniqueID}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
+                                                    <br />
+                                                    <p id="comp_{{this.uniqueID}}" class="notification" style="display:none">61469, 77048, 68049, 02551, 24551, 71252, 91010, 80851, 17251, 13489, 71525, 45160, 96716, 5632</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>  
+                                    </div>  
+                                {{/each}}
                             {{/each}}
                         {{else}}
                             <div class="column is-full">

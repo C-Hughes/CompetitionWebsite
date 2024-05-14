@@ -8,16 +8,12 @@ module.exports = function Basket(oldBasket){
         var storedItem = this.items[id+answer];
         if(!storedItem){
             //var price = qty * item.price;
-            storedItem = this.items[id+answer] = {item: item, compID: id, qty: 0, price: 0, questionAnswer: answer};
+            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer};
         }
-        //this.totalQty = 0;
-
         storedItem.qty+= Number(qty);
         storedItem.price = storedItem.item.price * storedItem.qty;
         this.totalQty+= Number(qty);
         this.totalPrice += storedItem.item.price * storedItem.qty;
-
-        console.log(storedItem.compID);
     };
 
     this.reduceByOne = function(id){
