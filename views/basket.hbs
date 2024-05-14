@@ -36,9 +36,9 @@
                         <div class="columns is-mobile">
                             <div class="column">
                                 <div class="buttons has-addons is-centered">
-                                    <button class="button" onclick="updateTicketCartCount('-')">-</button>
+                                    <a href="/reduceOneItem/{{this.item._id}}{{this.questionAnswer}}" class="button">-</a>
                                     <button id="ticketButtonCartCount" class="button is-static">{{this.qty}}</button>
-                                    <button class="button" onclick="updateTicketCartCount('-')">+</button>
+                                    <a href="/increaseOneItem/{{this.item._id}}{{this.questionAnswer}}" class="button">+</a>
                                 </div>
                             </div>
                             <div class="column is-3 is-flex is-justify-content-center is-align-items-center">

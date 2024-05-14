@@ -120,6 +120,24 @@ router.get('/removeItem/:id', function(req, res, next) {
     res.redirect('/basket');
 });
 
+router.get('/increaseOneItem/:id', function(req, res, next) {
+    var compID = req.params.id;
+    var basket = new Basket(req.session.basket ? req.session.basket : {});
+
+    basket.increaseByOne(compID);
+    req.session.basket = basket;
+    res.redirect('/basket');
+});
+
+router.get('/reduceOneItem/:id', function(req, res, next) {
+    var compID = req.params.id;
+    var basket = new Basket(req.session.basket ? req.session.basket : {});
+
+    basket.reduceByOne(compID);
+    req.session.basket = basket;
+    res.redirect('/basket');
+});
+
 ///////// Logged in users cannot access routes below //////////////
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
