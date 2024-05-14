@@ -12,116 +12,138 @@
         The following addresses will be used on the checkout page by default.
     </h2>
     </section>
+
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if successes}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
     
     <div class="columns">
         <div class="column">
             <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">Billing Address</p>
-                </header>
-                <div  class="card-content">
-                    <div id="billingAddressInfo" class="content">
-                        {{#if userBillingAddress}}
-                            <p>{{userBillingAddress.firstName}} {{userBillingAddress.lastName}}</p>
-                            <p>{{userBillingAddress.streetAddress1}}</p>
-                            <p>{{userBillingAddress.phoneNumber}}</p>
-                            <p>{{userBillingAddress.townCity}}</p>
-                            <p>{{userBillingAddress.countryRegion}}</p>
-                        {{else}}
-                            <p>You have not set up this type of address yet.</p>
-                        {{/if}}
+                <form action="/user/address/billing" method="post">
+                    <header class="card-header">
+                        <p class="card-header-title">Billing Address</p>
+                    </header>
+                    <div  class="card-content">
+                        <div id="billingAddressInfo" class="content">
+                            {{#if userBillingAddress}}
+                                <p>{{userBillingAddress.firstName}} {{userBillingAddress.lastName}}</p>
+                                <p>{{userBillingAddress.streetAddress1}}</p>
+                                <p>{{userBillingAddress.phoneNumber}}</p>
+                                <p>{{userBillingAddress.townCity}}</p>
+                                <p>{{userBillingAddress.countryRegion}}</p>
+                            {{else}}
+                                <p>You have not set up this type of address yet.</p>
+                            {{/if}}
+                        </div>
+                        <div id="editBillingAddressForm" class="content" style="display: none;">
+                            <div class="field">
+                                <label class="label">First Name</label>
+                                <div class="control has-icons-left">
+                                    <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userBillingAddress.firstName}}">
+                                    <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Last Name</label>
+                                <div class="control has-icons-left">
+                                    <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userBillingAddress.lastName}}">
+                                    <span class="icon is-small is-left">
+                                    <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </div>
+                            </div><label class="label">Country / Region</label>
+                            <div class="field">
+                            <p class="control has-icons-left">
+                                <span class="select is-fullwidth">
+                                <select id="countryRegion" name="countryRegion">
+                                    <option selected>{{userBillingAddress.countryRegion}}</option>
+                                    <option>Select dropdown</option>
+                                    <option>With options</option>
+                                </select>
+                                </span>
+                                <span class="icon is-small is-left">
+                                <i class="fas fa-globe"></i>
+                                </span>
+                            </p>
+                            </div>
+                            <div class="field">
+                                <label class="label">Street Address</label>
+                                <div class="control has-icons-left">
+                                    <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-road"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="streetAddress2" name="streetAddress2" class="input" type="text" placeholder="Street Address 2" value="{{userBillingAddress.streetAddress2}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-road"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Town / City</label>
+                                <div class="control has-icons-left">
+                                    <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-city"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">County</label>
+                                <div class="control has-icons-left">
+                                    <input id="county" name="county" class="input" type="text" placeholder="County" value="{{userBillingAddress.county}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-map-location-dot"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Postcode</label>
+                                <div class="control has-icons-left">
+                                    <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Phone Number</label>
+                                <div class="control has-icons-left">
+                                    <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <input type="hidden" name="csrfToken" value="{{csrfToken}}">    
+                        </div>
                     </div>
-                    <div id="editBillingAddressForm" class="content" style="display: none;">
-                        <div class="field">
-                            <label class="label">First Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Alex" value="Alex">
-                                <span class="icon is-small is-left">
-                                <i class="fa-solid fa-user"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Last Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="email" placeholder="Smith" value="Smith">
-                                <span class="icon is-small is-left">
-                                <i class="fa-solid fa-user"></i>
-                                </span>
-                            </div>
-                        </div><label class="label">Country / Region</label>
-                        <div class="field">
-                        <p class="control has-icons-left">
-                            <span class="select is-fullwidth">
-                            <select>
-                                <option selected>United Kingdom</option>
-                                <option>Select dropdown</option>
-                                <option>With options</option>
-                            </select>
-                            </span>
-                            <span class="icon is-small is-left">
-                            <i class="fas fa-globe"></i>
-                            </span>
-                        </p>
-                        </div>
-                        <div class="field">
-                            <label class="label">Street Address</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Street Address" value="6 Garland Place">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-road"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Street Address 2" value="">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-road"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Town / City</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Town / City" value="Dundee">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-city"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">State / County</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="State / County" value="Dundee City">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-map-location-dot"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Postcode</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Postcode" value="DD36HE">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Phone Number</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Phone Number" value="07845834867">
-                                <span class="icon is-small is-left">
-                                    <i class="fa-solid fa-phone"></i>
-                                </span>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-                <footer id="editBillingAddressFormButton" class="card-footer">
-                    <button class="card-footer-item" onclick="editForm('billingAddressInfo', 'editBillingAddressForm', 'editBillingAddressFormButton');">Edit</button>
-                </footer>
+                    <footer id="editBillingAddressFormButton" class="card-footer">
+                        <button class="card-footer-item" onclick="editForm('billingAddressInfo', 'editBillingAddressForm', 'editBillingAddressFormButton', 'submit');">Edit</button>
+                    </footer>
+                </form>    
             </div>
         </div>
         

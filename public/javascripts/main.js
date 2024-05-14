@@ -162,7 +162,7 @@ function toggleHidePassword(id, buttonId){
 }
 
 
-function editForm(defaultDisplay, defaultClosed, button){
+function editForm(defaultDisplay, defaultClosed, button, buttonType){
     var defaultDisplayElem = document.getElementById(defaultDisplay);
     var defaultClosedElem = document.getElementById(defaultClosed);
 
@@ -177,7 +177,10 @@ function editForm(defaultDisplay, defaultClosed, button){
     console.log(button);
 
     if(button != ""){
+        //if(buttonType != ""){
+            
+        //}
         var buttonElem = document.getElementById(button);
-        buttonElem.innerHTML = "<button class='card-footer-item has-text-link'>Save Address</button>";      
+        buttonElem.innerHTML = "<button type='"+buttonType+"' class='card-footer-item has-text-link'>Save Address</button>";      
     }
 }
