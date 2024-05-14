@@ -218,7 +218,15 @@ router.post('/checkout', function(req, res, next) {
         req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
         if(req.body.emailAddress){
             req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }        
+        }
+        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
+            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+            req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+        }   
 
         var errors = req.validationErrors();
         if (errors){
