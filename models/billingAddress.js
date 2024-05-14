@@ -14,6 +14,9 @@ var billingAddressSchema = new Schema({
     phoneNumber: {type: String, required: false},
     emailAddress: {type: String, required: false},
     DOB: {type: Date, required: false},
+    DOBDD: {type: Number, required: false},
+    DOBMM: {type: String, required: false},
+    DOBYY: {type: Number, required: false},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });

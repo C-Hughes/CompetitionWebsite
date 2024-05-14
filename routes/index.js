@@ -216,8 +216,8 @@ router.post('/checkout', function(req, res, next) {
         req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
         req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
         req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.email){
-            req.checkBody('email', 'Email is not valid').isEmail();
+        if(req.body.emailAddress){
+            req.checkBody('emailAddress', 'Email is not valid').isEmail();
         }        
 
         var errors = req.validationErrors();
@@ -241,6 +241,11 @@ router.post('/checkout', function(req, res, next) {
             county: req.body.county,
             postcode: req.body.postcode,
             phoneNumber: req.body.phoneNumber,
+            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
+            DOBDD: req.body.DOBDD,
+            DOBMM: req.body.DOBMM,
+            DOBYY: req.body.DOBYY,
+            emailAddress: req.body.emailAddress,
             lastUpdated: new Date().toISOString(),
         };
         BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
