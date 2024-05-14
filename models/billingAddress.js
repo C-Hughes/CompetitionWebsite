@@ -13,6 +13,7 @@ var billingAddressSchema = new Schema({
     postcode: {type: String, required: true},
     phoneNumber: {type: String, required: false},
     emailAddress: {type: String, required: false},
+    DOB: {type: Date, required: false},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });

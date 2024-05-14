@@ -230,7 +230,7 @@ router.post('/checkout', function(req, res, next) {
             return res.redirect('/checkout');
         }
         
-        var billingAddress = new BillingAddress({
+        var billingAddressUpdate = {
             userReference: req.user,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -241,8 +241,9 @@ router.post('/checkout', function(req, res, next) {
             county: req.body.county,
             postcode: req.body.postcode,
             phoneNumber: req.body.phoneNumber,
-        });
-        billingAddress.save({})
+            lastUpdated: new Date().toISOString(),
+        };
+        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
         .then(() => {
             req.flash('success', 'Your billing details were saved');
             res.redirect('/processCard');

@@ -96,6 +96,7 @@ router.post('/address/:addressType', function(req, res, next) {
             county: req.body.county,
             postcode: req.body.postcode,
             phoneNumber: req.body.phoneNumber,
+            lastUpdated: new Date().toISOString(),
         };
         BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
         .then(() => {
