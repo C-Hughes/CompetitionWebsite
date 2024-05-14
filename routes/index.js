@@ -199,13 +199,15 @@ router.post('/checkout', function(req, res, next) {
     } else {
         //var basket = new Basket(req.session.basket);
         //Input Validation
-        req.checkBody('firstName', 'firstName cannot be empty').notEmpty();
-        req.checkBody('lastName', 'lastName cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'countryRegion cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'streetAddress1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'townCity cannot be empty').notEmpty();
-        req.checkBody('postcode', 'postcode cannot be empty').notEmpty();
-        req.checkBody('email', 'Email is not valid').isEmail();
+        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+        if(req.body.email){
+            req.checkBody('email', 'Email is not valid').isEmail();
+        }        
 
         var errors = req.validationErrors();
         if (errors){
