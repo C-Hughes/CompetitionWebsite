@@ -16,7 +16,7 @@ var competitionSchema = new Schema({
     questionText: {type: String, required: true},
     questionAnswers: [{type: String, required: true}],
     correctAnswer: {type: String, required: true},
-    created: {type: Date, required: true},
+    created: {type: Date, default: Date.now, required: true},
     active: {type: Boolean, required: true, default: true}
 });
 

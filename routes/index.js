@@ -5,6 +5,7 @@ var passport = require('passport');
 var Competition = require('../models/competition');
 var Basket = require('../models/basket');
 var Order = require('../models/order');
+var BillingAddress = require('../models/billingAddress');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,7 +14,7 @@ router.get('/', function(req, res, next) {
             res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, active: { home: true }});
     })
       .catch(err => {
-          console.log(err);
+            console.log(err);
     });
 });
 
@@ -50,12 +51,85 @@ router.get('/checkout', function(req, res, next) {
     }
 });
 
+router.post('/checkout', function(req, res, next) {
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        //var basket = new Basket(req.session.basket);
+
+        var billingAddress = new BillingAddress({
+            userReference: req.user,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            countryRegion: req.body.countryRegion,
+            streetAddress1: req.body.streetAddress1,
+            streetAddress2: req.body.streetAddress2,
+            townCity: req.body.townCity,
+            county: req.body.county,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+        });
+        billingAddress.save({})
+        .then(() => {
+            req.flash('success', 'Your billing details were saved');
+            //req.session.basket = null;
+            res.redirect('/processCard');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+});
+
 router.get('/processCard', function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
         res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+    }
+});
+
+router.post('/processCard', function(req, res, next) {
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        var basket = new Basket(req.session.basket);
+
+        var order = new Order({
+            userReference: req.user,
+            basket: basket,
+            billingAddressReference: {type: Schema.Types.ObjectId, ref: 'BillingAddress', required: true},
+            paymentID: 'TESTREFERENCE',
+            paymentPrice: req.session.basket.totalPrice,
+        });
+        order.save({})
+        .then(() => {
+            req.flash('success', 'Your purchase was successful');
+            req.session.basket = null;
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        /*
+            var newUser = new User();
+                newUser.username = username;
+                newUser.password = newUser.encryptPassword(passwordConf);
+                newUser.email = email;
+                newUser.firstName = firstName;
+                newUser.lastName = lastName;
+                newUser.joindate = new Date();
+                newUser.lastlogin = new Date();
+                newUser.save({})
+                .then(() => {
+                    return done(null, newUser);
+                })
+                .catch(err => {
+                console.log(err);
+                });
+        */
+
     }
 });
 

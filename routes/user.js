@@ -3,6 +3,7 @@ var router = express.Router();
 
 var Order = require('../models/order');
 var Basket = require('../models/basket');
+var BillingAddress = require('../models/billingAddress');
 
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
@@ -29,19 +30,27 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/address', function(req, res, next) {
-  res.render('user/address', { title: 'Addresses', active: { address: true } });
+    var foundAddress = "";
+    BillingAddress.find({user: req.user})
+    .then(foundBAddress => {
+        return res.render('user/address', { title: 'Addresses', billingAddress: foundBAddress, active: { address: true }});
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    res.render('user/address', { title: 'Addresses', active: { address: true } });
 });
 
 router.get('/accountDetails', function(req, res, next) {
-  res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true } });
+    res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true } });
 });
 
 router.get('/rewards', function(req, res, next) {
-  res.render('user/rewards', { title: 'Rewards', active: { rewards: true } });
+    res.render('user/rewards', { title: 'Rewards', active: { rewards: true } });
 });
 
 router.get('/safePlaying', function(req, res, next) {
-  res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true } });
+    res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true } });
 });
 
 
