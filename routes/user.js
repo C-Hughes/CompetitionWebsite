@@ -158,7 +158,7 @@ router.post('/address/:addressType', function(req, res, next) {
 
 
 router.post('/accountDetails/:form', function(req, res, next) {
-    var form = req.params.addressType;
+    var form = req.params.form;
 
     console.log('HERE');
 
