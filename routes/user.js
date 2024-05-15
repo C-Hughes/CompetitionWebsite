@@ -160,8 +160,6 @@ router.post('/address/:addressType', function(req, res, next) {
 router.post('/accountDetails/:form', function(req, res, next) {
     var form = req.params.form;
 
-    console.log('HERE');
-
     if(form == "updateDetails"){
         //Input Validation
         req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
@@ -200,6 +198,36 @@ router.post('/accountDetails/:form', function(req, res, next) {
         User.findOneAndUpdate({_id: req.user}, userDetailsUpdate, {upsert: false})
         .then(() => {
             req.flash('success', 'Your account details were updated');
+            res.redirect('/user/accountDetails');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else if (form == "commsPrefs") {
+        
+        var emailChecked = false;
+        var textChecked = false;
+        var postChecked = false;
+
+        if (req.body.emailComms === 'on') {
+            emailChecked = true;
+        }
+        if (req.body.textComms === 'on') {
+            textChecked = true;
+        }
+        if (req.body.postComms === 'on') {
+            postChecked = true;
+        }
+
+        var userCommsPrefs = {
+            emailComms: emailChecked,
+            textComms: textChecked,
+            postComms: postChecked,
+            lastUpdated: new Date().toISOString(),
+        };
+        User.findOneAndUpdate({_id: req.user}, userCommsPrefs, {upsert: false})
+        .then(() => {
+            req.flash('success', 'Your communication preferences were updated');
             res.redirect('/user/accountDetails');
         })
         .catch(err => {
