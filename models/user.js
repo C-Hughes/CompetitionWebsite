@@ -21,7 +21,8 @@ var userSchema = new Schema({
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
     referralCode: {type: String, required: false},
     joindate: {type: Date, default: Date.now, required: true},
-    lastlogin: {type: Date, default: Date.now, required: true}
+    lastlogin: {type: Date, default: Date.now, required: true},
+    lastUpdated: {type: Date, default: Date.now, required: true}
 });
 
 userSchema.methods.encryptPassword = function(password){

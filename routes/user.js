@@ -66,6 +66,7 @@ router.get('/address', function(req, res, next) {
 router.get('/accountDetails', function(req, res, next) {
     var errors = req.flash('error');
     var success = req.flash('success');
+
     User.findOne({_id: req.user})
     .then(foundUser => {
         if (foundUser) {
@@ -120,7 +121,7 @@ router.post('/address/:addressType', function(req, res, next) {
                 messages.push(error.msg);
             });
             req.flash('error', messages);
-            return res.redirect('/checkout');
+            return res.redirect('/address');
         }
         
         var billingAddressUpdate = {
@@ -155,6 +156,60 @@ router.post('/address/:addressType', function(req, res, next) {
     }
 });
 
+
+router.post('/accountDetails/:form', function(req, res, next) {
+    var form = req.params.addressType;
+
+    console.log('HERE');
+
+    if(form == "updateDetails"){
+        //Input Validation
+        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+        req.checkBody('displayName', 'Display Name cannot be empty').notEmpty();
+        req.checkBody('emailAddress', 'Email Address cannot be empty').notEmpty();
+        req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+        req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+        req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+        req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+        req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+        req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+        
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/user/accountDetails');
+        }
+        
+        var userDetailsUpdate = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            displayName: req.displayName,
+            emailAddress: req.body.emailAddress,
+            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
+            DOBDD: req.body.DOBDD,
+            DOBMM: req.body.DOBMM,
+            DOBYY: req.body.DOBYY,
+            lastUpdated: new Date().toISOString(),
+        };
+        User.findOneAndUpdate({_id: req.user}, userDetailsUpdate, {upsert: false})
+        .then(() => {
+            req.flash('success', 'Your account details were updated');
+            res.redirect('/user/accountDetails');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        req.flash('error', 'Unknown Form Type');
+        res.redirect('/user/accountDetails');
+    }
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 

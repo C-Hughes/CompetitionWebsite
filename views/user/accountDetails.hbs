@@ -13,135 +13,155 @@
         </h2>
     </section>
 
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if successes}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+
     <div class="mx-3">
         <div class="container">
-            <div class="field">
-                <label class="label">First Name</label>
-                <div class="control has-icons-left">
-                    <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userDetails.firstName}}">
-                    <span class="icon is-small is-left">
-                    <i class="fa-solid fa-user"></i>
-                    </span>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Last Name</label>
-                <div class="control has-icons-left">
-                    <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userDetails.lastName}}">
-                    <span class="icon is-small is-left">
-                    <i class="fa-solid fa-user"></i>
-                    </span>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Display Name <span class="has-text-weight-light">(How your name is displayed in the account section and in reviews)</span></label>
-                <div class="control has-icons-left">
-                    <input id="displayName" name="displayName" class="input" type="text" placeholder="Display Name" value="{{userDetails.displayName}}">
-                    <span class="icon is-small is-left">
-                    <i class="fa-solid fa-id-card"></i>
-                    </span>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Email Address</label>
-                <p class="control is-expanded has-icons-left has-icons-right">
-                    <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userDetails.emailAddress}}">
-                    <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                    </span>
-                </p>
-            </div>
-
-            <label class="label">Date of Birth</label>
-            <div class="field is-grouped">
-                <p class="control">
-                    <span class="select">
-                    <select id="DOBDD" name="DOBDD">
-                        <option selected>{{userDetails.DOBDD}}</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                        <option>24</option>
-                        <option>25</option>
-                        <option>26</option>
-                        <option>27</option>
-                        <option>28</option>
-                        <option>29</option>
-                        <option>30</option>
-                        <option>31</option>
-                    </select>
-                    </span>
-                </p>
-                <p class="control">
-                    <span class="select">
-                    <select id="DOBMM" name="DOBMM">
-                        <option selected>{{userDetails.DOBMM}}</option>
-                        <option>January</option>
-                        <option>February</option>
-                        <option>March</option>
-                        <option>April</option>
-                        <option>May</option>
-                        <option>June</option>
-                        <option>July</option>
-                        <option>August</option>
-                        <option>September</option>
-                        <option>October</option>
-                        <option>November</option>
-                        <option>December</option>
-                    </select>
-                    </span>
-                </p>
-                <p class="control">
-                    <span class="select">
-                    <select id="DOBYY" name="DOBYY">
-                        <option selected>{{userDetails.DOBYY}}</option>
-                        <option>2010</option>
-                        <option>2009</option>
-                        <option>2008</option>
-                        <option>2007</option>
-                        <option>2006</option>
-                        <option>2005</option>
-                        <option>2004</option>
-                        <option>2003</option>
-                        <option>2002</option>
-                        <option>2001</option>
-                        <option>2000</option>
-                    </select>
-                    </span>
-                </p>
-            </div>
-            <div class="field-body">
+            <form action="/user/accountDetails/updateDetails" method="post">
                 <div class="field">
-                    <div class="control">
-                        <button class="button is-link">
-                        Save Changes
-                        </button>
+                    <label class="label">First Name</label>
+                    <div class="control has-icons-left">
+                        <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userDetails.firstName}}">
+                        <span class="icon is-small is-left">
+                        <i class="fa-solid fa-user"></i>
+                        </span>
                     </div>
                 </div>
-            </div>
+
+                <div class="field">
+                    <label class="label">Last Name</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userDetails.lastName}}">
+                        <span class="icon is-small is-left">
+                        <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Display Name <span class="has-text-weight-light">(How your name is displayed in the account section and in reviews)</span></label>
+                    <div class="control has-icons-left">
+                        <input id="displayName" name="displayName" class="input" type="text" placeholder="Display Name" value="{{userDetails.displayName}}">
+                        <span class="icon is-small is-left">
+                        <i class="fa-solid fa-id-card"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Email Address</label>
+                    <p class="control is-expanded has-icons-left has-icons-right">
+                        <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userDetails.emailAddress}}">
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+
+                <label class="label">Date of Birth</label>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <span class="select">
+                        <select id="DOBDD" name="DOBDD">
+                            <option selected>{{userDetails.DOBDD}}</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option>15</option>
+                            <option>16</option>
+                            <option>17</option>
+                            <option>18</option>
+                            <option>19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
+                            <option>26</option>
+                            <option>27</option>
+                            <option>28</option>
+                            <option>29</option>
+                            <option>30</option>
+                            <option>31</option>
+                        </select>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <span class="select">
+                        <select id="DOBMM" name="DOBMM">
+                            <option selected>{{userDetails.DOBMM}}</option>
+                            <option>January</option>
+                            <option>February</option>
+                            <option>March</option>
+                            <option>April</option>
+                            <option>May</option>
+                            <option>June</option>
+                            <option>July</option>
+                            <option>August</option>
+                            <option>September</option>
+                            <option>October</option>
+                            <option>November</option>
+                            <option>December</option>
+                        </select>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <span class="select">
+                        <select id="DOBYY" name="DOBYY">
+                            <option selected>{{userDetails.DOBYY}}</option>
+                            <option>2010</option>
+                            <option>2009</option>
+                            <option>2008</option>
+                            <option>2007</option>
+                            <option>2006</option>
+                            <option>2005</option>
+                            <option>2004</option>
+                            <option>2003</option>
+                            <option>2002</option>
+                            <option>2001</option>
+                            <option>2000</option>
+                        </select>
+                        </span>
+                    </p>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                        <div class="control">
+                            <button type="submit" class="button is-link">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>    
         </div>
     </div>
 
