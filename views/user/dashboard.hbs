@@ -41,7 +41,7 @@
                                                 <div class="has-text-centered">
                                                     <div>
                                                         <p class="title is-6" style="height: 50px">Win this {{this.item.title}}!</p>
-                                                        <p class="subtitle is-6"><strong>Draw Date:</strong> {{this.item.drawDate}}</p>
+                                                        <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.item.drawDate}}</p>
                                                         <p class="subtitle is-6">You have<strong> {{this.qty}} </strong>tickets</p>
                                                         <p class="subtitle is-6">Answer: <strong> {{this.questionAnswer}} </strong></p>
                                                         <button onclick="toggleElement('comp_{{this.uniqueID}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>

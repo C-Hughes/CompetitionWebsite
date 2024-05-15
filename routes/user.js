@@ -4,6 +4,7 @@ var router = express.Router();
 var Order = require('../models/order');
 var Basket = require('../models/basket');
 var BillingAddress = require('../models/billingAddress');
+var User = require('../models/user');
 
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
@@ -63,7 +64,20 @@ router.get('/address', function(req, res, next) {
 });
 
 router.get('/accountDetails', function(req, res, next) {
-    res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true } });
+    var errors = req.flash('error');
+    var success = req.flash('success');
+    User.findOne({_id: req.user})
+    .then(foundUser => {
+        if (foundUser) {
+            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: foundUser, error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
+        } else {
+            console.log("Error getting user details");
+            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: "", error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get('/rewards', function(req, res, next) {

@@ -71,6 +71,7 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.email = email;
                 newUser.firstName = firstName;
                 newUser.lastName = lastName;
+                newUser.displayName = username;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
                 newUser.save({})

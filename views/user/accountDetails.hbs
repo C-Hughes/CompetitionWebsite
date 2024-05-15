@@ -18,7 +18,7 @@
             <div class="field">
                 <label class="label">First Name</label>
                 <div class="control has-icons-left">
-                    <input class="input" type="text" placeholder="Alex" value="Alex">
+                    <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userDetails.firstName}}">
                     <span class="icon is-small is-left">
                     <i class="fa-solid fa-user"></i>
                     </span>
@@ -28,7 +28,7 @@
             <div class="field">
                 <label class="label">Last Name</label>
                 <div class="control has-icons-left">
-                    <input class="input" type="email" placeholder="Smith" value="Smith">
+                    <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userDetails.lastName}}">
                     <span class="icon is-small is-left">
                     <i class="fa-solid fa-user"></i>
                     </span>
@@ -38,7 +38,7 @@
             <div class="field">
                 <label class="label">Display Name <span class="has-text-weight-light">(How your name is displayed in the account section and in reviews)</span></label>
                 <div class="control has-icons-left">
-                    <input class="input" type="text" placeholder="Smith" value=" Alex Smith">
+                    <input id="displayName" name="displayName" class="input" type="text" placeholder="Display Name" value="{{userDetails.displayName}}">
                     <span class="icon is-small is-left">
                     <i class="fa-solid fa-id-card"></i>
                     </span>
@@ -48,12 +48,9 @@
             <div class="field">
                 <label class="label">Email Address</label>
                 <p class="control is-expanded has-icons-left has-icons-right">
-                    <input class="input" type="email" placeholder="Email" value="alex@smith.com">
+                    <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userDetails.emailAddress}}">
                     <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
-                    </span>
-                    <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
                     </span>
                 </p>
             </div>
@@ -62,7 +59,8 @@
             <div class="field is-grouped">
                 <p class="control">
                     <span class="select">
-                    <select>
+                    <select id="DOBDD" name="DOBDD">
+                        <option selected>{{userDetails.DOBDD}}</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -71,7 +69,8 @@
                 </p>
                 <p class="control">
                     <span class="select">
-                    <select>
+                    <select id="DOBMM" name="DOBMM">
+                        <option selected>{{userDetails.DOBMM}}</option>
                         <option>January</option>
                         <option>February</option>
                         <option>March</option>
@@ -80,7 +79,8 @@
                 </p>
                 <p class="control">
                     <span class="select">
-                    <select>
+                    <select id="DOBYY" name="DOBYY">
+                        <option selected>{{userDetails.DOBYY}}</option>
                         <option>2024</option>
                         <option>2023</option>
                         <option>2022</option>
