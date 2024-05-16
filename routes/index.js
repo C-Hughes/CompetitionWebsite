@@ -90,19 +90,19 @@ router.get('/processCard', function(req, res, next) {
 router.get('/orderReceived', function(req, res, next) {
     var success = req.flash('success');
 
-    Order.findOne({userReference: req.user}, { sort: { 'created' : -1 } })
+    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
     .then(foundOrders => {
         if (foundOrders) {
             var basket;
-            foundOrders.forEach(function(order){
-                basket = new Basket(order.basket);
-                order.items = basket.generateArray();
+            //foundOrders.forEach(function(order){
+            basket = new Basket(foundOrders.basket);
+            foundOrders.items = basket.generateArray();
 
-            });
+            //});
 
-            return res.render('orderReceived', { title: 'Order Received', orders: foundOrders, hasOrders: foundOrders.length > 0, success: success, hasSuccess: success.length > 0});
+            return res.render('orderReceived', { title: 'Order Received', orders: foundOrder, success: success, hasSuccess: success.length > 0});
         } else {
-            console.log("No Orders Found");
+            console.log("No Order Found");
             return res.render('orderReceived', { title: 'Order Received', orders: "", success: success, hasSuccess: success.length > 0});
         }
     })
@@ -296,11 +296,13 @@ router.post('/processCard', function(req, res, next) {
                                     orderReference: order._id,
                                     basket: basket,
                                     paymentID: order.paymentID,
-                                    ticketQty: { $inc: comp.qty },
+                                    //ticketQty: { $inc: comp.qty },
+                                    $inc: { ticketQty: comp.qty },
                                     compAnswer: comp.questionAnswer,
                                     //ticketNumbers: newTicketNumbers,
                                     '$push': { ticketNumbers: newTicketNumbers },
                                     mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
+                                    lastUpdated: new Date().toISOString(),
                                 };
                                 Ticket.findOneAndUpdate({userReference: req.user}, ticketUpdate, {upsert: true})
                                 .then(() => {
