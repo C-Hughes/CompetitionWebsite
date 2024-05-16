@@ -2,7 +2,6 @@ module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
     this.totalQty = oldBasket.totalQty || 0;
     this.totalPrice = oldBasket.totalPrice || 0;
-    this.questionAnswer = oldBasket.questionAnswer || "";
 
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
@@ -24,6 +23,11 @@ module.exports = function Basket(oldBasket){
 
         if (this.items[id].qty <= 0){
             delete this.items[id];
+
+            if(this.items.length == 0){
+                this.totalPrice = 0;
+                this.totalQty = 0;
+            }
         }
     };
 
@@ -40,6 +44,11 @@ module.exports = function Basket(oldBasket){
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         delete this.items[id];
+
+        if(this.items.length == 0){
+            this.totalPrice = 0;
+            this.totalQty = 0;
+        }
     };
 
     this.generateArray = function() {
