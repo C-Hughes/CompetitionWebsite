@@ -52,7 +52,7 @@ passport.use('local.signup', new LocalStrategy({
     }
 
     //Check if email already exists
-    User.findOne({'email': email})
+    User.findOne({'emailAddress': email})
     .then((user) => {
         if (user && email != "") {
             return done(null, false, req.flash('sError', 'Email is already in use.'));
@@ -68,7 +68,7 @@ passport.use('local.signup', new LocalStrategy({
                 var newUser = new User();
                 newUser.username = username;
                 newUser.password = newUser.encryptPassword(passwordConf);
-                newUser.email = email;
+                newUser.emailAddress = email;
                 newUser.firstName = firstName;
                 newUser.lastName = lastName;
                 newUser.displayName = username;
@@ -82,13 +82,13 @@ passport.use('local.signup', new LocalStrategy({
                 console.log(err);
                 });
             })
-                .catch(err => {
-                console.log(err);
+            .catch(err => {
+            console.log(err);
           });
         }
     })
-      .catch(err => {
-        console.log(err);
+    .catch(err => {
+    console.log(err);
     });
 }));
 
