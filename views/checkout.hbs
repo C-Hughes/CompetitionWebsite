@@ -9,7 +9,20 @@
         <div class="columns is-multiline">
             <div class="column is-full my-6">
                 <div class="notification is-info has-text-centered">
-                    Have a coupon? <a href="">Click here to enter your code</a>
+                    Have a coupon? <button type="button" class="is-link" onclick="toggleElement('couponInput')"><u>Click here to enter your code</u></button>
+                </div>
+                <div id="couponInput" class="field is-centered" style="display: none;">
+                    <label class="label">If you have a coupon code, please apply it below.</label>
+                    <div class="field-body">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input" type="text" placeholder="Coupon Code">
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{#if errors}}
