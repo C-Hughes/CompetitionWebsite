@@ -143,7 +143,7 @@ router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
             if (foundCompetition) {
                 basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
                 req.session.basket = basket;
-                res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true});
+                res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true, ticketQty: ticketQty});
             } else {
                 //req.flash('error', 'This competition does not exists.');
                 console.log("Not Found");
