@@ -91,19 +91,19 @@ router.get('/orderReceived', function(req, res, next) {
     var success = req.flash('success');
 
     Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
-    .then(foundOrders => {
-        if (foundOrders) {
+    .then(foundOrder => {
+        if (foundOrder) {
             var basket;
-            //foundOrders.forEach(function(order){
-            basket = new Basket(foundOrders.basket);
-            foundOrders.items = basket.generateArray();
+            //foundOrder.forEach(function(order){
+            basket = new Basket(foundOrder.basket);
+            foundOrder.items = basket.generateArray();
 
             //});
 
-            return res.render('orderReceived', { title: 'Order Received', orders: foundOrder, success: success, hasSuccess: success.length > 0});
+            return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
         } else {
             console.log("No Order Found");
-            return res.render('orderReceived', { title: 'Order Received', orders: "", success: success, hasSuccess: success.length > 0});
+            return res.render('orderReceived', { title: 'Order Received', order: "", success: success, hasSuccess: success.length > 0});
         }
     })
     .catch(err => {
