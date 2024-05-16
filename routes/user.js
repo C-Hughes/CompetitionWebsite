@@ -5,6 +5,7 @@ var Order = require('../models/order');
 var Basket = require('../models/basket');
 var BillingAddress = require('../models/billingAddress');
 var User = require('../models/user');
+var Ticket = require('../models/ticket');
 
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
@@ -15,6 +16,30 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    Ticket.find({userReference: req.user})
+    .then(foundTickets => {
+        if (foundTickets) {
+            //var basket;
+            var compArr = [];
+            foundTickets.forEach(function(comp){
+                //basket = new Basket(order.basket);
+                //order.items = basket.generateArray();
+                compArr.push(comp);
+            });
+
+            console.log('comp: '+compArr);
+
+            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, competitions: compArr, hasCompetitions: foundTickets.length > 0});
+        } else {
+            console.log("No Competitions Found");
+            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, competitions: ""});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
+/*
     Order.find({userReference: req.user})
     .then(foundOrders => {
         if (foundOrders) {
@@ -33,6 +58,7 @@ router.get('/', function(req, res, next) {
                     }
                 }
                 */
+               /*
             });
 
             return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders, hasOrders: foundOrders.length > 0});
@@ -44,6 +70,8 @@ router.get('/', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
+*/
+
 });
 
 router.get('/address', function(req, res, next) {

@@ -89,7 +89,26 @@ router.get('/processCard', function(req, res, next) {
 
 router.get('/orderReceived', function(req, res, next) {
     var success = req.flash('success');
-    res.render('orderReceived', { title: 'Order Received', success: success, hasSuccess: success.length > 0 });
+
+    Order.findOne({userReference: req.user}, { sort: { 'created' : -1 } })
+    .then(foundOrders => {
+        if (foundOrders) {
+            var basket;
+            foundOrders.forEach(function(order){
+                basket = new Basket(order.basket);
+                order.items = basket.generateArray();
+
+            });
+
+            return res.render('orderReceived', { title: 'Order Received', orders: foundOrders, hasOrders: foundOrders.length > 0, success: success, hasSuccess: success.length > 0});
+        } else {
+            console.log("No Orders Found");
+            return res.render('orderReceived', { title: 'Order Received', orders: "", success: success, hasSuccess: success.length > 0});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get('/competition/:id', function(req, res, next) {
@@ -228,15 +247,8 @@ router.post('/processCard', function(req, res, next) {
                             if (foundCompetition) {
                                 var soldCompTicketNumbers = foundCompetition.ticketNumbersSold;
                                 var newTicketNumbers = [];
-                                //var toGenerate = Array.from(Array(comp.qty).keys());
 
-                                //Randomly generate a ticket for the qauntity purchased
-                                //toGenerate.forEach(function(foundCompetition) {
-                                //    var count = 0;
-
-                                for(let i = 0; i< comp.qty; i++){
-                                    //your code
-                                 
+                                for(let i = 0; i< comp.qty; i++){                                 
                                     console.log('Tickets Generated'+i+'/'+comp.qty);
 
                                     var foundRandomNumber = false;
@@ -273,19 +285,22 @@ router.post('/processCard', function(req, res, next) {
                                     soldCompTicketNumbers.push(randomTicketNumber);
                                     console.log('UPDATE NEW TICKET NUMBERS '+newTicketNumbers);
                                     console.log('UPDATE COMP SOLD TICKET NUMBERS '+soldCompTicketNumbers);
-                                //});
                                 }
                                 console.log('ALL TICKETS GENERATED');
                                 //Save all ticket number in the tickets DB.
                                 var ticketUpdate = {
                                     userReference: req.user,
                                     competitionReference: comp.item._id,
+                                    competitionTitle: comp.item.title,
+                                    competitionDrawDate: comp.item.drawDate,
                                     orderReference: order._id,
                                     basket: basket,
                                     paymentID: order.paymentID,
-                                    ticketQty: comp.qty,
+                                    ticketQty: { $inc: comp.qty },
                                     compAnswer: comp.questionAnswer,
-                                    ticketNumbers: newTicketNumbers,
+                                    //ticketNumbers: newTicketNumbers,
+                                    '$push': { ticketNumbers: newTicketNumbers },
+                                    mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
                                 };
                                 Ticket.findOneAndUpdate({userReference: req.user}, ticketUpdate, {upsert: true})
                                 .then(() => {
