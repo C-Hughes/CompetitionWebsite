@@ -13,6 +13,7 @@ var competitionSchema = new Schema({
     maxEntries: {type: Number, required: true},
     maxEntriesPerPerson: {type: Number, required: true, default: 100},
     maxPostalVotes: {type: Number, required: true, default: 1},
+    ticketNumbersSold: [{type: Number, required: false}],
     questionText: {type: String, required: true},
     questionAnswers: [{type: String, required: true}],
     correctAnswer: {type: String, required: true},

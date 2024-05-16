@@ -6,6 +6,7 @@ var Competition = require('../models/competition');
 var Basket = require('../models/basket');
 var Order = require('../models/order');
 var BillingAddress = require('../models/billingAddress');
+var Ticket = require('../models/ticket');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -47,6 +48,13 @@ router.get('/checkout', function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
+
+        //For each item in the basket, lookup in DB how many tickets have been sold
+        //Check if user can purchase any more tickets based on max tickets per competition
+        //Check if user can purchase any more tickets based on max tickets per user
+        //Update basket accordingly
+
+
         var basket = new Basket(req.session.basket);
 
         BillingAddress.findOne({userReference: req.user})
@@ -68,6 +76,12 @@ router.get('/processCard', function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
+
+        //For each item in the basket, lookup in DB how many tickets have been sold
+        //Check if user can purchase any more tickets based on max tickets per competition
+        //Check if user can purchase any more tickets based on max tickets per user
+        //Update basket accordingly
+
         var basket = new Basket(req.session.basket);
         res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
     }
@@ -91,8 +105,8 @@ router.get('/competition/:id', function(req, res, next) {
             console.log("Not Found");
             res.redirect('/');
         }
-      })
-      .catch(err => {
+    })
+    .catch(err => {
         console.log(err);
     });
 });
@@ -104,7 +118,12 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
-        //console.log(basket.generateArray());
+
+        //For each item in the basket, lookup in DB how many tickets have been sold
+        //Check if user can purchase any more tickets based on max tickets per competition
+        //Check if user can purchase any more tickets based on max tickets per user
+        //Update basket accordingly
+
         res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
     }
 });
@@ -194,6 +213,77 @@ router.post('/processCard', function(req, res, next) {
                 order.save({})
                 .then(() => {
                     console.log('SUCCESS SAVE ORDER');
+                    //Next iterate through every item in the basket.
+                    var competitionEntries = basket.generateArray();
+                    //For each item:
+                    competitionEntries.forEach(function(comp){
+                        console.log('CompID ' + comp.item._id);
+                        console.log('qty ' + comp.qty);
+                        console.log('answer ' + comp.questionAnswer);
+                        console.log('max entries ' + comp.maxEntries);
+
+                        //Get a list of all ticket numbers sold for that competition
+                        Competition.findOne({ _id: compID })
+                        .then((foundCompetition) => {
+                            if (foundCompetition) {
+                                var soldTicketNumber = foundCompetition.ticketNumbersSold;
+                                var newTicketNumbers = [];
+
+                                //Randomly generate a ticket for the qauntity purchased
+                                for (var i = 0; i < comp.qty; i++) {
+                                    var foundRandomNumber = false;
+                                    //Check if that ticketnumber has already been purchased, if it has generate a new one.
+                                    while(!foundRandomNumber){
+                                        var randomTicketNumber = Math.floor(Math.random() * comp.maxEntries) + 1;
+                                        for (var i = 0; i < soldTicketNumber.length; i++) {
+                                            if (soldTicketNumber[i] == randomTicketNumber) 
+                                            foundRandomNumber = true;
+                                        }
+                                    }
+                                    newTicketNumbers.push(randomTicketNumber);
+                                }
+
+                                //Save all ticket number in the tickets DB.
+                                var ticketUpdate = {
+                                    userReference: req.user,
+                                    competitionReference: comp.item._id,
+                                    orderReference: order._id,
+                                    basket: basket,
+                                    paymentID: order.paymentID,
+                                    ticketQty: comp.qty,
+                                    compAnswer: comp.questionAnswer,
+                                    ticketNumbers: newTicketNumbers,
+                                };
+                                Ticket.findOneAndUpdate({userReference: req.user}, ticketUpdate, {upsert: true})
+                                .then(() => {
+                                    console.log('SAVED TICKETS IN TICKET DB');
+                                    //Concart arrays - 
+                                    soldTicketNumber = soldTicketNumber.concat(newTicketNumbers);
+                                    //Update tickets sold to array in competitions DB entry
+                                    var competitionTicketsUpdate = {
+                                        ticketNumbersSold: soldTicketNumber,
+                                    }
+                                    Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
+                                    .then(() => {
+                                        console.log('SOLD TICKETS UPDATED IN COMPETITION DB '+comp.item.title);
+                                        next();
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                            } else {
+                                req.flash('error', 'This competition does not exists.');
+                                res.redirect('/basket');
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                    });
                     req.flash('success', 'Your purchase was successful');
                     req.session.basket = null;
                     res.redirect('/orderReceived');

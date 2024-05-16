@@ -8,6 +8,7 @@ var ticketSchema = new Schema({
     basket: {type: Object, required: true},
     paymentID: {type: String, required: true},
     ticketQty: {type: Number, required: true},
+    compAnswer: {type: String, required: true},
     ticketNumbers: [{type: Number, required: true}],
     created: {type: Date, default: Date.now, required: true},
 });
