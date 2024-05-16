@@ -98,7 +98,11 @@ router.get('/orderReceived', function(req, res, next) {
             basket = new Basket(foundOrder.basket);
             foundOrder.items = basket.generateArray();
 
+            //Foreach item in basket
+
+            //Lookup ticket database where item.id = competition reference ID
             //});
+            console.log('foundOrder'+foundOrder);
 
             return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
         } else {
@@ -230,8 +234,8 @@ router.post('/processCard', function(req, res, next) {
                 });
                 console.log('SAVE ORDER');
                 order.save({})
-                .then(() => {
-                    console.log('SUCCESS SAVE ORDER');
+                .then((savedOrder) => {
+                    console.log('SUCCESS SAVE ORDER - ID= '+savedOrder.id);
                     //Next iterate through every item in the basket.
                     var competitionEntries = basket.generateArray();
                     //For each item:
@@ -285,6 +289,10 @@ router.post('/processCard', function(req, res, next) {
                                     soldCompTicketNumbers.push(randomTicketNumber);
                                     console.log('UPDATE NEW TICKET NUMBERS '+newTicketNumbers);
                                     console.log('UPDATE COMP SOLD TICKET NUMBERS '+soldCompTicketNumbers);
+                                    //Update basket
+                                    comp.ticketNumbers = newTicketNumbers;
+                                    console.log("!!!!!!!!!!COMPTICKET NUMBERS"+comp.ticketNumbers);
+                                    console.log("!!!!!!!!!!competitionEntries"+competitionEntries);
                                 }
                                 console.log('ALL TICKETS GENERATED');
                                 //Save all ticket number in the tickets DB.
@@ -294,7 +302,7 @@ router.post('/processCard', function(req, res, next) {
                                     competitionTitle: comp.item.title,
                                     competitionDrawDate: comp.item.drawDate,
                                     orderReference: order._id,
-                                    basket: basket,
+                                    basket: competitionEntries,
                                     paymentID: order.paymentID,
                                     //ticketQty: { $inc: comp.qty },
                                     $inc: { ticketQty: comp.qty },
@@ -321,6 +329,19 @@ router.post('/processCard', function(req, res, next) {
                                     Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
                                     .then(() => {
                                         console.log('SOLD TICKETS UPDATED IN COMPETITION DB '+comp.item.title);
+
+
+
+
+
+                                        //Update most recent order to include updated basket with ticket numbers.
+                                        Order.findOneAndUpdate({_id: savedOrder.id}, {basket:competitionEntries}, {upsert: false})
+                                        .then(() => {
+                                            console.log('ORDER UPDATED WITH TICKET NUMBERS '+comp.item.title);
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                        });
                                     })
                                     .catch(err => {
                                         console.log(err);

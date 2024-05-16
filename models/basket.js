@@ -7,7 +7,7 @@ module.exports = function Basket(oldBasket){
         var storedItem = this.items[id+answer];
         if(!storedItem){
             //var price = qty * item.price;
-            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer};
+            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
         storedItem.price = storedItem.item.price * storedItem.qty;
