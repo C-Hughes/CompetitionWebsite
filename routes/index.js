@@ -262,6 +262,7 @@ router.post('/processCard', function(req, res, next) {
                                     //Update tickets sold to array in competitions DB entry
                                     var competitionTicketsUpdate = {
                                         ticketNumbersSold: soldTicketNumber,
+                                        $inc : {'currentEntries' : comp.qty},
                                     }
                                     Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
                                     .then(() => {

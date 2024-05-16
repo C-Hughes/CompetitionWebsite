@@ -9,7 +9,6 @@ var competitionSchema = new Schema({
     price: {type: Number, required: true},
     drawDate: {type: Date, required: true},
     currentEntries: {type: Number, required: true, default: 0},
-    //entriesReference: {type: Schema.Types.ObjectId, ref: 'Entries', required: true},
     maxEntries: {type: Number, required: true},
     maxEntriesPerPerson: {type: Number, required: true, default: 100},
     maxPostalVotes: {type: Number, required: true, default: 1},
