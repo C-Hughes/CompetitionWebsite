@@ -9,7 +9,6 @@ var orderSchema = new Schema({
     billingAddressReference: {type: Schema.Types.ObjectId, ref: 'BillingAddress', required: true},
     paymentID: {type: String, required: true},
     paymentPrice: {type: Number, required: true},
-    ticketNumbers: [{type: Number, required: true}],
     created: {type: Date, default: Date.now, required: true},
 });
 
