@@ -220,29 +220,56 @@ router.post('/processCard', function(req, res, next) {
                         console.log('CompID ' + comp.item._id);
                         console.log('qty ' + comp.qty);
                         console.log('answer ' + comp.questionAnswer);
-                        console.log('max entries ' + comp.maxEntries);
 
                         //Get a list of all ticket numbers sold for that competition
-                        Competition.findOne({ _id: compID })
+                        Competition.findOne({ _id: comp.item._id })
                         .then((foundCompetition) => {
+
+                            console.log('HERE');
                             if (foundCompetition) {
-                                var soldTicketNumber = foundCompetition.ticketNumbersSold;
+                                console.log('HER2');
+                                var soldCompTicketNumbers = foundCompetition.ticketNumbersSold;
                                 var newTicketNumbers = [];
 
                                 //Randomly generate a ticket for the qauntity purchased
                                 for (var i = 0; i < comp.qty; i++) {
+                                    console.log('HER3');
                                     var foundRandomNumber = false;
                                     //Check if that ticketnumber has already been purchased, if it has generate a new one.
-                                    while(!foundRandomNumber){
-                                        var randomTicketNumber = Math.floor(Math.random() * comp.maxEntries) + 1;
-                                        for (var i = 0; i < soldTicketNumber.length; i++) {
-                                            if (soldTicketNumber[i] == randomTicketNumber) 
+                                    while(foundRandomNumber == false){
+                                        console.log('MAXE '+foundCompetition.maxEntries);
+
+                                        //Generate random Ticket Number
+                                        var randomTicketNumber = Math.floor(Math.random() * foundCompetition.maxEntries) + 1;
+                                        console.log('RANDOM NUMBER '+randomTicketNumber);
+                                        
+                                        //if any tickets for the competition have been sold
+                                        if(soldCompTicketNumbers.length!=0){
+                                            console.log('TICKETS HAVE BEEN SOLD');
+
+                                            //Loop through all tickets sold so far
+                                            for (var i = 0; i < soldCompTicketNumbers.length; i++) {
+                                                
+                                                var duplicateFound = false;
+                                                //If sold ticket number == the random ticket generated,
+                                                if (soldCompTicketNumbers[i] == randomTicketNumber) {
+                                                    duplicateFound = true;
+                                                }
+                                            }
+                                            //If a duplicate has not been found, set foundRandomNumber to true
+                                            if(duplicateFound == false){
+                                                foundRandomNumber = true;
+                                            }
+                                        } else {
+                                            //If no tickets have been sold so far
+                                            console.log('NO TICKETS SOLD');
                                             foundRandomNumber = true;
                                         }
                                     }
                                     newTicketNumbers.push(randomTicketNumber);
+                                    soldCompTicketNumbers.push(randomTicketNumber);
                                 }
-
+                                console.log('TICKETS GENERATED');
                                 //Save all ticket number in the tickets DB.
                                 var ticketUpdate = {
                                     userReference: req.user,
@@ -258,16 +285,16 @@ router.post('/processCard', function(req, res, next) {
                                 .then(() => {
                                     console.log('SAVED TICKETS IN TICKET DB');
                                     //Concart arrays - 
-                                    soldTicketNumber = soldTicketNumber.concat(newTicketNumbers);
+                                    soldCompTicketNumbers = soldCompTicketNumbers.concat(newTicketNumbers);
                                     //Update tickets sold to array in competitions DB entry
                                     var competitionTicketsUpdate = {
-                                        ticketNumbersSold: soldTicketNumber,
+                                        ticketNumbersSold: soldCompTicketNumbers,
                                         $inc : {'currentEntries' : comp.qty},
                                     }
                                     Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
                                     .then(() => {
                                         console.log('SOLD TICKETS UPDATED IN COMPETITION DB '+comp.item.title);
-                                        next();
+                                        //next();
                                     })
                                     .catch(err => {
                                         console.log(err);
@@ -278,7 +305,8 @@ router.post('/processCard', function(req, res, next) {
                                 });
                             } else {
                                 req.flash('error', 'This competition does not exists.');
-                                res.redirect('/basket');
+                                console.log('ERROR COMPETITION DOES NOT EXIST');
+                                return res.redirect('/basket');
                             }
                         })
                         .catch(err => {
@@ -286,8 +314,9 @@ router.post('/processCard', function(req, res, next) {
                         });
                     });
                     req.flash('success', 'Your purchase was successful');
+                    console.log("Success Purchase Successful");
                     req.session.basket = null;
-                    res.redirect('/orderReceived');
+                    return res.redirect('/orderReceived');
                 })
                 .catch(err => {
                     console.log(err);
