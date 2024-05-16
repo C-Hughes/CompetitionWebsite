@@ -291,7 +291,11 @@ router.post('/processCard', function(req, res, next) {
                                 .then(() => {
                                     console.log('SAVED TICKETS IN TICKET DB');
                                     //Concart arrays - 
-                                    soldCompTicketNumbers = soldCompTicketNumbers.concat(newTicketNumbers);
+                                    //soldCompTicketNumbers = soldCompTicketNumbers.concat(newTicketNumbers);
+                                    soldCompTicketNumbers = soldCompTicketNumbers.sort(function(a, b) {
+                                        return a - b;
+                                    });
+                                    console.log('SORTED TICKETS SOLD ARRAY '+ soldCompTicketNumbers);
                                     //Update tickets sold to array in competitions DB entry
                                     var competitionTicketsUpdate = {
                                         ticketNumbersSold: soldCompTicketNumbers,
