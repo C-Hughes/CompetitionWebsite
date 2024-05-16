@@ -32,9 +32,9 @@
             <ul>
                 <li class="is-active">
                     <div class="columns is-multiline">
-                        {{#if hasOrders}}
-                            {{# each orders}}
-                                {{# each this.items}}
+                        {{#if hasCompetitions}}
+                            {{# each competitions}}
+                                {{# each this.basket}}
                                     {{#ifDateInPast this.item.drawDate}}
                                         <div class="column is-one-third">
                                             <div class="box">
@@ -46,7 +46,7 @@
                                                         <p class="subtitle is-6">Answer: <strong> {{this.questionAnswer}} </strong></p>
                                                         <button onclick="toggleElement('comp_{{this.uniqueID}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
                                                         <br />
-                                                        <p id="comp_{{this.uniqueID}}" class="notification" style="display:none">61469, 77048, 68049, 02551, 24551, 71252, 91010, 80851, 17251, 13489, 71525, 45160, 96716, 5632</p>
+                                                        <p id="comp_{{this.uniqueID}}" class="notification" style="display:none">{{this.ticketNumbers}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -66,10 +66,10 @@
                 </li>
                 <li>
                     <div class="columns is-multiline">
-                        {{#if hasOrders}}
-                            {{# each orders}}
-                                {{# each this.items}}
-                                    {{#ifDateInPast this.item.drawDate}} 
+                        {{#if hasCompetitions}}
+                            {{# each competitions}}
+                                {{# each this.basket}}
+                                    {{#ifDateInPast this.item.drawDate}}
                                     {{else}}
                                         <div class="column is-one-third">
                                             <div class="box">

@@ -94,14 +94,9 @@ router.get('/orderReceived', function(req, res, next) {
     .then(foundOrder => {
         if (foundOrder) {
             var basket;
-            //foundOrder.forEach(function(order){
             basket = new Basket(foundOrder.basket);
             foundOrder.items = basket.generateArray();
 
-            //Foreach item in basket
-
-            //Lookup ticket database where item.id = competition reference ID
-            //});
             console.log('foundOrder'+foundOrder);
 
             return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
@@ -329,10 +324,6 @@ router.post('/processCard', function(req, res, next) {
                                     Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
                                     .then(() => {
                                         console.log('SOLD TICKETS UPDATED IN COMPETITION DB '+comp.item.title);
-
-
-
-
 
                                         //Update most recent order to include updated basket with ticket numbers.
                                         Order.findOneAndUpdate({_id: savedOrder.id}, {basket:competitionEntries}, {upsert: false})
