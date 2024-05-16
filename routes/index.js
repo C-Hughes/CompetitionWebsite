@@ -225,20 +225,23 @@ router.post('/processCard', function(req, res, next) {
                         Competition.findOne({ _id: comp.item._id })
                         .then((foundCompetition) => {
 
-                            console.log('HERE');
                             if (foundCompetition) {
-                                console.log('HER2');
                                 var soldCompTicketNumbers = foundCompetition.ticketNumbersSold;
                                 var newTicketNumbers = [];
+                                //var toGenerate = Array.from(Array(comp.qty).keys());
 
                                 //Randomly generate a ticket for the qauntity purchased
-                                for (var i = 0; i < comp.qty; i++) {
-                                    console.log('HER3');
+                                //toGenerate.forEach(function(foundCompetition) {
+                                //    var count = 0;
+
+                                for(let i = 0; i< comp.qty; i++){
+                                    //your code
+                                 
+                                    console.log('Tickets Generated'+i+'/'+comp.qty);
+
                                     var foundRandomNumber = false;
                                     //Check if that ticketnumber has already been purchased, if it has generate a new one.
                                     while(foundRandomNumber == false){
-                                        console.log('MAXE '+foundCompetition.maxEntries);
-
                                         //Generate random Ticket Number
                                         var randomTicketNumber = Math.floor(Math.random() * foundCompetition.maxEntries) + 1;
                                         console.log('RANDOM NUMBER '+randomTicketNumber);
@@ -248,11 +251,11 @@ router.post('/processCard', function(req, res, next) {
                                             console.log('TICKETS HAVE BEEN SOLD');
 
                                             //Loop through all tickets sold so far
-                                            for (var i = 0; i < soldCompTicketNumbers.length; i++) {
+                                            for (var j = 0; j < soldCompTicketNumbers.length; j++) {
                                                 
                                                 var duplicateFound = false;
                                                 //If sold ticket number == the random ticket generated,
-                                                if (soldCompTicketNumbers[i] == randomTicketNumber) {
+                                                if (soldCompTicketNumbers[j] == randomTicketNumber) {
                                                     duplicateFound = true;
                                                 }
                                             }
@@ -268,8 +271,11 @@ router.post('/processCard', function(req, res, next) {
                                     }
                                     newTicketNumbers.push(randomTicketNumber);
                                     soldCompTicketNumbers.push(randomTicketNumber);
+                                    console.log('UPDATE NEW TICKET NUMBERS '+newTicketNumbers);
+                                    console.log('UPDATE COMP SOLD TICKET NUMBERS '+soldCompTicketNumbers);
+                                //});
                                 }
-                                console.log('TICKETS GENERATED');
+                                console.log('ALL TICKETS GENERATED');
                                 //Save all ticket number in the tickets DB.
                                 var ticketUpdate = {
                                     userReference: req.user,
@@ -294,7 +300,6 @@ router.post('/processCard', function(req, res, next) {
                                     Competition.findOneAndUpdate({_id: comp.item._id}, competitionTicketsUpdate, {upsert: false})
                                     .then(() => {
                                         console.log('SOLD TICKETS UPDATED IN COMPETITION DB '+comp.item.title);
-                                        //next();
                                     })
                                     .catch(err => {
                                         console.log(err);
