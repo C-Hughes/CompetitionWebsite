@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
     var success = req.flash('success');
     Competition.find({})
       .then(foundCompetition => {
-            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, active: { home: true }, success: success, hasSuccess: success.length > 0});
+            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, areCompetitions: foundCompetition.length > 0, active: { home: true }, success: success, hasSuccess: success.length > 0});
     })
       .catch(err => {
             console.log(err);

@@ -44,12 +44,42 @@
     </nav>
 </section>
 
-
+{{#if areCompetitions}}
 <section class="hero">
     <div class="hero-body">
         <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
     </div>
 </section>       
+{{else}}
+<section class="hero">
+    <div class="hero-body">
+        <p class="title has-text-centered is-uppercase">Check back later for more competitions!</p>
+    </div>
+</section>     
+    
+<div class="container is-max-fullhd">
+    <div class="columns is-multiline">
+        <div class="column"></div>
+        <div class="column is-half">    
+            <div class="field" style="margin-bottom: 100px">
+                <label class="label">Sign up to alerts when new competitions are added!</label>
+                <div class="field-body">
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="email" placeholder="Email Address">
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="column"></div>
+    </div>
+</div>            
+{{/if}}
 
 <div class="container is-max-fullhd">
     <div class="columns is-multiline">
