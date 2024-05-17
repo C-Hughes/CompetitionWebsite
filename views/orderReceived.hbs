@@ -8,7 +8,7 @@
     <div class="content my-6">
         <h1 class="title has-text-centered">Thank you!</h1>
         <div class="is-flex is-justify-content-center">
-            <button class="button is-static">Order number: 818650011</button>
+            <button class="button is-static">Order number: {{order.orderNumber}}</button>
         </div>
     </div>
     <h2 class="title is-6">Competitions</h2>
@@ -27,7 +27,7 @@
                                         <div class="media-left">
                                             <figure class="image is-64x64">
                                             <img
-                                                src="https://bulma.io/assets/images/placeholders/96x96.png"
+                                                src="{{this.item.imagePath}}" 
                                                 alt="Placeholder image"
                                             />
                                             </figure>
@@ -43,12 +43,12 @@
                         <div class="column is-3">
                             <div class="columns is-mobile">
                                 <div class="column is-flex is-justify-content-right is-align-items-right">
-                                    <p class="subtitle is-6"><strong>£19.80</strong></p>
+                                    <p class="subtitle is-6"><strong>£{{this.price}}</strong></p>
                                 </div>
                             </div>
                         </div>
                         <div class="column is-12">
-                            <p class="subtitle is-6"><strong>Ticket Number(s):</strong> {{this.ticketNumbers}}.</p>
+                            <p class="subtitle is-6"><strong>Ticket Number(s):</strong> {{formatTicketNumberOutput this.ticketNumbers}}.</p>
                         </div>
                     </div> 
                     <hr />
@@ -60,7 +60,7 @@
     <hr />
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Subtotal:</strong></p>
-        <p class="subtitle is-6 is-pulled-right"><strong>£10.27</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentPrice}}</strong></p>
     </div>
     <br />
     <hr />
@@ -74,7 +74,7 @@
 
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Total</strong></p>
-        <p class="subtitle is-6 is-pulled-right"><strong>£10.27</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentPrice}}</strong></p>
     </div>
     <br />
     <hr />
