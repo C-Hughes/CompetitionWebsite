@@ -445,7 +445,7 @@ router.use('/', notLoggedIn, function(req, res, next) {
 });
 
 
-// Login / Register //
+//////////////////////// Login / Register /////////////////////////
 router.get('/login', function(req, res, next) {
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');

@@ -148,12 +148,12 @@ passport.use('local.login', new LocalStrategy({
 
 //Update Password
 passport.use('local.updatePassword', new LocalStrategy({
-    //usernameField: 'username',
+    usernameField: 'newPassword',
     passwordField: 'password',
     passReqToCallback: true
-}, function(req, password, done){
+}, function(req, newPassword, password, done){
 
-    var newPassword = req.body.newPassword;
+    //var newPassword = req.body.newPassword;
     var newPasswordConf = req.body.newPasswordConf;
 
     //Input Validation
@@ -169,17 +169,20 @@ passport.use('local.updatePassword', new LocalStrategy({
         errors.forEach(function(error){
             UPMessages.push(error.msg);
         });
-        return done(null, false, req.flash('UPError', UPMessages));
+        return done(null, false, req.flash('error', UPMessages));
     }
+
+    //CHECK IF OLD PASSWORD IS CORRECT
 
     var newPass = encryptPassword(passwordConf);
 
-    User.findOneAndUpdate({_id: req.user}, {password: newPass}, {upsert: false})
+    User.findOneAndUpdate({_id: req.user, password: validPassword(password)}, {password: newPass}, {upsert: false})
     .then((foundUser) => {
         if (foundUser) {
+            console.log();
             return done(null, foundUser, req.flash('success', 'Your password has been updated'));
         } else {
-            return done(null, false, req.flash('UPError', 'User not found'));
+            return done(null, false, req.flash('error', 'User or Password incorrect'));
         }
     })
     .catch(err => {

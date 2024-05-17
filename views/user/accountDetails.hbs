@@ -176,57 +176,60 @@
 
     <div class="mx-3">
         <div class="container">
-            <label class="label">Current Password</label>
-            <div class="field has-addons">
-                <div class="control is-expanded has-icons-left">
-                    <input id="passwordC" name="passwordC" type="password" class="input" placeholder="Current Password">
-                    <span class="icon is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-                <div class="control">
-                    <button id="passwordCBtn" class="button is-medium" onclick="toggleHidePassword('passwordC', 'passwordCBtn')" type="button">
-                        <i class="fa-solid fa-eye-slash"></i>
-                    </button>
-                </div>
-            </div>
-            <label class="label">New Password</label>
-            <div class="field has-addons">
-                <div class="control is-expanded has-icons-left">
-                    <input id="passwordNew" name="passwordNew" type="password" class="input" placeholder="New Password">
-                    <span class="icon is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-                <div class="control">
-                    <button id="passwordNewBtn" class="button is-medium" onclick="toggleHidePassword('passwordNew', 'passwordNewBtn')" type="button">
-                        <i class="fa-solid fa-eye-slash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <label class="label">Confirm New Password</label>
-            <div class="field has-addons">
-                <div class="control is-expanded has-icons-left">
-                    <input id="passwordNew2" name="passwordNew2" type="password" class="input" placeholder="Confirm New Password">
-                    <span class="icon is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-                <div class="control">
-                    <button id="passwordNew2Btn" class="button is-medium" onclick="toggleHidePassword('passwordNew2', 'passwordNew2Btn')" type="button">
-                        <i class="fa-solid fa-eye-slash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="field-body">
-                <div class="field">
+            <form action="/user/updatePassword" method="post">
+                <label class="label">Current Password</label>
+                <div class="field has-addons">
+                    <div class="control is-expanded has-icons-left">
+                        <input id="password" name="password" type="password" class="input" placeholder="Current Password">
+                        <span class="icon is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
                     <div class="control">
-                        <button class="button is-link">Save Changes</button>
+                        <button id="passwordBtn" class="button is-medium" onclick="toggleHidePassword('password', 'passwordBtn')" type="button">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
+                <label class="label">New Password</label>
+                <div class="field has-addons">
+                    <div class="control is-expanded has-icons-left">
+                        <input id="newPassword" name="newPassword" type="password" class="input" placeholder="New Password">
+                        <span class="icon is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <div class="control">
+                        <button id="newPasswordBtn" class="button is-medium" onclick="toggleHidePassword('newPassword', 'newPasswordBtn')" type="button">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <label class="label">Confirm New Password</label>
+                <div class="field has-addons">
+                    <div class="control is-expanded has-icons-left">
+                        <input id="newPasswordConf" name="newPasswordConf" type="password" class="input" placeholder="Confirm New Password">
+                        <span class="icon is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                    <div class="control">
+                        <button id="newPasswordConfBtn" class="button is-medium" onclick="toggleHidePassword('newPasswordConf', 'newPasswordConfBtn')" type="button">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field-body">
+                    <div class="field">
+                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                        <div class="control">
+                            <button type="submit" class="button is-link">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>    
         </div>
     </div>
 

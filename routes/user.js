@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var passport = require('passport');
 var Order = require('../models/order');
 var Basket = require('../models/basket');
 var BillingAddress = require('../models/billingAddress');
@@ -38,40 +38,6 @@ router.get('/', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
-
-/*
-    Order.find({userReference: req.user})
-    .then(foundOrders => {
-        if (foundOrders) {
-            var basket;
-            foundOrders.forEach(function(order){
-                basket = new Basket(order.basket);
-                order.items = basket.generateArray();
-
-                //If order item drawDate is in the past, add to past competitions, if not add to current.
-                /*
-                for (const key in order.items) {
-                    if (order.items.hasOwnProperty(key)) {
-                    const item = order.items[key];
-                    console.log(`Item: ${JSON.stringify(item.item.title)}`);
-                    //
-                    }
-                }
-                */
-               /*
-            });
-
-            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: foundOrders, hasOrders: foundOrders.length > 0});
-        } else {
-            console.log("No Orders Found");
-            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, orders: ""});
-        }
-    })
-    .catch(err => {
-        console.log(err);
-    });
-*/
-
 });
 
 router.get('/address', function(req, res, next) {
@@ -232,7 +198,7 @@ router.post('/accountDetails/:form', function(req, res, next) {
             console.log(err);
         });
     } else if (form == "commsPrefs") {
-        
+                
         var emailChecked = false;
         var textChecked = false;
         var postChecked = false;
@@ -266,6 +232,14 @@ router.post('/accountDetails/:form', function(req, res, next) {
         res.redirect('/user/accountDetails');
     }
 });
+
+router.post('/updatePassword', passport.authenticate('local.updatePassword', {
+    successRedirect: '/user/accountDetails',
+    failureRedirect: '/user/accountDetails',
+    badRequestMessage : 'Change Password: Please populate all required fields',
+    failureFlash: true
+}));
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
