@@ -296,9 +296,9 @@ router.post('/processCard', function(req, res, next) {
                                     competitionReference: comp.item._id,
                                     competitionTitle: comp.item.title,
                                     competitionDrawDate: comp.item.drawDate,
-                                    orderReference: order._id,
-                                    basket: competitionEntries,
-                                    paymentID: order.paymentID,
+                                    //orderReference: order._id,
+                                    //basket: competitionEntries,
+                                    //paymentID: order.paymentID,
                                     //ticketQty: { $inc: comp.qty },
                                     $inc: { ticketQty: comp.qty },
                                     compAnswer: comp.questionAnswer,
@@ -307,7 +307,7 @@ router.post('/processCard', function(req, res, next) {
                                     mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
                                     lastUpdated: new Date().toISOString(),
                                 };
-                                Ticket.findOneAndUpdate({userReference: req.user}, ticketUpdate, {upsert: true})
+                                Ticket.findOneAndUpdate({userReference: req.user, compAnswer: comp.questionAnswer}, ticketUpdate, {upsert: true})
                                 .then(() => {
                                     console.log('SAVED TICKETS IN TICKET DB');
                                     //Concart arrays - 
