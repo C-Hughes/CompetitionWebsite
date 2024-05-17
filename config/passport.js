@@ -105,7 +105,6 @@ passport.use('local.login', new LocalStrategy({
     req.checkBody('username', 'Username is empty').notEmpty();
     req.checkBody('passwordL', 'Password is empty').notEmpty();
 
-    console.log(222222222222);
 
     var errors = req.validationErrors();
     if (errors){
@@ -142,6 +141,48 @@ passport.use('local.login', new LocalStrategy({
         }
     })
       .catch(err => {
+        console.log(err);
+    });
+}));
+
+
+//Update Password
+passport.use('local.updatePassword', new LocalStrategy({
+    //usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true
+}, function(req, password, done){
+
+    var newPassword = req.body.newPassword;
+    var newPasswordConf = req.body.newPasswordConf;
+
+    //Input Validation
+    req.checkBody('password', 'Password is empty').notEmpty();
+    req.checkBody('password', 'New Password is empty').notEmpty();
+    req.checkBody('password', 'Confirm New Password is empty').notEmpty();
+    req.checkBody('newPassword', 'Password must be at least 8 characters').isLength({min:8});
+    req.checkBody('newPassword', 'Passwords do not match').equals(newPasswordConf);
+
+    var errors = req.validationErrors();
+    if (errors){
+        var UPMessages = [];
+        errors.forEach(function(error){
+            UPMessages.push(error.msg);
+        });
+        return done(null, false, req.flash('UPError', UPMessages));
+    }
+
+    var newPass = encryptPassword(passwordConf);
+
+    User.findOneAndUpdate({_id: req.user}, {password: newPass}, {upsert: false})
+    .then((foundUser) => {
+        if (foundUser) {
+            return done(null, foundUser, req.flash('success', 'Your password has been updated'));
+        } else {
+            return done(null, false, req.flash('UPError', 'User not found'));
+        }
+    })
+    .catch(err => {
         console.log(err);
     });
 }));
