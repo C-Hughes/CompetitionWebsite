@@ -160,7 +160,7 @@ passport.use('local.updatePassword', new LocalStrategy({
     req.checkBody('password', 'Password is empty').notEmpty();
     req.checkBody('password', 'New Password is empty').notEmpty();
     req.checkBody('password', 'Confirm New Password is empty').notEmpty();
-    req.checkBody('newPassword', 'Password must be at least 8 characters').isLength({min:8});
+    req.checkBody('newPasswordConf', 'Password must be at least 8 characters').isLength({min:8});
     req.checkBody('newPassword', 'Passwords do not match').equals(newPasswordConf);
 
     var errors = req.validationErrors();
@@ -174,9 +174,9 @@ passport.use('local.updatePassword', new LocalStrategy({
 
     //CHECK IF OLD PASSWORD IS CORRECT
 
-    var newPass = encryptPassword(passwordConf);
+    var newPass = req.user.encryptPassword(newPasswordConf);
 
-    User.findOneAndUpdate({_id: req.user, password: validPassword(password)}, {password: newPass}, {upsert: false})
+    User.findOneAndUpdate({_id: req.user, password: req.user.validPassword(password)}, {password: newPass}, {upsert: false})
     .then((foundUser) => {
         if (foundUser) {
             console.log();
