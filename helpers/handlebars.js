@@ -38,4 +38,8 @@ module.exports = {
 
         
     },
+    formatTicketNumberOutput: function(cond1, options){
+        var toString = cond1.toString();
+        return toString.replaceAll(",",", ");;        
+    },
 }

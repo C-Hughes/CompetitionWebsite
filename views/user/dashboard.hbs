@@ -45,7 +45,7 @@
                                                     <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
                                                     <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
                                                     <br />
-                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">{{this.ticketNumbers}}</p>
+                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">{{formatTicketNumberOutput this.ticketNumbers}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                                     <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
                                                     <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
                                                     <br />
-                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">{{this.ticketNumbers}}</p>
+                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">{{formatTicketNumberOutput this.ticketNumbers}}</p>
                                                 </div>
                                             </div>
                                         </div>
