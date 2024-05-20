@@ -26,7 +26,7 @@ passport.use('local.signup', new LocalStrategy({
     var passwordConf = req.body.pass2;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-    var referralInput = req.body.referralInput;
+    var referralCodeInput = req.body.referralCodeInput;
 
     //Strip illegal characters from username
     var rx = new RegExp;
@@ -68,39 +68,104 @@ passport.use('local.signup', new LocalStrategy({
                 }
 
                 //If a signup referral code has been used, check it is valid
-                if(referralInput!=""){
+                if(referralCodeInput!=""){
+                    console.log('Referral code entered: '+referralCodeInput);
                     //Check if this referral code is used by another user.
-                    User.findOne({'referralCode': referralInput})
-                    .then((user) => {
-                        if (!user) {
+                    User.findOne({'referralCode':referralCodeInput})
+                    .then((referralInputUser) => {
+                        //Chnage to !referralInputUser       !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        if (referralInputUser) {
                             //No user is found, code is invalid
+                            console.log('No user Referral Code found');
                             return done(null, false, req.flash('sError', 'This referral code is invalid'));
                         }
+                        console.log('Referral code is valid');
                     })
                     .catch(err => {
                         console.log(err);
                     });
                 }
 
+                console.log('Generate new user Referral Code');
                 //Generate new referralcode
-                var generatedUniqueCode = false;
+                var generateUniqueCode = true;
+                var referralCode;
 
-                //Generate ReferralCode until a unique one is found
-                while(!generatedUniqueCode){
-                    var referralCode = generateReferralCode(username);
+/*
+                var generateNewUserReferralCode = async function(){
+                    while(generateUniqueCode == true){
+                        console.log('generatedUniqueCode = '+generatedUniqueCode);
 
-                    //Check if this referral code is used by another user.
-                    User.findOne({'referralCode': referralCode})
-                    .then((user) => {
-                        if (!user) {
-                            //If no user is found the referral code is unique
-                            generatedUniqueCode = true;
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                        referralCode = generateReferralCode(username);
+
+                        console.log('Generated Code = '+referralCode);
+
+                        //Check if this referral code is used by another user.
+                        var isCodeUnique = await User.findOne({'referralCode': referralCode})
+                        .then((referralUser) => {
+                            if (referralUser) {
+                                console.log('2222222: User found = '+referralUser);
+                            } else {
+                                //If no user is found the referral code is unique
+                                generateUniqueCode = true;
+                                console.log('1111111: ReferralCodeGen: '+generateUniqueCode);
+                            }
+                            console.log('4444444444444444444444444');
+                        })
+                        .then(console.log)
+                        .catch(err => {
+                            console.log(err);
+                        });
+
+                    }
                 }
+
+                while(generateUniqueCode == true){
+                    async function generateNewUserReferralCode() {
+
+                        const foundUser = await User.findOne({'referralCode': referralCode});
+                    
+                        console.log(foundUser); // Prints '{name: 'bill', admin: false}'
+                        return foundUser;
+                    }
+
+                    const user = generateNewUserReferralCode();
+
+                    if(!user){
+                        generateUniqueCode = true;
+                        console.log('Not found async user');
+                    }
+                }
+            */
+
+                async function processQueries() {
+                    try {                  
+                      let moreRecords = true;
+                  
+                      while (moreRecords) {
+                        referralCode = generateReferralCode(username);
+                        // Perform the Mongoose query
+                        const result = await User.findOne({'referralCode': referralCode});
+                  
+                        if (result) {
+                          // Process the result
+                          console.log(result);
+                          
+                          // Modify the conditions to break the loop if needed
+                          // For example, if there's a specific field or condition to check
+                          // to decide when to stop the loop, do it here
+                        } else {
+                          moreRecords = false; // No more records found, exit the loop
+                        }
+                      }
+                    } catch (error) {
+                      console.error(error);
+                    }
+                }
+
+                processQueries();
+                //Generate ReferralCode until a unique one is found
+
 
                 var newUser = new User();
                 newUser.username = username;
@@ -109,7 +174,7 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.firstName = firstName;
                 newUser.lastName = lastName;
                 newUser.referralCode = referralCode;
-                newUser.signupReferralCodeUsed = referralInput;
+                newUser.signupReferralCodeUsed = referralCodeInput;
                 newUser.displayName = username;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
@@ -118,8 +183,9 @@ passport.use('local.signup', new LocalStrategy({
                     return done(null, newUser);
                 })
                 .catch(err => {
-                console.log(err);
+                    console.log(err);
                 });
+
             })
             .catch(err => {
             console.log(err);
