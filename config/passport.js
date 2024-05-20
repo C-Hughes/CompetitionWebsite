@@ -26,6 +26,7 @@ passport.use('local.signup', new LocalStrategy({
     var passwordConf = req.body.pass2;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
+    var referralInput = req.body.referralInput;
 
     //Strip illegal characters from username
     var rx = new RegExp;
@@ -66,6 +67,21 @@ passport.use('local.signup', new LocalStrategy({
                     
                 }
 
+                //If a signup referral code has been used, check it is valid
+                if(referralInput!=""){
+                    //Check if this referral code is used by another user.
+                    User.findOne({'referralCode': referralInput})
+                    .then((user) => {
+                        if (!user) {
+                            //No user is found, code is invalid
+                            return done(null, false, req.flash('sError', 'This referral code is invalid'));
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }
+
                 //Generate new referralcode
                 var generatedUniqueCode = false;
 
@@ -77,7 +93,7 @@ passport.use('local.signup', new LocalStrategy({
                     User.findOne({'referralCode': referralCode})
                     .then((user) => {
                         if (!user) {
-                            //If user found and password is valid
+                            //If no user is found the referral code is unique
                             generatedUniqueCode = true;
                         }
                     })
@@ -93,6 +109,7 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.firstName = firstName;
                 newUser.lastName = lastName;
                 newUser.referralCode = referralCode;
+                newUser.signupReferralCodeUsed = referralInput;
                 newUser.displayName = username;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
