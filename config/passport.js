@@ -67,7 +67,24 @@ passport.use('local.signup', new LocalStrategy({
                 }
 
                 //Generate new referralcode
-                
+                var generatedUniqueCode = false;
+
+                //Generate ReferralCode until a unique one is found
+                while(!generatedUniqueCode){
+                    var referralCode = generateReferralCode(username);
+
+                    //Check if this referral code is used by another user.
+                    User.findOne({'referralCode': referralCode})
+                    .then((user) => {
+                        if (!user) {
+                            //If user found and password is valid
+                            generatedUniqueCode = true;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }
 
                 var newUser = new User();
                 newUser.username = username;
@@ -75,6 +92,7 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.emailAddress = email;
                 newUser.firstName = firstName;
                 newUser.lastName = lastName;
+                newUser.referralCode = referralCode;
                 newUser.displayName = username;
                 newUser.joindate = new Date();
                 newUser.lastlogin = new Date();
@@ -199,3 +217,15 @@ passport.use('local.updatePassword', new LocalStrategy({
 
 
 }));
+
+function generateReferralCode(username) {
+    let result = username.substring(0, 3);
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < 7) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result.toUpperCase();
+}
