@@ -20,6 +20,7 @@ var userSchema = new Schema({
     rewardPoints: {type: String, default: 0},
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
     referralCode: {type: String, required: true},
+    signupReferralCodeUsed: {type: String, required: false},
     joindate: {type: Date, default: Date.now, required: true},
     isAdmin: {type: Boolean, required: true, default: false},
     lastlogin: {type: Date, default: Date.now, required: true},
