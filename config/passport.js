@@ -172,20 +172,26 @@ passport.use('local.updatePassword', new LocalStrategy({
         return done(null, false, req.flash('error', UPMessages));
     }
 
-    //CHECK IF OLD PASSWORD IS CORRECT
+    //Current if current password correct
+    if(req.user.validPassword(password)){
+        //Generate hash of new password to update
+        var newPass = req.user.encryptPassword(newPasswordConf);
 
-    var newPass = req.user.encryptPassword(newPasswordConf);
+        User.findOneAndUpdate({_id: req.user}, {password: newPass}, {upsert: false})
+        .then((foundUser) => {
+            if (foundUser) {
+                //Password has been updated
+                return done(null, false, req.flash('success', 'Your password has been updated'));
+            } else {
+                return done(null, false, req.flash('error', 'User or Password incorrect'));
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        return done(null, false, req.flash('error', 'User or Password incorrect'));
+    }
 
-    User.findOneAndUpdate({_id: req.user, password: req.user.validPassword(password)}, {password: newPass}, {upsert: false})
-    .then((foundUser) => {
-        if (foundUser) {
-            console.log();
-            return done(null, foundUser, req.flash('success', 'Your password has been updated'));
-        } else {
-            return done(null, false, req.flash('error', 'User or Password incorrect'));
-        }
-    })
-    .catch(err => {
-        console.log(err);
-    });
+
 }));

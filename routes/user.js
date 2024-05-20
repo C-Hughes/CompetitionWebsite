@@ -64,10 +64,10 @@ router.get('/accountDetails', function(req, res, next) {
     User.findOne({_id: req.user})
     .then(foundUser => {
         if (foundUser) {
-            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: foundUser, error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
+            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: foundUser, error: errors, errors: errors.length > 0, success: success, hasSuccess: success.length > 0});
         } else {
             console.log("Error getting user details");
-            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: "", error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
+            res.render('user/accountDetails', { title: 'Account Details', active: { accountDetails: true }, userDetails: "", error: errors, errors: errors.length > 0, success: success, hasSuccess: success.length > 0});
         }
     })
     .catch(err => {
@@ -237,7 +237,9 @@ router.post('/updatePassword', passport.authenticate('local.updatePassword', {
     successRedirect: '/user/accountDetails',
     failureRedirect: '/user/accountDetails',
     badRequestMessage : 'Change Password: Please populate all required fields',
-    failureFlash: true
+    failureFlash: true,
+    successFlash: true,
+    successFlash: 'Your password has been updated',
 }));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
