@@ -67,6 +67,7 @@ passport.use('local.signup', new LocalStrategy({
                 }
 
                 //Generate new referralcode
+                
 
                 var newUser = new User();
                 newUser.username = username;

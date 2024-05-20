@@ -9,6 +9,7 @@ var userSchema = new Schema({
     lastName: {type: String, required: true},
     displayName: {type: String, required: true},
     emailAddress: {type: String, required: true},
+    isEmailVerified: {type: Boolean, required: true, default: false},
     DOB: {type: String, required: false},
     DOBDD: {type: Number, required: false},
     DOBMM: {type: String, required: false},
@@ -20,6 +21,7 @@ var userSchema = new Schema({
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
     referralCode: {type: String, required: true},
     joindate: {type: Date, default: Date.now, required: true},
+    isAdmin: {type: Boolean, required: true, default: false},
     lastlogin: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });
