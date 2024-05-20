@@ -15,6 +15,7 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
+///////////////////////SIGN UP///////////////////////////////////
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'passwordS',
@@ -65,6 +66,8 @@ passport.use('local.signup', new LocalStrategy({
                     
                 }
 
+                //Generate new referralcode
+
                 var newUser = new User();
                 newUser.username = username;
                 newUser.password = newUser.encryptPassword(passwordConf);
@@ -92,7 +95,7 @@ passport.use('local.signup', new LocalStrategy({
     });
 }));
 
-//Login strategy
+//////////////////////Login strategy////////////////////////////
 passport.use('local.login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'passwordL',
@@ -146,7 +149,7 @@ passport.use('local.login', new LocalStrategy({
 }));
 
 
-//Update Password
+///////////////////////////////Update Password////////////////////////////////
 passport.use('local.updatePassword', new LocalStrategy({
     usernameField: 'newPassword',
     passwordField: 'password',
@@ -177,7 +180,7 @@ passport.use('local.updatePassword', new LocalStrategy({
         //Generate hash of new password to update
         var newPass = req.user.encryptPassword(newPasswordConf);
 
-        User.findOneAndUpdate({_id: req.user}, {password: newPass}, {upsert: false})
+        User.findOneAndUpdate({_id: req.user}, {password: newPass, lastUpdated: Date.now()}, {upsert: false})
         .then((foundUser) => {
             if (foundUser) {
                 //Password has been updated

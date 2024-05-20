@@ -18,7 +18,7 @@ var userSchema = new Schema({
     postComms: {type: Boolean, required: true, default: true},
     rewardPoints: {type: String, default: 0},
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
-    referralCode: {type: String, required: false},
+    referralCode: {type: String, required: true},
     joindate: {type: Date, default: Date.now, required: true},
     lastlogin: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}

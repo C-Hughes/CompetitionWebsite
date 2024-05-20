@@ -13,7 +13,7 @@ var shippingAddressSchema = new Schema({
     postcode: {type: String, required: true},
     phoneNumber: {type: String, required: false},
     created: {type: Date, default: Date.now, required: true},
-    lastUpdated: {type: Date, default: Date.now, required: true}
+    lastUpdated: {type: Date, default: Date.now, required: true},
 });
 
 module.exports = mongoose.model('ShippingAddress', shippingAddressSchema);

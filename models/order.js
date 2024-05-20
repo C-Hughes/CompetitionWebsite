@@ -10,6 +10,7 @@ var orderSchema = new Schema({
     paymentID: {type: String, required: true},
     paymentPrice: {type: Number, required: true},
     created: {type: Date, default: Date.now, required: true},
+    lastUpdated: {type: Date, default: Date.now, required: true}
 });
 
 module.exports = mongoose.model('Order', orderSchema);
