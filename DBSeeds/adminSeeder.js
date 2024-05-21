@@ -5,34 +5,25 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
     serverSelectionTimeoutMS: 5000
 });
 
-var Users = [
-    new User({
-        username: 'Admin',
-        password: '$2a$10$1aZux30s2YM01jb0ik3mcOIxdi0Kkl78YQrXu37QlueqrOKQXugqC',
-        firstName: 'Admin',
-        lastName: 'Admin',
-        displayName: 'Admin',
-        emailAddress: 'Admin@admin.com',
-        referralCode: 'ADMINREFERRAL',
-        isAdmin: true,
-    }),
-];
-
-var finished = 0;
-for (var i =0; i < Users.length; i++){
-    Users[i].save().then(()=>{
-        console.log(finished);
-        finished++
-        if(finished === Users.length){
-            exit();
-            console.log('Exit');
-        }
-    }).catch((err)=>{
-        console.log(err);
-    })
-
-
-}
+var newUser = new User();
+newUser.username = 'Admin';
+newUser.password = newUser.encryptPassword('qqqqqqqq');
+newUser.firstName = 'Admin';
+newUser.lastName = 'Admin';
+newUser.displayName = 'Admin';
+newUser.emailAddress = 'Admin@admin.com';
+newUser.referralCode = 'ADMINREFERRAL';
+newUser.isAdmin = true;
+newUser.joindate = new Date();
+newUser.lastlogin = new Date();
+newUser.save({})
+.then(() => {
+    console.log('Admin saved!');
+    exit();
+})
+.catch(err => {
+    console.log(err);
+});
 
 function exit(){
     mongoose.disconnect();
