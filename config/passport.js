@@ -20,7 +20,7 @@ passport.use('local.signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'passwordS',
     passReqToCallback: true
-}, function(req, username, password, done){
+}, async function(req, username, password, done){
 
     var email = req.body.email;
     var passwordConf = req.body.pass2;
@@ -53,6 +53,7 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('sError', sMessages));
     }
 
+   
     //Check if email already exists
     User.findOne({'emailAddress': email})
     .then((user) => {
@@ -64,137 +65,77 @@ passport.use('local.signup', new LocalStrategy({
             .then((foundUser) => {
                 if (foundUser) {
                     return done(null, false, req.flash('sError', 'Username is already in use.'));
-                    
                 }
 
-                //If a signup referral code has been used, check it is valid
-                if(referralCodeInput!=""){
-                    console.log('Referral code entered: '+referralCodeInput);
-                    //Check if this referral code is used by another user.
-                    User.findOne({'referralCode':referralCodeInput})
-                    .then((referralInputUser) => {
-                        //Chnage to !referralInputUser       !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        if (referralInputUser) {
-                            //No user is found, code is invalid
-                            console.log('No user Referral Code found');
-                            return done(null, false, req.flash('sError', 'This referral code is invalid'));
+                //Check if signup referral code is valid
+                User.findOne({'referralCode':referralCodeInput})
+                .then((referralInputUser) => {
+                    if (!referralInputUser && referralCodeInput!="") {
+                        //No user is found, and referralCodeInput has been populated, the code is invalid
+                        console.log('No user Referral Code found');
+                        return done(null, false, req.flash('sError', 'This referral code is invalid'));
+                    }
+                    console.log('Referral code is valid or not submitted');
+
+                    //Generate ReferralCode until a unique one is found
+                    console.log('Generate new user Referral Code');
+                    //var referralCode;
+                    var referralCode;
+                    //referralCode = generateUniqueReferralCode(username);
+
+                    /*
+                    (async function awaitReferralGen() {
+                        try {
+                            console.log('Generating...');
+                            referralCode = await generateUniqueReferralCode(username);
+                            console.log('Referral Code = '+referralCode);
+                        } catch(error) {
+                        console.log(error);
                         }
-                        console.log('Referral code is valid');
+                    })()
+                    */
+
+                    
+                    // Generate a unique referral code
+                    console.log('Generate new user Referral Code');
+                    const referralCode = generateUniqueReferralCode(username);
+                    console.log('Referral Code = ' + referralCode);
+
+                
+                    console.log('Save new user!');
+                    var newUser = new User();
+                    newUser.username = username;
+                    newUser.password = newUser.encryptPassword(passwordConf);
+                    newUser.emailAddress = email;
+                    newUser.firstName = firstName;
+                    newUser.lastName = lastName;
+                    newUser.referralCode = referralCode;
+                    newUser.signupReferralCodeUsed = referralCodeInput;
+                    newUser.displayName = username;
+                    newUser.joindate = new Date();
+                    newUser.lastlogin = new Date();
+                    newUser.save({})
+                    .then(() => {
+                        return done(null, newUser);
                     })
                     .catch(err => {
                         console.log(err);
                     });
-                }
-
-                console.log('Generate new user Referral Code');
-                //Generate new referralcode
-                var generateUniqueCode = true;
-                var referralCode;
-
-/*
-                var generateNewUserReferralCode = async function(){
-                    while(generateUniqueCode == true){
-                        console.log('generatedUniqueCode = '+generatedUniqueCode);
-
-                        referralCode = generateReferralCode(username);
-
-                        console.log('Generated Code = '+referralCode);
-
-                        //Check if this referral code is used by another user.
-                        var isCodeUnique = await User.findOne({'referralCode': referralCode})
-                        .then((referralUser) => {
-                            if (referralUser) {
-                                console.log('2222222: User found = '+referralUser);
-                            } else {
-                                //If no user is found the referral code is unique
-                                generateUniqueCode = true;
-                                console.log('1111111: ReferralCodeGen: '+generateUniqueCode);
-                            }
-                            console.log('4444444444444444444444444');
-                        })
-                        .then(console.log)
-                        .catch(err => {
-                            console.log(err);
-                        });
-
-                    }
-                }
-
-                while(generateUniqueCode == true){
-                    async function generateNewUserReferralCode() {
-
-                        const foundUser = await User.findOne({'referralCode': referralCode});
                     
-                        console.log(foundUser); // Prints '{name: 'bill', admin: false}'
-                        return foundUser;
-                    }
-
-                    const user = generateNewUserReferralCode();
-
-                    if(!user){
-                        generateUniqueCode = true;
-                        console.log('Not found async user');
-                    }
-                }
-            */
-
-                async function processQueries() {
-                    try {                  
-                      let moreRecords = true;
-                  
-                      while (moreRecords) {
-                        referralCode = generateReferralCode(username);
-                        // Perform the Mongoose query
-                        const result = await User.findOne({'referralCode': referralCode});
-                  
-                        if (result) {
-                          // Process the result
-                          console.log(result);
-                          
-                          // Modify the conditions to break the loop if needed
-                          // For example, if there's a specific field or condition to check
-                          // to decide when to stop the loop, do it here
-                        } else {
-                          moreRecords = false; // No more records found, exit the loop
-                        }
-                      }
-                    } catch (error) {
-                      console.error(error);
-                    }
-                }
-
-                processQueries();
-                //Generate ReferralCode until a unique one is found
-
-
-                var newUser = new User();
-                newUser.username = username;
-                newUser.password = newUser.encryptPassword(passwordConf);
-                newUser.emailAddress = email;
-                newUser.firstName = firstName;
-                newUser.lastName = lastName;
-                newUser.referralCode = referralCode;
-                newUser.signupReferralCodeUsed = referralCodeInput;
-                newUser.displayName = username;
-                newUser.joindate = new Date();
-                newUser.lastlogin = new Date();
-                newUser.save({})
-                .then(() => {
-                    return done(null, newUser);
                 })
                 .catch(err => {
                     console.log(err);
                 });
-
             })
             .catch(err => {
             console.log(err);
-          });
+        });
         }
     })
     .catch(err => {
     console.log(err);
     });
+
 }));
 
 //////////////////////Login strategy////////////////////////////
@@ -297,9 +238,9 @@ passport.use('local.updatePassword', new LocalStrategy({
     } else {
         return done(null, false, req.flash('error', 'User or Password incorrect'));
     }
-
-
 }));
+
+////////////////////////////////////FUNCTIONS////////////////////////////////////////////////
 
 function generateReferralCode(username) {
     let result = username.substring(0, 3);
@@ -311,4 +252,27 @@ function generateReferralCode(username) {
       counter += 1;
     }
     return result.toUpperCase();
+}
+
+async function generateUniqueReferralCode(username) {
+    try {                  
+        var generateUniqueCode = true;
+        var referralCode;
+        console.log('inside gen function...');
+    
+        while (generateUniqueCode) {
+            referralCode = generateReferralCode(username);
+            // Perform the Mongoose query
+            const result = await User.findOne({'referralCode': referralCode});
+    
+            if (result) {
+                console.log('Referral code exists, generating a new one:', result);
+            } else {
+                generateUniqueCode = false; // No more records found, exit the loop
+                return referralCode;
+            }
+        }
+    } catch (error) {
+      console.error(error);
+    }
 }
