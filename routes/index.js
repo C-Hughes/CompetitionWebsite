@@ -448,6 +448,8 @@ router.use('/', notLoggedIn, function(req, res, next) {
 //////////////////////// Login / Register /////////////////////////
 router.get(['/login', '/register/:referralCode?'], function(req, res, next) {
     var referralCode = req.params.referralCode || "";
+    referralCode = referralCode.replace(/[^a-z0-9]/gi, "");
+    referralCode = referralCode.substring(0, 12);
     
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');
