@@ -102,17 +102,16 @@ passport.use('local.signup', new LocalStrategy({
 
 //////////////////////Login strategy////////////////////////////
 passport.use('local.login', new LocalStrategy({
-    usernameField: 'username',
+    usernameField: 'usernameEmail',
     passwordField: 'passwordL',
     passReqToCallback: true
 }, function(req, username, password, done){
 
-    var email = req.body.email;
+    //var email = req.body.email;
 
     //Input Validation
-    req.checkBody('username', 'Username is empty').notEmpty();
+    req.checkBody('usernameEmail', 'Username is empty').notEmpty();
     req.checkBody('passwordL', 'Password is empty').notEmpty();
-
 
     var errors = req.validationErrors();
     if (errors){
@@ -124,9 +123,10 @@ passport.use('local.login', new LocalStrategy({
     }
 
     //Find email for login
-    User.findOne({'email': email})
+    User.findOne({'email': username})
     .then((user) => {
         if (user) {
+            console.log('found user email = '+ user);
             //If user found and password is valid
             if(user.validPassword(password)){
                 return done(null, user);
@@ -138,6 +138,7 @@ passport.use('local.login', new LocalStrategy({
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
+                    console.log('found username = '+ foundUser);
                     return done(null, foundUser);
                 } else {
                     return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
