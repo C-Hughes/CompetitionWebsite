@@ -24,6 +24,24 @@ router.get('/winners', function(req, res, next) {
   });
 
 
+
+  ///////////////////////////////Test Routes//////////////////////////////////////
+
+  router.get('/addRewards', function(req, res, next) {
+
+    var pointsToAdd = 10;
+    //Update most recent order to include updated basket with ticket numbers.
+    User.findOneAndUpdate({_id: req.user}, {$inc: { rewardPoints: pointsToAdd }}, {upsert: false})
+    .then(() => {
+        console.log('Updated Rewards');
+        return res.redirect('/user/rewards');
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
+
 module.exports = router;
 
 //Check is admin is superAdmin

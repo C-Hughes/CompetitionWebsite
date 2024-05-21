@@ -83,6 +83,8 @@ router.get('/safePlaying', function(req, res, next) {
     res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true } });
 });
 
+
+
 ////////////////////// ROUTE POSTS //////////////////////////////
 
 router.post('/address/:addressType', function(req, res, next) {

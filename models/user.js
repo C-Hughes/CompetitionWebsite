@@ -17,7 +17,7 @@ var userSchema = new Schema({
     emailComms: {type: Boolean, required: true, default: true},
     textComms: {type: Boolean, required: true, default: true},
     postComms: {type: Boolean, required: true, default: true},
-    rewardPoints: {type: String, default: 0},
+    rewardPoints: {type: Number, default: 0},
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
     referralCode: {type: String, required: true},
     signupReferralCodeUsed: {type: String, required: false},

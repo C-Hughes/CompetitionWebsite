@@ -28,7 +28,7 @@
                                 <span class="icon is-large fas fa-2x"><i class="fa-solid fa-coins"></i></span>
                             </div>
                             <div class="media-contentpy-1">
-                                <p class="title is-3">Points: 46</p>
+                                <p class="title is-3">Points: {{user.rewardPoints}}</p>
                                 <p class="subtitle is-6">Equals 0.5 GBP</p>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                 <span class="icon is-large fas fa-2x"><i class="fa-solid fa-medal"></i></span>
                             </div>
                             <div class="media-content py-1">
-                                <p class="title is-3">Bronze (Level 2)</p>
+                                <p class="title is-3">{{user.rewardLevel}}</p>
                                 <p class="subtitle is-6">655 Points to Silver</p>
                             </div>
                         </div>
@@ -159,13 +159,13 @@
                                             <span class="icon is-large fas fa-2x"><i class="fa-solid fa-sack-dollar"></i></span>
                                         </div>
                                         <div class="media-content py-1">
-                                            <p class="title is-6">Your point balance is 46</p>
+                                            <p class="title is-6">Your point balance is {{user.rewardPoints}}</p>
                                             <p class="subtitle is-6">The minimum amount to be redeemed is 100 Points.</p>
                                         </div>
                                     </div>
                                     <div class="field has-addons">
                                         <div class="control">
-                                            <input class="input" type="text" placeholder="Amount to Redeem" value="46">
+                                            <input class="input" type="text" placeholder="Amount to Redeem" value="{{user.rewardPoints}}">
                                         </div>
                                         <div class="control">
                                             <button class="button is-link">Redeem</button>
