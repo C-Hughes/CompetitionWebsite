@@ -12,6 +12,7 @@ Competitions:
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Add original price and discounted price for site wide discounts.
 - Update slider so button disables if at minimum or maximum
+- Add modal/carrosel to view larger images of competition images
 
 Recode buy ticket post route to use an async function for readability
 
