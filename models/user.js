@@ -21,6 +21,7 @@ var userSchema = new Schema({
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
     referralCode: {type: String, required: true},
     signupReferralCodeUsed: {type: String, required: false},
+    usersReferred: {type: Number, required: false, default: 0},
     joindate: {type: Date, default: Date.now, required: true},
     isAdmin: {type: Boolean, required: true, default: false},
     lastlogin: {type: Date, default: Date.now, required: true},

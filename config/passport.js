@@ -64,8 +64,8 @@ passport.use('local.signup', new LocalStrategy({
             return done(null, false, req.flash('sError', 'Username is already in use.'));
         }
 
-        // Check if signup referral code is valid
-        const referralInputUser = await User.findOne({'referralCode': referralCodeInput});
+        // Check if signup referral code is valid, if valid, add to number of userReferred
+        const referralInputUser = await User.findOneAndUpdate({'referralCode': referralCodeInput}, {$inc: { usersReferred: 1 }}, {upsert: false});
         if (!referralInputUser && referralCodeInput != "") {
             // No user is found, and referralCodeInput has been populated, the code is invalid
             console.log('No user Referral Code found');
