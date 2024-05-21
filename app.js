@@ -68,6 +68,7 @@ app.use((req, res, next) => {
     res.locals.session = req.session;
     if(req.isAuthenticated()){
         res.locals.admin = req.user.isAdmin;
+        res.locals.user = req.user;
     }
     next();
 });
