@@ -28,12 +28,10 @@ passport.use('local.signup', new LocalStrategy({
     var lastName = req.body.lastName;
     var referralCodeInput = req.body.referralCodeInput;
 
-    //Strip illegal characters from username
-    var rx = new RegExp;
-    rx = /[^a-z0-9-_]/gi;
-    username.replace(rx, "");
+    // Strip illegal characters from username
+    username = username.replace(/[^a-z0-9-_]/gi, "");
 
-    //Input Validation
+    // Input Validation
     req.checkBody('username', 'Username cannot be empty').notEmpty();
     req.checkBody('email', 'Email address cannot be empty').notEmpty();
     req.checkBody('passwordS', 'Password cannot be empty').notEmpty();
@@ -53,89 +51,53 @@ passport.use('local.signup', new LocalStrategy({
         return done(null, false, req.flash('sError', sMessages));
     }
 
-   
-    //Check if email already exists
-    User.findOne({'emailAddress': email})
-    .then((user) => {
-        if (user && email != "") {
+    try {
+        // Check if email already exists
+        const emailUser = await User.findOne({'emailAddress': email});
+        if (emailUser && email != "") {
             return done(null, false, req.flash('sError', 'Email is already in use.'));
-        } else {
-            //Check if username already exists
-            User.findOne({'username':username})
-            .then((foundUser) => {
-                if (foundUser) {
-                    return done(null, false, req.flash('sError', 'Username is already in use.'));
-                }
-
-                //Check if signup referral code is valid
-                User.findOne({'referralCode':referralCodeInput})
-                .then((referralInputUser) => {
-                    if (!referralInputUser && referralCodeInput!="") {
-                        //No user is found, and referralCodeInput has been populated, the code is invalid
-                        console.log('No user Referral Code found');
-                        return done(null, false, req.flash('sError', 'This referral code is invalid'));
-                    }
-                    console.log('Referral code is valid or not submitted');
-
-                    //Generate ReferralCode until a unique one is found
-                    console.log('Generate new user Referral Code');
-                    //var referralCode;
-                    var referralCode;
-                    //referralCode = generateUniqueReferralCode(username);
-
-                    /*
-                    (async function awaitReferralGen() {
-                        try {
-                            console.log('Generating...');
-                            referralCode = await generateUniqueReferralCode(username);
-                            console.log('Referral Code = '+referralCode);
-                        } catch(error) {
-                        console.log(error);
-                        }
-                    })()
-                    */
-
-                    
-                    // Generate a unique referral code
-                    console.log('Generate new user Referral Code');
-                    const referralCode = generateUniqueReferralCode(username);
-                    console.log('Referral Code = ' + referralCode);
-
-                
-                    console.log('Save new user!');
-                    var newUser = new User();
-                    newUser.username = username;
-                    newUser.password = newUser.encryptPassword(passwordConf);
-                    newUser.emailAddress = email;
-                    newUser.firstName = firstName;
-                    newUser.lastName = lastName;
-                    newUser.referralCode = referralCode;
-                    newUser.signupReferralCodeUsed = referralCodeInput;
-                    newUser.displayName = username;
-                    newUser.joindate = new Date();
-                    newUser.lastlogin = new Date();
-                    newUser.save({})
-                    .then(() => {
-                        return done(null, newUser);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-                    
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-            })
-            .catch(err => {
-            console.log(err);
-        });
         }
-    })
-    .catch(err => {
-    console.log(err);
-    });
 
+        // Check if username already exists
+        const foundUser = await User.findOne({'username': username});
+        if (foundUser) {
+            return done(null, false, req.flash('sError', 'Username is already in use.'));
+        }
+
+        // Check if signup referral code is valid
+        const referralInputUser = await User.findOne({'referralCode': referralCodeInput});
+        if (!referralInputUser && referralCodeInput != "") {
+            // No user is found, and referralCodeInput has been populated, the code is invalid
+            console.log('No user Referral Code found');
+            return done(null, false, req.flash('sError', 'This referral code is invalid'));
+        }
+        console.log('Referral code is valid or not submitted');
+
+        // Generate a unique referral code
+        console.log('Generate new user Referral Code');
+        const referralCode = await generateUniqueReferralCode(username);
+        console.log('Referral Code = ' + referralCode);
+
+        // Save the new user
+        console.log('Save new user!');
+        var newUser = new User();
+        newUser.username = username;
+        newUser.password = newUser.encryptPassword(passwordConf);
+        newUser.emailAddress = email;
+        newUser.firstName = firstName;
+        newUser.lastName = lastName;
+        newUser.referralCode = referralCode;
+        newUser.signupReferralCodeUsed = referralCodeInput;
+        newUser.displayName = username;
+        newUser.joindate = new Date();
+        newUser.lastlogin = new Date();
+
+        await newUser.save();
+        return done(null, newUser);
+    } catch (err) {
+        console.error(err);
+        return done(null, false, req.flash('sError', 'An error occurred during sign up'));
+    }
 }));
 
 //////////////////////Login strategy////////////////////////////
