@@ -439,7 +439,7 @@ router.post('/checkout', function(req, res, next) {
 
 ///////// Logged in users cannot access routes below //////////////
 
-/* MUST BE LOGGED IN TO ACCESS BELOW */
+/* MUST NOT BE LOGGED IN TO ACCESS BELOW */
 router.use('/', notLoggedIn, function(req, res, next) {
     next();
 });
