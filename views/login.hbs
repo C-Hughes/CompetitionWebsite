@@ -143,10 +143,10 @@
                                 <div class="has-text-centered my-4">
                                     <p>Have a referral code? <button type="button" class="is-link" onclick="toggleElement('referralInput')"><u>Click here to enter your code</u></button></p>
                                 </div>
-                                <div id="referralInput" class="field is-centered" style="display: none;">
+                                <div id="referralInput" class="field is-centered" {{#unless hasReferralCode}}style="display: none;"{{/unless}}>
                                     <label class="label">Referral Code</label>
                                     <div class="control has-icons-left">
-                                        <input id="referralCodeInput" name="referralCodeInput" class="input" type="text" placeholder="Referral Code">
+                                        <input id="referralCodeInput" name="referralCodeInput" class="input" type="text" placeholder="Referral Code" value="{{referralCode}}">
                                         <span class="icon is-small is-left">
                                             <i class="fa-solid fa-user-plus"></i>
                                         </span>

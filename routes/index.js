@@ -446,7 +446,9 @@ router.use('/', notLoggedIn, function(req, res, next) {
 
 
 //////////////////////// Login / Register /////////////////////////
-router.get('/login', function(req, res, next) {
+router.get(['/login', '/register/:referralCode?'], function(req, res, next) {
+    var referralCode = req.params.referralCode || "";
+    
     var sMessages = req.flash('sError');
     var lMessages = req.flash('lError');
     var Errormessage = req.flash('error');
@@ -457,8 +459,9 @@ router.get('/login', function(req, res, next) {
         sMessages.push('Please populate required fields');
     }
 
-    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0});
+    res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0, referralCode: referralCode, hasReferralCode: referralCode.length > 0});
 });
+
 
 router.post('/login', passport.authenticate('local.login', {
     successRedirect: '/user',
