@@ -45,3 +45,12 @@ AntiCheat / User monitoring:
 - Show users that have the same shipping / billing addresses
 - Show users who have referred the most people
 - Show users who have the highest rewardpoints / reward level
+
+
+
+
+
+
+
+
+Completed:
