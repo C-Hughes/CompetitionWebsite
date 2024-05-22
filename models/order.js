@@ -10,6 +10,7 @@ var orderSchema = new Schema({
     billingAddress: {type: Object, required: true},
     paymentID: {type: String, required: true},
     paymentPrice: {type: Number, required: true},
+    orderStatus: {type: String, required: true, default: 'Complete'},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });

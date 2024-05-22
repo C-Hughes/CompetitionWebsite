@@ -7,7 +7,7 @@
 {{> userNav}}
 
 <div class="container is-max-widescreen my-6">
-    <h2 class="subtitle is-6">Order <strong>{{order._id}}</strong> was placed on <strong>04-05-2024</strong> and is currently <strong>Complete.</strong></h2>
+    <h2 class="subtitle is-6">Order <strong>{{order._id}}</strong> was placed on <strong>{{formatDate order.created}}</strong> and is currently <strong>{{order.orderStatus}}.</strong></h2>
     <hr />
     <h1 class="title is-3">Order Details</strong></h2>
     <hr />

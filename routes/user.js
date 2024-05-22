@@ -40,9 +40,10 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/viewOrder', function(req, res, next) {
+router.get('/viewOrder/:id', function(req, res, next) {
+    var orderID = req.params.id;
 
-    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } }).populate('billingAddressReference')
+    Order.findOne({_id: orderID, userReference: req.user})
     .then(foundOrder => {
         if (foundOrder) {
             var basket;
@@ -51,8 +52,8 @@ router.get('/viewOrder', function(req, res, next) {
 
             return res.render('user/viewOrder', { title: 'View Order', active: { dashboard: true }, order: foundOrder});
         } else {
-            console.log("No Order Found");
-            return res.render('user/viewOrder', { title: 'View Order', active: { dashboard: true }, order: ""});
+            console.log("No Order Found or this is not your order");
+            return res.render('user/dashboard', { title: 'View Order', active: { dashboard: true }, order: ""});
         }
     })
     .catch(err => {
