@@ -7,6 +7,7 @@ var orderSchema = new Schema({
     basket: {type: Object, required: true},
     shippingAddressReference: {type: Schema.Types.ObjectId, ref: 'ShippingAddress', required: false},
     billingAddressReference: {type: Schema.Types.ObjectId, ref: 'BillingAddress', required: true},
+    billingAddress: {type: Object, required: true},
     paymentID: {type: String, required: true},
     paymentPrice: {type: Number, required: true},
     created: {type: Date, default: Date.now, required: true},

@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/viewOrder', function(req, res, next) {
 
-    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
+    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } }).populate('billingAddressReference')
     .then(foundOrder => {
         if (foundOrder) {
             var basket;

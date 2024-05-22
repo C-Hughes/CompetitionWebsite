@@ -230,6 +230,7 @@ router.post('/processCard', async (req, res, next) => {
                 orderNumber: '0000000001',
                 basket: basket,
                 billingAddressReference: foundBAddress._id,
+                billingAddress: foundBAddress,
                 paymentID: 'TESTREFERENCE',
                 paymentPrice: req.session.basket.totalPrice,
             });

@@ -9,7 +9,7 @@
 <div class="container is-max-widescreen my-6">
     <h2 class="subtitle is-6">Order <strong>{{order._id}}</strong> was placed on <strong>04-05-2024</strong> and is currently <strong>Complete.</strong></h2>
     <hr />
-    <h1 class="title is-4">Order Details</strong></h2>
+    <h1 class="title is-3">Order Details</strong></h2>
     <hr />
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Product</strong></p>
@@ -77,9 +77,12 @@
     <br />
     <hr />
 
-    <div class="container is-flex is-justify-content-center is-align-items-center">
-        <a href="/" class="button is-medium is-primary">Return to Homepage</a>
-    </div>
+    <h1 class="title is-3">Billing Address</strong></h2>
+    <p>{{order.billingAddressReference.firstName}} {{order.billingAddressReference.lastName}}</p>
+    <p>{{order.billingAddressReference.streetAddress1}}</p>
+    <p>{{order.billingAddressReference.townCity}}</p>
+    <p>{{order.billingAddressReference.postcode}}</p>
+    <p>{{order.billingAddressReference.phoneNumber}}</p>
     
 
 </div>
