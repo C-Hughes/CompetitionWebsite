@@ -56,3 +56,11 @@ AntiCheat / User monitoring:
 Completed:
 
 Recode buy ticket post route to use an async function for readability
+
+
+
+
+
+
+//   cd ../../../../../ 
+//   cd '.\Program Files\MongoDB\Server\4.2\bin'

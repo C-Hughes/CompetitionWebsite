@@ -47,9 +47,7 @@
                                                     <br />
                                                     <p id="comp_{{this._id}}" class="notification" style="display:none">
                                                         {{# each this.ticketNumbersObjects}}
-                                                            {{# each this}}
-                                                                <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
-                                                            {{/each}}
+                                                            <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
                                                         {{/each}}
                                                     </p>
                                                 </div>

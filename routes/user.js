@@ -22,12 +22,13 @@ router.get('/', function(req, res, next) {
             //var basket;
             var compArr = [];
             foundTickets.forEach(function(comp){
-                //basket = new Basket(order.basket);
-                //order.items = basket.generateArray();
+                comp.ticketNumbersObjects.sort((a, b) => {
+                    return parseInt(a.ticketNumber) - parseInt(b.ticketNumber);
+                });
                 compArr.push(comp);
-            });
 
-            console.log('comp: '+compArr);
+                //console.log('COMP: '+comp);
+            });
 
             return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, competitions: compArr, hasCompetitions: foundTickets.length > 0});
         } else {
