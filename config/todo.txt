@@ -15,7 +15,6 @@ Competitions:
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
 
-Recode buy ticket post route to use an async function for readability
 
 
 User:
@@ -55,3 +54,5 @@ AntiCheat / User monitoring:
 
 
 Completed:
+
+Recode buy ticket post route to use an async function for readability
