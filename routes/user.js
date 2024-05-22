@@ -53,7 +53,7 @@ router.get('/viewOrder/:id', function(req, res, next) {
 
             return res.render('user/viewOrder', { title: 'View Order', active: { dashboard: true }, order: foundOrder});
         } else {
-            console.log("No Order Found or this is not your order");
+            console.log("No Order Found or This is Not Your Order");
             return res.render('user/dashboard', { title: 'View Order', active: { dashboard: true }, order: ""});
         }
     })
