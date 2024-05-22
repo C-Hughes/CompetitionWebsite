@@ -254,6 +254,7 @@ router.post('/processCard', async (req, res, next) => {
 
                 var soldCompTicketNumbers = foundCompetition.ticketNumbersSold;
                 var newTicketNumbers = [];
+                var ticketOrderObjArray = [];
 
                 console.log('Generating - ' + comp.qty + ' - Tickets');
                 for (let i = 0; i < comp.qty; i++) {
@@ -273,13 +274,23 @@ router.post('/processCard', async (req, res, next) => {
 
                     newTicketNumbers.push(randomTicketNumber);
                     soldCompTicketNumbers.push(randomTicketNumber);
+
+                    var ticketObj = {};
+                    ticketObj["orderID"] = savedOrder.id;
+                    ticketObj["ticketNumber"] = randomTicketNumber;
+                    ticketOrderObjArray.push(ticketObj);
                     //console.log('UPDATE NEW TICKET NUMBERS ' + newTicketNumbers);
                     //console.log('UPDATE COMP SOLD TICKET NUMBERS ' + soldCompTicketNumbers);
                 }
 
+                //Sort newTicketNumbers lowest to highest
                 newTicketNumbers = newTicketNumbers.sort((a, b) => a - b);
                 console.log('SORTED NEW TICKET NUMBERS: ' + newTicketNumbers);
                 comp.ticketNumbers = newTicketNumbers;
+
+                //Sort ticketOrderObjArray lowest to highest
+                ticketOrderObjArray.sort((a, b) => parseFloat(a.ticketNumber) - parseFloat(b.ticketNumber));
+                console.log('!!!NEW TICKETORDER ARRAY = ' + ticketOrderObjArray);
 
                 var ticketUpdate = {
                     userReference: req.user,
@@ -289,6 +300,7 @@ router.post('/processCard', async (req, res, next) => {
                     $inc: { ticketQty: comp.qty },
                     compAnswer: comp.questionAnswer,
                     '$push': { ticketNumbers: newTicketNumbers },
+                    '$push': { ticketNumbersObjects: ticketOrderObjArray },
                     mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
                     lastUpdated: new Date().toISOString(),
                 };
