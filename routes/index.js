@@ -314,21 +314,20 @@ router.post('/processCard', async (req, res, next) => {
                 );
                 console.log('TICKETS UPDATED IN TICKET DB');
 
+                ///////////////UPDATE COMPETITION RECORD FOR MOST RECENT PURCHASED TICKETS/////////////////
                 //Sort all sold tickets for the competition to update in the database
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
                 console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
-
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
                     $inc: { 'currentEntries': comp.qty },
                 };
-
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 console.log('SOLD TICKETS UPDATED IN COMPETITION DB ' + comp.item.title);
+                ////////////////////////////////////////////////////////////////
 
-
-                //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route.
+                //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
                 await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries }, { upsert: false });
                 console.log('ORDER UPDATED WITH TICKET NUMBERS ' + comp.item.title);
             }
