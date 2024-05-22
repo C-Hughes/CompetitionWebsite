@@ -227,7 +227,7 @@ router.post('/processCard', async (req, res, next) => {
 
             var order = new Order({
                 userReference: req.user,
-                orderNumber: '0000000001',
+                //orderNumber: '0000000001',
                 basket: basket,
                 billingAddressReference: foundBAddress._id,
                 billingAddress: foundBAddress,
@@ -285,6 +285,8 @@ router.post('/processCard', async (req, res, next) => {
                 //Sort newTicketNumbers lowest to highest
                 newTicketNumbers = newTicketNumbers.sort((a, b) => a - b);
                 //console.log('SORTED NEW TICKET NUMBERS: ' + newTicketNumbers);
+
+                //Update comp.ticketNumbers to update the basket for orderReceived Page
                 comp.ticketNumbers = newTicketNumbers;
 
                 //Sort ticketOrderObjArray lowest to highest
@@ -299,10 +301,10 @@ router.post('/processCard', async (req, res, next) => {
                     $inc: { ticketQty: comp.qty },
                     compAnswer: comp.questionAnswer,
                     $push: { 
-                        ticketNumbers: { $each: newTicketNumbers },
+                        //ticketNumbers: { $each: newTicketNumbers },
                         ticketNumbersObjects: { $each: ticketOrderObjArray }
                     },
-                    mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
+                    //mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
                     lastUpdated: new Date().toISOString(),
                 };
                 await Ticket.findOneAndUpdate(
@@ -312,6 +314,7 @@ router.post('/processCard', async (req, res, next) => {
                 );
                 console.log('TICKETS UPDATED IN TICKET DB');
 
+                //Sort all sold tickets for the competition to update in the database
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
                 console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
 
@@ -323,6 +326,7 @@ router.post('/processCard', async (req, res, next) => {
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 console.log('SOLD TICKETS UPDATED IN COMPETITION DB ' + comp.item.title);
+
 
                 //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route.
                 await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries }, { upsert: false });

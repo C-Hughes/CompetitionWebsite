@@ -11,9 +11,9 @@ var ticketSchema = new Schema({
     //paymentID: {type: String, required: true},
     ticketQty: {type: Number, required: true},
     compAnswer: {type: String, required: true},
-    ticketNumbers: [{type: Number, required: true}],
+    //ticketNumbers: [{type: Number, required: true}],
     ticketNumbersObjects: [{type: Object, required: true}],
-    mostRecentlyPurchasedTicketNumbers: [{type: Number, required: true}],
+    //mostRecentlyPurchasedTicketNumbers: [{type: Number, required: true}],
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });
