@@ -82,11 +82,10 @@
 {{/if}}
 
 <div class="container">
-    <div class="fixed-grid has-2-cols-mobile has-3-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
-        <div class="grid">
+    <div class="columns is-multiline">
         {{# each competitions}}
             <!-- Competition Column -->
-            <div class="cell has-text-centered">
+            <div class="column is-6 is-3-fullhd is-4-widescreen is-4-desktop is-6-tablet is-6-mobile">
                 <a href="/competition/{{this.id}}" class="is-link">
                     <div class="card" style="">
                         <div class="card-image">
@@ -118,7 +117,6 @@
                 </a>
             </div>
         {{/each}}
-        </div>
     </div>
 </div>
 
