@@ -2,6 +2,7 @@ When buying tickets:
 - Make sure they cannot buy more than max for comp (before payment is made) - Possibly allocate tickets so another user cannot buy tickets after payment has been made
 - check to see how many user has bought already and if they can buy anymore
 
+- Make orderNumber incriment
 
 
 Competitions:

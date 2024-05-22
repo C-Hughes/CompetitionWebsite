@@ -97,7 +97,7 @@ router.get('/orderReceived', function(req, res, next) {
             basket = new Basket(foundOrder.basket);
             foundOrder.items = basket.generateArray();
 
-            console.log('foundOrder'+foundOrder);
+            //console.log('foundOrder'+foundOrder);
 
             return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
         } else {
@@ -233,7 +233,6 @@ router.post('/processCard', async (req, res, next) => {
                 paymentID: 'TESTREFERENCE',
                 paymentPrice: req.session.basket.totalPrice,
             });
-            console.log('SAVE ORDER');
             const savedOrder = await order.save();
             console.log('SUCCESS SAVE ORDER - ID= ' + savedOrder.id);
 
@@ -255,28 +254,31 @@ router.post('/processCard', async (req, res, next) => {
                 var soldCompTicketNumbers = foundCompetition.ticketNumbersSold;
                 var newTicketNumbers = [];
 
+                console.log('Generating - ' + comp.qty + ' - Tickets');
                 for (let i = 0; i < comp.qty; i++) {
-                    console.log('Tickets Generated ' + i + '/' + comp.qty);
+                    //console.log('Tickets Generated ' + i + '/' + comp.qty);
 
                     let foundRandomNumber = false;
                     while (!foundRandomNumber) {
                         var randomTicketNumber = Math.floor(Math.random() * foundCompetition.maxEntries) + 1;
-                        console.log('RANDOM NUMBER ' + randomTicketNumber);
+                        //console.log('RANDOM NUMBER ' + randomTicketNumber);
 
                         if (soldCompTicketNumbers.length === 0 || !soldCompTicketNumbers.includes(randomTicketNumber)) {
                             foundRandomNumber = true;
+                        } else {
+                            console.log('Duplicate ticketnumber generated, finding a new one - ' + randomTicketNumber);
                         }
                     }
 
                     newTicketNumbers.push(randomTicketNumber);
                     soldCompTicketNumbers.push(randomTicketNumber);
-                    console.log('UPDATE NEW TICKET NUMBERS ' + newTicketNumbers);
-                    console.log('UPDATE COMP SOLD TICKET NUMBERS ' + soldCompTicketNumbers);
+                    //console.log('UPDATE NEW TICKET NUMBERS ' + newTicketNumbers);
+                    //console.log('UPDATE COMP SOLD TICKET NUMBERS ' + soldCompTicketNumbers);
                 }
 
+                newTicketNumbers = newTicketNumbers.sort((a, b) => a - b);
+                console.log('SORTED NEW TICKET NUMBERS: ' + newTicketNumbers);
                 comp.ticketNumbers = newTicketNumbers;
-                console.log("!!!!!!!!!!COMPTICKET NUMBERS " + comp.ticketNumbers);
-                console.log("!!!!!!!!!!competitionEntries " + competitionEntries);
 
                 var ticketUpdate = {
                     userReference: req.user,
@@ -289,25 +291,26 @@ router.post('/processCard', async (req, res, next) => {
                     mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
                     lastUpdated: new Date().toISOString(),
                 };
-
                 await Ticket.findOneAndUpdate(
                     { userReference: req.user, compAnswer: comp.questionAnswer },
                     ticketUpdate,
                     { upsert: true }
                 );
-                console.log('SAVED TICKETS IN TICKET DB');
+                console.log('TICKETS UPDATED IN TICKET DB');
 
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
-                console.log('SORTED TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
+                console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
 
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
                     $inc: { 'currentEntries': comp.qty },
                 };
 
+                //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 console.log('SOLD TICKETS UPDATED IN COMPETITION DB ' + comp.item.title);
 
+                //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route.
                 await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries }, { upsert: false });
                 console.log('ORDER UPDATED WITH TICKET NUMBERS ' + comp.item.title);
             }
