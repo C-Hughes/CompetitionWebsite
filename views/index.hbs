@@ -86,33 +86,35 @@
         {{# each competitions}}
             <!-- Competition Column -->
             <div class="column is-one-third has-text-centered">
-                <div class="card" style="">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                        <img
-                            src="{{this.imagePath}}"
-                            alt="Competition Image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="content" style="height: 100px;">
-                            <p class="title is-4">Win this {{this.title}}</p>
-                            <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
+                <a href="/competition/{{this.id}}" class="is-link">
+                    <div class="card" style="">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                            <img
+                                src="{{this.imagePath}}"
+                                alt="Competition Image"
+                            />
+                            </figure>
                         </div>
-                        <div class="content" style="">
-                            <div style="">
-                                <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                        <div class="card-content">
+                            <div class="content" style="height: 100px;">
+                                <p class="title is-4">Win this {{this.title}}</p>
+                                <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                             </div>
-                            <div style="margin-top: 30px">
-                                <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
-                                <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                <a href="/competition/{{this.id}}" class="button is-medium is-fullwidth is-primary">Enter Now</a>
-                                <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
+                            <div class="content" style="">
+                                <div style="">
+                                    <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                </div>
+                                <div style="margin-top: 30px">
+                                    <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
+                                    <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
+                                    <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                    <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         {{/each}}
     </div>
