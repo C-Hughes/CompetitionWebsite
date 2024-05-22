@@ -40,6 +40,26 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/viewOrder', function(req, res, next) {
+
+    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
+    .then(foundOrder => {
+        if (foundOrder) {
+            var basket;
+            basket = new Basket(foundOrder.basket);
+            foundOrder.items = basket.generateArray();
+
+            return res.render('user/viewOrder', { title: 'View Order', active: { dashboard: true }, order: foundOrder});
+        } else {
+            console.log("No Order Found");
+            return res.render('user/viewOrder', { title: 'View Order', active: { dashboard: true }, order: ""});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 router.get('/address', function(req, res, next) {
     var errors = req.flash('error');
     var success = req.flash('success');

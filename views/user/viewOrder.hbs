@@ -1,0 +1,85 @@
+<section class="hero is-info">
+  <div class="hero-body has-text-centered">
+    <p class="title">Order ID: {{order._id}}</p>
+  </div>
+</section>
+
+{{> userNav}}
+
+<div class="container is-max-widescreen my-6">
+    <h2 class="subtitle is-6">Order <strong>{{order._id}}</strong> was placed on <strong>04-05-2024</strong> and is currently <strong>Complete.</strong></h2>
+    <hr />
+    <h1 class="title is-4">Order Details</strong></h2>
+    <hr />
+    <div class="container">
+        <p class="subtitle is-6 is-pulled-left"><strong>Product</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>Total</strong></p>
+    </div>
+    <br />
+    <hr />
+
+    <div class="container">
+        {{# each order.basket}}
+            <div class="columns is-vcentered is-mobile is-multiline">
+                <div class="column is-9">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-64x64">
+                                    <img
+                                        src="{{this.item.imagePath}}" 
+                                        alt="Placeholder image"
+                                    />
+                                    </figure>
+                                </div>
+                                <div class="media-content py-1">
+                                    <p class="title is-6"><span class="subtitle is-6">Win this {{this.item.title}}!</span> x {{this.qty}}</p>
+                                    <p class="subtitle is-6"><strong>Answer:</strong> {{this.questionAnswer}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="columns is-mobile">
+                        <div class="column is-flex is-justify-content-right is-align-items-right">
+                            <p class="subtitle is-6"><strong>£{{this.price}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-12">
+                    <p class="subtitle is-6"><strong>Ticket Number(s):</strong> {{formatTicketNumberOutput this.ticketNumbers}}.</p>
+                </div>
+            </div> 
+            <hr />
+        {{/each}}
+    </div>
+    
+    <div class="container">
+        <p class="subtitle is-6 is-pulled-left"><strong>Subtotal:</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentPrice}}</strong></p>
+    </div>
+    <br />
+    <hr />
+
+    <div class="container">
+        <p class="subtitle is-6 is-pulled-left"><strong>Payment method:</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>Debit/Credit Card</strong></p>
+    </div>
+    <br />
+    <hr />
+
+    <div class="container">
+        <p class="subtitle is-6 is-pulled-left"><strong>Total</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentPrice}}</strong></p>
+    </div>
+    <br />
+    <hr />
+
+    <div class="container is-flex is-justify-content-center is-align-items-center">
+        <a href="/" class="button is-medium is-primary">Return to Homepage</a>
+    </div>
+    
+
+</div>
