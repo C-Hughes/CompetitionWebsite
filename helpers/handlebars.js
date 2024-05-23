@@ -78,4 +78,34 @@ module.exports = {
         this.hasInactiveCompetitions = hasInactive;
         return options.fn(this);
     },
+    checkCurrentTickets: function(tickets, options){
+        let hasCurrent = false;
+
+        // Iterate through competitions to check for active ones
+        for (let i = 0; i < tickets.length; i++) {
+            if (new Date(tickets[i].competitionDrawDate) > Date.now()) {
+                hasCurrent = true;
+                break;
+            }
+        }
+
+        // Pass the result to the template context
+        this.hasCurrentTickets = hasCurrent;
+        return options.fn(this);
+    },
+    checkPastTickets: function(tickets, options){
+        let hasPast = false;
+
+        // Iterate through competitions to check for active ones
+        for (let i = 0; i < tickets.length; i++) {
+            if (new Date(tickets[i].competitionDrawDate) < Date.now()) {
+                hasPast = true;
+                break;
+            }
+        }
+
+        // Pass the result to the template context
+        this.hasPastTickets = hasPast;
+        return options.fn(this);
+    },
 }

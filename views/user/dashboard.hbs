@@ -33,34 +33,43 @@
                 <li class="is-active">
                     <div class="columns is-multiline">
                         {{#if hasCompetitions}}
-                            {{# each competitions}}
-                                {{#ifDateInPast this.competitionDrawDate}}
-                                    <div class="column is-one-third">
-                                        <div class="box">
-                                            <div class="has-text-centered">
-                                                <div>
-                                                    <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
-                                                    <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
-                                                    <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
-                                                    <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
-                                                    <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
-                                                    <br />
-                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">
-                                                        {{# each this.ticketNumbersObjects}}
-                                                            <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
-                                                        {{/each}}
-                                                    </p>
+                            {{#checkCurrentTickets competitions}}
+                                {{#each competitions}}
+                                    {{#ifDateInPast this.drawDate}}
+                                    {{else}}
+                                        <div class="column is-one-third">
+                                            <div class="box">
+                                                <div class="has-text-centered">
+                                                    <div>
+                                                        <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
+                                                        <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
+                                                        <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
+                                                        <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
+                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
+                                                        <br />
+                                                        <p id="comp_{{this._id}}" class="notification" style="display:none">
+                                                            {{# each this.ticketNumbersObjects}}
+                                                                <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
+                                                            {{/each}}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>  
+                                    {{/ifDateInPast}}
+                                {{/each}}
+                                {{#unless hasCurrentTickets}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No current competition entries to show.</p>
                                         </div>
-                                    </div>  
-                                {{else}}
-                                {{/ifDateInPast}}
-                            {{/each}}
+                                    </div>
+                                {{/unless}}
+                            {{/checkCurrentTickets}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
-                                    <p>No current competition entries to show.</p>
+                                    <p>No competitions to show.</p>
                                 </div>
                             </div>
                         {{/if}}
@@ -69,34 +78,42 @@
                 <li>
                     <div class="columns is-multiline">
                         {{#if hasCompetitions}}
-                            {{# each competitions}}
-                                {{#ifDateInPast this.competitionDrawDate}}
-                                {{else}}
-                                    <div class="column is-one-third">
-                                        <div class="box">
-                                            <div class="has-text-centered">
-                                                <div>
-                                                    <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
-                                                    <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
-                                                    <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
-                                                    <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
-                                                    <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
-                                                    <br />
-                                                    <p id="comp_{{this._id}}" class="notification" style="display:none">
-                                                        {{# each this.ticketNumbersObjects}}
-                                                            <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
-                                                        {{/each}}
-                                                    </p>
+                            {{#checkPastTickets competitions}}
+                                {{#each competitions}}
+                                    {{#ifDateInPast this.drawDate}}
+                                        <div class="column is-one-third">
+                                            <div class="box">
+                                                <div class="has-text-centered">
+                                                    <div>
+                                                        <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
+                                                        <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
+                                                        <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
+                                                        <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
+                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
+                                                        <br />
+                                                        <p id="comp_{{this._id}}" class="notification" style="display:none">
+                                                            {{# each this.ticketNumbersObjects}}
+                                                                <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
+                                                            {{/each}}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>  
+                                    {{/ifDateInPast}}    
+                                {{/each}}
+                                {{#unless hasPastTickets}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No past competition entries to show.</p>
                                         </div>
-                                    </div>  
-                                {{/ifDateInPast}}
-                            {{/each}}
+                                    </div>
+                                {{/unless}}
+                            {{/checkPastTickets}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
-                                    <p>No past competition entries to show.</p>
+                                    <p>No competitions to show.</p>
                                 </div>
                             </div>
                         {{/if}}
