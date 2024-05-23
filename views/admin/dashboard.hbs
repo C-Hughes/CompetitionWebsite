@@ -35,7 +35,7 @@
                                     {{#if this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/competition/{{this.id}}" class="is-link">
+                                            <a href="/admin/editCompetition/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
                                                     <div class="card-image">
                                                         <figure class="image is-4by3">
@@ -54,7 +54,7 @@
                                                             <div style="margin-top: 30px">
                                                                 <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
                                                                 <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                                                <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                                                <button class="button is-medium is-fullwidth is-link">Edit Competition</button>
                                                                 <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                                             </div>
                                                         </div>
@@ -89,7 +89,7 @@
                                     {{#unless this.active}}
                                     <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/competition/{{this.id}}" class="is-link">
+                                            <a href="/admin/editCompetition/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
                                                     <div class="card-image">
                                                         <figure class="image is-4by3">
@@ -108,7 +108,7 @@
                                                             <div style="margin-top: 30px">
                                                                 <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
                                                                 <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                                                <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                                                <button class="button is-medium is-fullwidth is-link">Edit Competition</button>
                                                                 <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                                             </div>
                                                         </div>

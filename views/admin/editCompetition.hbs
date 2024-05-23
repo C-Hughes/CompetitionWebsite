@@ -1,0 +1,158 @@
+<section class="hero is-danger">
+  <div class="hero-body has-text-centered">
+    <p class="title">Edit Competition {{competition.1._id}}</p>
+  </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-fullhd">
+    
+    <div class="card">
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                    <img
+                        src="https://bulma.io/assets/images/placeholders/96x96.png"
+                        alt="Placeholder image"
+                    />
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <p class="title is-4">John Smith</p>
+                    <p class="subtitle is-6">@johnsmith</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="field">
+                    <label class="label">Title</label>
+                    <div class="control has-icons-left">
+                        <input id="firstName" name="firstName" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-heading"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Cash Alternative</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-sterling-sign"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Country / Region</label>
+                    <p class="control has-icons-left">
+                        <span class="select is-fullwidth">
+                        <select id="countryRegion" name="countryRegion">
+                            <option selected>{{userBillingAddress.countryRegion}}</option>
+                            <option>Select dropdown</option>
+                            <option>With options</option>
+                        </select>
+                        </span>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-globe"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">Street Address</label>
+                    <div class="control has-icons-left">
+                        <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-road"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="streetAddress2" name="streetAddress2" class="input" type="text" placeholder="Street Address 2" value="{{userBillingAddress.streetAddress2}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-road"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Town / City</label>
+                    <div class="control has-icons-left">
+                        <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-city"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">County</label>
+                    <div class="control has-icons-left">
+                        <input id="county" name="county" class="input" type="text" placeholder="County" value="{{userBillingAddress.county}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Postcode</label>
+                    <div class="control has-icons-left">
+                        <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Phone Number</label>
+                    <div class="control has-icons-left">
+                        <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-phone"></i>
+                        </span>
+                    </div>
+                </div>
+                <label class="label">Date of Birth</label>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <span class="select">
+                            <select id="DOBDD" name="DOBDD">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <span class="select">
+                            <select id="DOBMM" name="DOBMM">
+                                <option>January</option>
+                                <option>February</option>
+                                <option>March</option>
+                            </select>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <span class="select">
+                            <select id="DOBYY" name="DOBYY">
+                                <option>2024</option>
+                                <option>2023</option>
+                                <option>2022</option>
+                            </select>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">Email Address</label>
+                    <p class="control is-expanded has-icons-left has-icons-right">
+                        <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userBillingAddress.emailAddress}}">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

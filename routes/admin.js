@@ -21,6 +21,25 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/editCompetition/:id', function(req, res, next) {
+    var compID = req.params.id;
+
+    var success = req.flash('success');
+
+    Competition.findOne({_id: compID})
+      .then(foundCompetition => {
+            if(foundCompetition){
+                res.render('admin/editCompetition', {title: 'Edit Competition', active: { dashboard: true }, competition: foundCompetition, success: success, hasSuccess: success.length > 0});
+            } else {
+                console.log("No Order Found or This is Not Your Order");
+                return res.render('admin/dashboard', { title: 'View Order', active: { dashboard: true }, order: ""});
+            }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 
 router.get('/winners', function(req, res, next) {
     res.render('admin/winners', { title: 'Winners', active: { winners: true } });
