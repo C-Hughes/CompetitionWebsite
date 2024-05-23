@@ -48,4 +48,34 @@ module.exports = {
         }
         return options.inverse(this);
     },
+    checkActiveCompetitions: function(competitions, options){
+        let hasActive = false;
+
+        // Iterate through competitions to check for active ones
+        for (let i = 0; i < competitions.length; i++) {
+            if (competitions[i].active) {
+                hasActive = true;
+                break;
+            }
+        }
+
+        // Pass the result to the template context
+        this.hasActiveCompetitions = hasActive;
+        return options.fn(this);
+    },
+    checkInactiveCompetitions: function(competitions, options){
+        let hasInactive = false;
+
+        // Iterate through competitions to check for active ones
+        for (let i = 0; i < competitions.length; i++) {
+            if (!competitions[i].active) {
+                hasInactive = true;
+                break;
+            }
+        }
+
+        // Pass the result to the template context
+        this.hasInactiveCompetitions = hasInactive;
+        return options.fn(this);
+    },
 }

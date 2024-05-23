@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var Competition = require('../models/competition');
+
+
 /* MUST BE LOGGED ADMIN TO ACCESS BELOW */
 router.use('/', isAdmin, function(req, res, next) {
     next();
@@ -8,17 +11,27 @@ router.use('/', isAdmin, function(req, res, next) {
 
 /* GET admin listings. */
 router.get('/', function(req, res, next) {
-  res.render('admin/dashboard', { title: 'Dashboard', active: { dashboard: true }  });
+    var success = req.flash('success');
+    Competition.find({})
+      .then(foundCompetition => {
+            res.render('admin/dashboard', {title: 'Dashboard', active: { dashboard: true }, competitions: foundCompetition, hasCompetitions: foundCompetition.length > 0, success: success, hasSuccess: success.length > 0});
+    })
+      .catch(err => {
+            console.log(err);
+    });
 });
+
 
 router.get('/winners', function(req, res, next) {
     res.render('admin/winners', { title: 'Winners', active: { winners: true } });
   });
   
+
   router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
   });
   
+
   router.get('/users', function(req, res, next) {
     res.render('admin/users', { title: 'Users', active: { users: true } });
   });
