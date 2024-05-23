@@ -81,6 +81,8 @@
                 <p class="subtitle is-6 has-text-centered">{{competition.currentEntries}} / {{competition.maxEntries}}</p>
 
             </div>
+
+            {{#isTrue competition.active}}
             <div class="tabs-wrapper">
                 <div class="tabs is-centered">
                     <ul>
@@ -162,6 +164,11 @@
                     </ul>
                 </div>
             </div>
+            {{else}}
+            <div class="notification is-warning">
+                <p>The competition has now closed and the winner will be contacted.</p>
+            </div>
+            {{/isTrue}}
         </div>
     </div>
 </div>

@@ -42,4 +42,10 @@ module.exports = {
         var toString = cond1.toString();
         return toString.replaceAll(",",", ");;        
     },
+    isTrue: function(value, options){
+        if(value === true) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
+    },
 }
