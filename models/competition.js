@@ -16,9 +16,10 @@ var competitionSchema = new Schema({
     questionText: {type: String, required: true},
     questionAnswers: [{type: String, required: true}],
     correctAnswer: {type: String, required: true},
+    active: {type: Boolean, required: true, default: true},
+    visible: {type: Boolean, required: true, default: true},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true},
-    active: {type: Boolean, required: true, default: true}
 });
 
 module.exports = mongoose.model('Competition', competitionSchema);
