@@ -35,8 +35,7 @@
                         {{#if hasCompetitions}}
                             {{#checkCurrentTickets competitions}}
                                 {{#each competitions}}
-                                    {{#ifDateInPast this.drawDate}}
-                                    {{else}}
+                                    {{#ifDateInPast this.competitionDrawDate}}
                                         <div class="column is-one-third">
                                             <div class="box">
                                                 <div class="has-text-centered">
@@ -56,6 +55,7 @@
                                                 </div>
                                             </div>
                                         </div>  
+                                    {{else}}
                                     {{/ifDateInPast}}
                                 {{/each}}
                                 {{#unless hasCurrentTickets}}
@@ -80,7 +80,8 @@
                         {{#if hasCompetitions}}
                             {{#checkPastTickets competitions}}
                                 {{#each competitions}}
-                                    {{#ifDateInPast this.drawDate}}
+                                    {{#ifDateInPast this.competitionDrawDate}}
+                                    {{else}}
                                         <div class="column is-one-third">
                                             <div class="box">
                                                 <div class="has-text-centered">
