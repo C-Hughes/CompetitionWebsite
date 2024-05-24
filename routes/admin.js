@@ -81,7 +81,7 @@ router.get('/winners', function(req, res, next) {
                 messages.push(error.msg);
             });
             req.flash('error', messages);
-            return res.redirect('/address');
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
         
         var competitionUpdate = {
