@@ -23,16 +23,16 @@ router.get('/', function(req, res, next) {
 
 router.get('/editCompetition/:id', function(req, res, next) {
     var compID = req.params.id;
-
     var success = req.flash('success');
+    var errors = req.flash('error');
 
     Competition.findOne({_id: compID})
       .then(foundCompetition => {
             if(foundCompetition){
-                res.render('admin/editCompetition', {title: 'Edit Competition', active: { dashboard: true }, competition: foundCompetition, success: success, hasSuccess: success.length > 0});
+                res.render('admin/editCompetition', {title: 'Edit Competition', active: { dashboard: true }, competition: foundCompetition, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
             } else {
-                console.log("No Order Found or This is Not Your Order");
-                return res.render('admin/dashboard', { title: 'View Order', active: { dashboard: true }, order: ""});
+                console.log("Error finding competition");
+                return res.render('admin/dashboard', { title: 'Dashboard', active: { dashboard: true }});
             }
     })
     .catch(err => {
@@ -61,24 +61,18 @@ router.get('/winners', function(req, res, next) {
 
     //If no competition id is submitted with the form
     if(req.body.compID){
+
         //Input Validation
-        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
-        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
-        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.emailAddress){
-            req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }
-        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
-            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
-            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
-            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
-            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-            req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
-            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
-        }    
+        req.checkBody('title', 'Title cannot be empty').notEmpty();
+        req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
+        req.checkBody('price', 'Price cannot be empty').notEmpty();
+        req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+        req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
+        req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
+        req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
+        req.checkBody('questionText', 'Question Text cannot be empty').notEmpty();
+        req.checkBody('questionAnswers', 'Question Answers cannot be empty').notEmpty();
+        req.checkBody('correctAnswer', 'Correct Answer cannot be empty').notEmpty();
 
         var errors = req.validationErrors();
         if (errors){
@@ -90,35 +84,36 @@ router.get('/winners', function(req, res, next) {
             return res.redirect('/address');
         }
         
-        var billingAddressUpdate = {
-            userReference: req.user,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            countryRegion: req.body.countryRegion,
-            streetAddress1: req.body.streetAddress1,
-            streetAddress2: req.body.streetAddress2,
-            townCity: req.body.townCity,
-            county: req.body.county,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
-            DOBDD: req.body.DOBDD,
-            DOBMM: req.body.DOBMM,
-            DOBYY: req.body.DOBYY,
-            emailAddress: req.body.emailAddress,
+        var competitionUpdate = {
+            //imagePath: {type: String, required: true},
+            //additionalImagePaths: [{type: String, required: false}],
+            title: req.body.title,
+            description: req.body.description,
+            cashAlternative: req.body.cashAlternative,
+            price: req.body.price,
+            discountPrice: req.body.discountPrice,
+            drawDate: new Date(req.body.drawDate).toISOString(),
+            maxEntries: req.body.maxEntries,
+            maxEntriesPerPerson: req.body.maxEntriesPerPerson,
+            maxPostalVotes: req.body.maxPostalVotes,
+            questionText: req.body.questionText,
+            questionAnswers: req.body.questionAnswers,
+            correctAnswer: req.body.correctAnswer,
+            //active: {type: Boolean, required: true, default: true},
+            //visible: {type: Boolean, required: true, default: true},
             lastUpdated: new Date().toISOString(),
         };
-        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
+        Competition.findOneAndUpdate({_id: req.body.compID}, competitionUpdate, {upsert: false})
         .then(() => {
-            req.flash('success', 'Your billing details were saved');
-            res.redirect('/user/address');
+            req.flash('success', 'Competition Successfully Updated');
+            res.redirect('/admin/editCompetition/'+req.body.compID+'');
         })
         .catch(err => {
             console.log(err);
         });
     } else {
         req.flash('error', 'Competition ID Missing');
-        res.redirect('/admin');
+        res.redirect('/admin/editCompetition/'+req.body.compID+'');
     }
 });
 

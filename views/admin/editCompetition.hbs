@@ -1,10 +1,29 @@
 <section class="hero is-danger">
   <div class="hero-body has-text-centered">
-    <p class="title">Edit Competition {{competition.1._id}}</p>
+    <p class="title">Edit Competition</p>
   </div>
 </section>
 
 {{> adminNav}}
+
+{{#if errors}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
 
 <div class="container is-max-fullhd">
     <form action="/admin/updateCompetition" method="post">
@@ -100,7 +119,7 @@
                     <div class="field">
                         <label class="label">Title</label>
                         <div class="control has-icons-left">
-                            <input id="firstName" name="firstName" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -109,7 +128,7 @@
                     <div class="field">
                         <label class="label">Cash Alternative</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
+                            <input id="cashAlternative" name="cashAlternative" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
@@ -118,7 +137,7 @@
                     <div class="field">
                         <label class="label">Price</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
+                            <input id="price" name="price" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
@@ -127,7 +146,7 @@
                     <div class="field">
                         <label class="label">Discount Price (Leave empty if no discount)</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
+                            <input id="discountPrice" name="discountPrice" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-tag"></i>
                             </span>
@@ -149,7 +168,7 @@
                     <div class="field">
                         <label class="label">Max Entries</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
+                            <input id="maxEntries" name="maxEntries" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
@@ -158,7 +177,7 @@
                     <div class="field">
                         <label class="label">Max Entries Per Person</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
+                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
@@ -167,7 +186,7 @@
                     <div class="field">
                         <label class="label">Max Postal Votes Per Person</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
+                            <input id="maxPostalVotes" name="maxPostalVotes" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-envelope"></i>
                             </span>
@@ -176,7 +195,7 @@
                     <div class="field">
                         <label class="label">Draw Date</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
+                            <input id="drawDate" name="drawDate" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
@@ -185,7 +204,7 @@
                     <div class="field">
                         <label class="label">Question Text</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
+                            <input id="questionText" name="questionText" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-question"></i>
                             </span>
@@ -194,7 +213,7 @@
                     <div class="field">
                         <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
+                            <input id="questionAnswers" name="questionAnswers" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-circle-question"></i>
                             </span>
@@ -203,7 +222,7 @@
                     <div class="field">
                         <label class="label">Correct Answer</label>
                         <div class="control has-icons-left">
-                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
+                            <input id="correctAnswer" name="correctAnswer" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-circle-check"></i>
                             </span>
@@ -212,7 +231,7 @@
                     <div class="field">
                         <label class="label">Competition Description</label>
                         <div class="control">
-                            <textarea class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
+                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
                         </div>
                     </div>
 
@@ -220,14 +239,14 @@
                     <div class="field">
                         <label class="label">Is Active</label>
                         <i class="fa-solid fa-calendar-check"></i>
-                        <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
-                        <label for="PostalCheckbox">Active {{userDetails.postComms}}</label>
+                        <input id="active" name="active" type="checkbox" checked="{{competition.active}}">
+                        <label for="PostalCheckbox">Active</label>
                     </div>
                     <div class="field">
                         <label class="label">Is Visible</label>
                         <i class="fa-solid fa-eye"></i>
-                        <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
-                        <label for="PostalCheckbox">Visible {{userDetails.postComms}}</label>
+                        <input id="visible" name="visible" type="checkbox" checked="{{competition.visible}}">
+                        <label for="PostalCheckbox">Visible</label>
                     </div>
 
                     <div class="field">
@@ -253,7 +272,9 @@
                                 <i class="fa-solid fa-clock"></i>
                             </span>
                         </div>
-                    </div>             
+                    </div>           
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                    <input type="hidden" name="compID" value="{{competition._id}}">   
                     <button type="submit" class="button is-medium is-fullwidth is-link">Update Competition</button>
                 </div>
             </div>
