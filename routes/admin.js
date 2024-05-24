@@ -47,6 +47,27 @@ router.get('/createCompetition', function(req, res, next) {
     res.render('admin/createCompetition', { title: 'Create Competition', active: { dashboard: true } });
 });
 
+router.get('/previewCompetition', function(req, res, next) {
+    //var compID = req.params.id;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    /*
+    Competition.findOne({_id: compID})
+      .then(foundCompetition => {
+            if(foundCompetition){
+                res.render('admin/previewCompetition', {title: 'Preview Competition', active: { dashboard: true }, competition: foundCompetition, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("Error finding competition");
+                return res.render('admin/previewCompetition', { title: 'Preview Competition', active: { dashboard: true }});
+            }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    */
+    res.render('admin/previewCompetition', { title: 'Preview Competition', active: { dashboard: true } });
+});
 
 router.get('/winners', function(req, res, next) {
     res.render('admin/winners', { title: 'Winners', active: { winners: true } });
