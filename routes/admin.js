@@ -97,6 +97,19 @@ router.get('/winners', function(req, res, next) {
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
 
+        //Set visible and active checkboxes
+        var active = false;
+        var visible = false;
+        if(req.body.active == 'on'){
+            active = true;
+        }
+        if(req.body.visible == 'on'){
+            visible = true;
+        }
+
+        console.log('Active = '+active);
+        console.log('Visible = '+visible);
+
         //Convert questionAnswers to array of strings
         var questionAnswers = req.body.questionAnswers.split(',');
         
@@ -115,8 +128,8 @@ router.get('/winners', function(req, res, next) {
             questionText: req.body.questionText,
             questionAnswers: questionAnswers,
             correctAnswer: req.body.correctAnswer,
-            //active: {type: Boolean, required: true, default: true},
-            //visible: {type: Boolean, required: true, default: true},
+            active: active,
+            visible: visible,
             lastUpdated: new Date().toISOString(),
         };
         Competition.findOneAndUpdate({_id: req.body.compID}, competitionUpdate, {upsert: false})

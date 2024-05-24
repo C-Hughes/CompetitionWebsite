@@ -29,7 +29,7 @@
     <a href="/competition/{{competition.id}}" class="button is-fullwidth">View Competition Page </a>
 </div>
 
-<div class="container is-max-fullhd">
+<div class="container is-max-widescreen">
     <form action="/admin/updateCompetition" method="post">
         <div class="card">
             <div class="card-content">
@@ -243,13 +243,13 @@
                     <div class="field">
                         <label class="label">Is Active</label>
                         <i class="fa-solid fa-calendar-check"></i>
-                        <input id="active" name="active" type="checkbox" checked="{{competition.active}}">
+                        <input id="active" name="active" type="checkbox" {{#if competition.active}}checked{{/if}}>
                         <label for="PostalCheckbox">Active</label>
                     </div>
                     <div class="field">
                         <label class="label">Is Visible</label>
                         <i class="fa-solid fa-eye"></i>
-                        <input id="visible" name="visible" type="checkbox" checked="{{competition.visible}}">
+                        <input id="visible" name="visible" type="checkbox" {{#if competition.visible}}checked{{/if}}>
                         <label for="PostalCheckbox">Visible</label>
                     </div>
 
