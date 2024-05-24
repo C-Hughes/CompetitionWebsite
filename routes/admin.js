@@ -83,6 +83,9 @@ router.get('/winners', function(req, res, next) {
             req.flash('error', messages);
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
+
+        //Convert questionAnswers to array of strings
+        var questionAnswers = req.body.questionAnswers.split(',');
         
         var competitionUpdate = {
             //imagePath: {type: String, required: true},
@@ -97,7 +100,7 @@ router.get('/winners', function(req, res, next) {
             maxEntriesPerPerson: req.body.maxEntriesPerPerson,
             maxPostalVotes: req.body.maxPostalVotes,
             questionText: req.body.questionText,
-            questionAnswers: req.body.questionAnswers,
+            questionAnswers: questionAnswers,
             correctAnswer: req.body.correctAnswer,
             //active: {type: Boolean, required: true, default: true},
             //visible: {type: Boolean, required: true, default: true},
