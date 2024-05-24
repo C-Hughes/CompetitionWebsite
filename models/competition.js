@@ -3,10 +3,12 @@ var Schema = mongoose.Schema;
 
 var competitionSchema = new Schema({
     imagePath: {type: String, required: true},
+    additionalImagePaths: [{type: String, required: false}],
     title: {type: String, required: true},
     description: {type: String, required: true},
     cashAlternative: {type: Number, required: false},
     price: {type: Number, required: true},
+    discountPrice: {type: Number, required: false},
     drawDate: {type: Date, required: true},
     currentEntries: {type: Number, required: true, default: 0},
     maxEntries: {type: Number, required: true},

@@ -10,19 +10,14 @@
     
     <div class="card">
         <div class="card-content">
-            <div class="media">
-                <div class="media-left">
-                    <figure class="image is-64x64">
-                    <img
-                        src="https://bulma.io/assets/images/placeholders/96x96.png"
-                        alt="Placeholder image"
-                    />
-                    </figure>
-                </div>
-                <div class="media-content">
-                    <p class="title is-4">John Smith</p>
-                    <p class="subtitle is-6">@johnsmith</p>
-                </div>
+            <div class="card-image">
+                <figure class="image">
+                <img
+                    src="{{competition.imagePath}}"
+                    alt="Competition Image"
+                    style="max-width: 400px; max-height: 400px"    
+                />
+                </figure>
             </div>
 
             <div class="container">
@@ -45,112 +40,139 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Country / Region</label>
-                    <p class="control has-icons-left">
-                        <span class="select is-fullwidth">
-                        <select id="countryRegion" name="countryRegion">
-                            <option selected>{{userBillingAddress.countryRegion}}</option>
-                            <option>Select dropdown</option>
-                            <option>With options</option>
-                        </select>
-                        </span>
-                        <span class="icon is-small is-left">
-                        <i class="fas fa-globe"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="field">
-                    <label class="label">Street Address</label>
+                    <label class="label">Price</label>
                     <div class="control has-icons-left">
-                        <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}">
+                        <input id="lastName" name="lastName" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-road"></i>
+                            <i class="fa-solid fa-sterling-sign"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
+                    <label class="label">Discount Price (Leave empty if no discount)</label>
                     <div class="control has-icons-left">
-                        <input id="streetAddress2" name="streetAddress2" class="input" type="text" placeholder="Street Address 2" value="{{userBillingAddress.streetAddress2}}">
+                        <input id="lastName" name="lastName" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-road"></i>
+                            <i class="fa-solid fa-tag"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Town / City</label>
+                    <label class="label">Current Entries</label>
                     <div class="control has-icons-left">
-                        <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}">
+                        <input class="input" type="text" placeholder="Current Entries" value="{{competition.currentEntries}}" disabled>
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-city"></i>
+                            <i class="fa-solid fa-ticket"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
+                    <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
+                </div>
+                <div class="field">
+                    <label class="label">Max Entries</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-ticket"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">County</label>
+                    <label class="label">Max Entries Per Person</label>
                     <div class="control has-icons-left">
-                        <input id="county" name="county" class="input" type="text" placeholder="County" value="{{userBillingAddress.county}}">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-map-location-dot"></i>
+                            <i class="fa-solid fa-ticket"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Postcode</label>
+                    <label class="label">Max Postal Votes Per Person</label>
                     <div class="control has-icons-left">
-                        <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-envelope"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Phone Number</label>
+                    <label class="label">Draw Date</label>
                     <div class="control has-icons-left">
-                        <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
                         <span class="icon is-small is-left">
-                            <i class="fa-solid fa-phone"></i>
+                            <i class="fa-solid fa-calendar-days"></i>
                         </span>
                     </div>
                 </div>
-                <label class="label">Date of Birth</label>
-                <div class="field is-grouped">
-                    <p class="control">
-                        <span class="select">
-                            <select id="DOBDD" name="DOBDD">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
+                <div class="field">
+                    <label class="label">Question Text</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-question"></i>
                         </span>
-                    </p>
-                    <p class="control">
-                        <span class="select">
-                            <select id="DOBMM" name="DOBMM">
-                                <option>January</option>
-                                <option>February</option>
-                                <option>March</option>
-                            </select>
-                        </span>
-                    </p>
-                    <p class="control">
-                        <span class="select">
-                            <select id="DOBYY" name="DOBYY">
-                                <option>2024</option>
-                                <option>2023</option>
-                                <option>2022</option>
-                            </select>
-                        </span>
-                    </p>
+                    </div>
                 </div>
                 <div class="field">
-                    <label class="label">Email Address</label>
-                    <p class="control is-expanded has-icons-left has-icons-right">
-                        <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userBillingAddress.emailAddress}}">
+                    <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
                         <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
+                            <i class="fa-solid fa-circle-question"></i>
                         </span>
-                    </p>
+                    </div>
+                </div>  
+                <div class="field">
+                    <label class="label">Correct Answer</label>
+                    <div class="control has-icons-left">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </span>
+                    </div>
                 </div>
+                <div class="field">
+                    <label class="label">Competition Description</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
+                    </div>
+                </div>
+
+
+                <div class="field">
+                    <label class="label">Is Active</label>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
+                    <label for="PostalCheckbox">Active {{userDetails.postComms}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Is Visible</label>
+                    <i class="fa-solid fa-eye"></i>
+                    <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
+                    <label for="PostalCheckbox">Visible {{userDetails.postComms}}</label>
+                </div>
+
+                <div class="field">
+                    <label class="label">Competition Created</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Competition Created" value="{{competition.created}}" disabled>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-clock"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Last Updated</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Last Updated" value="{{competition.lastUpdated}}" disabled>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-clock"></i>
+                        </span>
+                    </div>
+                </div>             
+                <button class="button is-medium is-fullwidth is-link">Update Competition</button>
             </div>
         </div>
     </div>
