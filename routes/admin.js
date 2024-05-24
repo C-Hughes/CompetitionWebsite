@@ -64,7 +64,7 @@ router.get('/winners', function(req, res, next) {
 
   ///////////////////////////// POST ROUTES /////////////////////////////////////
 
-  router.post('/updateCompetition',upload.single('imagePath'), function(req, res, next) {
+  router.post('/updateCompetition', function(req, res, next) {
 
     //If no competition id is submitted with the form
     if(req.body.compID){
@@ -83,6 +83,7 @@ router.get('/winners', function(req, res, next) {
         req.checkBody('questionText', 'Question Text cannot be empty').notEmpty();
         req.checkBody('questionAnswers', 'Question Answers cannot be empty').notEmpty();
         req.checkBody('correctAnswer', 'Correct Answer cannot be empty').notEmpty();
+        req.checkBody('description', 'Description cannot be empty').notEmpty();
 
         var errors = req.validationErrors();
         if (errors){
@@ -156,6 +157,90 @@ router.get('/winners', function(req, res, next) {
     }
 });
 
+
+router.post('/createCompetition', function(req, res, next) {
+
+    //Input Validation
+    req.checkBody('title', 'Title cannot be empty').notEmpty();
+    req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
+    req.checkBody('price', 'Price cannot be empty').notEmpty();
+    req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+    req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
+    req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
+    req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
+    req.checkBody('questionText', 'Question Text cannot be empty').notEmpty();
+    req.checkBody('questionAnswers', 'Question Answers cannot be empty').notEmpty();
+    req.checkBody('correctAnswer', 'Correct Answer cannot be empty').notEmpty();
+    req.checkBody('description', 'Description cannot be empty').notEmpty();
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/createCompetition');
+    }
+
+    //Check if correct answer is in the question answers
+    if(!req.body.questionAnswers.includes(req.body.correctAnswer)){
+        req.flash('error', 'The correct answer "'+req.body.correctAnswer+'" is not in the list of questions: '+req.body.questionAnswers);
+        return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+    }
+    //If discount price is submitted, make sure it is less than original price and higher than 0
+    console.log(req.body.discountPrice);
+    console.log(req.body.price);
+    if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
+        req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
+        return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+    }
+
+    //Set visible and active checkboxes
+    var active = false;
+    var visible = false;
+    if(req.body.active == 'on'){
+        active = true;
+    }
+    if(req.body.visible == 'on'){
+        visible = true;
+    }
+
+    console.log('Active = '+active);
+    console.log('Visible = '+visible);
+
+    //Convert questionAnswers to array of strings
+    var questionAnswers = req.body.questionAnswers.split(',');
+    
+    var competitionUpdate = {
+        //imagePath: {type: String, required: true},
+        //additionalImagePaths: [{type: String, required: false}],
+        title: req.body.title,
+        description: req.body.description,
+        cashAlternative: req.body.cashAlternative,
+        price: req.body.price,
+        discountPrice: req.body.discountPrice,
+        drawDate: new Date(req.body.drawDate).toISOString(),
+        maxEntries: req.body.maxEntries,
+        maxEntriesPerPerson: req.body.maxEntriesPerPerson,
+        maxPostalVotes: req.body.maxPostalVotes,
+        questionText: req.body.questionText,
+        questionAnswers: questionAnswers,
+        correctAnswer: req.body.correctAnswer,
+        active: active,
+        visible: visible,
+        lastUpdated: new Date().toISOString(),
+    };
+    Competition.findOneAndUpdate({_id: req.body.compID}, competitionUpdate, {upsert: false})
+    .then(() => {
+        req.flash('success', 'Competition Successfully Updated');
+        res.redirect('/admin/editCompetition/'+req.body.compID+'');
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
+});
 
   ///////////////////////////////Test Routes//////////////////////////////////////
 
