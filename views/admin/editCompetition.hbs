@@ -7,256 +7,256 @@
 {{> adminNav}}
 
 <div class="container is-max-fullhd">
-    
-    <div class="card">
-        <div class="card-content">
-            <label class="label">Main Image</label>
-            <div class="card-image">
-                <figure class="image">
-                <img
-                    src="{{competition.imagePath}}"
-                    alt="Competition Image"
-                    style="max-width: 400px; max-height: 400px"    
-                />
-                </figure>
-            </div>
-
-            <div class="container">
-                <div class="file is-normal has-name">
-                    <label class="file-label">
-                        <input class="file-input" type="file" name="resume" />
-                        <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label"> Normal file… </span>
-                        </span>
-                        <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
-                    </label>
+    <form action="/admin/updateCompetition" method="post">
+        <div class="card">
+            <div class="card-content">
+                <label class="label">Main Image</label>
+                <div class="card-image">
+                    <figure class="image">
+                    <img
+                        src="{{competition.imagePath}}"
+                        alt="Competition Image"
+                        style="max-width: 400px; max-height: 400px"    
+                    />
+                    </figure>
                 </div>
 
-                <label class="label">Additional Image(s)</label>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-left">
-                            <figure class="image is-48x48 is-square">
-                            <img
-                                src="https://m.media-amazon.com/images/I/51BIdV4YzNL._AC_SL1500_.jpg"
-                                alt="Placeholder image"
-                            />
-                            </figure>
+                <div class="container">
+                    <div class="file is-normal has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="resume" />
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Normal file… </span>
+                            </span>
+                            <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
+                        </label>
+                    </div>
+
+                    <label class="label">Additional Image(s)</label>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48 is-square">
+                                <img
+                                    src="https://m.media-amazon.com/images/I/51BIdV4YzNL._AC_SL1500_.jpg"
+                                    alt="Placeholder image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="media-left">
+                                <figure class="image is-48x48 is-square">
+                                <img
+                                    src="https://m.media-amazon.com/images/I/3127qOn3xhL._AC_SL1080_.jpg"
+                                    alt="Placeholder image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="media-left">
+                                <figure class="image is-48x48 is-square">
+                                <img
+                                    src="https://m.media-amazon.com/images/I/4164ht1LElL._AC_SL1080_.jpg"
+                                    alt="Placeholder image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="media-left">
+                                <figure class="image is-48x48 is-square">
+                                <img
+                                    src="https://m.media-amazon.com/images/I/61UCon52o7L._AC_SL1371_.jpg"
+                                    alt="Placeholder image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="media-left">
+                                <figure class="image is-48x48 is-square">
+                                <img
+                                    src="https://m.media-amazon.com/images/I/71OMEnoCMFL._AC_SL1500_.jpg"
+                                    alt="Placeholder image"
+                                />
+                                </figure>
+                            </div>
+                            <div class="media-content"></div>
                         </div>
-                        <div class="media-left">
-                            <figure class="image is-48x48 is-square">
-                            <img
-                                src="https://m.media-amazon.com/images/I/3127qOn3xhL._AC_SL1080_.jpg"
-                                alt="Placeholder image"
-                            />
-                            </figure>
+                    </div>
+                    <div class="file is-normal has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="resume" />
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Normal file… </span>
+                            </span>
+                            <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
+                        </label>
+                    </div>
+
+
+
+
+                    <div class="field">
+                        <label class="label">Title</label>
+                        <div class="control has-icons-left">
+                            <input id="firstName" name="firstName" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-heading"></i>
+                            </span>
                         </div>
-                        <div class="media-left">
-                            <figure class="image is-48x48 is-square">
-                            <img
-                                src="https://m.media-amazon.com/images/I/4164ht1LElL._AC_SL1080_.jpg"
-                                alt="Placeholder image"
-                            />
-                            </figure>
+                    </div>
+                    <div class="field">
+                        <label class="label">Cash Alternative</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
                         </div>
-                        <div class="media-left">
-                            <figure class="image is-48x48 is-square">
-                            <img
-                                src="https://m.media-amazon.com/images/I/61UCon52o7L._AC_SL1371_.jpg"
-                                alt="Placeholder image"
-                            />
-                            </figure>
+                    </div>
+                    <div class="field">
+                        <label class="label">Price</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
                         </div>
-                        <div class="media-left">
-                            <figure class="image is-48x48 is-square">
-                            <img
-                                src="https://m.media-amazon.com/images/I/71OMEnoCMFL._AC_SL1500_.jpg"
-                                alt="Placeholder image"
-                            />
-                            </figure>
+                    </div>
+                    <div class="field">
+                        <label class="label">Discount Price (Leave empty if no discount)</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
                         </div>
-                        <div class="media-content"></div>
                     </div>
-                </div>
-                <div class="file is-normal has-name">
-                    <label class="file-label">
-                        <input class="file-input" type="file" name="resume" />
-                        <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label"> Normal file… </span>
-                        </span>
-                        <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
-                    </label>
-                </div>
+                    <div class="field">
+                        <label class="label">Current Entries</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Current Entries" value="{{competition.currentEntries}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
+                        <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Entries</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Entries Per Person</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Postal Votes Per Person</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Draw Date</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Question Text</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-question"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                        </div>
+                    </div>  
+                    <div class="field">
+                        <label class="label">Correct Answer</label>
+                        <div class="control has-icons-left">
+                            <input id="lastName" name="lastName" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Competition Description</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
+                        </div>
+                    </div>
 
 
+                    <div class="field">
+                        <label class="label">Is Active</label>
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
+                        <label for="PostalCheckbox">Active {{userDetails.postComms}}</label>
+                    </div>
+                    <div class="field">
+                        <label class="label">Is Visible</label>
+                        <i class="fa-solid fa-eye"></i>
+                        <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
+                        <label for="PostalCheckbox">Visible {{userDetails.postComms}}</label>
+                    </div>
 
-
-                <div class="field">
-                    <label class="label">Title</label>
-                    <div class="control has-icons-left">
-                        <input id="firstName" name="firstName" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-heading"></i>
-                        </span>
+                    <div class="field">
+                        <label class="label">Competition Tickets Numbers Sold</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Competition Description" disabled>{{competition.ticketNumbersSold}}</textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label class="label">Cash Alternative</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-sterling-sign"></i>
-                        </span>
+                    <div class="field">
+                        <label class="label">Competition Created</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Competition Created" value="{{competition.created}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-clock"></i>
+                            </span>
+                        </div>
                     </div>
+                    <div class="field">
+                        <label class="label">Last Updated</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Last Updated" value="{{competition.lastUpdated}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-clock"></i>
+                            </span>
+                        </div>
+                    </div>             
+                    <button type="submit" class="button is-medium is-fullwidth is-link">Update Competition</button>
                 </div>
-                <div class="field">
-                    <label class="label">Price</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-sterling-sign"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Discount Price (Leave empty if no discount)</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-tag"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Current Entries</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Current Entries" value="{{competition.currentEntries}}" disabled>
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-ticket"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
-                    <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
-                </div>
-                <div class="field">
-                    <label class="label">Max Entries</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-ticket"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Max Entries Per Person</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-ticket"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Max Postal Votes Per Person</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-envelope"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Draw Date</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-calendar-days"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Question Text</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-question"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </span>
-                    </div>
-                </div>  
-                <div class="field">
-                    <label class="label">Correct Answer</label>
-                    <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Competition Description</label>
-                    <div class="control">
-                        <textarea class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
-                    </div>
-                </div>
-
-
-                <div class="field">
-                    <label class="label">Is Active</label>
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
-                    <label for="PostalCheckbox">Active {{userDetails.postComms}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Is Visible</label>
-                    <i class="fa-solid fa-eye"></i>
-                    <input id="postComms" name="postComms" class="" id="PostalCheckbox" type="checkbox" name="PostalCheckbox" checked="checked">
-                    <label for="PostalCheckbox">Visible {{userDetails.postComms}}</label>
-                </div>
-
-                <div class="field">
-                    <label class="label">Competition Tickets Numbers Sold</label>
-                    <div class="control">
-                        <textarea class="textarea" placeholder="Competition Description" disabled>{{competition.ticketNumbersSold}}</textarea>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Competition Created</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Competition Created" value="{{competition.created}}" disabled>
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-clock"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Last Updated</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Last Updated" value="{{competition.lastUpdated}}" disabled>
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-clock"></i>
-                        </span>
-                    </div>
-                </div>             
-                <button class="button is-medium is-fullwidth is-link">Update Competition</button>
             </div>
         </div>
-    </div>
-
+    </form>
 </div>

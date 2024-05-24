@@ -55,6 +55,72 @@ router.get('/winners', function(req, res, next) {
     res.render('admin/users', { title: 'Users', active: { users: true } });
   });
 
+  ///////////////////////////// POST ROUTES /////////////////////////////////////
+
+  router.post('/updateCompetition', function(req, res, next) {
+
+    //If no competition id is submitted with the form
+    if(req.body.compID){
+        //Input Validation
+        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+        if(req.body.emailAddress){
+            req.checkBody('emailAddress', 'Email is not valid').isEmail();
+        }
+        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
+            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+            req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+        }    
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/address');
+        }
+        
+        var billingAddressUpdate = {
+            userReference: req.user,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            countryRegion: req.body.countryRegion,
+            streetAddress1: req.body.streetAddress1,
+            streetAddress2: req.body.streetAddress2,
+            townCity: req.body.townCity,
+            county: req.body.county,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
+            DOBDD: req.body.DOBDD,
+            DOBMM: req.body.DOBMM,
+            DOBYY: req.body.DOBYY,
+            emailAddress: req.body.emailAddress,
+            lastUpdated: new Date().toISOString(),
+        };
+        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
+        .then(() => {
+            req.flash('success', 'Your billing details were saved');
+            res.redirect('/user/address');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        req.flash('error', 'Competition ID Missing');
+        res.redirect('/admin');
+    }
+});
 
 
   ///////////////////////////////Test Routes//////////////////////////////////////
