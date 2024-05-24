@@ -43,6 +43,10 @@ router.get('/editCompetition/:id', function(req, res, next) {
     });
 });
 
+router.get('/createCompetition', function(req, res, next) {
+    res.render('admin/createCompetition', { title: 'Create Competition', active: { dashboard: true } });
+});
+
 
 router.get('/winners', function(req, res, next) {
     res.render('admin/winners', { title: 'Winners', active: { winners: true } });

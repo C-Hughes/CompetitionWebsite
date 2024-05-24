@@ -1,0 +1,178 @@
+<section class="hero is-danger">
+  <div class="hero-body has-text-centered">
+    <p class="title">Create Competition</p>
+  </div>
+</section>
+
+{{> adminNav}}
+
+{{#if errors}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+
+
+<div class="container is-max-widescreen">
+    <form action="/admin/updateCompetition/?csrfToken={{csrfToken}}" method="post">
+        <div class="card">
+            <div class="card-content">
+                <label class="label">Main Image</label>
+                <div class="container">
+                    <div class="file is-normal has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="imagePath" />
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Upload Image </span>
+                            </span>
+                            <span class="file-name"> Main Image </span>
+                        </label>
+                    </div>
+
+                    <label class="label">Additional Image(s)</label>
+                    <div class="file is-normal has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="additionalImages" />
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Upload Images </span>
+                            </span>
+                            <span class="file-name"> Additional Image(s) </span>
+                        </label>
+                    </div>
+
+
+
+
+                    <div class="field">
+                        <label class="label">Title</label>
+                        <div class="control has-icons-left">
+                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-heading"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Cash Alternative</label>
+                        <div class="control has-icons-left">
+                            <input id="cashAlternative" name="cashAlternative" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Price</label>
+                        <div class="control has-icons-left">
+                            <input id="price" name="price" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Discount Price (Leave empty if no discount)</label>
+                        <div class="control has-icons-left">
+                            <input id="discountPrice" name="discountPrice" class="input is-danger" type="text" placeholder="Discount Price" value="{{competition.discountPrice}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Entries</label>
+                        <div class="control has-icons-left">
+                            <input id="maxEntries" name="maxEntries" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Entries Per Person</label>
+                        <div class="control has-icons-left">
+                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Max Postal Votes Per Person</label>
+                        <div class="control has-icons-left">
+                            <input id="maxPostalVotes" name="maxPostalVotes" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Draw Date</label>
+                        <div class="control has-icons-left">
+                            <input id="drawDate" name="drawDate" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Question Text</label>
+                        <div class="control has-icons-left">
+                            <input id="questionText" name="questionText" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-question"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                        <div class="control has-icons-left">
+                            <input id="questionAnswers" name="questionAnswers" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                        </div>
+                    </div>  
+                    <div class="field">
+                        <label class="label">Correct Answer</label>
+                        <div class="control has-icons-left">
+                            <input id="correctAnswer" name="correctAnswer" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Competition Description</label>
+                        <div class="control">
+                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
+                    <button type="submit" class="button is-medium is-fullwidth is-link">Save & Preview Competition</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+                                        
