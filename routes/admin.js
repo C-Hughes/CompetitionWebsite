@@ -84,6 +84,12 @@ router.get('/winners', function(req, res, next) {
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
 
+        //Check if correct answer is in the question answers
+        if(!req.body.questionAnswers.includes(req.body.correctAnswer)){
+            req.flash('error', 'The correct answer "'+req.body.correctAnswer+'" is not in the list of questions: '+req.body.questionAnswers);
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+        }
+
         //Convert questionAnswers to array of strings
         var questionAnswers = req.body.questionAnswers.split(',');
         
