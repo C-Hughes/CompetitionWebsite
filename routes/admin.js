@@ -89,6 +89,13 @@ router.get('/winners', function(req, res, next) {
             req.flash('error', 'The correct answer "'+req.body.correctAnswer+'" is not in the list of questions: '+req.body.questionAnswers);
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
+        //If discount price is submitted, make sure it is less than original price and higher than 0
+        console.log(req.body.discountPrice);
+        console.log(req.body.price);
+        if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
+            req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+        }
 
         //Convert questionAnswers to array of strings
         var questionAnswers = req.body.questionAnswers.split(',');
