@@ -30,7 +30,7 @@
 </div>
 
 <div class="container is-max-widescreen">
-    <form action="/admin/updateCompetition" method="post">
+    <form action="/admin/updateCompetition/?csrfToken={{csrfToken}}" method="post">
         <div class="card">
             <div class="card-content">
                 <label class="label">Main Image</label>
@@ -47,14 +47,14 @@
                 <div class="container">
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="resume" />
+                            <input class="file-input" type="file" name="imagePath" />
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
                             </span>
-                            <span class="file-label"> Normal file… </span>
+                            <span class="file-label"> Upload Image </span>
                             </span>
-                            <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
+                            <span class="file-name"> ... </span>
                         </label>
                     </div>
 
@@ -106,14 +106,14 @@
                     </div>
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="resume" />
+                            <input class="file-input" type="file" name="additionalImages" />
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
                             </span>
-                            <span class="file-label"> Normal file… </span>
+                            <span class="file-label"> Upload Images </span>
                             </span>
-                            <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
+                            <span class="file-name"> ... </span>
                         </label>
                     </div>
 
@@ -285,3 +285,4 @@
         </div>
     </form>
 </div>
+                                        

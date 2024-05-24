@@ -12,6 +12,9 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo');
+var fileUpload = require('express-fileupload');
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 
 var indexRouter = require('./routes/index');
@@ -72,6 +75,7 @@ app.use((req, res, next) => {
     }
     next();
 });
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 

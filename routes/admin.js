@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const fileUpload = require('express-fileupload');
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 var Competition = require('../models/competition');
 
@@ -57,10 +60,13 @@ router.get('/winners', function(req, res, next) {
 
   ///////////////////////////// POST ROUTES /////////////////////////////////////
 
-  router.post('/updateCompetition', function(req, res, next) {
+  router.post('/updateCompetition',upload.single('imagePath'), function(req, res, next) {
 
     //If no competition id is submitted with the form
     if(req.body.compID){
+
+        //console.log(req.files.imagePath); // the uploaded file object
+        console.log('Body- ' + JSON.stringify(req.body));
 
         //Input Validation
         req.checkBody('title', 'Title cannot be empty').notEmpty();
