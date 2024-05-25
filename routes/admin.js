@@ -44,15 +44,16 @@ router.get('/editCompetition/:id', function(req, res, next) {
 });
 
 router.get('/createCompetition', function(req, res, next) {
-    res.render('admin/createCompetition', { title: 'Create Competition', active: { dashboard: true } });
+    var errors = req.flash('error');
+
+    res.render('admin/createCompetition', { title: 'Create Competition', active: { dashboard: true }, error: errors, errors: errors.length > 0 });
 });
 
-router.get('/previewCompetition', function(req, res, next) {
-    //var compID = req.params.id;
+router.get('/previewCompetition/:id', function(req, res, next) {
+    var compID = req.params.id;
     var success = req.flash('success');
     var errors = req.flash('error');
 
-    /*
     Competition.findOne({_id: compID})
       .then(foundCompetition => {
             if(foundCompetition){
@@ -65,7 +66,7 @@ router.get('/previewCompetition', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
-    */
+
     res.render('admin/previewCompetition', { title: 'Preview Competition', active: { dashboard: true } });
 });
 
@@ -217,45 +218,33 @@ router.post('/createCompetition', function(req, res, next) {
         return res.redirect('/admin/editCompetition/'+req.body.compID+'');
     }
 
-    //Set visible and active checkboxes
-    var active = false;
-    var visible = false;
-    if(req.body.active == 'on'){
-        active = true;
-    }
-    if(req.body.visible == 'on'){
-        visible = true;
-    }
-
-    console.log('Active = '+active);
-    console.log('Visible = '+visible);
-
     //Convert questionAnswers to array of strings
     var questionAnswers = req.body.questionAnswers.split(',');
     
-    var competitionUpdate = {
-        //imagePath: {type: String, required: true},
-        //additionalImagePaths: [{type: String, required: false}],
-        title: req.body.title,
-        description: req.body.description,
-        cashAlternative: req.body.cashAlternative,
-        price: req.body.price,
-        discountPrice: req.body.discountPrice,
-        drawDate: new Date(req.body.drawDate).toISOString(),
-        maxEntries: req.body.maxEntries,
-        maxEntriesPerPerson: req.body.maxEntriesPerPerson,
-        maxPostalVotes: req.body.maxPostalVotes,
-        questionText: req.body.questionText,
-        questionAnswers: questionAnswers,
-        correctAnswer: req.body.correctAnswer,
-        active: active,
-        visible: visible,
-        lastUpdated: new Date().toISOString(),
-    };
-    Competition.findOneAndUpdate({_id: req.body.compID}, competitionUpdate, {upsert: false})
-    .then(() => {
-        req.flash('success', 'Competition Successfully Updated');
-        res.redirect('/admin/editCompetition/'+req.body.compID+'');
+    var newComp = new Competition();
+    //imagePath: {type: String, required: true},
+    //additionalImagePaths: [{type: String, required: false}],
+    newComp.title = req.body.title;
+    newComp.description = req.body.description;
+    newComp.cashAlternative = req.body.cashAlternative;
+    newComp.price = req.body.price;
+    newComp.discountPrice = req.body.discountPrice;
+    newComp.drawDate = new Date(req.body.drawDate);
+    newComp.maxEntries = req.body.maxEntries;
+    newComp.maxEntriesPerPerson = req.body.maxEntriesPerPerson;
+    newComp.maxPostalVotes = req.body.maxPostalVotes;
+    newComp.questionText = req.body.questionText;
+    newComp.questionAnswers = questionAnswers;
+    newComp.correctAnswer = req.body.correctAnswer;
+    newComp.save({})
+    .then(foundCompetition => {
+        if(foundCompetition){
+            console.log('Competition Saved!');
+            res.redirect('/admin/previewCompetition/'+foundCompetition._id+'');
+        } else {
+            console.log("Error saving competition");
+            res.redirect('/admin/createCompetition');
+        }
     })
     .catch(err => {
         console.log(err);
