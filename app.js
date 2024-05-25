@@ -64,7 +64,6 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(doubleCsrfProtection);
 app.use((req, res, next) => {
     res.locals.csrfToken = generateToken(req, res);
     res.locals.login = req.isAuthenticated(); 
@@ -81,8 +80,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/user', userRouter);
 app.use('/admin', adminRouter);
+app.use(doubleCsrfProtection);
+app.use('/user', userRouter);
 app.use('/', indexRouter);
 
 

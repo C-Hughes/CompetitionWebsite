@@ -128,7 +128,7 @@ router.post('/address/:addressType', function(req, res, next) {
             req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
             req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
             req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-            req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+            //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
             req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
         }    
 
