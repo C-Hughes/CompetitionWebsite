@@ -7,6 +7,7 @@ var Basket = require('../models/basket');
 var Order = require('../models/order');
 var BillingAddress = require('../models/billingAddress');
 var Ticket = require('../models/ticket');
+const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -203,6 +204,20 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
     req.session.basket = basket;
     res.redirect('/basket');
 });
+
+// Route to fetch images
+router.get('/images/:imageName', (req, res) => {
+    const imageName = req.params.imageName;
+    //const imagePath = path.join(__dirname, 'routesuploads/', imageName);
+    const imagePath = uploadPath = __dirname + 'uploads/' + imageName;
+  
+    fs.access(imagePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        return res.status(404).send('Image not found');
+      }
+      res.sendFile(imagePath);
+    });
+  });
 
 ///////////////////////////////////////////////////////////////////
 
