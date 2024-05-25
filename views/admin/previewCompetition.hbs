@@ -130,7 +130,6 @@
 
             </div>
 
-            {{#isTrue competition.active}}
             <div class="tabs-wrapper">
                 <div class="tabs is-centered">
                     <ul>
@@ -194,7 +193,7 @@
                                     </div>
                                 </div>
                                 <footer class="card-footer">
-                                    <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/10" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
+                                    <a id="addToBasketButton" href="" class="button card-footer-item is-primary" disabled>
                                         <span>Add tickets to basket</span>
                                         <span class="icon">
                                             <i class="fa-solid fa-ticket"></i>
@@ -212,8 +211,9 @@
                     </ul>
                 </div>
             </div>
+            {{#isTrue competition.active}}
             {{else}}
-            <div class="notification is-warning">
+            <div class="notification is-warning mt-6">
                 <p>The competition has now closed and the winner will be contacted.</p>
             </div>
             {{/isTrue}}
