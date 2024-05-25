@@ -26,28 +26,29 @@
 {{/if}}
 
 <div class="container is-max-desktop is-centered">
-    <div class="field">
-        
-        <div class="field-body">
-            <div class="field">
-                <label class="label">Active</label>
-                <label class="checkbox">
-                    <input type="checkbox" />
-                    Is Active
-                </label>
-            </div>
-            <div class="field">
-                <label class="label">Visible</label>
-                <label class="checkbox">
-                    <input type="checkbox" />
-                    Is Visible
-                </label>
+    <form action="/admin/updatePreviewCompetition" method="post">
+        <div class="field">
+            <div class="field-body">
+                <div class="field">
+                    <label class="label">Is Active</label>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <input id="active" name="active" type="checkbox" {{#if competition.active}}checked{{/if}}>
+                    <label for="PostalCheckbox">Active</label>
+                </div>
+                <div class="field">
+                    <label class="label">Is Visible</label>
+                    <i class="fa-solid fa-eye"></i>
+                    <input id="visible" name="visible" type="checkbox" {{#if competition.visible}}checked{{/if}}>
+                    <label for="PostalCheckbox">Visible</label>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container mb-4">
-        <a href="/competition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">Update Competition</a>
-    </div>
+        <div class="container mb-4">
+            <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+            <input type="hidden" name="compID" value="{{competition._id}}">  
+            <button type="submit" class="button is-fullwidth is-link is-outlined">Update Competition</button>
+        </div>
+    </form>
 </div>
 
 <hr></hr>

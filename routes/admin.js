@@ -70,21 +70,21 @@ router.get('/editCompetition/:id', function(req, res, next) {
 
 router.get('/winners', function(req, res, next) {
     res.render('admin/winners', { title: 'Winners', active: { winners: true } });
-  });
-  
+});
 
-  router.get('/discounts', function(req, res, next) {
+
+router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
-  });
+});
   
 
-  router.get('/users', function(req, res, next) {
+router.get('/users', function(req, res, next) {
     res.render('admin/users', { title: 'Users', active: { users: true } });
-  });
+});
 
   ///////////////////////////// POST ROUTES /////////////////////////////////////
 
-  router.post('/updateCompetition', function(req, res, next) {
+router.post('/updateCompetition', function(req, res, next) {
 
     //If no competition id is submitted with the form
     if(req.body.compID){
@@ -247,7 +247,41 @@ router.post('/createCompetition', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
+});
 
+
+
+router.post('/updatePreviewCompetition', function(req, res, next) {
+
+    //If no competition id is submitted with the form
+    if(req.body.compID){
+        //Set visible and active checkboxes
+        var active = false;
+        var visible = false;
+        if(req.body.active == 'on'){
+            active = true;
+        }
+        if(req.body.visible == 'on'){
+            visible = true;
+        }
+        
+        var competitionUpdate = {
+            active: active,
+            visible: visible,
+            lastUpdated: new Date().toISOString(),
+        };
+        Competition.findOneAndUpdate({_id: req.body.compID}, competitionUpdate, {upsert: false})
+        .then(() => {
+            req.flash('success', 'Competition Successfully Updated');
+            res.redirect('/admin/previewCompetition/'+req.body.compID+'');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        req.flash('error', 'Competition ID Missing');
+        res.redirect('/admin/previewCompetition/'+req.body.compID+'');
+    }
 });
 
   ///////////////////////////////Test Routes//////////////////////////////////////
