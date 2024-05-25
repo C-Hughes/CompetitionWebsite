@@ -6,7 +6,8 @@ const csrf = doubleCsrf({
     cookieName: process.env.NODE_ENV === 'production' ? '__Host-prod.x-csrf-token' : '_csrf',
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production' // Enable for HTTPS in production
-    }
+    },
+    ignoredMethods: ["GET", "HEAD", "OPTIONS", "POST"], // A list of request methods that will not be protected.
 });
 
 

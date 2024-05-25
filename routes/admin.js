@@ -1,8 +1,8 @@
 var express = require('express');
-var router = express.Router();
 const fileUpload = require('express-fileupload');
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
+//var multer  = require('multer');
+//var upload = multer({ dest: 'uploads/' });
+var router = express.Router();
 
 var Competition = require('../models/competition');
 
@@ -83,6 +83,29 @@ router.get('/users', function(req, res, next) {
 });
 
   ///////////////////////////// POST ROUTES /////////////////////////////////////
+
+router.post('/uploadPhoto', function(req, res, next) {
+    console.log(req.files.uploaded_file, req.body);
+    let sampleFile;
+    let uploadPath;
+
+      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    sampleFile = req.files.uploaded_file;
+    uploadPath = __dirname + 'uploads/' + sampleFile.name;
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath, function(err) {
+        if (err){
+            console.log("error path: "+uploadPath);
+        return res.status(500).send(err);
+        }
+        console.log("success");
+        res.redirect('/admin');
+    });
+
+    
+});
+
 
 router.post('/updateCompetition', function(req, res, next) {
 
