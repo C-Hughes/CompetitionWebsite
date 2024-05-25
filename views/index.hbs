@@ -84,6 +84,7 @@
 <div class="container">
     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
         {{# each competitions}}
+            {{#if this.visible}}
             <!-- Competition Column -->
             <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                 <a href="/competition/{{this.id}}" class="is-link">
@@ -116,6 +117,7 @@
                     </div>
                 </a>
             </div>
+            {{/if}}
         {{/each}}
     </div>
 </div>
