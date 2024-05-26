@@ -1,4 +1,3 @@
-
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -205,11 +204,11 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
     res.redirect('/basket');
 });
 
-// Route to fetch images
+////////////////////// Route to fetch images ////////////////////////////////
 router.get('/images/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     //const imagePath = path.join(__dirname, 'routesuploads/', imageName);
-    const imagePath = uploadPath = __dirname + 'uploads/' + imageName;
+    const imagePath = uploadPath = __dirname + 'imageUploads/' + imageName;
   
     fs.access(imagePath, fs.constants.F_OK, (err) => {
       if (err) {
@@ -217,7 +216,7 @@ router.get('/images/:imageName', (req, res) => {
       }
       res.sendFile(imagePath);
     });
-  });
+});
 
 ///////////////////////////////////////////////////////////////////
 
