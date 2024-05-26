@@ -159,7 +159,7 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     // If a new image has been uploaded
     if (req.files && req.files.mainImageUpload) {
-        console.log(req.files.mainImageUpload);
+        //console.log(req.files.mainImageUpload);
 
         mainImageFile = req.files.mainImageUpload;
         const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
@@ -168,6 +168,7 @@ router.post('/updateCompetition', async (req, res, next) => {
             await moveFile(mainImageFile, uploadPath);
             mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
             console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+            console.log('New Main Image - '+mainImageFile);
         } catch (err) {
             console.log("error path: " + uploadPath);
             req.flash('error', 'Error uploading image - ' + uploadPath);
@@ -178,10 +179,6 @@ router.post('/updateCompetition', async (req, res, next) => {
         const additionalImages = req.files.additionalImages ? (Array.isArray(req.files.additionalImages) ? req.files.additionalImages : [req.files.additionalImages]) : [];
         // Upload additional images
         for (const image of additionalImages) {
-            //const additionalImageUploadPath = path.join(uploadDir, image.name);
-            //await image.mv(additionalImageUploadPath);
-            //additionalImagePaths.push(`${req.protocol}://${req.get('host')}/imageUploads/${image.name}`);
-
             try {
                 const uploadPath = __dirname + '/../imageUploads/' + image.name;
                 await moveFile(image, uploadPath);
@@ -194,7 +191,6 @@ router.post('/updateCompetition', async (req, res, next) => {
                 return res.redirect('/admin/editCompetition/' + req.body.compID);
             }
         }
-        console.log('additionalImagePaths: '+additionalImagePaths);
     }
 
 
@@ -213,7 +209,6 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     var competitionUpdate = {
         imagePath: mainImageFile,
-        //additionalImagePaths: additionalImagePaths,
         $push: { 
             additionalImagePaths: { $each: additionalImagePaths }
         },
