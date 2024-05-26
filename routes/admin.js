@@ -160,13 +160,12 @@ router.post('/updateCompetition', async (req, res, next) => {
         console.log(req.files.mainImageUpload);
 
         mainImageFile = req.files.mainImageUpload;
-        const uploadPath = path.join(__dirname, '/../imageUploads/', mainImageFile.name);
-
-        console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/imageUploads/' + mainImageFile.name);
+        const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
 
         try {
             await moveFile(mainImageFile, uploadPath);
-            mainImageFile = req.protocol + '://' + req.get('host') + '/imageUploads/' + mainImageFile.name;
+            mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+            console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
         } catch (err) {
             console.log("error path: " + uploadPath);
             req.flash('error', 'Error uploading image - ' + uploadPath);

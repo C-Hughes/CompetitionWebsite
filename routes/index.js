@@ -208,13 +208,13 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
 router.get('/images/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     //const imagePath = path.join(__dirname, 'routesuploads/', imageName);
-    const imagePath = uploadPath = __dirname + 'imageUploads/' + imageName;
+    const imagePath = __dirname + '/../imageUploads/' + imageName;
   
     fs.access(imagePath, fs.constants.F_OK, (err) => {
       if (err) {
         return res.status(404).send('Image not found');
       }
-      res.sendFile(imagePath);
+      res.sendFile(imageName, {'root': __dirname + '/../imageUploads/'});
     });
 });
 
