@@ -115,7 +115,9 @@ router.post('/updateCompetition', async (req, res, next) => {
         return res.redirect('/admin/editCompetition/' + req.body.compID);
     }
 
+    //Set mainImageFile to current compImagePath
     var mainImageFile = req.body.compImagePath;
+    const additionalImagePaths = [];
     console.log('Body- ' + JSON.stringify(req.body));
 
     //Input Validation
@@ -172,6 +174,29 @@ router.post('/updateCompetition', async (req, res, next) => {
             return res.redirect('/admin/editCompetition/' + req.body.compID);
         }
     }
+    if(req.files && req.files.additionalImages){
+        const additionalImages = req.files.additionalImages ? (Array.isArray(req.files.additionalImages) ? req.files.additionalImages : [req.files.additionalImages]) : [];
+        // Upload additional images
+        for (const image of additionalImages) {
+            //const additionalImageUploadPath = path.join(uploadDir, image.name);
+            //await image.mv(additionalImageUploadPath);
+            //additionalImagePaths.push(`${req.protocol}://${req.get('host')}/imageUploads/${image.name}`);
+
+            try {
+                const uploadPath = __dirname + '/../imageUploads/' + image.name;
+                await moveFile(image, uploadPath);
+                //mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+                console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + image.name);
+                additionalImagePaths.push(`${req.protocol}://${req.get('host')}/imageUploads/${image.name}`);
+            } catch (err) {
+                console.log("error path: " + uploadPath);
+                req.flash('error', 'Error uploading image - ' + uploadPath);
+                return res.redirect('/admin/editCompetition/' + req.body.compID);
+            }
+        }
+        console.log('additionalImagePaths: '+additionalImagePaths);
+    }
+
 
     // Set visible and active checkboxes
     const active = req.body.active === 'on';
@@ -184,10 +209,11 @@ router.post('/updateCompetition', async (req, res, next) => {
     var questionAnswers = req.body.questionAnswers.split(',');
     
     console.log('mainImageFile = ' +mainImageFile);
+    console.log('additionalImageFilePaths = '+additionalImagePaths);
 
     var competitionUpdate = {
         imagePath: mainImageFile,
-        //additionalImagePaths: [{type: String, required: false}],
+        additionalImagePaths: additionalImagePaths,
         title: req.body.title,
         description: req.body.description,
         cashAlternative: req.body.cashAlternative,
