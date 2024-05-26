@@ -187,7 +187,7 @@ router.post('/updateCompetition', async (req, res, next) => {
                 await moveFile(image, uploadPath);
                 //mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
                 console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + image.name);
-                additionalImagePaths.push(`${req.protocol}://${req.get('host')}/imageUploads/${image.name}`);
+                additionalImagePaths.push(`${req.protocol}://${req.get('host')}/images/${image.name}`);
             } catch (err) {
                 console.log("error path: " + uploadPath);
                 req.flash('error', 'Error uploading image - ' + uploadPath);
@@ -213,7 +213,10 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     var competitionUpdate = {
         imagePath: mainImageFile,
-        additionalImagePaths: additionalImagePaths,
+        //additionalImagePaths: additionalImagePaths,
+        $push: { 
+            additionalImagePaths: { $each: additionalImagePaths }
+        },
         title: req.body.title,
         description: req.body.description,
         cashAlternative: req.body.cashAlternative,
