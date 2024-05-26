@@ -30,7 +30,7 @@
 </div>
 
 <div class="container is-max-widescreen">
-    <form action="/admin/updateCompetition/?csrfToken={{csrfToken}}" method="post">
+    <form action="/admin/updateCompetition" enctype="multipart/form-data" method="post" ref='updateCompetitionForm' id='updateCompetitionForm'>
         <div class="card">
             <div class="card-content">
                 <label class="label">Main Image</label>
@@ -42,12 +42,13 @@
                         style="max-width: 400px; max-height: 400px"    
                     />
                     </figure>
+                    <input type="hidden" name="compImagePath" value="{{competition.imagePath}}">  
                 </div>
 
                 <div class="container">
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="imagePath" />
+                            <input class="file-input" type="file" name="mainImageUpload" />
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -57,6 +58,7 @@
                             <span class="file-name"> ... </span>
                         </label>
                     </div>
+
 
                     <label class="label">Additional Image(s)</label>
                     <div class="card-content">

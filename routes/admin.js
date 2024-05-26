@@ -111,6 +111,7 @@ router.post('/updateCompetition', function(req, res, next) {
 
     //If no competition id is submitted with the form
     if(req.body.compID){
+        var mainImageFile = req.body.compImagePath;
 
         //console.log(req.files.imagePath); // the uploaded file object
         console.log('Body- ' + JSON.stringify(req.body));
@@ -151,6 +152,26 @@ router.post('/updateCompetition', function(req, res, next) {
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
 
+        //If a new image has been uploaded
+        if(req.files.mainImageUpload){
+            console.log(req.files.mainImageUpload);
+
+            mainImageFile = req.files.mainImageUpload;
+            var uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
+    
+            console.log('Test URL: '+req.protocol + '://' + req.get('host')+'/imageUploads/' + mainImageFile.name);
+
+            // Use the mv() method to place the file on the server
+            mainImageFile.mv(uploadPath, function(err) {
+                if (err){
+                    console.log("error path: "+uploadPath);
+                    req.flash('error', 'Error uploading image - '+uploadPath);
+                    return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+                }
+                mainImageFile = req.protocol + '://' +uploadPath;
+            });
+        }
+
         //Set visible and active checkboxes
         var active = false;
         var visible = false;
@@ -167,8 +188,10 @@ router.post('/updateCompetition', function(req, res, next) {
         //Convert questionAnswers to array of strings
         var questionAnswers = req.body.questionAnswers.split(',');
         
+        console.log('mainImageFile = ' +mainImageFile);
+
         var competitionUpdate = {
-            //imagePath: {type: String, required: true},
+            imagePath: mainImageFile,
             //additionalImagePaths: [{type: String, required: false}],
             title: req.body.title,
             description: req.body.description,
@@ -334,4 +357,17 @@ function isAdmin(req, res, next){
         }
     }
     res.redirect('/');
+}
+
+// Utility function to move the file using a promise
+function moveFile(file, uploadPath) {
+    return new Promise((resolve, reject) => {
+        file.mv(uploadPath, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
 }
