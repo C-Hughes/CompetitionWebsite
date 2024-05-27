@@ -209,3 +209,84 @@ function verifyCompAnswer(){
     }
     return isFocused;
 }
+
+
+function previewAdditionalImages(){
+    var filesInput = document.getElementById("additionalImages");
+
+    var files = event.target.files; //FileList object
+    var output = document.getElementById("additionalImageColumns");
+
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        //Only pics
+        if (!file.type.match('image'))
+          continue;
+        var picReader = new FileReader();
+        picReader.addEventListener("load", function(event) {
+          var picFile = event.target;
+          var div = document.createElement("div");
+          div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" +
+            "title='" + picFile.name + "'/>";
+          output.insertBefore(div, null);
+        });
+        //Read the image
+        picReader.readAsDataURL(file);
+      }
+
+
+
+
+
+}
+
+window.onload = function(){
+    //Check File API support
+    if(window.File && window.FileList && window.FileReader)
+    {
+        var filesInput = document.getElementById("additionalImages");
+        
+        filesInput.addEventListener("change", function(event){
+            
+            var files = event.target.files; //FileList object
+            var output = document.getElementById("additionalImageColumns");
+            
+            for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                
+                //Only pics
+                if(!file.type.match('image'))
+                  continue;
+                
+                var picReader = new FileReader();
+                picReader.addEventListener("load",function(event){
+                    var picFile = event.target;
+                    var div = document.createElement("div");
+                    
+                    div.innerHTML = "<div class='column is-narrow'>" +
+                                        "<div>" +
+                                            "<figure class='image is-128x128 is-square'>" +
+                                                "<img " +
+                                                    "src='" + picFile.result + "' " +
+                                                    "title='" + picFile.name + "' />" +
+                                                "<a href='/admin/removeAdditionalImage/{{../competition._id}}?imageID={{this}}' class='button is-danger is-small'>" +
+                                                    "<span class='icon is-small'>" +
+                                                        "<i class='fa-regular fa-trash-can'></i>" +
+                                                    "</span>" +
+                                                "</a>" +
+                                            "</figure>" +
+                                        "</div>" +
+                                    "</div>";
+                    output.insertBefore(div,null);            
+                });
+                 //Read the image
+                picReader.readAsDataURL(file);
+            }                               
+        });
+    }
+    else
+    {
+        console.log("Your browser does not support File API");
+    }
+}
