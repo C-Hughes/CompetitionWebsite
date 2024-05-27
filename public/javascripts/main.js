@@ -270,11 +270,6 @@ window.onload = function(){
                                                 "<img " +
                                                     "src='" + picFile.result + "' " +
                                                     "title='" + picFile.name + "' />" +
-                                                "<a href='/admin/removeAdditionalImage/{{../competition._id}}?imageID={{this}}' class='button is-danger is-small'>" +
-                                                    "<span class='icon is-small'>" +
-                                                        "<i class='fa-regular fa-trash-can'></i>" +
-                                                    "</span>" +
-                                                "</a>" +
                                             "</figure>" +
                                         "</div>" +
                                     "</div>";
