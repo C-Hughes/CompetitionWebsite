@@ -71,21 +71,7 @@
                                 </div>
                             </div>
                             
-                            <div class="field">
-                                <label class="label">Country / Region</label>
-                                <p class="control has-icons-left">
-                                    <span class="select is-fullwidth">
-                                    <select id="countryRegion" name="countryRegion">
-                                        <option selected>{{userBillingAddress.countryRegion}}</option>
-                                        <option>Select dropdown</option>
-                                        <option>With options</option>
-                                    </select>
-                                    </span>
-                                    <span class="icon is-small is-left">
-                                    <i class="fas fa-globe"></i>
-                                    </span>
-                                </p>
-                            </div>
+                            {{> countryDropdown}}
                             <div class="field">
                                 <label class="label">Street Address</label>
                                 <div class="control has-icons-left">
@@ -190,21 +176,8 @@
                                 <i class="fa-solid fa-user"></i>
                                 </span>
                             </div>
-                        </div><label class="label">Country / Region</label>
-                        <div class="field">
-                        <p class="control has-icons-left">
-                            <span class="select is-fullwidth">
-                            <select>
-                                <option selected>United Kingdom</option>
-                                <option>Select dropdown</option>
-                                <option>With options</option>
-                            </select>
-                            </span>
-                            <span class="icon is-small is-left">
-                            <i class="fas fa-globe"></i>
-                            </span>
-                        </p>
                         </div>
+                        {{> countryDropdown}}
                         <div class="field">
                             <label class="label">Street Address</label>
                             <div class="control has-icons-left">
