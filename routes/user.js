@@ -139,7 +139,7 @@ router.post('/address/:addressType', function(req, res, next) {
                 messages.push(error.msg);
             });
             req.flash('error', messages);
-            return res.redirect('/address');
+            return res.redirect('/user/address');
         }
         
         var billingAddressUpdate = {
@@ -169,8 +169,49 @@ router.post('/address/:addressType', function(req, res, next) {
             console.log(err);
         });
     } else if(addressType == "shipping"){ 
-      
+        //Input Validation
+        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+        if(req.body.emailAddress){
+            req.checkBody('emailAddress', 'Email is not valid').isEmail();
+        }
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/user/address');
+        }
         
+        var shippingAddressUpdate = {
+            userReference: req.user,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            countryRegion: req.body.countryRegion,
+            streetAddress1: req.body.streetAddress1,
+            streetAddress2: req.body.streetAddress2,
+            townCity: req.body.townCity,
+            county: req.body.county,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+            emailAddress: req.body.emailAddress,
+            lastUpdated: new Date().toISOString(),
+        };
+        ShippingAddress.findOneAndUpdate({userReference: req.user}, shippingAddressUpdate, {upsert: true})
+        .then(() => {
+            req.flash('success', 'Your shipping details were saved');
+            res.redirect('/user/address');
+        })
+        .catch(err => {
+            console.log(err);
+        });
     } else {
         req.flash('error', 'Unknown Address Type');
         res.redirect('/user/address');
