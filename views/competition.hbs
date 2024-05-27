@@ -45,7 +45,12 @@
             </h2>
 
             <div class="content">
-                <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.price}}</p>
+                {{#if competition.discountPrice}}
+                    <p class="title is-5 has-text-primary"><s>£{{formatPrice competition.price}}</s></p>
+                    <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.discountPrice}}</p>
+                {{else}}
+                    <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.price}}</p>
+                {{/if}}
 
                 <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
                 <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>

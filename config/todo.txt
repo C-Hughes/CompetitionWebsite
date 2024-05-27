@@ -14,7 +14,6 @@ Competitions:
 
 User:
 - functionality to edit shipping address
-- Get update communication preferences working
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
@@ -52,6 +51,7 @@ Completed:
 
 User:
 - Get share referral code button working
+- Get update communication preferences working
 
 Other:
 - Recode buy ticket post route to use an async function for readability

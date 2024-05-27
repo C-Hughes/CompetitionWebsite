@@ -55,9 +55,14 @@
                                                             <p class="title is-4">Win this {{this.title}}</p>
                                                             <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                                                         </div>
-                                                        <div class="content" style="">
-                                                            <div style="">
-                                                                <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                                        <div class="content">
+                                                            <div>
+                                                                {{#if this.discountPrice}}
+                                                                    <p class="title is-5 has-text-primary"><s>£{{formatPrice price}}</s></p>
+                                                                    <p class="title is-1 has-text-primary">£{{formatPrice discountPrice}}</p>
+                                                                {{else}}
+                                                                    <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                                                {{/if}}
                                                             </div>
                                                             <div style="margin-top: 30px">
                                                                 <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>

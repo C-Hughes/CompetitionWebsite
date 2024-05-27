@@ -104,7 +104,13 @@
                                 </div>
                                 <div class="content" style="">
                                     <div style="">
-                                        <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                        {{#if this.discountPrice}}
+                                            <p class="title is-5 has-text-primary"><s>£{{formatPrice price}}</s></p>
+                                            <p class="title is-1 has-text-primary">£{{formatPrice discountPrice}}</p>
+                                        {{else}}
+                                            <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                        {{/if}}
+                                        
                                     </div>
                                     <div class="mt-5">
                                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
