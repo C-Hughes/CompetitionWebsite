@@ -6,7 +6,6 @@ When buying tickets:
 Competitions:
 - When tickets added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
-- Add original price and discounted price for site wide discounts.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
 - Do not allow users that are not admin to view competition where visible == false;
@@ -26,6 +25,7 @@ Other:
 - Update footer
 - Update FAQ
 - Add functionality for instant win competitions?
+- Add partial for DOB & Country dropdown
 
 
 
@@ -60,6 +60,7 @@ Competition:
 - Add additional images for competitions
 - Only display competitions that are marked as visible
 - get share competition buttons working
+- Add original price and discounted price for site wide discounts.
 
 Admin:
 - Add / Edit competitions

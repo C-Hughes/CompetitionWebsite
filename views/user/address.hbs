@@ -139,36 +139,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <label class="label">Date of Birth</label>
-                            <div class="field is-grouped">
-                                <p class="control">
-                                    <span class="select">
-                                        <select id="DOBDD" name="DOBDD">
-                                            <option selected>{{userBillingAddress.DOBDD}}</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                        </select>
-                                    </span>
-                                </p>
-                                <p class="control">
-                                    <span class="select">
-                                        <select id="DOBMM" name="DOBMM">
-                                            <option selected>{{userBillingAddress.DOBMM}}</option>
-                                            <option>February</option>
-                                            <option>March</option>
-                                        </select>
-                                    </span>
-                                </p>
-                                <p class="control">
-                                    <span class="select">
-                                        <select id="DOBYY" name="DOBYY">
-                                            <option selected>{{userBillingAddress.DOBYY}}</option>
-                                            <option>2023</option>
-                                            <option>2022</option>
-                                        </select>
-                                    </span>
-                                </p>
-                            </div>
+                           {{> DOBInput}}
                             <div class="field">
                                 <label class="label">Email Address</label>
                                 <p class="control is-expanded has-icons-left has-icons-right">
