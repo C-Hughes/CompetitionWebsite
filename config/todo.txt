@@ -4,7 +4,6 @@ When buying tickets:
 
 
 Competitions:
-- get share competition buttons working
 - When tickets added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Add original price and discounted price for site wide discounts.
@@ -50,6 +49,7 @@ Test create competition and preview competition
 
 
 Completed:
+- Test all share referral / competitions buttons when website is hosted
 
 Other:
 - Recode buy ticket post route to use an async function for readability
@@ -57,6 +57,7 @@ Other:
 Competition:
 - Add additional images for competitions
 - Only display competitions that are marked as visible
+- get share competition buttons working
 
 Admin:
 - Add / Edit competitions
