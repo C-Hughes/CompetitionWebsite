@@ -202,8 +202,8 @@ router.post('/updateCompetition', async (req, res, next) => {
     //Convert questionAnswers to array of strings
     var questionAnswers = req.body.questionAnswers.split(',');
     
-    console.log('mainImageFile = ' +mainImageFile);
-    console.log('additionalImageFilePaths = '+additionalImagePaths);
+    //console.log('mainImageFile = ' +mainImageFile);
+    //console.log('additionalImageFilePaths = '+additionalImagePaths);
 
     var competitionUpdate = {
         imagePath: mainImageFile,

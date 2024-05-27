@@ -223,19 +223,10 @@ router.post('/accountDetails/:form', function(req, res, next) {
         });
     } else if (form == "commsPrefs") {
                 
-        var emailChecked = false;
-        var textChecked = false;
-        var postChecked = false;
-
-        if (req.body.emailComms === 'on') {
-            emailChecked = true;
-        }
-        if (req.body.textComms === 'on') {
-            textChecked = true;
-        }
-        if (req.body.postComms === 'on') {
-            postChecked = true;
-        }
+        // Set visible and active checkboxes
+        const emailChecked = req.body.emailComms === 'on';
+        const textChecked = req.body.textComms === 'on';
+        const postChecked = req.body.postComms === 'on';
 
         var userCommsPrefs = {
             emailComms: emailChecked,
