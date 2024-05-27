@@ -67,48 +67,19 @@
                     </figure>
                 </div>
                 <div class="card-content">
-                    <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-48x48 is-square">
-                        <img
-                            src="https://m.media-amazon.com/images/I/51BIdV4YzNL._AC_SL1500_.jpg"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="media-left">
-                        <figure class="image is-48x48 is-square">
-                        <img
-                            src="https://m.media-amazon.com/images/I/3127qOn3xhL._AC_SL1080_.jpg"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="media-left">
-                        <figure class="image is-48x48 is-square">
-                        <img
-                            src="https://m.media-amazon.com/images/I/4164ht1LElL._AC_SL1080_.jpg"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="media-left">
-                        <figure class="image is-48x48 is-square">
-                        <img
-                            src="https://m.media-amazon.com/images/I/61UCon52o7L._AC_SL1371_.jpg"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="media-left">
-                        <figure class="image is-48x48 is-square">
-                        <img
-                            src="https://m.media-amazon.com/images/I/71OMEnoCMFL._AC_SL1500_.jpg"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="media-content"></div>
+                    <div class="columns is-multiline" id="additionalImageColumns">
+                        {{# each competition.additionalImagePaths}}
+                        <div class="column is-narrow">
+                            <div class="">
+                                <figure class="image is-64x64 is-square ">
+                                    <img
+                                        src="{{this}}"
+                                        alt="Additional Comp Image"
+                                    />
+                                </figure>
+                            </div>
+                        </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
