@@ -303,12 +303,12 @@
                 </span>
                 <span>Facebook</span>
             </a>
-            <button class="button is-info">
+            <a href="https://twitter.com/share?url=http://localhost:3000/competition/{{competition.id}}&text=Win This {{competition.title}}!" target="_blank" class="button is-info">
                 <span class="icon is-small">
                     <i class="fa-brands fa-square-twitter"></i>
                 </span>
                 <span>Twitter</span>
-            </button>
+            </a>
             <a href="https://api.whatsapp.com/send?text=Win This {{competition.title}}! http://localhost:3000/competition/{{competition.id}}" target="_blank" class="button is-success">
                 <span class="icon">
                     <i class="fa-brands fa-square-whatsapp"></i>
@@ -321,7 +321,7 @@
                 </span>
                 <span>Copy Link</span>
             </button>
-            <button class="button">
+            <button class="button" onclick="window.open('mailto:?subject=Win This {{competition.title}}&body=Click here to enter! http://localhost:3000/competition/{{competition.id}}');">
                 <span class="icon is-small">
                     <i class="fa-solid fa-square-envelope"></i>
                 </span>

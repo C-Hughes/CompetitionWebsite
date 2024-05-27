@@ -224,5 +224,7 @@ function copyShareLink(type){
 
         // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
+    } else if(type == 'email'){
+        
     }
 }
