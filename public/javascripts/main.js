@@ -210,21 +210,24 @@ function verifyCompAnswer(){
     return isFocused;
 }
 
-function copyShareLink(type){
-    var copyLinkInfo = document.getElementById("copyLinkInfo");
-    copyLinkInfo.style.display="block";
+function copyShareLink(type, text){
 
     if(type == 'link'){
+        var copyLinkInfo = document.getElementById("copyLinkInfo");
+        copyLinkInfo.style.display="block";
+
         // Get the text field
         var copyText = document.getElementById("shareLinkText");
 
-        // Select the text field
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
+    } else if (type == 'referral'){
+        var copyLinkInfo = document.getElementById("referralCopied");
+        copyLinkInfo.style.display="block";
 
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText.value);
-    } else if(type == 'email'){
-        
+        var copyText = document.getElementById("referralCodeText");
     }
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
 }

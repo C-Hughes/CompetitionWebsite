@@ -264,11 +264,12 @@
             <p class="subtitle"> People you've signed up: {{user.usersReferred}}</p> 
 
             <p>Your Referral Code:</p>
+            <p id="referralCopied" class="is-success" style="display: none;">Your referral code has been copied to clipboard!</p>
             <div class="field has-addons mt-3">
                 <p class="control is-expanded">
-                    <input class="input is-success" type="text" value="{{user.referralCode}}" readonly>
+                    <input id="referralCodeText" class="input is-success" type="text" value="{{user.referralCode}}" readonly>
                 </p>
-                <p class="control">
+                <p class="control" onclick="copyShareLink('referral')">
                     <span class="button is-medium is-success">
                         <i class="fa-solid fa-copy"></i>
                     </span>
@@ -276,11 +277,11 @@
             </div>
 
             <div class="buttons">
-                <button class="button is-link">
+                <button class="button is-link" onclick="copyShareLink('link')">
                     <span class="icon is-small">
-                        <i class="fa-solid fa-link"></i>
+                        <i class="fa-solid fa-copy"></i>
                     </span>
-                    <span>Direct Link</span>
+                    <span>Copy Direct Link</span>
                 </button>
                 <button class="button is-facebook">
                     <span class="icon is-small">
@@ -307,6 +308,20 @@
                     <span>Email</span>
                 </button>
             </div>
+            <div class="control" id="copyLinkInfo" style="display: none;">
+            <p class="is-success">The link has been copied!</p>
+            <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                    <input id="shareLinkText" class="input is-success" type="text" value="http://localhost:3000/register/{{user.referralCode}}" readonly />
+                    <span class="icon is-small is-left">
+                        <i class="fa-solid fa-link"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </p>
+            </div>
+        </div>
         </div>
     </div>
 </div>
