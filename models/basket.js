@@ -10,9 +10,15 @@ module.exports = function Basket(oldBasket){
             storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
-        storedItem.price = storedItem.item.price * storedItem.qty;
+        //If there is a discounted price, use that price
+        if(storedItem.item.discountPrice){
+            storedItem.price = storedItem.item.discountPrice * storedItem.qty;
+            this.totalPrice += storedItem.item.discountPrice * storedItem.qty;
+        } else {
+            storedItem.price = storedItem.item.price * storedItem.qty;
+            this.totalPrice += storedItem.item.price * storedItem.qty;
+        }
         this.totalQty+= Number(qty);
-        this.totalPrice += storedItem.item.price * storedItem.qty;
     };
 
     this.reduceByOne = function(id){
