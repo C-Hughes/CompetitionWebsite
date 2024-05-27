@@ -173,8 +173,6 @@ router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
             res.redirect('/');
         });
     }
-
-
 });
 
 router.get('/removeItem/:id', function(req, res, next) {

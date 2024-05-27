@@ -7,7 +7,7 @@ var router = express.Router();
 var Competition = require('../models/competition');
 
 
-/* MUST BE LOGGED ADMIN TO ACCESS BELOW */
+/* MUST BE LOGGED IN AND ADMIN TO ACCESS BELOW */
 router.use('/', isAdmin, function(req, res, next) {
     next();
 });
@@ -82,8 +82,31 @@ router.get('/users', function(req, res, next) {
     res.render('admin/users', { title: 'Users', active: { users: true } });
 });
 
-  ///////////////////////////// POST ROUTES /////////////////////////////////////
+//Get route to delete a competitions additional photo
+router.get('/removeAdditionalImage/:compID', function(req, res, next) {
+    var compID = req.params.compID;
+    var imageID = req.query.imageID;
 
+    var compUpdate = {
+        $pull: { 'additionalImagePaths': imageID },
+        lastUpdated: new Date().toISOString(),
+    };
+    Competition.findOneAndUpdate({_id: compID}, compUpdate, {upsert: false})
+    .then(() => {
+        req.flash('success', 'Image removed from competition');
+        res.redirect('/admin/editCompetition/'+compID);
+    })
+    .catch(err => {
+        console.log(err);
+        req.flash('error', 'Error removing image from competition');
+        res.redirect('/admin/editCompetition/'+compID);
+    });
+});
+
+//////////////////////////////// POST ROUTES /////////////////////////////////////
+
+// Test route to upload a new photo
+/*
 router.post('/uploadPhoto', function(req, res, next) {
     console.log(req.files.uploaded_file, req.body);
     let sampleFile;
@@ -105,7 +128,7 @@ router.post('/uploadPhoto', function(req, res, next) {
 
     
 });
-
+*/
 
 router.post('/updateCompetition', async (req, res, next) => {
 
@@ -175,6 +198,7 @@ router.post('/updateCompetition', async (req, res, next) => {
             return res.redirect('/admin/editCompetition/' + req.body.compID);
         }
     }
+    //If additional images have been selected
     if(req.files && req.files.additionalImages){
         const additionalImages = req.files.additionalImages ? (Array.isArray(req.files.additionalImages) ? req.files.additionalImages : [req.files.additionalImages]) : [];
         // Upload additional images
@@ -193,13 +217,12 @@ router.post('/updateCompetition', async (req, res, next) => {
         }
     }
 
-
     // Set visible and active checkboxes
     const active = req.body.active === 'on';
     const visible = req.body.visible === 'on';
 
-    console.log('Active = ' + active);
-    console.log('Visible = ' + visible);
+    //console.log('Active = ' + active);
+    //console.log('Visible = ' + visible);
 
     //Convert questionAnswers to array of strings
     var questionAnswers = req.body.questionAnswers.split(',');
@@ -240,7 +263,7 @@ router.post('/updateCompetition', async (req, res, next) => {
     }
 });
 
-
+// Create a new competition
 router.post('/createCompetition', function(req, res, next) {
 
     //Input Validation
@@ -313,7 +336,7 @@ router.post('/createCompetition', function(req, res, next) {
 });
 
 
-
+//Update the competition visible or active from the preview competition page
 router.post('/updatePreviewCompetition', function(req, res, next) {
 
     //If no competition id is submitted with the form
