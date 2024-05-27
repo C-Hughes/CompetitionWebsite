@@ -25,7 +25,7 @@ Other:
 - Update footer
 - Update FAQ
 - Add functionality for instant win competitions?
-- Add partial for DOB & Country dropdown
+- Add partial for DOB for billing address & Country dropdown
 
 
 

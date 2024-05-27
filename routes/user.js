@@ -168,6 +168,9 @@ router.post('/address/:addressType', function(req, res, next) {
         .catch(err => {
             console.log(err);
         });
+    } else if(addressType == "shipping"){ 
+      
+        
     } else {
         req.flash('error', 'Unknown Address Type');
         res.redirect('/user/address');
