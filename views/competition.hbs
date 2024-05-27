@@ -328,10 +328,11 @@
                 <span>Email</span>
             </button>
         </div>
-        <div class="control">
+        <div class="control" id="copyLinkInfo" style="display: none;">
+            <p class="is-success">The link has been copied!</p>
             <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                    <input class="input is-success" type="text" value="http://localhost:3000/competition/{{competition.id}}" readonly />
+                    <input id="shareLinkText" class="input is-success" type="text" value="http://localhost:3000/competition/{{competition.id}}" readonly />
                     <span class="icon is-small is-left">
                         <i class="fa-solid fa-link"></i>
                     </span>

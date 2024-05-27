@@ -211,7 +211,18 @@ function verifyCompAnswer(){
 }
 
 function copyShareLink(type){
-    if(type == 'link'){
+    var copyLinkInfo = document.getElementById("copyLinkInfo");
+    copyLinkInfo.style.display="block";
 
+    if(type == 'link'){
+        // Get the text field
+        var copyText = document.getElementById("shareLinkText");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
     }
 }
