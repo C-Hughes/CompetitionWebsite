@@ -39,6 +39,7 @@
                 <div class="card-image">
                     <figure class="image">
                     <img
+                        id="mainImageDisplay"
                         src="{{competition.imagePath}}"
                         alt="Competition Image"
                         style="max-width: 400px; max-height: 400px"    
@@ -50,7 +51,7 @@
                 <div class="container">
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="mainImageUpload" />
+                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>

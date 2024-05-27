@@ -105,31 +105,6 @@ router.get('/removeAdditionalImage/:compID', function(req, res, next) {
 
 //////////////////////////////// POST ROUTES /////////////////////////////////////
 
-// Test route to upload a new photo
-/*
-router.post('/uploadPhoto', function(req, res, next) {
-    console.log(req.files.uploaded_file, req.body);
-    let sampleFile;
-    let uploadPath;
-
-      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    sampleFile = req.files.uploaded_file;
-    uploadPath = __dirname + 'imageUploads/' + sampleFile.name;
-
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(uploadPath, function(err) {
-        if (err){
-            console.log("error path: "+uploadPath);
-        return res.status(500).send(err);
-        }
-        console.log("success");
-        res.redirect('/admin');
-    });
-
-    
-});
-*/
-
 router.post('/updateCompetition', async (req, res, next) => {
 
     //If no competition id is submitted with the form
@@ -264,75 +239,122 @@ router.post('/updateCompetition', async (req, res, next) => {
 });
 
 // Create a new competition
-router.post('/createCompetition', function(req, res, next) {
+router.post('/createCompetition', async (req, res) => {
+    try {
 
-    //Input Validation
-    req.checkBody('title', 'Title cannot be empty').notEmpty();
-    req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
-    req.checkBody('price', 'Price cannot be empty').notEmpty();
-    req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
-    req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
-    req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
-    req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
-    req.checkBody('questionText', 'Question Text cannot be empty').notEmpty();
-    req.checkBody('questionAnswers', 'Question Answers cannot be empty').notEmpty();
-    req.checkBody('correctAnswer', 'Correct Answer cannot be empty').notEmpty();
-    req.checkBody('description', 'Description cannot be empty').notEmpty();
+        //Set mainImageFile to current compImagePath
+        var mainImageFile = req.body.compImagePath;
+        const additionalImagePaths = [];
 
-    var errors = req.validationErrors();
-    if (errors){
-        var messages = [];
-        errors.forEach(function(error){
-            messages.push(error.msg);
+        //Input Validation
+        req.checkBody('title', 'Title cannot be empty').notEmpty();
+        req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
+        req.checkBody('price', 'Price cannot be empty').notEmpty();
+        req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+        req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
+        req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
+        req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
+        req.checkBody('questionText', 'Question Text cannot be empty').notEmpty();
+        req.checkBody('questionAnswers', 'Question Answers cannot be empty').notEmpty();
+        req.checkBody('correctAnswer', 'Correct Answer cannot be empty').notEmpty();
+        req.checkBody('description', 'Description cannot be empty').notEmpty();
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/createCompetition');
+        }
+
+        //Check if correct answer is in the question answers
+        if(!req.body.questionAnswers.includes(req.body.correctAnswer)){
+            req.flash('error', 'The correct answer "'+req.body.correctAnswer+'" is not in the list of questions: '+req.body.questionAnswers);
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+        }
+        //If discount price is submitted, make sure it is less than original price and higher than 0
+        console.log(req.body.discountPrice);
+        console.log(req.body.price);
+        if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
+            req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+        }
+
+        // If a new image has been uploaded
+        if (req.files && req.files.mainImageUpload) {
+            //console.log(req.files.mainImageUpload);
+
+            mainImageFile = req.files.mainImageUpload;
+            const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
+
+            try {
+                await moveFile(mainImageFile, uploadPath);
+                mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+                console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+                console.log('New Main Image - '+mainImageFile);
+            } catch (err) {
+                console.log("error path: " + uploadPath);
+                req.flash('error', 'Error uploading image - ' + uploadPath);
+                return res.redirect('/admin/editCompetition/' + req.body.compID);
+            }
+        }
+        //If additional images have been selected
+        if(req.files && req.files.additionalImages){
+            const additionalImages = req.files.additionalImages ? (Array.isArray(req.files.additionalImages) ? req.files.additionalImages : [req.files.additionalImages]) : [];
+            // Upload additional images
+            for (const image of additionalImages) {
+                try {
+                    const uploadPath = __dirname + '/../imageUploads/' + image.name;
+                    await moveFile(image, uploadPath);
+                    //mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+                    console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + image.name);
+                    additionalImagePaths.push(`${req.protocol}://${req.get('host')}/images/${image.name}`);
+                } catch (err) {
+                    console.log("error path: " + uploadPath);
+                    req.flash('error', 'Error uploading image - ' + uploadPath);
+                    return res.redirect('/admin/editCompetition/' + req.body.compID);
+                }
+            }
+        }
+
+        //Convert questionAnswers to array of strings
+        var questionAnswers = req.body.questionAnswers.split(',');
+        
+        const newComp = new Competition({
+            imagePath: mainImageFile,
+            $push: { 
+                additionalImagePaths: { $each: additionalImagePaths }
+            },
+            title: req.body.title,
+            description: req.body.description,
+            cashAlternative: req.body.cashAlternative,
+            price: req.body.price,
+            discountPrice: req.body.discountPrice,
+            drawDate: new Date(req.body.drawDate),
+            maxEntries: req.body.maxEntries,
+            maxEntriesPerPerson: req.body.maxEntriesPerPerson,
+            maxPostalVotes: req.body.maxPostalVotes,
+            questionText: req.body.questionText,
+            questionAnswers: questionAnswers,
+            correctAnswer: req.body.correctAnswer,
         });
-        req.flash('error', messages);
-        return res.redirect('/admin/createCompetition');
-    }
 
-    //Check if correct answer is in the question answers
-    if(!req.body.questionAnswers.includes(req.body.correctAnswer)){
-        req.flash('error', 'The correct answer "'+req.body.correctAnswer+'" is not in the list of questions: '+req.body.questionAnswers);
-        return res.redirect('/admin/editCompetition/'+req.body.compID+'');
-    }
-    //If discount price is submitted, make sure it is less than original price and higher than 0
-    console.log(req.body.discountPrice);
-    console.log(req.body.price);
-    if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
-        req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
-        return res.redirect('/admin/editCompetition/'+req.body.compID+'');
-    }
+        const savedCompetition = await newComp.save();
 
-    //Convert questionAnswers to array of strings
-    var questionAnswers = req.body.questionAnswers.split(',');
-    
-    var newComp = new Competition();
-    //imagePath: {type: String, required: true},
-    //additionalImagePaths: [{type: String, required: false}],
-    newComp.title = req.body.title;
-    newComp.description = req.body.description;
-    newComp.cashAlternative = req.body.cashAlternative;
-    newComp.price = req.body.price;
-    newComp.discountPrice = req.body.discountPrice;
-    newComp.drawDate = new Date(req.body.drawDate);
-    newComp.maxEntries = req.body.maxEntries;
-    newComp.maxEntriesPerPerson = req.body.maxEntriesPerPerson;
-    newComp.maxPostalVotes = req.body.maxPostalVotes;
-    newComp.questionText = req.body.questionText;
-    newComp.questionAnswers = questionAnswers;
-    newComp.correctAnswer = req.body.correctAnswer;
-    newComp.save({})
-    .then(foundCompetition => {
-        if(foundCompetition){
+        if (savedCompetition) {
             console.log('Competition Saved!');
-            res.redirect('/admin/previewCompetition/'+foundCompetition._id+'');
+            res.redirect(`/admin/previewCompetition/${savedCompetition._id}`);
         } else {
-            console.log("Error saving competition");
+            console.log('Error saving competition');
             res.redirect('/admin/createCompetition');
         }
-    })
-    .catch(err => {
+    } catch (err) {
         console.log(err);
-    });
+        req.flash('error', 'Error creating competition');
+        res.redirect('/admin/createCompetition');
+    }
 });
 
 

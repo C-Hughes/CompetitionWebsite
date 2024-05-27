@@ -32,34 +32,41 @@
             <div class="card-content">
                 <label class="label">Main Image</label>
                 <div class="container">
+                    <figure class="image">
+                    <img
+                        id="mainImageDisplay"
+                        src=""
+                        alt="Competition Image"
+                        style="max-width: 400px; max-height: 400px"    
+                    />
+                    </figure>
+
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="imagePath" />
+                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
                             </span>
-                            <span class="file-label"> Upload Image </span>
+                            <span class="file-label"> Upload Main Image </span>
                             </span>
-                            <span class="file-name"> Main Image </span>
+                            <span class="file-name"> ... </span>
                         </label>
                     </div>
 
                     <label class="label">Additional Image(s)</label>
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="additionalImages" />
+                            <input class="file-input" type="file" name="additionalImages" multiple />
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
                             </span>
-                            <span class="file-label"> Upload Images </span>
+                            <span class="file-label"> Upload Additional Image(s) </span>
                             </span>
-                            <span class="file-name"> Additional Image(s) </span>
+                            <span class="file-name"> ... </span>
                         </label>
                     </div>
-
-
 
 
                     <div class="field">
