@@ -10,7 +10,7 @@ Competitions:
 - Add original price and discounted price for site wide discounts.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
-
+- Do not allow users that are not admin to view competition where visible == false;
 
 
 User:
@@ -42,7 +42,8 @@ AntiCheat / User monitoring:
 - Show users who have the highest rewardpoints / reward level
 
 
-
+Testing:
+Test create competition and preview competition
 
 
 
