@@ -2,14 +2,10 @@ When buying tickets:
 - Make sure they cannot buy more than max for comp (before payment is made) - Possibly allocate tickets so another user cannot buy tickets after payment has been made
 - check to see how many user has bought already and if they can buy anymore
 
-- Make orderNumber incriment
-
 
 Competitions:
 - get share competition buttons working
 - When tickets added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
-- Add additional images for competitions
-- Only display competitions that are marked as visible
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Add original price and discounted price for site wide discounts.
 - Update slider so button disables if at minimum or maximum
@@ -37,7 +33,6 @@ Other:
 
 
 Admin functionality:
-- Add / Edit competitions
 - Administrate coupon codes
 - Add / Edit winners on winner pages
 
@@ -55,10 +50,15 @@ AntiCheat / User monitoring:
 
 Completed:
 
-Recode buy ticket post route to use an async function for readability
+Other:
+- Recode buy ticket post route to use an async function for readability
 
+Competition:
+- Add additional images for competitions
+- Only display competitions that are marked as visible
 
-
+Admin:
+- Add / Edit competitions
 
 
 
