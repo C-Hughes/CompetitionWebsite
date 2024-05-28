@@ -136,6 +136,7 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
+        //basket.checkPrice();
 
         //For each item in the basket, lookup in DB how many tickets have been sold
         //Check if user can purchase any more tickets based on max tickets per competition

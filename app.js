@@ -55,7 +55,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost/test-app',
+        mongoUrl: 'mongodb://localhost:27017/CompetitionMain',
         mongooseConnection: mongoose.connection,
         ttl: 30 * 24 * 60 * 60 // save session for 30 days
     }),

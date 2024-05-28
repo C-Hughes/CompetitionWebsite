@@ -4,6 +4,11 @@ const fileUpload = require('express-fileupload');
 //var upload = multer({ dest: 'uploads/' });
 var router = express.Router();
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
+    serverSelectionTimeoutMS: 5000
+});
+
 var Competition = require('../models/competition');
 
 
@@ -116,7 +121,7 @@ router.post('/updateCompetition', async (req, res, next) => {
     //Set mainImageFile to current compImagePath
     var mainImageFile = req.body.compImagePath;
     const additionalImagePaths = [];
-    console.log('Body- ' + JSON.stringify(req.body));
+    //console.log('updateCompetition req.body = ' + JSON.stringify(req.body));
 
     //Input Validation
     req.checkBody('title', 'Title cannot be empty').notEmpty();
@@ -147,8 +152,6 @@ router.post('/updateCompetition', async (req, res, next) => {
         return res.redirect('/admin/editCompetition/'+req.body.compID+'');
     }
     //If discount price is submitted, make sure it is less than original price and higher than 0
-    console.log(req.body.discountPrice);
-    console.log(req.body.price);
     if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
         req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
         return res.redirect('/admin/editCompetition/'+req.body.compID+'');
@@ -229,6 +232,12 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     try {
         await Competition.findOneAndUpdate({ _id: req.body.compID }, competitionUpdate, { upsert: false });
+        //Delete everyones basket session if discount price is changed
+        //if(req.body.discountPrice != req.body.oldDiscountPrice){
+            console.log('Deleting all session baskets...');
+            clearAllBaskets();
+       //}
+
         req.flash('success', 'Competition Successfully Updated');
         res.redirect('/admin/editCompetition/' + req.body.compID);
     } catch (err) {
@@ -432,4 +441,36 @@ function moveFile(file, uploadPath) {
             }
         });
     });
+}
+
+// Function to delete all sessions
+async function clearAllBaskets() {
+    // Define a schema for the sessions collection
+    const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
+    // Create a model for the sessions collection
+    const Session = mongoose.model('Session', sessionSchema);
+
+    try {
+        const sessions = await Session.find({});
+        const updatePromises = sessions.map(async (sessionDoc) => {
+            try {
+                console.log(sessionDoc);
+                if (sessionDoc.session) {
+                    
+                    const sessionObj = JSON.parse(sessionDoc.session);
+                    sessionObj.basket = {}; // Clear the basket
+                    sessionDoc.session = JSON.stringify(sessionObj); // Convert back to JSON string
+                    await sessionDoc.save();
+                } else {
+                    console.error(`Session with _id ${sessionDoc._id} does not have a session field.`);
+                }
+            } catch (err) {
+                console.error(`Error processing session with _id ${sessionDoc._id}:`, err);
+            }
+        });
+        await Promise.all(updatePromises);
+        console.log('All session baskets have been deleted.');
+    } catch (err) {
+        console.error('Error deleting sessions:', err);
+    }
 }

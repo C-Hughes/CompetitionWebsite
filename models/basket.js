@@ -21,6 +21,22 @@ module.exports = function Basket(oldBasket){
         this.totalQty+= Number(qty);
     };
 
+    this.increaseByOne = function(id){
+        this.items[id].qty++;
+        this.totalQty++;
+
+        //If discount price is active
+        if(this.items[id].item.discountPrice){
+            this.items[id].price += this.items[id].item.discountPrice;
+            this.totalPrice += this.items[id].item.discountPrice;
+        } else {
+            this.items[id].price += this.items[id].item.price;
+            this.totalPrice += this.items[id].item.price;
+        }
+
+        //Need to make sure user cannot buy more tickets than the maximum
+    };
+
     this.reduceByOne = function(id){
         this.items[id].qty--;
         this.totalQty--;
@@ -37,27 +53,11 @@ module.exports = function Basket(oldBasket){
         if (this.items[id].qty <= 0){
             delete this.items[id];
 
-            if(this.items.length == 0){
+            if(this.items.length == 0 || Object.keys(this.items).length == 0){
                 this.totalPrice = 0;
                 this.totalQty = 0;
             }
         }
-    };
-
-    this.increaseByOne = function(id){
-        this.items[id].qty++;
-        this.totalQty++;
-
-        //If discount price is active
-        if(this.items[id].item.discountPrice){
-            this.items[id].price += this.items[id].item.discountPrice;
-            this.totalPrice += this.items[id].item.discountPrice;
-        } else {
-            this.items[id].price += this.items[id].item.price;
-            this.totalPrice += this.items[id].item.price;
-        }
-        
-        //Need to make sure user cannot buy more tickets than the maximum
     };
 
     this.removeItem = function(id){
@@ -65,7 +65,7 @@ module.exports = function Basket(oldBasket){
         this.totalPrice -= this.items[id].price;
         delete this.items[id];
 
-        if(this.items.length == 0){
+        if(this.items.length == 0 || Object.keys(this.items).length == 0){
             this.totalPrice = 0;
             this.totalQty = 0;
         }
@@ -77,6 +77,31 @@ module.exports = function Basket(oldBasket){
             arr.push(this.items[id]);
         }
         return arr;
+    }
+
+    //Check each item in basket, make sure price is correct (If discounted price has been added while old priced items are in the basket)
+    this.checkPrice = function() {
+        for (var id in this.items){
+            if(this.items[id].item.discountPrice){
+                if(this.items[id].price != (this.items[id].item.discountPrice * this.items[id].qty)){
+                    console.log('Discount Price descrepancy!');
+
+                    console.log('Price = '+this.items[id].item.price);
+                    console.log('Qty = '+this.items[id].qty);
+                }
+            } else {
+                if(this.items[id].price != (this.items[id].item.price * this.items[id].qty)){
+                    console.log('Price descrepancy!');
+
+                    console.log('Price = '+this.items[id].item.price);
+                    console.log('Qty = '+this.items[id].qty);
+                    //console.log(JSON.stringify(this.items[id]));
+
+                    
+                }
+            }
+            console.log(JSON.stringify(this.items[id]));
+        }
     }
 
     //Make sure a user cannot add more tickets than is allowed per person
