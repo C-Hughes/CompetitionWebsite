@@ -4,7 +4,7 @@ When buying tickets:
 
 
 Competitions:
-- When tickets added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
+- When tickets are added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
@@ -12,7 +12,6 @@ Competitions:
 
 
 User:
-- functionality to edit shipping address
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
@@ -52,6 +51,7 @@ Completed:
 User:
 - Get share referral code button working
 - Get update communication preferences working
+- functionality to edit shipping address
 
 Other:
 - Recode buy ticket post route to use an async function for readability
