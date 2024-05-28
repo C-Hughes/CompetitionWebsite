@@ -12,6 +12,7 @@ var shippingAddressSchema = new Schema({
     county: {type: String, required: false},
     postcode: {type: String, required: true},
     phoneNumber: {type: String, required: false},
+    emailAddress: {type: String, required: false},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true},
 });

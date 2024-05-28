@@ -4,6 +4,7 @@ var passport = require('passport');
 var Order = require('../models/order');
 var Basket = require('../models/basket');
 var BillingAddress = require('../models/billingAddress');
+var ShippingAddress = require('../models/shippingAddress');
 var User = require('../models/user');
 var Ticket = require('../models/ticket');
 
@@ -62,21 +63,28 @@ router.get('/viewOrder/:id', function(req, res, next) {
     });
 });
 
-router.get('/address', function(req, res, next) {
-    var errors = req.flash('error');
-    var success = req.flash('success');
-    BillingAddress.findOne({userReference: req.user})
-    .then(foundBAddress => {
-        if (foundBAddress) {
-            res.render('user/address', { title: 'Addresses', active: { address: true }, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
-        } else {
-            console.log("No Address Saved");
-            res.render('user/address', { title: 'Addresses', active: { address: true }, userBillingAddress: "", error: errors, errors: errors.length > 0, success: success, successes: success.length > 0});
-        }
-    })
-    .catch(err => {
+router.get('/address', async function(req, res, next) {
+    try {
+        var errors = req.flash('error');
+        var success = req.flash('success');
+        var foundBAddress = await BillingAddress.findOne({ userReference: req.user });
+        var foundSAddress = await ShippingAddress.findOne({ userReference: req.user });
+
+        res.render('user/address', { 
+            title: 'Addresses', 
+            active: { address: true }, 
+            userBillingAddress: foundBAddress || "",
+            userShippingAddress: foundSAddress || "",  
+            error: errors, 
+            errors: errors.length > 0, 
+            success: success, 
+            successes: success.length > 0 
+        });
+
+    } catch (err) {
         console.log(err);
-    });
+        res.redirect('/user');
+    }
 });
 
 router.get('/accountDetails', function(req, res, next) {

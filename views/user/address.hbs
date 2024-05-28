@@ -70,8 +70,24 @@
                                     </span>
                                 </div>
                             </div>
-                            
-                            {{> countryDropdown}}
+                            <label class="label">Country / Region</label>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <span class="select is-fullwidth">
+                                        <select id="countryRegion" name="countryRegion">
+                                            {{#if billingAddress.countryRegion}}
+                                                <option selected>{{billingAddress.countryRegion}}</option>
+                                            {{else}}
+                                                <option value="">Country</option>
+                                            {{/if}}
+                                            {{> countryDropdown}}
+                                        </select>
+                                    </span>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-globe"></i>
+                                    </span>
+                                </p>
+                            </div>
                             <div class="field">
                                 <label class="label">Street Address</label>
                                 <div class="control has-icons-left">
@@ -182,8 +198,24 @@
                                     </span>
                                 </div>
                             </div>
-                            
-                            {{> countryDropdown}}
+                            <label class="label">Country / Region</label>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <span class="select is-fullwidth">
+                                        <select id="countryRegion" name="countryRegion">
+                                            {{#if userShippingAddress.countryRegion}}
+                                                <option selected>{{userShippingAddress.countryRegion}}</option>
+                                            {{else}}
+                                                <option value="">Country</option>
+                                            {{/if}}
+                                            {{> countryDropdown}}
+                                        </select>
+                                    </span>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-globe"></i>
+                                    </span>
+                                </p>
+                            </div>
                             <div class="field">
                                 <label class="label">Street Address</label>
                                 <div class="control has-icons-left">
