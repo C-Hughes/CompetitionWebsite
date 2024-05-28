@@ -77,15 +77,17 @@ router.get('/processCard', function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
-
-        console.log(req.session.basket);
-        //For each item in the basket, lookup in DB how many tickets have been sold
-        //Check if user can purchase any more tickets based on max tickets per competition
-        //Check if user can purchase any more tickets based on max tickets per user
-        //Update basket accordingly
-
         var basket = new Basket(req.session.basket);
-        res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+        basket.updateBasket()
+        .then(() => {
+            req.session.basket = basket;
+            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+        })
+        .catch(err => {
+            console.log('Error checking price:', err);
+            res.redirect('/');
+        });
+        
     }
 });
 
