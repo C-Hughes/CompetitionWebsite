@@ -35,8 +35,16 @@ module.exports = {
         var time = new Intl.DateTimeFormat('en', { hour: "numeric"}).format(date);
         var newDate = `${weekday} ${day} ${month} - ${time}`;
         return newDate;
+    },
+    ifCompClosing: function(cond1, options){
+        //If competition is closing soon (1 hour), do not allow users to buy
+        var ONE_HOUR = 60 * 60 * 1000; /* ms */
+        console.log(new Date(cond1.getTime() - ONE_HOUR) > Date.now());
+        console.log('New Date - '+(new Date));
+        console.log('CompDraw - '+cond1);
+        console.log('Close Comp Time - '+new Date(cond1.getTime() - ONE_HOUR)   );
 
-        
+        return new Date(cond1.getTime() - ONE_HOUR) < Date.now() ? options.fn(this) : options.inverse(this);
     },
     formatTicketNumberOutput: function(cond1, options){
         var toString = cond1.toString();

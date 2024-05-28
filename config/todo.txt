@@ -8,7 +8,6 @@ Competitions:
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
-- Do not allow users that are not admin to view competition where visible == false;
 
 
 User:
@@ -32,7 +31,7 @@ Admin functionality:
 - Add / Edit winners on winner pages
 
 AntiCheat / User monitoring:
-- Show users that have the same shipping / billing addresses
+- Show users that share the same shipping / billing addresses with other users
 - Show users who have referred the most people
 - Show users who have the highest rewardpoints / reward level
 
@@ -61,6 +60,7 @@ Competition:
 - Only display competitions that are marked as visible
 - get share competition buttons working
 - Add original price and discounted price for site wide discounts.
+- Do not allow users that are not admin to view competition where visible == false;
 
 Admin:
 - Add / Edit competitions
