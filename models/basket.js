@@ -106,6 +106,10 @@ module.exports = function Basket(oldBasket){
                 console.log(err);
             }
         }
+
+        //Make sure a user cannot add more tickets if a competition is sold out
+
+        //Make sure a user cannot add more tickets than is allowed per person
     }
 
     //Make sure a user cannot add more tickets than is allowed per person

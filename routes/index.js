@@ -49,25 +49,25 @@ router.get('/checkout', function(req, res, next) {
         return res.redirect('/basket');
     } else {
 
-        //For each item in the basket, lookup in DB how many tickets have been sold
-        //Check if user can purchase any more tickets based on max tickets per competition
-        //Check if user can purchase any more tickets based on max tickets per user
-        //Update basket accordingly
-
-
         var basket = new Basket(req.session.basket);
-
-        BillingAddress.findOne({userReference: req.user})
-        .then(foundBAddress => {
-            if (foundBAddress) {
-                res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
-            } else {
-                console.log("No Address Saved");
-                res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
-            }
+        basket.updateBasket()
+        .then(() => {
+            BillingAddress.findOne({userReference: req.user})
+            .then(foundBAddress => {
+                if (foundBAddress) {
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
+                } else {
+                    console.log("No Address Saved");
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
         })
         .catch(err => {
-            console.log(err);
+            console.log('Error checking price:', err);
+            res.redirect('/');
         });
     }
 });
