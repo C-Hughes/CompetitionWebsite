@@ -24,7 +24,6 @@ Other:
 - Update footer
 - Update FAQ
 - Add functionality for instant win competitions?
-- Add partial for DOB for billing address & Country dropdown
 
 
 
@@ -55,6 +54,7 @@ User:
 
 Other:
 - Recode buy ticket post route to use an async function for readability
+- Add partial for DOB for billing address & Country dropdown
 
 Competition:
 - Add additional images for competitions

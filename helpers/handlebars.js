@@ -48,6 +48,9 @@ module.exports = {
         }
         return options.inverse(this);
     },
+    ifOR: function(value, value2, options){
+        return (value || value2) ? options.fn(this) : options.inverse(this);
+    },
     checkActiveCompetitions: function(competitions, options){
         let hasActive = false;
 
