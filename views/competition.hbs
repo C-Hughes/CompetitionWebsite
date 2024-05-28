@@ -64,6 +64,14 @@
                             <p>Entries to this competition have now closed.</p><p>The draw will take place soon.</p>
                         </div>
                     {{else}}
+                        {{#ifLastEntries competition.drawDate}}
+                            <div class="notification is-warning has-text-centered">
+                                <span class="icon">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </span>
+                                <span>Entries to this competition will close soon!</span>                  
+                            </div>
+                        {{/ifLastEntries}}
                         <div class="tabs-wrapper">
                             <div class="tabs is-centered">
                                 <ul>

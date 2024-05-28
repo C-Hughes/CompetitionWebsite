@@ -39,12 +39,13 @@ module.exports = {
     ifCompClosing: function(cond1, options){
         //If competition is closing soon (1 hour), do not allow users to buy
         var ONE_HOUR = 60 * 60 * 1000; /* ms */
-        console.log(new Date(cond1.getTime() - ONE_HOUR) > Date.now());
-        console.log('New Date - '+(new Date));
-        console.log('CompDraw - '+cond1);
-        console.log('Close Comp Time - '+new Date(cond1.getTime() - ONE_HOUR)   );
-
         return new Date(cond1.getTime() - ONE_HOUR) < Date.now() ? options.fn(this) : options.inverse(this);
+    },
+    ifLastEntries: function(cond1, options){
+        //If competition is closing soon (1 hour), do not allow users to buy
+        var ONE_HOUR = 60 * 60 * 1000; /* ms */
+        var TWO_HOUR = 120 * 60 * 1000; /* ms */
+        return ((new Date(cond1.getTime() - TWO_HOUR) < Date.now()) && (new Date(cond1.getTime() - ONE_HOUR) > Date.now())) ? options.fn(this) : options.inverse(this);
     },
     formatTicketNumberOutput: function(cond1, options){
         var toString = cond1.toString();
