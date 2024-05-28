@@ -92,21 +92,24 @@ module.exports = function Basket(oldBasket){
     //Check each item in basket, make sure price is correct (If discounted price has been added while old priced items are in the basket)
     this.checkPrice = async function() {
         console.log('Checking price...');
-        this.totalPrice = 1000;
+        this.totalPrice = 0;
     
         for (var id in this.items){
             try {
                 const foundCompetition = await Competition.findOne({ _id: this.items[id].item._id });
                 if (foundCompetition) {
-                    //Once found update the price and discount price of the basket.
-                    console.log('FoundPrice =' + foundCompetition.price);
-                    this.items[id].item.price = foundCompetition.price;
-                    this.items[id].item.discountPrice = foundCompetition.discountPrice;
-                    //console.log('Price updated'+this.items[id].item.price + this.items[id].qty);
-                    this.items[id].price = this.items[id].item.price * this.items[id].qty;
-                    console.log('This price = ' + this.items[id].price);
-                    this.totalPrice = this.items[id].price;
-                    console.log('Basket total price = ' + this.totalPrice);
+                    //Update basket item to current info
+                    this.items[id].item = foundCompetition;
+                    console.log('item = '+this.items[id].item);
+
+                    //if foundCompetition has a discountPrice set
+                    if(foundCompetition.discountPrice){
+                        //Update Total price for this specific item
+                        this.items[id].price = this.items[id].item.discountPrice * this.items[id].qty;
+                    } else {
+                        this.items[id].price = this.items[id].item.price * this.items[id].qty;
+                    }
+                    this.totalPrice += this.items[id].price;
                 } else {
                     console.log("Error CheckPrice COMP Not Found");
                 }
