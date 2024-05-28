@@ -11,6 +11,18 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 
 var Competition = require('../models/competition');
 
+// Define a schema for the sessions collection
+//const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
+// Session schema (adjust if necessary)
+const sessionSchema = new mongoose.Schema({
+    _id: String,
+    expires: Date,
+    session: String
+}, { collection: 'sessions' });
+
+// Create a model for the sessions collection
+const Session = mongoose.model('Session', sessionSchema);
+
 
 /* MUST BE LOGGED IN AND ADMIN TO ACCESS BELOW */
 router.use('/', isAdmin, function(req, res, next) {
@@ -445,32 +457,29 @@ function moveFile(file, uploadPath) {
 
 // Function to delete all sessions
 async function clearAllBaskets() {
-    // Define a schema for the sessions collection
-    const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
-    // Create a model for the sessions collection
-    const Session = mongoose.model('Session', sessionSchema);
 
     try {
-        const sessions = await Session.find({});
-        const updatePromises = sessions.map(async (sessionDoc) => {
+        // Find all session documents
+        const sessionDocs = await Session.find({});
+
+        for (let doc of sessionDocs) {
             try {
-                console.log(sessionDoc);
-                if (sessionDoc.session) {
-                    
-                    const sessionObj = JSON.parse(sessionDoc.session);
-                    sessionObj.basket = {}; // Clear the basket
-                    sessionDoc.session = JSON.stringify(sessionObj); // Convert back to JSON string
-                    await sessionDoc.save();
-                } else {
-                    console.error(`Session with _id ${sessionDoc._id} does not have a session field.`);
+                let sessionObj = JSON.parse(doc.session);
+                if (sessionObj.basket) {
+                    delete sessionObj.basket;
+                    doc.session = JSON.stringify(sessionObj);
+                    await doc.save();
+                    console.log(`Updated session with _id: ${doc._id}`);
                 }
             } catch (err) {
-                console.error(`Error processing session with _id ${sessionDoc._id}:`, err);
+                console.error(`Error processing session with _id: ${doc._id}`, err);
             }
-        });
-        await Promise.all(updatePromises);
-        console.log('All session baskets have been deleted.');
-    } catch (err) {
-        console.error('Error deleting sessions:', err);
-    }
+        }
+
+        //const result = await Session.updateMany({}, { $set: { "session.basket": {} } });
+        //console.log(`${result.modifiedCount} baskets have been cleared.`);
+        console.log('All baskets have been cleared.');
+      } catch (err) {
+        console.error('Error clearing baskets:', err);
+      }
 }
