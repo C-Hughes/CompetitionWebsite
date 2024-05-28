@@ -136,7 +136,7 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
-        basket.checkPrice()
+        basket.updateBasket()
         .then(() => {
             res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
         })

@@ -90,8 +90,8 @@ module.exports = function Basket(oldBasket){
     }
 
     //Check each item in basket, make sure price is correct (If discounted price has been added while old priced items are in the basket)
-    this.checkPrice = async function() {
-        console.log('Checking price...');
+    this.updateBasket = async function() {
+        console.log('Updating Basket...');
         this.totalPrice = 0;
     
         for (var id in this.items){
@@ -111,7 +111,7 @@ module.exports = function Basket(oldBasket){
                     }
                     this.totalPrice += this.items[id].price;
                 } else {
-                    console.log("Error CheckPrice COMP Not Found");
+                    console.log("Error updateBasket() COMP Not Found");
                 }
             } catch (err) {
                 console.log(err);
