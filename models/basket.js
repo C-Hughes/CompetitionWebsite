@@ -23,9 +23,16 @@ module.exports = function Basket(oldBasket){
 
     this.reduceByOne = function(id){
         this.items[id].qty--;
-        this.items[id].price -= this.items[id].item.price;
         this.totalQty--;
-        this.totalPrice -= this.items[id].item.price;
+
+        //If discount price is active
+        if(this.items[id].item.discountPrice){
+            this.items[id].price -= this.items[id].item.discountPrice;
+            this.totalPrice -= this.items[id].item.discountPrice;
+        } else {
+            this.items[id].price -= this.items[id].item.price;
+            this.totalPrice -= this.items[id].item.price;
+        }
 
         if (this.items[id].qty <= 0){
             delete this.items[id];
@@ -39,10 +46,17 @@ module.exports = function Basket(oldBasket){
 
     this.increaseByOne = function(id){
         this.items[id].qty++;
-        this.items[id].price += this.items[id].item.price;
         this.totalQty++;
-        this.totalPrice += this.items[id].item.price;
 
+        //If discount price is active
+        if(this.items[id].item.discountPrice){
+            this.items[id].price += this.items[id].item.discountPrice;
+            this.totalPrice += this.items[id].item.discountPrice;
+        } else {
+            this.items[id].price += this.items[id].item.price;
+            this.totalPrice += this.items[id].item.price;
+        }
+        
         //Need to make sure user cannot buy more tickets than the maximum
     };
 
@@ -63,5 +77,21 @@ module.exports = function Basket(oldBasket){
             arr.push(this.items[id]);
         }
         return arr;
+    }
+
+    //Make sure a user cannot add more tickets than is allowed per person
+    this.checkMaxTicketsPerPerson = function() {
+        //Check tickets db to see if user has already purchased any tickets
+
+        //Check to see if user has added more tickets to basket than is allowed per person
+
+        //Set basket to be max allowed
+    }
+
+    //Make sure a user cannot add more tickets if a competition is sold out
+    this.checkCurrentCompTicketsSold = function() {
+
+        //If competition is almost sold out set ticket qty to be max allowed
+
     }
 };
