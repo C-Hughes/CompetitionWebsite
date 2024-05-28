@@ -16,6 +16,13 @@ module.exports = function Basket(oldBasket){
         //Update item to latest info
         storedItem.item = item;
         //this.checkPrice();
+        if(storedItem.item.discountPrice){
+            storedItem.price += storedItem.item.discountPrice * storedItem.qty;
+            this.totalPrice += storedItem.item.discountPrice * storedItem.qty;
+        } else {
+            storedItem.price += storedItem.item.price * storedItem.qty;
+            this.totalPrice += storedItem.item.price * storedItem.qty;
+        }
     };
 
     this.increaseByOne = function(id){
@@ -71,6 +78,7 @@ module.exports = function Basket(oldBasket){
     };
 
     this.generateArray = function() {
+        //console.log('Generating Array...');
         var arr = [];
         for (var id in this.items){
             arr.push(this.items[id]);
@@ -80,16 +88,16 @@ module.exports = function Basket(oldBasket){
 
     //Check each item in basket, make sure price is correct (If discounted price has been added while old priced items are in the basket)
     this.updateBasket = async function() {
-        console.log('Updating Basket...');
+        //console.log('Updating Basket...');
         this.totalPrice = 0;
-    
+
         for (var id in this.items){
             try {
                 const foundCompetition = await Competition.findOne({ _id: this.items[id].item._id });
                 if (foundCompetition) {
                     //Update basket item to current info
                     this.items[id].item = foundCompetition;
-                    console.log('item = '+this.items[id].item);
+                    //console.log('item = '+this.items[id].item);
 
                     //if foundCompetition has a discountPrice set
                     if(foundCompetition.discountPrice){

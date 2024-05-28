@@ -244,11 +244,12 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     try {
         await Competition.findOneAndUpdate({ _id: req.body.compID }, competitionUpdate, { upsert: false });
-        //Delete everyones basket session if discount price is changed
-        if(req.body.discountPrice != req.body.oldDiscountPrice){
+
+        //!!!Backup functionality!!! - Delete everyones basket session if discount price is changed
+        //if(req.body.discountPrice != req.body.oldDiscountPrice){
             //console.log('Deleting all session baskets...');
             //clearAllBaskets();
-        }
+        //}
 
         req.flash('success', 'Competition Successfully Updated');
         res.redirect('/admin/editCompetition/' + req.body.compID);
