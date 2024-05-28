@@ -136,14 +136,21 @@ router.get('/basket', function(req, res, next) {
         return res.render('basket', { title: 'Basket', products: null});
     } else {
         var basket = new Basket(req.session.basket);
-        //basket.checkPrice();
+        basket.checkPrice()
+        .then(() => {
+            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
+        })
+        .catch(err => {
+            console.log('Error checking price:', err);
+            res.redirect('/');
+        });
 
         //For each item in the basket, lookup in DB how many tickets have been sold
         //Check if user can purchase any more tickets based on max tickets per competition
         //Check if user can purchase any more tickets based on max tickets per user
         //Update basket accordingly
 
-        res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice});
+
     }
 });
 
