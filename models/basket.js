@@ -28,33 +28,11 @@ module.exports = function Basket(oldBasket){
     this.increaseByOne = function(id){
         this.items[id].qty++;
         this.totalQty++;
-
-        //If discount price is active
-        /*
-        if(this.items[id].item.discountPrice){
-            this.items[id].price += this.items[id].item.discountPrice;
-            this.totalPrice += this.items[id].item.discountPrice;
-        } else {
-            this.items[id].price += this.items[id].item.price;
-            this.totalPrice += this.items[id].item.price;
-        }*/
-
-        //Need to make sure user cannot buy more tickets than the maximum
     };
 
     this.reduceByOne = function(id){
         this.items[id].qty--;
         this.totalQty--;
-
-        //No Longer needed as basket is updated everytime user navigates to /basket or /checkout
-        /*
-        if(this.items[id].item.discountPrice){
-            this.items[id].price -= this.items[id].item.discountPrice;
-            this.totalPrice -= this.items[id].item.discountPrice;
-        } else {
-            this.items[id].price -= this.items[id].item.price;
-            this.totalPrice -= this.items[id].item.price;
-        }*/
 
         if (this.items[id].qty <= 0){
             delete this.items[id];
@@ -86,7 +64,7 @@ module.exports = function Basket(oldBasket){
         return arr;
     }
 
-    //Check each item in basket, make sure price is correct (If discounted price has been added while old priced items are in the basket)
+    //Update whole basket with latest info from DB.
     this.updateBasket = async function() {
         //console.log('Updating Basket...');
         this.totalPrice = 0;
