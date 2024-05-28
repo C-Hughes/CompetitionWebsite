@@ -12,23 +12,10 @@ module.exports = function Basket(oldBasket){
             storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
-
-        console.log('Old Stored item'+ storedItem.item.price + '-'+storedItem.item.discountPrice);
-        //Update item incase prices have changed
-        storedItem.item = item;
-        console.log('New Stored item'+ item);
-
-        this.checkPrice();
-
-        //If there is a discounted price, use that price
-        if(storedItem.item.discountPrice){
-            storedItem.price = storedItem.item.discountPrice * storedItem.qty;
-            this.totalPrice += storedItem.item.discountPrice * storedItem.qty;
-        } else {
-            storedItem.price = storedItem.item.price * storedItem.qty;
-            this.totalPrice += storedItem.item.price * storedItem.qty;
-        }
         this.totalQty+= Number(qty);
+        //Update item to latest info
+        storedItem.item = item;
+        //this.checkPrice();
     };
 
     this.increaseByOne = function(id){
@@ -36,13 +23,14 @@ module.exports = function Basket(oldBasket){
         this.totalQty++;
 
         //If discount price is active
+        /*
         if(this.items[id].item.discountPrice){
             this.items[id].price += this.items[id].item.discountPrice;
             this.totalPrice += this.items[id].item.discountPrice;
         } else {
             this.items[id].price += this.items[id].item.price;
             this.totalPrice += this.items[id].item.price;
-        }
+        }*/
 
         //Need to make sure user cannot buy more tickets than the maximum
     };
@@ -51,14 +39,15 @@ module.exports = function Basket(oldBasket){
         this.items[id].qty--;
         this.totalQty--;
 
-        //If discount price is active
+        //No Longer needed as basket is updated everytime user navigates to /basket or /checkout
+        /*
         if(this.items[id].item.discountPrice){
             this.items[id].price -= this.items[id].item.discountPrice;
             this.totalPrice -= this.items[id].item.discountPrice;
         } else {
             this.items[id].price -= this.items[id].item.price;
             this.totalPrice -= this.items[id].item.price;
-        }
+        }*/
 
         if (this.items[id].qty <= 0){
             delete this.items[id];
@@ -117,36 +106,6 @@ module.exports = function Basket(oldBasket){
                 console.log(err);
             }
         }
-
-
-        /*
-        for (var id in this.items){
-            if(this.items[id].item.discountPrice){
-                if(this.items[id].price != (this.items[id].item.discountPrice * this.items[id].qty)){
-                    console.log('Discount Price descrepancy!');
-
-                    console.log('Price = '+this.items[id].item.price);
-                    console.log('Discount Price = '+this.items[id].item.discountPrice);
-                    console.log('Qty = '+this.items[id].qty);
-                    //Update Basket Price
-                    this.items[id].price = this.items[id].item.discountPrice * this.items[id].item.qty;
-                }
-            } else {
-                if(this.items[id].price != (this.items[id].item.price * this.items[id].qty)){
-                    console.log('Price descrepancy!');
-
-                    console.log('Price = '+this.items[id].item.price);
-                    console.log('Discount Price = '+this.items[id].item.discountPrice);
-                    console.log('Qty = '+this.items[id].qty);
-                    //console.log(JSON.stringify(this.items[id]));
-
-                    //Update Basket Price
-                    this.items[id].price = this.items[id].item.price * this.items[id].item.qty;
-                }
-            }
-            //console.log(JSON.stringify(this.items[id]));
-        }
-        */
     }
 
     //Make sure a user cannot add more tickets than is allowed per person
