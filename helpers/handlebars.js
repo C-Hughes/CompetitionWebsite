@@ -36,16 +36,14 @@ module.exports = {
         var newDate = `${weekday} ${day} ${month} - ${time}`;
         return newDate;
     },
-    ifCompClosing: function(cond1, options){
-        //If competition is closing soon (1 hour), do not allow users to buy
-        var ONE_HOUR = 60 * 60 * 1000; /* ms */
-        return new Date(cond1.getTime() - ONE_HOUR) < Date.now() ? options.fn(this) : options.inverse(this);
+    ifCompClosed: function(entryCloseDate, options){
+        //If competition entryCloseDate has passed, do not allow users to buy
+        return new Date(entryCloseDate.getTime()) < Date.now() ? options.fn(this) : options.inverse(this);
     },
-    ifLastEntries: function(cond1, options){
+    ifClosingSoon: function(entryCloseDate, options){
         //If competition is closing soon (1 hour), do not allow users to buy
         var ONE_HOUR = 60 * 60 * 1000; /* ms */
-        var TWO_HOUR = 120 * 60 * 1000; /* ms */
-        return ((new Date(cond1.getTime() - TWO_HOUR) < Date.now()) && (new Date(cond1.getTime() - ONE_HOUR) > Date.now())) ? options.fn(this) : options.inverse(this);
+        return ((new Date(entryCloseDate.getTime() - ONE_HOUR) < Date.now()) && (new Date(entryCloseDate.getTime()) > Date.now())) ? options.fn(this) : options.inverse(this);
     },
     formatTicketNumberOutput: function(cond1, options){
         var toString = cond1.toString();

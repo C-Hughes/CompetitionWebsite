@@ -59,12 +59,12 @@
                 </div>
 
                 {{#if competition.active}}
-                    {{#ifCompClosing competition.drawDate}}
+                    {{#ifCompClosed competition.entryCloseDate}}
                         <div class="notification is-warning has-text-centered">
                             <p>Entries to this competition have now closed.</p><p>The draw will take place soon.</p>
                         </div>
                     {{else}}
-                        {{#ifLastEntries competition.drawDate}}
+                        {{#ifClosingSoon competition.entryCloseDate}}
                             <div class="notification is-warning has-text-centered">
                                 <span class="icon">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -72,7 +72,7 @@
                                 <span>This competition is closing soon!</span>
                                 <span>Entries close one hour before draw time.</span>                   
                             </div>
-                        {{/ifLastEntries}}
+                        {{/ifClosingSoon}}
                         <div class="tabs-wrapper">
                             <div class="tabs is-centered">
                                 <ul>
@@ -154,7 +154,7 @@
                                 </ul>
                             </div>
                         </div>
-                    {{/ifCompClosing}}
+                    {{/ifCompClosed}}
                 {{else}}
                 <div class="notification is-warning">
                     <p>The competition has now closed and the winner will be contacted.</p>

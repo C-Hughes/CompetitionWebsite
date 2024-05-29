@@ -10,6 +10,8 @@ Competitions:
 - Add modal/carrosel to view larger images of competition images
 - Make sure only users with accounts can purchase tickets?
 - Update all close date / last entry checks to use entryCloseDate field in Competition schema
+- Add check so last entry to competion cannot be more less than 30 mins before draw date
+- Change competition button on index page if competition is not active, or EntryCloseDate has passed
 
 
 User:
