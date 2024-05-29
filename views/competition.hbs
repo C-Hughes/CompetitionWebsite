@@ -1,339 +1,413 @@
 {{#ifOR competition.visible admin}}
-    <section class="hero is-link mb-6">
-    <div class="hero-body has-text-centered">
-        <p class="title">Draw {{formatDateCompCard competition.drawDate}}</p>
-    </div>
-    </section>
-
-    <div class="block container is-max-desktop">
-        <div class="columns">
-            <div class="column">
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                        <img
-                            src="{{competition.imagePath}}"
-                            alt="Placeholder image"
-                        />
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="columns is-multiline" id="additionalImageColumns">
-                            {{# each competition.additionalImagePaths}}
-                            <div class="column is-narrow">
-                                <div class="">
-                                    <figure class="image is-64x64 is-square ">
-                                        <img
-                                            src="{{this}}"
-                                            alt="Additional Comp Image"
-                                        />
-                                    </figure>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-                    </div>
-                </div>
+    <section id="buyTickets">
+        <div class="hero is-link mb-6">
+            <div class="hero-body has-text-centered">
+                <p class="title">Draw {{formatDateCompCard competition.drawDate}}</p>
             </div>
+        </div>
 
-            <div class="column">
-                <h2 class="title is-spaced">
-                    Win this {{competition.title}}!
-                </h2>
-                <h2 class="subtitle is-6">
-                    Cash Alternative: £{{competition.cashAlternative}}
-                </h2>
-
-                <div class="content">
-                    {{#if competition.discountPrice}}
-                        <p class="title is-5 has-text-primary"><s>£{{formatPrice competition.price}}</s></p>
-                        <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.discountPrice}}</p>
-                    {{else}}
-                        <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.price}}</p>
-                    {{/if}}
-
-                    <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
-                    <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
-                    <p class="subtitle is-6 has-text-centered">{{competition.currentEntries}} / {{competition.maxEntries}}</p>
-
-                </div>
-
-                {{#if competition.active}}
-                    {{#ifCompClosed competition.entryCloseDate}}
-                        <div class="notification is-warning has-text-centered">
-                            <div>
-                                <span class="icon fas fa-2x">
-                                    <i class="fa-solid fa-clock"></i>
-                                </span>
-                                <div>
-                                    <p>Entries to this competition have now closed.</p>
-                                    <p>The draw will take place soon.</p>
+    
+        <div class="block container is-max-desktop">
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                            <img
+                                src="{{competition.imagePath}}"
+                                alt="Placeholder image"
+                            />
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="columns is-multiline" id="additionalImageColumns">
+                                {{# each competition.additionalImagePaths}}
+                                <div class="column is-narrow">
+                                    <div class="">
+                                        <figure class="image is-64x64 is-square ">
+                                            <img
+                                                src="{{this}}"
+                                                alt="Additional Comp Image"
+                                            />
+                                        </figure>
+                                    </div>
                                 </div>
+                                {{/each}}
                             </div>
                         </div>
-                    {{else}}
-                        {{#ifClosingSoon competition.entryCloseDate}}
+                    </div>
+                </div>
+
+                <div class="column">
+                    <h2 class="title is-spaced">
+                        Win this {{competition.title}}!
+                    </h2>
+                    <h2 class="subtitle is-6">
+                        Cash Alternative: £{{competition.cashAlternative}}
+                    </h2>
+
+                    <div class="content">
+                        {{#if competition.discountPrice}}
+                            <p class="title is-5 has-text-primary"><s>£{{formatPrice competition.price}}</s></p>
+                            <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.discountPrice}}</p>
+                        {{else}}
+                            <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.price}}</p>
+                        {{/if}}
+
+                        <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
+                        <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
+                        <p class="subtitle is-6 has-text-centered">{{competition.currentEntries}} / {{competition.maxEntries}}</p>
+
+                    </div>
+
+                    {{#if competition.active}}
+                        {{#ifCompClosed competition.entryCloseDate}}
                             <div class="notification is-warning has-text-centered">
                                 <div>
                                     <span class="icon fas fa-2x">
-                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <i class="fa-solid fa-clock"></i>
                                     </span>
                                     <div>
-                                        <p>This competition is closing soon!</p>
-                                        <p>Entries close <strong>{{formatDate competition.entryCloseDate}}</strong></p>
+                                        <p>Entries to this competition have now closed.</p>
+                                        <p>The draw will take place soon.</p>
                                     </div>
                                 </div>
                             </div>
-                        {{/ifClosingSoon}}
-                        <div class="tabs-wrapper">
-                            <div class="tabs is-centered">
-                                <ul>
-                                    <li class="is-active"><a>Online Entry</a></li>
-                                    <li><a>Postal Entry</a></li>
-                                </ul>
-                            </div>
+                        {{else}}
+                            {{#ifClosingSoon competition.entryCloseDate}}
+                                <div class="notification is-warning has-text-centered">
+                                    <div>
+                                        <span class="icon fas fa-2x">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </span>
+                                        <div>
+                                            <p>This competition is closing soon!</p>
+                                            <p>Entries close <strong>{{formatDate competition.entryCloseDate}}</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/ifClosingSoon}}
+                            <div class="tabs-wrapper">
+                                <div class="tabs is-centered">
+                                    <ul>
+                                        <li class="is-active"><a>Online Entry</a></li>
+                                        <li><a>Postal Entry</a></li>
+                                    </ul>
+                                </div>
 
-                            <div class="tabs-content">
-                                <ul>
-                                    <li class="is-active">
-                                        <div class="card">
-                                            <div class="card-content">
-                                                <p class="title is-spaced has-text-primary">
-                                                Answer the question
-                                                </p>
-                                                <p class="subtitle has-text-centered">{{competition.questionText}}</p>
-                                                <div id="errorMessage" class="has-text-danger is-dark has-text-centered">
-                                                    {{#if hasError}}
-                                                        {{#each error}}
-                                                            <p>{{this}}</p>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </div>
-                                                <div class="fixed-grid">
-                                                    <div class="grid" id="questionButtons">
-                                                        <div class="cell">
-                                                            <button id="answer1Button" class="button is-fullwidth" onclick="answerQuestionsButtons(1)">
-                                                                <span>{{competition.questionAnswers.[0]}}</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="cell">
-                                                            <button id="answer2Button" class="button is-fullwidth" onclick="answerQuestionsButtons(2)">
-                                                                <span>{{competition.questionAnswers.[1]}}</span>
-                                                            </button>
+                                <div class="tabs-content">
+                                    <ul>
+                                        <li class="is-active">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <p class="title is-spaced has-text-primary">
+                                                    Answer the question
+                                                    </p>
+                                                    <p class="subtitle has-text-centered">{{competition.questionText}}</p>
+                                                    <div id="errorMessage" class="has-text-danger is-dark has-text-centered">
+                                                        {{#if hasError}}
+                                                            {{#each error}}
+                                                                <p>{{this}}</p>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    </div>
+                                                    <div class="fixed-grid">
+                                                        <div class="grid" id="questionButtons">
+                                                            <div class="cell">
+                                                                <button id="answer1Button" class="button is-fullwidth" onclick="answerQuestionsButtons(1)">
+                                                                    <span>{{competition.questionAnswers.[0]}}</span>
+                                                                </button>
                                                             </div>
-                                                        <div class="cell">
-                                                            <button id="answer3Button" class="button is-fullwidth" onclick="answerQuestionsButtons(3)">
-                                                                <span>{{competition.questionAnswers.[2]}}</span>
-                                                            </button>
+                                                            <div class="cell">
+                                                                <button id="answer2Button" class="button is-fullwidth" onclick="answerQuestionsButtons(2)">
+                                                                    <span>{{competition.questionAnswers.[1]}}</span>
+                                                                </button>
+                                                                </div>
+                                                            <div class="cell">
+                                                                <button id="answer3Button" class="button is-fullwidth" onclick="answerQuestionsButtons(3)">
+                                                                    <span>{{competition.questionAnswers.[2]}}</span>
+                                                                </button>
+                                                                </div>
+                                                            <div class="cell">
+                                                                <button id="answer4Button" class="button is-fullwidth" onclick="answerQuestionsButtons(4)">
+                                                                    <span>{{competition.questionAnswers.[3]}}</span>
+                                                                </button>
                                                             </div>
-                                                        <div class="cell">
-                                                            <button id="answer4Button" class="button is-fullwidth" onclick="answerQuestionsButtons(4)">
-                                                                <span>{{competition.questionAnswers.[3]}}</span>
-                                                            </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <p class="title is-spaced">
-                                                How many tickets?
-                                                </p>
-                                                <div>
-                                                    <input id="sliderWithValue" class="slider has-output is-fullwidth" min="1" max="{{competition.maxEntriesPerPerson}}" value="10" step="1" type="range" oninput="updateTicketCount()" onmouseup="updateTicketCount()" onchange="updateTicketCount()">
-                                                    <output id="ticketSliderCount" for="sliderWithValue">10</output>
-                                                </div>
+                                                    <p class="title is-spaced">
+                                                    How many tickets?
+                                                    </p>
+                                                    <div>
+                                                        <input id="sliderWithValue" class="slider has-output is-fullwidth" min="1" max="{{competition.maxEntriesPerPerson}}" value="10" step="1" type="range" oninput="updateTicketCount()" onmouseup="updateTicketCount()" onchange="updateTicketCount()">
+                                                        <output id="ticketSliderCount" for="sliderWithValue">10</output>
+                                                    </div>
 
-                                                <div class="buttons has-addons is-centered">
-                                                    <button class="button" onclick="updateTicketCount('-')">-</button>
-                                                    <button id="ticketButtonCount" class="button is-static">Number of tickets: 10</button>
-                                                    <button class="button" onclick="updateTicketCount('+')">+</button>
+                                                    <div class="buttons has-addons is-centered">
+                                                        <button class="button" onclick="updateTicketCount('-')">-</button>
+                                                        <button id="ticketButtonCount" class="button is-static">Number of tickets: 10</button>
+                                                        <button class="button" onclick="updateTicketCount('+')">+</button>
+                                                    </div>
                                                 </div>
+                                                <footer class="card-footer">
+                                                    <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/10" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
+                                                        <span>Add tickets to basket</span>
+                                                        <span class="icon">
+                                                            <i class="fa-solid fa-ticket"></i>
+                                                        </span>
+                                                    </a>
+                                                </footer>
                                             </div>
-                                            <footer class="card-footer">
-                                                <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/10" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
-                                                    <span>Add tickets to basket</span>
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-ticket"></i>
-                                                    </span>
-                                                </a>
-                                            </footer>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="content">
-                                            <p>Postal entries to this competition receive {{competition.maxPostalVotes}} ticket.</p>
-                                            <p>You may enter the competition using the Postal Entry Route by complying with the following conditions:</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                        <li>
+                                            <div class="content">
+                                                <p>Postal entries to this competition receive {{competition.maxPostalVotes}} ticket.</p>
+                                                <p>You may enter the competition using the Postal Entry Route by complying with the following conditions:</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {{/ifCompClosed}}
+                    {{else}}
+                    <div class="notification is-info has-text-centered">
+                        <div>
+                            <span class="icon fas fa-2x">
+                                <i class="fa-solid fa-dice"></i>
+                            </span>
+                            <div>
+                                <p>The competition has now closed.</p>
+                                <p>The winner will be contacted.</p>
                             </div>
                         </div>
-                    {{/ifCompClosed}}
-                {{else}}
-                <div class="notification is-info has-text-centered">
-                    <div>
-                        <span class="icon fas fa-2x">
-                            <i class="fa-solid fa-dice"></i>
-                        </span>
-                        <div>
-                            <p>The competition has now closed.</p>
-                            <p>The winner will be contacted.</p>
-                        </div>
                     </div>
-                </div>
-                {{/if}}
+                    {{/if}}
 
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <div class="hero is-dark py-5 my-6">
-        <nav class="level container is-max-fullhd">
-            <div class="level-left">
+        <div class="hero is-dark py-5 my-6">
+            <nav class="level container is-max-fullhd">
+                <div class="level-left">
+                    <div class="level-item has-text-centered px-6">
+                        <p class="subtitle">
+                            <span class="icon">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
+                            <div class="px-2">
+                                <p class="title is-6 is-uppercase">Entries only £{{formatPrice competition.price}}</p>
+                            </div>
+                        </p>
+                    </div>
+                </div>
                 <div class="level-item has-text-centered px-6">
                     <p class="subtitle">
                         <span class="icon">
-                            <i class="fa-solid fa-tag"></i>
+                            <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                         </span>
                         <div class="px-2">
-                            <p class="title is-6 is-uppercase">Entries only £{{formatPrice competition.price}}</p>
+                            <p class="title is-6 is-uppercase">Max Entries {{competition.maxEntries}}</p>
                         </div>
                     </p>
                 </div>
-            </div>
-            <div class="level-item has-text-centered px-6">
-                <p class="subtitle">
-                    <span class="icon">
-                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-                    </span>
-                    <div class="px-2">
-                        <p class="title is-6 is-uppercase">Max Entries {{competition.maxEntries}}</p>
+                <div class="level-right">
+                    <div class="level-item has-text-centered px-6">
+                        <p class="subtitle">
+                            <span class="icon">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </span>
+                            <div class="px-2">
+                                <p class="title is-6 is-uppercase">Max {{competition.maxEntriesPerPerson}} per person</p>
+                            </div>
+                        </p>
                     </div>
-                </p>
-            </div>
-            <div class="level-right">
-                <div class="level-item has-text-centered px-6">
-                    <p class="subtitle">
-                        <span class="icon">
-                            <i class="fa-solid fa-circle-user"></i>
-                        </span>
-                        <div class="px-2">
-                            <p class="title is-6 is-uppercase">Max {{competition.maxEntriesPerPerson}} per person</p>
-                        </div>
-                    </p>
                 </div>
+            </nav>
+        </div>
+
+        <div class="container is-max-desktop">
+        <div class="notification has-text-centered">
+            <p class="subtitle is-4"><strong>Live Draw</strong> {{formatDate competition.drawDate}}</p>
+        </div>
+
+            <div class="content">
+                <ul>
+                    <li>Draw takes place regardless of sell out</li>
+                    <li>Entries to the competition will close {{formatDate competition.entryCloseDate}}</li>
+                    <li>Competition will close sooner if the maximum entries are received</li>
+                    <li>Interactive live draw on our <a href="#">Facebook</a> and <a href="#">Youtube</a> page</li>
+                </ul>
             </div>
-        </nav>
-    </div>
+        </div>
 
-    <div class="container is-max-desktop">
-    <div class="notification has-text-centered">
-        <p class="subtitle is-4"><strong>Live Draw</strong> {{formatDate competition.drawDate}}</p>
-    </div>
-
-        <div class="content">
+        <div id="tabScrollNav" class="tabs is-centered mt-6 tabScrollNav navbar">
             <ul>
-                <li>Draw takes place regardless of sell out</li>
-                <li>Entries to the competition will close {{formatDate competition.entryCloseDate}}</li>
-                <li>Competition will close sooner if the maximum entries are received</li>
-                <li>Interactive live draw on our <a href="#">Facebook</a> and <a href="#">Youtube</a> page</li>
+                <li class="scrollClass is-active"><a href="#buyTickets" >Buy Tickets</a></li>
+                <li class="scrollClass"><a href="#compDetails" >Competition Details</a></li>
+                <li class="scrollClass"><a href="#faq" >FAQ</a></li>
             </ul>
         </div>
-    </div>
-
-    <div class="tabs is-centered mt-6">
-    <ul>
-        <li><a>Buy Tickets</a></li>
-        <li class="is-active"><a>Competition Details</a></li>
-        <li><a>FAQ</a></li>
-    </ul>
-    </div>
-
-
-    <div class="container is-max-widescreen">
-        <div class="content my-6">
-            <h1 class="title">Competition Details</h1>
-        </div>
-        <hr />
-        <h2 class="title is-4">{{competition.title}}</h2>
-        <div class="content">
-            <ul>
-                <li>{{{formatDescription competition.description}}}</li>
-            </ul>
-        </div>
+    </section>
+    <section id="compDetails">
+        <div class="container is-max-widescreen">
         
-        <hr />
-
-        <div class="content my-6">
-            <h1 class="title">FAQ</h1>
-        </div>
-        <div class="container">
-            <div class="card">
-                <header class="card-header" onclick="toggleElement('faq_01', true)">
-                    <p class="card-header-title title my-4">Competition Rules</p>
-                    <button class="card-header-icon" aria-label="more options">
-                        <span id="iconfaq_01" class="icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </header>
-                <div id="faq_01" class="card-content" style="display: none;">
-                    <div class="content">
-                    Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+            <div class="content my-6">
+                <h1 class="title">Competition Details</h1>
+            </div>
+            <hr />
+            <h2 class="title is-4">{{competition.title}}</h2>
+            <div class="content">
+                <ul>
+                    <li>{{{formatDescription competition.description}}}</li>
+                </ul>
+            </div>
+            <hr />
+        </div>    
+    </section>
+    <section id="faq">
+        <div class="container is-max-widescreen">
+            <div class="content my-6">
+                <h1 class="title">FAQ</h1>
+            </div>
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_01', true)">
+                        <p class="card-header-title title my-4">Competition Rules</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_01" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_01" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="card">
-                <header class="card-header" onclick="toggleElement('faq_02', true)">
-                    <p class="card-header-title title my-4">When do I get my number?</p>
-                    <button class="card-header-icon" aria-label="more options">
-                        <span id="iconfaq_02" class="icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </header>
-                <div id="faq_02" class="card-content" style="display: none;">
-                    <div class="content">
-                    Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_02', true)">
+                        <p class="card-header-title title my-4">When do I get my number?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_02" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_02" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="card">
-                <header class="card-header" onclick="toggleElement('faq_03', true)">
-                    <p class="card-header-title title my-4">How do you do the draw?</p>
-                    <button class="card-header-icon" aria-label="more options">
-                        <span id="iconfaq_03" class="icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </header>
-                <div id="faq_03" class="card-content" style="display: none;">
-                    <div class="content">
-                    Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_03', true)">
+                        <p class="card-header-title title my-4">How do you do the draw?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_03" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_03" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="card">
-                <header class="card-header" onclick="toggleElement('faq_04', true)">
-                    <p class="card-header-title title my-4">When is the draw?</p>
-                    <button class="card-header-icon" aria-label="more options">
-                        <span id="iconfaq_04" class="icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </header>
-                <div id="faq_04" class="card-content" style="display: none;">
-                    <div class="content">
-                    Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_04', true)">
+                        <p class="card-header-title title my-4">When is the draw?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_04" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_04" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_01', true)">
+                        <p class="card-header-title title my-4">Competition Rules</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_01" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_01" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_02', true)">
+                        <p class="card-header-title title my-4">When do I get my number?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_02" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_02" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_03', true)">
+                        <p class="card-header-title title my-4">How do you do the draw?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_03" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_03" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card">
+                    <header class="card-header" onclick="toggleElement('faq_04', true)">
+                        <p class="card-header-title title my-4">When is the draw?</p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span id="iconfaq_04" class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div id="faq_04" class="card-content" style="display: none;">
+                        <div class="content">
+                        Your order will show as cancelled if you did not complete the payment, or if your payment failed. Orders are automatically cancelled after 10 minutes if we do not receive a successful payment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <hr />
         <div class="container is-max-desktop">
@@ -471,4 +545,74 @@
 
 
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.getElementById('tabScrollNav');
+    const navbarLinks = document.querySelectorAll('.scrollClass a');
+    const sections = document.querySelectorAll('section');
+    const offsetTop = navbar.offsetTop-50;
 
+    console.log(offsetTop);
+    
+    // Function to throttle or debounce the scroll event
+    const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    };
+
+    const setActiveLink = () => {
+        const scrollPosition = window.scrollY;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            const offset = -100; // Adjust based on your header height or padding
+
+            //console.log('!!!!!!!!!!!!!!!!!!!!! sectionId = '+sectionId);
+            console.log('ScrollPosition'+scrollPosition);
+            //console.log('sectionTop'+sectionTop);
+            //console.log('offset'+offset);
+            //console.log('sectionHeight'+sectionHeight);
+            //console.log('if '+scrollPosition+ '>='+sectionTop+'+'+offset);
+            //console.log('&& '+scrollPosition+ '<'+sectionTop+'+'+sectionHeight+'+'+offset);
+
+            if (scrollPosition >= sectionTop+offset && scrollPosition < sectionTop + sectionHeight + offset) {
+                // Remove 'is-active' class from all navbar list items
+                document.querySelectorAll('#tabScrollNav li').forEach(li => {
+                    li.classList.remove('is-active');
+                });
+
+                // Add 'is-active' class to the parent <li> of the current navbar link
+                const activeLink = document.querySelector(`#tabScrollNav a[href="#${sectionId}"]`);
+                if (activeLink) {
+                    activeLink.parentElement.classList.add('is-active');
+                }
+            }
+        });
+    };
+
+    const handleScroll = () => {
+        if (window.scrollY > offsetTop) {
+            navbar.classList.add('is-fixed-top');
+            document.body.style.paddingTop = '160px';
+        } else {
+            navbar.classList.remove('is-fixed-top');
+            document.body.style.paddingTop = null;
+        }
+        setActiveLink();
+    };
+
+    // Add event listener for scroll with debounce
+    //window.addEventListener('scroll', debounce(setActiveLink, 100));
+    window.addEventListener('scroll', debounce(handleScroll, 10));
+
+    // Call the function initially to set the correct active link on page load
+    //setActiveLink();
+    handleScroll();
+});
+
+</script>    
