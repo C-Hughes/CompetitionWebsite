@@ -45,6 +45,23 @@
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                                             <a href="/admin/editCompetition/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Not Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
                                                     <div class="card-image">
                                                         <figure class="image is-4by3">
                                                             <img src="{{this.imagePath}}" alt="Competition Image" />
@@ -104,6 +121,23 @@
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                                             <a href="/admin/editCompetition/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Hidden</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
                                                     <div class="card-image">
                                                         <figure class="image is-4by3">
                                                             <img src="{{this.imagePath}}" alt="Competition Image" />
