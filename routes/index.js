@@ -166,7 +166,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
             const foundCompetition = await Competition.findOne({ _id: compID  });
 
             if (foundCompetition) {
-                const foundAdditionalCompetition = await Competition.findOne({ _id: {$ne: compID}, active: true, visible: true, entryCloseDate: { $lt: Date.now() }});
+                const foundAdditionalCompetition = await Competition.findOne({ _id: {$ne: compID}, active: true, visible: true, entryCloseDate: { $gt: Date.now() }});
 
                 if (foundCompetition.active && foundCompetition.visible && new Date(foundCompetition.entryCloseDate.getTime()) > Date.now()) {
                     //Add to basket
@@ -178,6 +178,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                         res.render('competition', {
                             title: 'Win This ' + foundCompetition.title + '!',
                             competition: foundCompetition,
+                            addedToBasket: true,
                             error: [],
                             hasError: false,
                             additionalCompetition: foundAdditionalCompetition
