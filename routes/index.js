@@ -163,10 +163,14 @@ router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
     } else{
         Competition.findOne({ _id: compID })
         .then((foundCompetition) => {
-            if (foundCompetition) {
+            if (foundCompetition && foundCompetition.active && foundCompetition.visible) {
                 basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
                 req.session.basket = basket;
                 res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true, ticketQty: ticketQty});
+            } else if (foundCompetition) {
+                req.flash('error', 'You cannot purchase tickets for this competition');
+                console.log("Competition is not active or not visible");
+                res.redirect('/basket');
             } else {
                 //req.flash('error', 'This competition does not exists.');
                 console.log("Not Found");
