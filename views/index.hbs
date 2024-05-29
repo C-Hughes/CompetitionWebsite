@@ -114,7 +114,15 @@
                                     <div class="mt-5">
                                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
                                         <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                        <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                        {{#if this.active}}
+                                            {{#ifCompClosed this.entryCloseDate}}
+                                                <button class="button is-medium is-fullwidth is-primary">View Competition</button>
+                                            {{else}}
+                                                <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                            {{/ifCompClosed}}
+                                        {{else}}
+                                            <button class="button is-medium is-fullwidth is-primary">View Competition</button>
+                                        {{/if}}
                                         <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                     </div>
                                 </div>
