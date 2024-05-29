@@ -140,6 +140,7 @@ router.post('/updateCompetition', async (req, res, next) => {
     req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
     req.checkBody('price', 'Price cannot be empty').notEmpty();
     req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+    req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
     req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
     req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
     req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
@@ -231,6 +232,7 @@ router.post('/updateCompetition', async (req, res, next) => {
         price: req.body.price,
         discountPrice: req.body.discountPrice,
         drawDate: new Date(req.body.drawDate).toISOString(),
+        entryCloseDate: new Date(req.body.entryCloseDate).toISOString(),
         maxEntries: req.body.maxEntries,
         maxEntriesPerPerson: req.body.maxEntriesPerPerson,
         maxPostalVotes: req.body.maxPostalVotes,
@@ -273,6 +275,7 @@ router.post('/createCompetition', async (req, res) => {
         req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
         req.checkBody('price', 'Price cannot be empty').notEmpty();
         req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+        req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
         req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
         req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
         req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
@@ -355,6 +358,7 @@ router.post('/createCompetition', async (req, res) => {
             price: req.body.price,
             discountPrice: req.body.discountPrice,
             drawDate: new Date(req.body.drawDate),
+            entryCloseDate: new Date(req.body.entryCloseDate),
             maxEntries: req.body.maxEntries,
             maxEntriesPerPerson: req.body.maxEntriesPerPerson,
             maxPostalVotes: req.body.maxPostalVotes,
