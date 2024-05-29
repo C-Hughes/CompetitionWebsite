@@ -8,6 +8,7 @@ Competitions:
 - If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
+- Make sure only users with accounts can purchase tickets?
 
 
 User:
