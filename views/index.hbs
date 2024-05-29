@@ -82,7 +82,7 @@
 {{/if}}
 
 <div class="container">
-    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+    <div class="columns is-multiline is-vcentered is-mobile is-flex is-justify-content-center">
         {{# each competitions}}
             {{#if this.visible}}
                 <!-- Competition Column -->
@@ -105,12 +105,11 @@
                                 <div class="content" style="">
                                     <div style="">
                                         {{#if this.discountPrice}}
-                                            <p class="title is-5 has-text-primary"><s>£{{formatPrice price}}</s></p>
-                                            <p class="title is-1 has-text-primary">£{{formatPrice discountPrice}}</p>
+                                            <p class="subtitle is-6 has-text-primary"><s>£{{formatPrice price}}</s></p>
+                                            <p class="title is-2 has-text-primary">£{{formatPrice discountPrice}}</p>
                                         {{else}}
                                             <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
                                         {{/if}}
-                                        
                                     </div>
                                     <div class="mt-5">
                                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
@@ -126,7 +125,6 @@
             {{/if}}
         {{/each}}
     </div>
-</div>
 
 <section class="hero is-link mt-6">
     <div class="hero-body">
