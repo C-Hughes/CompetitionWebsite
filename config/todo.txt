@@ -9,6 +9,7 @@ Competitions:
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
 - Make sure only users with accounts can purchase tickets?
+- Update all close date / last entry checks to use entryCloseDate field in Competition schema
 
 
 User:
@@ -39,7 +40,7 @@ AntiCheat / User monitoring:
 
 Testing:
 Test create competition and preview competition
-
+Test entry close date create/update competition
 
 -----------------------------------------------------------------------------------------
 
