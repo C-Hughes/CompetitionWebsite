@@ -10,6 +10,7 @@ var competitionSchema = new Schema({
     price: {type: Number, required: true},
     discountPrice: {type: Number, required: false},
     drawDate: {type: Date, required: true},
+    entryCloseDate: {type: Date, required: true},
     currentEntries: {type: Number, required: true, default: 0},
     maxEntries: {type: Number, required: true},
     maxEntriesPerPerson: {type: Number, required: true, default: 100},
