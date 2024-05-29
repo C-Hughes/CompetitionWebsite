@@ -499,26 +499,31 @@
                             <span>View Basket</span>
                         </a>
                     </div>
+                    
+                    {{#if additionalCompetition}}
                     <hr />
                     <div class="block has-text-centered">
                         <div>
                             <figure class="image is-1by1 is-128x128 mx-auto">
-                                <img src="https://images.idgesg.net/images/article/2021/01/samsung-870-evo-sata-ssd-primary-100873962-orig.jpg?quality=50&strip=all" />
+                                <img src="{{additionalCompetition.imagePath}}" />
                             </figure>
                         </div>
-                        <p class="subtitle mt-4">Want to also win this <strong>2TB Samsung SSD Evo<strong>?</p>
+                        <p class="subtitle mt-4">Want to also win this <strong>{{additionalCompetition.title}}<strong>?</p>
                     </div>
+                    {{/if}}
                 </div>
 
-                <footer class="card-footer">
-                    <a href="/competition" class="button is-primary card-footer-item ">
-                        <span>Enter Here</span>
-                        <span class="icon">
-                            <i class="fa-solid fa-ticket"></i>
-                        </span>
-                    </a>
-                </footer>
-                </div>
+                {{#if additionalCompetition}}
+                    <footer class="card-footer">
+                        <a href="/competition/{{additionalCompetition.id}}" class="button is-primary card-footer-item ">
+                            <span>Enter Here</span>
+                            <span class="icon">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </a>
+                    </footer>
+                {{/if}}
+            </div>
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
     </div>

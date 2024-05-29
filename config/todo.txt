@@ -10,7 +10,7 @@ Competitions:
 - Add modal/carrosel to view larger images of competition images
 - Make sure only users with accounts can purchase tickets?
 - Add check to edit/create competition so last entry to competion cannot be more less than 30 mins before draw date
-- Update page tabs so that active changes depending how far down page user scrolls
+
 
 
 User:
@@ -49,14 +49,17 @@ Test entry close date create/update competition
 Completed:
 - Test all share referral / competitions buttons when website is hosted
 
+
 User:
 - Get share referral code button working
 - Get update communication preferences working
 - functionality to edit shipping address
 
+
 Other:
 - Recode buy ticket post route to use an async function for readability
 - Add partial for DOB for billing address & Country dropdown
+
 
 Competition:
 - Add additional images for competitions
@@ -66,6 +69,8 @@ Competition:
 - Do not allow users that are not admin to view competition where visible == false;
 - Change competition button on index page if competition is not active, or EntryCloseDate has passed
 - Update all close date / last entry checks to use entryCloseDate field in Competition schema
+- Update page tabs so that active changes depending how far down page user scrolls
+
 
 Admin:
 - Add / Edit competitions

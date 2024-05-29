@@ -25,7 +25,7 @@
                                         </figure>
                                     </div>
                                     <div class="media-content py-1">
-                                        <p class="title is-6">Win this {{this.item.title}}</p>
+                                        <p class="title is-6"><a href="/competition/{{this.item._id}}"><span class="subtitle is-6"> Win this {{this.item.title}}!</a></span></p>
                                         <p class="subtitle is-6">Answer: <strong>{{this.questionAnswer}}</strong></p>
                                         {{#if this.item.discountPrice}}
                                             <p class="title is-6 has-text-primary"><s><small>£{{formatPrice this.item.price}}</small></s> <span>£{{formatPrice this.item.discountPrice}}</span></p>

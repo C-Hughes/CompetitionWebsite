@@ -151,41 +151,64 @@ router.get('/basket', async function(req, res, next) {
     }
 });
 
-router.get('/addToBasket/:id/:answer/:qty', function(req, res, next) {
-    var compID = req.params.id;
-    var compAnswer = req.params.answer;
-    var ticketQty = req.params.qty;
-    var basket = new Basket(req.session.basket ? req.session.basket : {});
+router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
+    try {
+        var compID = req.params.id;
+        var compAnswer = req.params.answer;
+        var ticketQty = req.params.qty;
+        var basket = new Basket(req.session.basket ? req.session.basket : {});
 
-    if(compAnswer == "1"){
-        req.flash('error', 'Please select an answer');
-        res.redirect('/competition/'+compID+'');
-    } else{
-        var ONE_HOUR = 60 * 60 * 1000; /* ms */
-        Competition.findOne({ _id: compID })
-        .then((foundCompetition) => {
-            if (foundCompetition && foundCompetition.active && foundCompetition.visible && new Date(foundCompetition.drawDate.getTime() - ONE_HOUR) > Date.now()) {
-                basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
-                req.session.basket = basket;
-                res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, addedToBasket: true, ticketQty: ticketQty});
-            } else if (foundCompetition && new Date(foundCompetition.drawDate.getTime() - ONE_HOUR) < Date.now()) {
-                req.flash('error', 'Entries to this competition have now closed');
-                console.log("Add to basket: Draw DateTime is within hour and now closed");
-                res.redirect('/basket');
-            } else if (foundCompetition) {
-                req.flash('error', 'You cannot purchase tickets for this competition');
-                console.log("Add to basket: Competition is not active or not visible");
-                res.redirect('/basket');
+        if (compAnswer == "1") {
+            req.flash('error', 'Please select an answer');
+            res.redirect('/competition/' + compID);
+        } else {
+            var ONE_HOUR = 60 * 60 * 1000; // milliseconds
+            const foundCompetition = await Competition.findOne({ _id: compID  });
+
+            if (foundCompetition) {
+                const foundAdditionalCompetition = await Competition.findOne({ _id: {$ne: compID}, active: true, visible: true, entryCloseDate: { $lt: Date.now() }});
+
+                if (foundCompetition.active && foundCompetition.visible && new Date(foundCompetition.entryCloseDate.getTime()) > Date.now()) {
+                    //Add to basket
+                    basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
+                    req.session.basket = basket;
+
+                    if (foundAdditionalCompetition) {
+                        console.log('Got one' + foundAdditionalCompetition.title);
+                        res.render('competition', {
+                            title: 'Win This ' + foundCompetition.title + '!',
+                            competition: foundCompetition,
+                            error: [],
+                            hasError: false,
+                            additionalCompetition: foundAdditionalCompetition
+                        });
+                    } else {
+                        console.log('Not found one');
+                        res.render('competition', {
+                            title: 'Win This ' + foundCompetition.title + '!',
+                            competition: foundCompetition,
+                            addedToBasket: true,
+                            ticketQty: ticketQty,
+                            additionalCompetition: ""
+                        });
+                    }
+                } else if (new Date(foundCompetition.entryCloseDate.getTime()) < Date.now()) {
+                    req.flash('error', 'Entries to this competition have now closed');
+                    console.log("Add to basket: Draw DateTime is within hour and now closed");
+                    res.redirect('/basket');
+                } else {
+                    req.flash('error', 'You cannot purchase tickets for this competition');
+                    console.log("Add to basket: Competition is not active or not visible");
+                    res.redirect('/basket');
+                }
             } else {
-                //req.flash('error', 'This competition does not exists.');
                 console.log("Not Found");
                 res.redirect('/');
             }
-        })
-        .catch(err => {
-            console.log(err);
-            res.redirect('/');
-        });
+        }
+    } catch (err) {
+        console.log(err);
+        res.redirect('/');
     }
 });
 
