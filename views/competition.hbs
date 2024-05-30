@@ -470,7 +470,7 @@
                     <img id="modalImage" src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
                 </p>
             </section>
-            <footer class="modal-card-foot">
+            <footer class="modal-card-foot is-flex is-justify-content-center">
                 <div class="columns is-mobile">
                     <div class="column is-1">
                         <button id="leftImageModalBtn" class="button is-pulled-left">
@@ -513,9 +513,8 @@
 {{/ifOR}}
 
 
-
-
 <script>
+
 document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('tabScrollNav');
     const navbarLinks = document.querySelectorAll('.scrollClass a');
@@ -582,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //setActiveLink();
     handleScroll();
 
+    ///////////////////////////////////////////////////////////////////////////////////
 
 
     ///////////////////////////////Modal for Larger images//////////////////////////////
@@ -629,4 +629,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateImage();
 });
 
-</script>    
+</script>
