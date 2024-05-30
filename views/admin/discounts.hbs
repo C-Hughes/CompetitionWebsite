@@ -8,13 +8,35 @@
 
 
 <div class="modal is-active">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <p class="image is-4by3">
-      <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
-    </p>
-    <button class="button is-pulled-left"><</button>
-    <button class="button is-pulled-right">></button>
-  </div>
-  <button class="modal-close is-large" aria-label="close"></button>
+    <div class="modal-background"></div>
+    <div class="">
+        <section class="modal-content">
+            <p class="image is-4by3">
+                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
+            </p>
+        </section>
+
+        <footer class="modal-card-foot is-flex is-justify-content-center">
+
+            <div class="columns is-mobile">
+                <div class="column is-1">
+                    <button class="button is-pulled-left">
+                        <span class="icon is-small">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="column is-10 has-text-centered">Image 1 of X</div>
+                <div class="column is-1">
+                    <button class="button is-pulled-right">
+                        <span class="icon is-small">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </span>        
+                    </button>
+                </div>
+            </div>
+
+        </footer>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
 </div>
