@@ -4,8 +4,7 @@ When buying tickets:
 
 
 Competitions:
-- When tickets are added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
-- If a competition is not active / is about to be drawn within 1 hour, then do not let users buy tickets for it.
+- If a competition is not active / last entry date has passed then do not let users buy tickets for it.
 - Update slider so button disables if at minimum or maximum
 - Add modal/carrosel to view larger images of competition images
 - Make sure only users with accounts can purchase tickets?
@@ -70,6 +69,7 @@ Competition:
 - Change competition button on index page if competition is not active, or EntryCloseDate has passed
 - Update all close date / last entry checks to use entryCloseDate field in Competition schema
 - Update page tabs so that active changes depending how far down page user scrolls
+- When tickets are added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
 
 
 Admin:
