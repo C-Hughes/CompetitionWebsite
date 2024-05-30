@@ -5,28 +5,43 @@ function updateTicketCount(change){
     var ticketButtonCount = document.getElementById("ticketButtonCount");
     var ticketSliderCount = document.getElementById("ticketSliderCount");
     var addToBasketButton = document.getElementById("addToBasketButton");
+    var addTicketButton = document.getElementById("addTicketButton");
+    var subTicketButton = document.getElementById("subTicketButton");
 
     var ticketCount = sliderWithValue.value;
+    addTicketButton.removeAttribute("disabled");
+    subTicketButton.removeAttribute("disabled");
 
     //If buttons pressed or slider moved
     if (change == '-') {
         ticketCount--;
 
         //Make sure you cannot add less than min number of tickets.
-        if (ticketCount < sliderWithValue.min) {
+        if (Number(ticketCount) <= Number(sliderWithValue.min)) {
             ticketCount = sliderWithValue.min;
             ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
             sliderWithValue.value = ticketCount;
+            subTicketButton.setAttribute("disabled", true);
+
+            //Make sure you cannot add more than max number of tickets.
         }
     } else if (change == '+'){
         ticketCount++;
 
-        //Make sure you cannot add more than max number of tickets.
-        if (ticketCount > sliderWithValue.max) {
+        if (Number(ticketCount) >= Number(sliderWithValue.max)) {
             ticketCount = sliderWithValue.max;
             ticketButtonCount.innerText = "Number of tickets: "+ ticketCount +"";
             sliderWithValue.value = ticketCount;
+            addTicketButton.setAttribute("disabled", true);
         }
+    }
+
+    //Make sure you cannot add less than min number of tickets.
+    if (Number(ticketCount) <= Number(sliderWithValue.min)) {
+        subTicketButton.setAttribute("disabled", true);
+        //Make sure you cannot add more than max number of tickets.
+    } else if (Number(ticketCount) >= Number(sliderWithValue.max)) {
+        addTicketButton.setAttribute("disabled", true);
     }
     
     //Update values

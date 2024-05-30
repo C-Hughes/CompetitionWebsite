@@ -146,9 +146,9 @@
                                                     </div>
 
                                                     <div class="buttons has-addons is-centered">
-                                                        <button class="button" onclick="updateTicketCount('-')">-</button>
+                                                        <button id="subTicketButton" class="button" onclick="updateTicketCount('-')">-</button>
                                                         <button id="ticketButtonCount" class="button is-static">Number of tickets: 10</button>
-                                                        <button class="button" onclick="updateTicketCount('+')">+</button>
+                                                        <button id="addTicketButton" class="button" onclick="updateTicketCount('+')">+</button>
                                                     </div>
                                                 </div>
                                                 <footer class="card-footer">
@@ -479,7 +479,7 @@
                             </span>
                         </button>
                     </div>
-                    <div id="imageCounter" class="column is-10 has-text-centered">Image 1 of X</div>
+                    <div id="imageCounter" class="column is-10 has-text-centered">Image 1 of 1</div>
                     <div class="column is-1">
                         <button id="rightImageModalBtn" class="button is-pulled-right">
                             <span class="icon is-small">

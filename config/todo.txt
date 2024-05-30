@@ -1,3 +1,5 @@
+Put website live on Digital Ocean
+
 When buying tickets:
 - Make sure they cannot buy more than max for comp (before payment is made) - Possibly allocate tickets so another user cannot buy tickets after payment has been made
 - check to see how many user has bought already and if they can buy anymore
@@ -6,7 +8,6 @@ When buying tickets:
 Competitions:
 - If a competition is not active / last entry date has passed then do not let users buy tickets for it.
 - Update slider so button disables if at minimum or maximum
-- Add modal/carrosel to view larger images of competition images
 - Make sure only users with accounts can purchase tickets?
 - Add check to edit/create competition so last entry to competion cannot be more less than 30 mins before draw date
 
@@ -70,6 +71,7 @@ Competition:
 - Update all close date / last entry checks to use entryCloseDate field in Competition schema
 - Update page tabs so that active changes depending how far down page user scrolls
 - When tickets are added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
+- Add modal/carrosel to view larger images of competition images
 
 
 Admin:
