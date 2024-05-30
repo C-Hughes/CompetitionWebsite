@@ -15,7 +15,8 @@
                             <figure class="image is-4by3">
                             <img
                                 src="{{competition.imagePath}}"
-                                alt="Placeholder image"
+                                alt="Main image"
+                                class="compImage"
                             />
                             </figure>
                         </div>
@@ -27,7 +28,8 @@
                                         <figure class="image is-64x64 is-square ">
                                             <img
                                                 src="{{this}}"
-                                                alt="Additional Comp Image"
+                                                alt="Additional Image"
+                                                class="compImage"
                                             />
                                         </figure>
                                     </div>
@@ -459,6 +461,37 @@
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
     </div>
+
+    <div id="imageModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <section class="">
+                <p class="image is-4by3">
+                    <img id="modalImage" src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
+                </p>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="columns is-mobile">
+                    <div class="column is-1">
+                        <button id="leftImageModalBtn" class="button is-pulled-left">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <div id="imageCounter" class="column is-10 has-text-centered">Image 1 of X</div>
+                    <div class="column is-1">
+                        <button id="rightImageModalBtn" class="button is-pulled-right">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>        
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 {{else}}
     <section class="hero is-link mb-6">
         <div class="hero-body has-text-centered">
@@ -488,8 +521,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbarLinks = document.querySelectorAll('.scrollClass a');
     const sections = document.querySelectorAll('section');
     const offsetTop = navbar.offsetTop-50;
-
-    console.log(offsetTop);
     
     // Function to throttle or debounce the scroll event
     const debounce = (func, wait) => {
@@ -510,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const offset = -100; // Adjust based on your header height or padding
 
             //console.log('!!!!!!!!!!!!!!!!!!!!! sectionId = '+sectionId);
-            console.log('ScrollPosition'+scrollPosition);
+            //console.log('ScrollPosition'+scrollPosition);
             //console.log('sectionTop'+sectionTop);
             //console.log('offset'+offset);
             //console.log('sectionHeight'+sectionHeight);
@@ -550,6 +581,54 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call the function initially to set the correct active link on page load
     //setActiveLink();
     handleScroll();
+
+
+
+    ///////////////////////////////Modal for Larger images//////////////////////////////
+    const imageUrls = "{{competition.imagePath}},{{competition.additionalImagePaths}}";
+    const images = imageUrls.split(',');
+
+    const imageArray = images;
+    let currentIndex = 0;
+
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const imageCounter = document.getElementById('imageCounter');
+    const leftButton = document.getElementById('leftImageModalBtn');
+    const rightButton = document.getElementById('rightImageModalBtn');
+    const compImages = document.querySelectorAll('.compImage');
+
+    const updateImage = () => {
+        modalImage.src = imageArray[currentIndex];
+        imageCounter.textContent = `Image ${currentIndex + 1} of ${imageArray.length}`;
+    };
+
+    function openModal() {
+        modal.classList.add('is-active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('is-active');
+    }
+
+    compImages.forEach((image, index) => {
+        image.addEventListener('click', () => {
+            currentIndex = index;
+            openModal();
+        });
+    });
+
+    leftButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
+        updateImage();
+    });
+
+    rightButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % imageArray.length;
+        updateImage();
+    });
+
+    updateImage();
 });
 
 </script>    

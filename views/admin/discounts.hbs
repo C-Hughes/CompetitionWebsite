@@ -7,36 +7,80 @@
 {{> adminNav}}
 
 
-<div class="modal is-active">
+<div id="modal" class="modal is-active">
     <div class="modal-background"></div>
-    <div class="">
-        <section class="modal-content">
+    <div class="modal-card">
+        <section class="">
             <p class="image is-4by3">
-                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
+                <img id="modalImage" src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
             </p>
         </section>
-
-        <footer class="modal-card-foot is-flex is-justify-content-center">
-
+        <footer class="modal-card-foot">
             <div class="columns is-mobile">
                 <div class="column is-1">
-                    <button class="button is-pulled-left">
+                    <button id="leftImageModalBtn" class="button is-pulled-left">
                         <span class="icon is-small">
                             <i class="fa-solid fa-chevron-left"></i>
                         </span>
                     </button>
                 </div>
-                <div class="column is-10 has-text-centered">Image 1 of X</div>
+                <div id="imageCounter" class="column is-10 has-text-centered">Image 1 of X</div>
                 <div class="column is-1">
-                    <button class="button is-pulled-right">
+                    <button id="rightImageModalBtn" class="button is-pulled-right">
                         <span class="icon is-small">
                             <i class="fa-solid fa-chevron-right"></i>
                         </span>        
                     </button>
                 </div>
             </div>
-
         </footer>
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
 </div>
+
+<button id="openImage" class="button">Open Images</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const imageArray = [
+            'https://youngcomps.co.uk/wp-content/uploads/2024/05/ardoe.webp',
+            'https://youngcomps.co.uk/wp-content/uploads/2024/05/6EA54E62-C2C6-4350-884F-A316A1975624.jpeg',
+            'https://youngcomps.co.uk/wp-content/uploads/2024/05/11DAD3FE-3C18-4BE1-99BB-08E340A4EFF5.jpeg'
+        ];
+        let currentIndex = 0;
+
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const imageCounter = document.getElementById('imageCounter');
+        const leftButton = document.getElementById('leftImageModalBtn');
+        const rightButton = document.getElementById('rightImageModalBtn');
+        const openModalButton = document.getElementById('openImage');
+
+        const updateImage = () => {
+            modalImage.src = imageArray[currentIndex];
+            imageCounter.textContent = `Image ${currentIndex + 1} of ${imageArray.length}`;
+        };
+
+        function openModal() {
+            modal.classList.add('is-active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-active');
+        }
+
+        openModalButton.addEventListener('click', openModal);
+
+        leftButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
+            updateImage();
+        });
+
+        rightButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % imageArray.length;
+            updateImage();
+        });
+
+        updateImage();
+    });
+</script>
