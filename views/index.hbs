@@ -130,12 +130,27 @@
                                         <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
                                         {{#if this.active}}
                                             {{#ifCompClosed this.entryCloseDate}}
-                                                <button class="button is-medium is-fullwidth is-primary">View Competition</button>
+                                                <button class="button is-medium is-fullwidth is-primary">
+                                                    <span>View Competition</span>
+                                                    <span class="icon">
+                                                        <i class="fa-solid fa-trophy"></i>
+                                                    </span>
+                                                </button>
                                             {{else}}
-                                                <button class="button is-medium is-fullwidth is-primary">Enter Now</button>
+                                                <button class="button is-medium is-fullwidth is-primary">
+                                                    <span>Enter Now</span>
+                                                    <span class="icon">
+                                                        <i class="fa-solid fa-ticket"></i>
+                                                    </span>
+                                                </button>
                                             {{/ifCompClosed}}
                                         {{else}}
-                                            <button class="button is-medium is-fullwidth is-primary">View Competition</button>
+                                            <button class="button is-medium is-fullwidth is-primary">
+                                                <span>View Competition</span>
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-trophy"></i>
+                                                </span>
+                                            </button>
                                         {{/if}}
                                         <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                     </div>
@@ -353,10 +368,26 @@
     {{/each}}
     ];
 
-    const homeBannerButtonLink = [
+    const homeBannerButtonLinks = [
     {{# each competitions}}
         {{#if this.visible}}
             '/competition/{{this.id}}',
+        {{/if}}
+    {{/each}}
+    ];
+
+    const homeBannerButtonTexts = [
+    {{# each competitions}}
+        {{#if this.visible}}
+            {{#if this.active}}
+                {{#ifCompClosed this.entryCloseDate}}
+                    '<span>View Competition</span><span class="icon"><i class="fa-solid fa-trophy"></i></span>',
+                {{else}}
+                    '<span>Enter Now</span><span class="icon"><i class="fa-solid fa-ticket"></i></span>',
+                {{/ifCompClosed}}
+            {{else}}
+                '<span>View Competition</span><span class="icon"><i class="fa-solid fa-trophy"></i></span>',
+            {{/if}}
         {{/if}}
     {{/each}}
     ];
@@ -370,13 +401,14 @@
     const homeBannerTitle = document.getElementById('homeBannerTitle');
     const homeBannerDrawDate = document.getElementById('homeBannerDrawDate');
     const homeBannerEnterButton = document.getElementById('homeBannerEnterButton');
-
+    const homeBannerEnterButtonText = document.getElementById('homeBannerEnterButtonText');
 
     function updateContent() {
         homeBannerContainer.style.backgroundImage = `url('${homeBannerImages[currentHomeBannerIndex]}')`;
         homeBannerTitle.innerText = homeBannerTitles[currentHomeBannerIndex];
         homeBannerDrawDate.innerText = homeBannerDrawTimes[currentHomeBannerIndex];
-        homeBannerEnterButton.href = homeBannerButtonLink[currentHomeBannerIndex];
+        homeBannerEnterButton.href = homeBannerButtonLinks[currentHomeBannerIndex];
+        homeBannerEnterButton.innerHTML = homeBannerButtonTexts[currentHomeBannerIndex];
     }
 
     function fadeContentOut() {
