@@ -5,82 +5,117 @@
 </section>
 
 {{> adminNav}}
+   <style>
+        .homeBannerContainer {
+            position: relative;
+            max-width: 100%;
+            height: 40vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .homeBannerOverlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+            text-align: left;
+            color: white;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .homeBannerNavButton {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2; /* Ensure the buttons are on top of the overlay */
+        }
+        .homeBannerNavButton.left {
+            left: 10px;
+        }
+        .homeBannerNavButton.right {
+            right: 10px;
+        }
+    </style>
 
 
-<div id="modal" class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <section class="">
-            <p class="image is-4by3">
-                <img id="modalImage" src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="">
-            </p>
-        </section>
-        <footer class="modal-card-foot is-flex is-justify-content-center">
-            <div class="columns is-mobile">
-                <div class="column is-1">
-                    <button id="leftImageModalBtn" class="button is-pulled-left">
-                        <span class="icon is-small">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </span>
-                    </button>
-                </div>
-                <div id="imageCounter" class="column is-10 has-text-centered">Image 1 of 1</div>
-                <div class="column is-1">
-                    <button id="rightImageModalBtn" class="button is-pulled-right">
-                        <span class="icon is-small">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </span>        
-                    </button>
-                </div>
-            </div>
-        </footer>
+    <div id="homeBannerContainer" class="homeBannerContainer">
+        <button id="leftButton" class="homeBannerNavButton left">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="rightButton" class="homeBannerNavButton right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <div class="homeBannerOverlay">
+            <h1 id="homeBannerTitle" class="title is-1">Win This RS6 Launch Edition + VW Campervan</h1>
+            <p id="homeBannerDrawDate" class="subtitle is-3">Draw Tonight 9PM</p>
+            <button class="button is-primary is-medium">
+                <span>Enter Now</span>
+                <span class="icon">
+                    <i class="fa-solid fa-ticket"></i>
+                </span>
+            </button>
+        </div>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
-</div>
 
-<button id="openImage" class="button">Open Images</button>
+
+
+
+
+
+
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const imageArray = [
-            'https://youngcomps.co.uk/wp-content/uploads/2024/05/ardoe.webp',
-            'https://youngcomps.co.uk/wp-content/uploads/2024/05/6EA54E62-C2C6-4350-884F-A316A1975624.jpeg',
-            'https://youngcomps.co.uk/wp-content/uploads/2024/05/11DAD3FE-3C18-4BE1-99BB-08E340A4EFF5.jpeg'
-        ];
-        let currentIndex = 0;
+    const homeBannerImages = [
+        'https://7days-production.s3.eu-west-2.amazonaws.com/sevendays/upload/media/herosection/0033/49/2bccd903b601628a600d5954fb72d6d74a3c0f66.jpg',
+        'https://7days-production.s3.eu-west-2.amazonaws.com/sevendays/upload/media/herosection/0033/49/0ea48b709f73982a56618a1a426414c2d3716d50.jpg',
+        'https://7days-production.s3.eu-west-2.amazonaws.com/sevendays/upload/media/herosection/0033/49/b6e60468991184f6bb2f0bbf0a8f0389dab95b6e.jpg'
+    ];
+    const homeBannerTitles = [
+        'WIN THIS AUDI RS6 LAUNCH EDITION & VW CAMPERVAN',
+        'WIN A BMW M4 COMPETITION',
+        'WIN THIS 2022 VW TIGUAN R'
+    ];
+    const homeBannerDrawTimes = [
+        'Thursday 9pm',
+        'Thursday 9pm',
+        'Friday 9pm'
+    ];
 
-        const modal = document.getElementById('modal');
-        const modalImage = document.getElementById('modalImage');
-        const imageCounter = document.getElementById('imageCounter');
-        const leftButton = document.getElementById('leftImageModalBtn');
-        const rightButton = document.getElementById('rightImageModalBtn');
-        const openModalButton = document.getElementById('openImage');
+    let currentHomeBannerIndex = 0;
 
-        const updateImage = () => {
-            modalImage.src = imageArray[currentIndex];
-            imageCounter.textContent = `Image ${currentIndex + 1} of ${imageArray.length}`;
-        };
+    const homeBannerContainer = document.getElementById('homeBannerContainer');
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    const homeBannerTitle = document.getElementById('homeBannerTitle');
+    const homeBannerDrawDate = document.getElementById('homeBannerDrawDate');
 
-        function openModal() {
-            modal.classList.add('is-active');
-        }
+    function updateContent() {
+        homeBannerContainer.style.backgroundImage = `url('${homeBannerImages[currentHomeBannerIndex]}')`;
+        homeBannerTitle.innerText = homeBannerTitles[currentHomeBannerIndex];
+        homeBannerDrawDate.innerText = homeBannerDrawTimes[currentHomeBannerIndex];
+    }
 
-        function closeModal() {
-            modal.classList.remove('is-active');
-        }
-
-        openModalButton.addEventListener('click', openModal);
-
-        leftButton.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + imageArray.length) % imageArray.length;
-            updateImage();
-        });
-
-        rightButton.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % imageArray.length;
-            updateImage();
-        });
-
-        updateImage();
+    leftButton.addEventListener('click', () => {
+        currentHomeBannerIndex = (currentHomeBannerIndex === 0) ? homeBannerImages.length - 1 : currentHomeBannerIndex - 1;
+        updateContent();
     });
+
+    rightButton.addEventListener('click', () => {
+        currentHomeBannerIndex = (currentHomeBannerIndex === homeBannerImages.length - 1) ? 0 : currentHomeBannerIndex + 1;
+        updateContent();
+    });
+
+    // Initialize with the first image
+    updateContent();
 </script>
