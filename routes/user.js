@@ -321,7 +321,7 @@ function isLoggedIn(req, res, next){
       return next();
     }
     res.redirect('/');
-  }
+}
 
 //Check if not logged in
 function notLoggedIn(req, res, next){

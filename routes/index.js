@@ -43,77 +43,6 @@ router.get('/logout', function(req, res, next) {
     });
   });
 
-router.get('/checkout', function(req, res, next) {
-    var errors = req.flash('error');
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
-        return res.redirect('/basket');
-    } else {
-
-        var basket = new Basket(req.session.basket);
-        basket.updateBasket()
-        .then(() => {
-            req.session.basket = basket;
-            BillingAddress.findOne({userReference: req.user})
-            .then(foundBAddress => {
-                if (foundBAddress) {
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
-                } else {
-                    console.log("No Address Saved");
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        })
-        .catch(err => {
-            console.log('Error checking price:', err);
-            res.redirect('/');
-        });
-    }
-});
-
-router.get('/processCard', function(req, res, next) {
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
-        return res.redirect('/basket');
-    } else {
-        var basket = new Basket(req.session.basket);
-        basket.updateBasket()
-        .then(() => {
-            req.session.basket = basket;
-            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
-        })
-        .catch(err => {
-            console.log('Error checking price:', err);
-            res.redirect('/');
-        });
-        
-    }
-});
-
-router.get('/orderReceived', function(req, res, next) {
-    var success = req.flash('success');
-
-    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
-    .then(foundOrder => {
-        if (foundOrder) {
-            var basket;
-            basket = new Basket(foundOrder.basket);
-            foundOrder.items = basket.generateArray();
-
-            //console.log('foundOrder'+foundOrder);
-
-            return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
-        } else {
-            console.log("No Order Found");
-            return res.render('orderReceived', { title: 'Order Received', order: "", success: success, hasSuccess: success.length > 0});
-        }
-    })
-    .catch(err => {
-        console.log(err);
-    });
-});
-
 router.get('/competition/:id', function(req, res, next) {
     var compID = req.params.id;
     var error = req.flash('error');
@@ -240,6 +169,81 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
     res.redirect('/basket');
 });
 
+/////////////////////////////////////////////////////////////////////////////
+////////////////////// Basket Checkout/Payment/OrderReceived ////////////////////////////////
+
+//Must be logged in to access checkout
+router.get('/checkout', isLoggedIn, function(req, res, next) {
+    var errors = req.flash('error');
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+
+        var basket = new Basket(req.session.basket);
+        basket.updateBasket()
+        .then(() => {
+            req.session.basket = basket;
+            BillingAddress.findOne({userReference: req.user})
+            .then(foundBAddress => {
+                if (foundBAddress) {
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
+                } else {
+                    console.log("No Address Saved");
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        })
+        .catch(err => {
+            console.log('Error checking price:', err);
+            res.redirect('/');
+        });
+    }
+});
+
+router.get('/processCard', function(req, res, next) {
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        var basket = new Basket(req.session.basket);
+        basket.updateBasket()
+        .then(() => {
+            req.session.basket = basket;
+            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+        })
+        .catch(err => {
+            console.log('Error checking price:', err);
+            res.redirect('/');
+        });
+        
+    }
+});
+
+router.get('/orderReceived', function(req, res, next) {
+    var success = req.flash('success');
+
+    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
+    .then(foundOrder => {
+        if (foundOrder) {
+            var basket;
+            basket = new Basket(foundOrder.basket);
+            foundOrder.items = basket.generateArray();
+
+            //console.log('foundOrder'+foundOrder);
+
+            return res.render('orderReceived', { title: 'Order Received', order: foundOrder, success: success, hasSuccess: success.length > 0});
+        } else {
+            console.log("No Order Found");
+            return res.render('orderReceived', { title: 'Order Received', order: "", success: success, hasSuccess: success.length > 0});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 ////////////////////// Route to fetch images ////////////////////////////////
 router.get('/images/:imageName', (req, res) => {
     const imageName = req.params.imageName;
@@ -258,6 +262,70 @@ router.get('/images/:imageName', (req, res) => {
 
 
 ////////////////////////// ROUTE POSTS ////////////////////////////
+
+router.post('/checkout', function(req, res, next) {
+    if (!req.session.basket || req.session.basket.totalPrice == 0){
+        return res.redirect('/basket');
+    } else {
+        //var basket = new Basket(req.session.basket);
+        //Input Validation
+        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+        if(req.body.emailAddress){
+            req.checkBody('emailAddress', 'Email is not valid').isEmail();
+        }
+        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
+            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+            //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+        }   
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/checkout');
+        }
+        
+        var billingAddressUpdate = {
+            userReference: req.user,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            countryRegion: req.body.countryRegion,
+            streetAddress1: req.body.streetAddress1,
+            streetAddress2: req.body.streetAddress2,
+            townCity: req.body.townCity,
+            county: req.body.county,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
+            DOBDD: req.body.DOBDD,
+            DOBMM: req.body.DOBMM,
+            DOBYY: req.body.DOBYY,
+            emailAddress: req.body.emailAddress,
+            lastUpdated: new Date().toISOString(),
+        };
+        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
+        .then(() => {
+            req.flash('success', 'Your billing details were saved');
+            res.redirect('/processCard');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+});
+
 
 router.post('/processCard', async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
@@ -395,69 +463,6 @@ router.post('/processCard', async (req, res, next) => {
     }
 });
 
-router.post('/checkout', function(req, res, next) {
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
-        return res.redirect('/basket');
-    } else {
-        //var basket = new Basket(req.session.basket);
-        //Input Validation
-        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
-        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
-        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.emailAddress){
-            req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }
-        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
-            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
-            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
-            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
-            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-            //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
-            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
-        }   
-
-        var errors = req.validationErrors();
-        if (errors){
-            var messages = [];
-            errors.forEach(function(error){
-                messages.push(error.msg);
-            });
-            req.flash('error', messages);
-            return res.redirect('/checkout');
-        }
-        
-        var billingAddressUpdate = {
-            userReference: req.user,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            countryRegion: req.body.countryRegion,
-            streetAddress1: req.body.streetAddress1,
-            streetAddress2: req.body.streetAddress2,
-            townCity: req.body.townCity,
-            county: req.body.county,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
-            DOBDD: req.body.DOBDD,
-            DOBMM: req.body.DOBMM,
-            DOBYY: req.body.DOBYY,
-            emailAddress: req.body.emailAddress,
-            lastUpdated: new Date().toISOString(),
-        };
-        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
-        .then(() => {
-            req.flash('success', 'Your billing details were saved');
-            res.redirect('/processCard');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }
-});
-
 
 ///////////////////////////////////////////////////////////////////
 
@@ -470,7 +475,7 @@ router.use('/', notLoggedIn, function(req, res, next) {
 
 
 //////////////////////// Login / Register /////////////////////////
-router.get(['/login', '/register/:referralCode?'], function(req, res, next) {
+router.get(['/login', '/register', '/signup','/register/:referralCode?'], function(req, res, next) {
     var referralCode = req.params.referralCode || "";
     referralCode = referralCode.replace(/[^a-z0-9]/gi, "");
     referralCode = referralCode.substring(0, 12);
@@ -509,6 +514,13 @@ router.post('/register', passport.authenticate('local.signup', {
 
 module.exports = router;
 
+//Check if logged in
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/login');
+}
 
 //Check if not logged in
 function notLoggedIn(req, res, next){
