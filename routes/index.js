@@ -44,6 +44,10 @@ router.get('/privacyPolicy', function(req, res, next) {
     res.render('privacyPolicy', { title: 'Privacy Policy'});
 });
 
+router.get('/websiteTerms', function(req, res, next) {
+    res.render('websiteTerms', { title: 'Website Terms'});
+});
+
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
