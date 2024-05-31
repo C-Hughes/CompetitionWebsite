@@ -26,6 +26,7 @@ a {
     height: 40vh;
     background-size: cover;
     background-position: center;
+    transition: background-image 1s ease-in-out;
 }
 .homeBannerOverlay {
     position: absolute;
@@ -41,6 +42,7 @@ a {
     color: white;
     padding: 20px;
     z-index: 1;
+    transition: opacity 1s ease-in-out;
 }
 
 .homeBannerNavButton {
@@ -59,4 +61,10 @@ a {
 }
 .homeBannerNavButton.right {
     right: 10px;
+}
+.fade-out {
+    opacity: 0;
+}
+.fade-in {
+    opacity: 1;
 }
