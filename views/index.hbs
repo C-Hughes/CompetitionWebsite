@@ -438,7 +438,7 @@
             currentHomeBannerIndex = (currentHomeBannerIndex === homeBannerImages.length - 1) ? 0 : currentHomeBannerIndex + 1;
             updateContent();
             fadeContentIn();
-        }, 1000); // Match this duration to the CSS transition duration
+        }, 100); // Match this duration to the CSS transition duration
     }
 
     function startInterval() {
@@ -467,8 +467,9 @@
         }, 100); // Match this duration to the CSS transition duration
     });
 
-    // Initialize with the first image
+    // Initialise with the first image
     updateContent();
+    fadeContentIn();
     startInterval();
 
 </script>
