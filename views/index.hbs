@@ -1,10 +1,22 @@
 
-<figure class="image is-6by3">
-  <img
-        src="/images/RS5.jpg"
-        alt="Headline Prize"
-  />
-</figure>
+<div id="homeBannerContainer" class="homeBannerContainer">
+    <button id="leftButton" class="homeBannerNavButton left">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button id="rightButton" class="homeBannerNavButton right">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <div class="homeBannerOverlay">
+        <h1 id="homeBannerTitle" class="title is-2">Win This RS6 Launch Edition + VW Campervan</h1>
+        <p id="homeBannerDrawDate" class="subtitle is-4">Draw Tonight 9PM</p>
+        <a id="homeBannerEnterButton" href="" class="button is-primary is-medium">
+            <span>Enter Now</span>
+            <span class="icon">
+                <i class="fa-solid fa-ticket"></i>
+            </span>
+        </a>
+    </div>
+</div>
 
 <section class="hero is-dark py-2">
     <nav class="level">
@@ -313,3 +325,67 @@
 
 {{> payIcons}}
 
+
+<script>
+    const homeBannerImages = [
+    {{# each competitions}}
+        {{#if this.visible}}
+            '{{this.imagePath}}',
+        {{/if}}
+    {{/each}}
+    ];
+
+    const homeBannerTitles = [
+    {{# each competitions}}
+        {{#if this.visible}}
+            'Win This {{this.title}}!',
+        {{/if}}
+    {{/each}}
+    ];
+
+    const homeBannerDrawTimes = [
+    {{# each competitions}}
+        {{#if this.visible}}
+            'Draw {{formatDateCompCard this.drawDate}}',
+        {{/if}}
+    {{/each}}
+    ];
+
+    const homeBannerButtonLink = [
+    {{# each competitions}}
+        {{#if this.visible}}
+            '/competition/{{this.id}}',
+        {{/if}}
+    {{/each}}
+    ];
+
+    let currentHomeBannerIndex = 0;
+
+    const homeBannerContainer = document.getElementById('homeBannerContainer');
+    const leftButton = document.getElementById('leftButton');
+    const rightButton = document.getElementById('rightButton');
+    const homeBannerTitle = document.getElementById('homeBannerTitle');
+    const homeBannerDrawDate = document.getElementById('homeBannerDrawDate');
+    const homeBannerEnterButton = document.getElementById('homeBannerEnterButton');
+
+
+    function updateContent() {
+        homeBannerContainer.style.backgroundImage = `url('${homeBannerImages[currentHomeBannerIndex]}')`;
+        homeBannerTitle.innerText = homeBannerTitles[currentHomeBannerIndex];
+        homeBannerDrawDate.innerText = homeBannerDrawTimes[currentHomeBannerIndex];
+        homeBannerEnterButton.href = homeBannerButtonLink[currentHomeBannerIndex];
+    }
+
+    leftButton.addEventListener('click', () => {
+        currentHomeBannerIndex = (currentHomeBannerIndex === 0) ? homeBannerImages.length - 1 : currentHomeBannerIndex - 1;
+        updateContent();
+    });
+
+    rightButton.addEventListener('click', () => {
+        currentHomeBannerIndex = (currentHomeBannerIndex === homeBannerImages.length - 1) ? 0 : currentHomeBannerIndex + 1;
+        updateContent();
+    });
+
+    // Initialize with the first image
+    updateContent();
+</script>
