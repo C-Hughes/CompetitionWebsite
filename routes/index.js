@@ -48,6 +48,10 @@ router.get('/websiteTerms', function(req, res, next) {
     res.render('websiteTerms', { title: 'Website Terms'});
 });
 
+router.get('/responsiblePlaying', function(req, res, next) {
+    res.render('responsiblePlaying', { title: 'Responsible Playing'});
+});
+
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
