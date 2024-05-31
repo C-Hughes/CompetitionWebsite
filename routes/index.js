@@ -10,6 +10,7 @@ const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    console.log(req.session);
     var success = req.flash('success');
     Competition.find({})
       .then(foundCompetition => {
@@ -41,7 +42,7 @@ router.get('/logout', function(req, res, next) {
       if (err) { return next(err); }
       res.redirect('/');
     });
-  });
+});
 
 router.get('/competition/:id', function(req, res, next) {
     var compID = req.params.id;
@@ -493,13 +494,35 @@ router.get(['/login', '/register', '/signup','/register/:referralCode?'], functi
     res.render('login', { title: 'Login / Register', sMessages: sMessages, hasSErrors: sMessages.length > 0, lMessages: lMessages, hasLErrors: lMessages.length > 0, referralCode: referralCode, hasReferralCode: referralCode.length > 0});
 });
 
-
+/*
 router.post('/login', passport.authenticate('local.login', {
     successRedirect: '/user',
     failureRedirect: '/login',
     badRequestMessage : 'LOGIN Please populate required fields',
     failureFlash: true
 }));
+*/
+
+router.post('/login', (req, res, next) => {
+    // Store the current basket temporarily in the session
+    const basketBeforeLogin = req.session.basket;
+
+    passport.authenticate('local.login', (err, user, info) => {
+        if (err) { return next(err); }
+        if (!user) {
+            return res.redirect('/login'); // Login failed
+        }
+
+        req.logIn(user, (err) => {
+            if (err) { return next(err); }
+
+            // Restore the basket from the temporary variable
+            req.session.basket = basketBeforeLogin || {};
+
+            return res.redirect('/user'); // Login successful
+        });
+    })(req, res, next);
+});
 
 router.post('/register', passport.authenticate('local.signup', {
     successRedirect: '/user',

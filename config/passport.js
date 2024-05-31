@@ -129,6 +129,7 @@ passport.use('local.login', new LocalStrategy({
             console.log('found user email = '+ user);
             //If user found and password is valid
             if(user.validPassword(password)){
+                console.log(req.session);
                 return done(null, user);
             } else {
                 return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
@@ -138,7 +139,7 @@ passport.use('local.login', new LocalStrategy({
             User.findOne({'username':username})
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
-                    console.log('found username = '+ foundUser);
+                    console.log(req.session);
                     return done(null, foundUser);
                 } else {
                     return done(null, false, req.flash('lError', 'Username or Password is incorrect'));

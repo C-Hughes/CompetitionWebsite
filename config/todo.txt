@@ -24,7 +24,7 @@ Other:
 - Update footer
 - Update FAQ
 - Add functionality for instant win competitions?
-
+- Try to carry over basket when logged out then logging in
 
 
 Admin functionality:
