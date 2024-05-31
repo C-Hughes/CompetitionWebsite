@@ -84,7 +84,11 @@
                                 <p class="subtitle is-4 is-pulled-right"><strong>£{{formatPrice totalPrice}}</strong></p>
                             </div>
                             <div class="column is-full">
-                                <a href="/checkout" class="button is-medium is-fullwidth is-primary">Proceed to Checkout</a>
+                                {{#if user}}
+                                    <a href="/checkout" class="button is-medium is-fullwidth is-primary">Proceed to Checkout</a>
+                                {{else}}
+                                    <a href="/login" class="button is-medium is-fullwidth is-primary">Login to Checkout</a>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
