@@ -52,6 +52,10 @@ router.get('/responsiblePlaying', function(req, res, next) {
     res.render('responsiblePlaying', { title: 'Responsible Playing'});
 });
 
+router.get('/websiteSecurity', function(req, res, next) {
+    res.render('websiteSecurity', { title: 'Website Security'});
+});
+
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
