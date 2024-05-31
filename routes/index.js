@@ -40,6 +40,10 @@ router.get(['/termsandconditions', '/terms&conditions', '/t&cs','/tandcs'], func
     res.render('termsAndConditions', { title: 'Terms and Conditions'});
 });
 
+router.get('/privacyPolicy', function(req, res, next) {
+    res.render('privacyPolicy', { title: 'Privacy Policy'});
+});
+
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
