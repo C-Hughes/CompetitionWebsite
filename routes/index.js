@@ -10,7 +10,6 @@ const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log(req.session);
     var success = req.flash('success');
     Competition.find({})
       .then(foundCompetition => {
@@ -35,6 +34,10 @@ router.get('/winners', function(req, res, next) {
 
 router.get('/winner', function(req, res, next) {
     res.render('winner', { title: 'Winner', active: { winners: true } });
+});
+
+router.get(['/termsandconditions', '/terms&conditions', '/t&cs','/tandcs'], function(req, res, next) {
+    res.render('termsAndConditions', { title: 'Terms and Conditions'});
 });
 
 router.get('/logout', function(req, res, next) {
