@@ -1,23 +1,29 @@
 
 {{#if areCompetitions}}
-<div id="homeBannerContainer" class="homeBannerContainer">
-    <button id="leftButton" class="homeBannerNavButton left">
-        <i class="fa-solid fa-chevron-left"></i>
-    </button>
-    <button id="rightButton" class="homeBannerNavButton right">
-        <i class="fa-solid fa-chevron-right"></i>
-    </button>
-    <div class="homeBannerOverlay">
-        <h1 id="homeBannerTitle" class="title is-2">Win This RS6 Launch Edition + VW Campervan</h1>
-        <p id="homeBannerDrawDate" class="subtitle is-4">Draw Tonight 9PM</p>
-        <a id="homeBannerEnterButton" href="" class="button is-primary is-medium">
-            <span>Enter Now</span>
-            <span class="icon">
-                <i class="fa-solid fa-ticket"></i>
-            </span>
-        </a>
+
+    <div id="homeBannerContainer" class="homeBannerContainer">
+
+        <button id="leftButton" class="homeBannerNavButton left">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="rightButton" class="homeBannerNavButton right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <a id="homeBannerLink" class="homeBannerLink">
+            <div class="homeBannerOverlay">
+                <h1 id="homeBannerTitle" class="title is-2">Win This RS6 Launch Edition + VW Campervan</h1>
+                <p id="homeBannerDrawDate" class="subtitle is-4">Draw Tonight 9PM</p>
+                <button id="homeBannerEnterButton" class="button is-primary is-medium">
+                    <span>Enter Now</span>
+                    <span class="icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </span>
+                </button>
+                
+            </div>
+        </a>    
     </div>
-</div>
+
 {{/if}}
 
 <section class="hero is-dark py-2">
@@ -401,13 +407,13 @@
     const homeBannerTitle = document.getElementById('homeBannerTitle');
     const homeBannerDrawDate = document.getElementById('homeBannerDrawDate');
     const homeBannerEnterButton = document.getElementById('homeBannerEnterButton');
-    const homeBannerEnterButtonText = document.getElementById('homeBannerEnterButtonText');
+    const homeBannerLink = document.getElementById('homeBannerLink');
 
     function updateContent() {
         homeBannerContainer.style.backgroundImage = `url('${homeBannerImages[currentHomeBannerIndex]}')`;
         homeBannerTitle.innerText = homeBannerTitles[currentHomeBannerIndex];
         homeBannerDrawDate.innerText = homeBannerDrawTimes[currentHomeBannerIndex];
-        homeBannerEnterButton.href = homeBannerButtonLinks[currentHomeBannerIndex];
+        homeBannerLink.href = homeBannerButtonLinks[currentHomeBannerIndex];
         homeBannerEnterButton.innerHTML = homeBannerButtonTexts[currentHomeBannerIndex];
     }
 

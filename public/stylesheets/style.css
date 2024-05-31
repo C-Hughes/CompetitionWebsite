@@ -28,20 +28,25 @@ a {
     background-position: center;
     transition: background-image 1s ease-in-out;
 }
-.homeBannerOverlay {
+.homeBannerLink {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    z-index: 0; /* Ensure this is below the buttons */
+}
+.homeBannerOverlay {
+    background: rgba(0, 0, 0, 0.6);
     color: white;
     padding: 20px;
-    z-index: 1;
+    width: 100%;
     transition: opacity 1s ease-in-out;
 }
 

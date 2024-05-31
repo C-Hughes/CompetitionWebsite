@@ -9,7 +9,6 @@ Competitions:
 - If a competition is not active / last entry date has passed then do not let users buy tickets for it.
 - Make sure only users with accounts can purchase tickets?
 - Add check to edit/create competition so last entry to competion cannot be more less than 30 mins before draw date
-- Update homepage banner so it cycles through large images of selected competitions. Add info and enter now button too
 
 
 User:
@@ -72,6 +71,8 @@ Competition:
 - When tickets are added to basket, dynamically change the other competition thats suggested for the user to buy tickets for.
 - Add modal/carrosel to view larger images of competition images
 - Update slider so button disables if at minimum or maximum
+- Update homepage banner so it cycles through large images of selected competitions. Add info and enter now button too
+
 
 Admin:
 - Add / Edit competitions
