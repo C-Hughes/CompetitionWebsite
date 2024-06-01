@@ -104,13 +104,33 @@ router.get('/users', function(req, res, next) {
 router.get('/admins', function(req, res, next) {
     var success = req.flash('success');
     var errors = req.flash('error');
-    
+
     User.find({isAdmin: true})
       .then(foundAdmins => {
         res.render('admin/admins', { title: 'Admins', active: { admins: true }, admins: foundAdmins, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0 }); 
     })
     .catch(err => {
         console.log(err);
+    });
+});
+
+//Get route to remove an admin
+router.get('/removeAdmin/:userID', function(req, res, next) {
+    var userID = req.params.userID;
+
+    var userUpdate = {
+        isAdmin: false,
+        lastUpdated: new Date().toISOString(),
+    };
+    User.findOneAndUpdate({_id: userID}, userUpdate, {upsert: false})
+    .then(() => {
+        req.flash('success', 'User has been removed as an admin');
+        res.redirect('/admin/admins');
+    })
+    .catch(err => {
+        console.log(err);
+        req.flash('error', 'Error removing admin');
+        res.redirect('/admin/admins');
     });
 });
 
