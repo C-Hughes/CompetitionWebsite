@@ -97,7 +97,16 @@ router.get('/discounts', function(req, res, next) {
   
 
 router.get('/users', function(req, res, next) {
-    res.render('admin/users', { title: 'Users', active: { users: true } });
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    User.find({})
+    .then(foundUsers => {
+        res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0 }); 
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 

@@ -1,8 +1,31 @@
 <section class="hero is-danger">
   <div class="hero-body has-text-centered">
-    <p class="title">Users</p>
+    <p class="title">Admins</p>
   </div>
 </section>
 
 {{> adminNav}}
 
+<div class="container is-max-desktop">
+    <section class="section">
+        <h2 class="title">
+            Users
+        </h2>
+    </section>
+    
+    {{# each users}}
+        <div class="container notification">
+            <div class="columns is-vcentered is-mobile">
+                <div class="column is-3">
+                    <p class="title is-6">{{this.username}}</p>
+                </div>
+                <div class="column is-3">
+                    <p class="title is-6">{{this.displayName}}</p>
+                </div>
+                <div class="column is-3">
+                    <p class="title is-6">{{this.emailAddress}}</p>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
