@@ -166,6 +166,35 @@ router.get('/removeAdditionalImage/:compID', function(req, res, next) {
 
 //////////////////////////////// POST ROUTES /////////////////////////////////////
 
+router.post('/addAdministrator', function(req, res, next) {
+    var addAdminName = req.body.addAdminName;
+
+    var userUpdate = {
+        isAdmin: true,
+        lastUpdated: new Date().toISOString(),
+    };
+    //Update most recent order to include updated basket with ticket numbers.
+    User.findOneAndUpdate({ "username" : { $regex : new RegExp(addAdminName, "i") } }, userUpdate, {upsert: false})
+    .then((foundAdmin) => {
+        if(foundAdmin){
+            console.log('Admin Added');
+            req.flash('success', 'User added as Admin');
+            return res.redirect('/admin/admins');
+        } else {
+            console.log('Add admin: User not found');
+            req.flash('error', 'Username not found');
+            return res.redirect('/admin/admins');
+        }
+
+    })
+    .catch(err => {
+        console.log(err);
+        req.flash('error', 'Error'+error);
+        return res.redirect('/admin/admins');
+    });
+});
+
+
 router.post('/updateCompetition', async (req, res, next) => {
 
     //If no competition id is submitted with the form
@@ -478,6 +507,7 @@ router.post('/updatePreviewCompetition', function(req, res, next) {
     });
 });
 
+/////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
 
@@ -504,7 +534,7 @@ function moveFile(file, uploadPath) {
     });
 }
 
-// Function to delete all sessions
+// Function to delete all sessions /// Not used, backup functionality
 async function clearAllBaskets() {
 
     try {

@@ -13,11 +13,30 @@
         </h2>
     </section>
 
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    
     <div class="mx-3">
         <div class="container">
             <form action="/admin/addAdministrator" method="post">
                 <div class="field">
-                    <label class="label">User Account Name or Email Address</label>
+                    <label class="label">Username</label>
                     <div class="control has-icons-left">
                         <input id="addAdminName" name="addAdminName" class="input" type="text" placeholder="User Name or Email Address">
                         <span class="icon is-small is-left">
@@ -53,7 +72,7 @@
                     <p class="title is-6">{{this.username}}</p>
                 </div>
                 <div class="column is-2 is-flex is-justify-content-center is-align-items-center">
-                    <a href="/removeAdmin/{{this._id}}" class="button is-danger">
+                    <a href="/admin/removeAdmin/{{this._id}}" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-trash"></i>
                         </span>
