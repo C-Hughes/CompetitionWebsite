@@ -100,9 +100,15 @@ router.get('/users', function(req, res, next) {
     var success = req.flash('success');
     var errors = req.flash('error');
 
-    User.find({})
-    .then(foundUsers => {
-        res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0 }); 
+    User.countDocuments({})
+    .then(count => {
+        User.find({}).limit(25)
+        .then(foundUsers => {
+            res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0, userCount: count}); 
+        })
+        .catch(err => {
+            console.log(err);
+        });
     })
     .catch(err => {
         console.log(err);
