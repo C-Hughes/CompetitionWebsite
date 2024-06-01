@@ -6,16 +6,3 @@
 
 {{> adminNav}}
 
-
-<form action="/admin/uploadPhoto/?_csrf={{csrfToken}}" enctype="multipart/form-data" method="post" ref='uploadForm' id='uploadForm' >
-  <div class="form-group">
-    <input type="file" class="form-control-file" name="uploaded_file">
-    <input type="text" class="form-control" placeholder="Number of speakers" name="nspeakers">
-
-    <input type="submit" value="Get me the stats!" class="btn btn-default">
-  </div>
-</form>
-
-
-
-    <input type="hidden" name="csrfToken" value="{{ csrfToken }}">

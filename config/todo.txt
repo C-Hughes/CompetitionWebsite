@@ -1,4 +1,5 @@
 ***Put website live on Digital Ocean
+- Check if competition sites are allowed to use referrals / offer rewards for playing
 
 When buying tickets:
 - Make sure they cannot buy more than max for comp (before payment is made) - Possibly allocate tickets so another user cannot buy tickets after payment has been made
@@ -28,6 +29,8 @@ Other:
 
 
 Admin functionality:
+- Page that shows a list of all admins
+- Ability to add users as admins / remove admins
 - Administrate coupon codes
 - Add / Edit winners on winner pages
 

@@ -99,6 +99,11 @@ router.get('/users', function(req, res, next) {
     res.render('admin/users', { title: 'Users', active: { users: true } });
 });
 
+
+router.get('/admins', function(req, res, next) {
+    res.render('admin/admins', { title: 'Admins', active: { admins: true } });
+});
+
 //Get route to delete a competitions additional photo
 router.get('/removeAdditionalImage/:compID', function(req, res, next) {
     var compID = req.params.compID;
