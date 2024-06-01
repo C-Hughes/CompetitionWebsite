@@ -88,6 +88,32 @@ module.exports = {
         this.hasInactiveCompetitions = hasInactive;
         return options.fn(this);
     },
+    checkVisibleWinners: function(winners, options){
+        let hasVisible = false;
+        // Iterate through winners to check for visible ones
+        for (let i = 0; i < winners.length; i++) {
+            if (winners[i].visible) {
+                hasVisible = true;
+                break;
+            }
+        }
+        // Pass the result to the template context
+        this.hasVisibleWinners = hasVisible;
+        return options.fn(this);
+    },
+    checkInactiveWinners: function(winners, options){
+        let hasInvisible = false;
+        // Iterate through winners to check for visible ones
+        for (let i = 0; i < winners.length; i++) {
+            if (!winners[i].visible) {
+                hasInvisible = true;
+                break;
+            }
+        }
+        // Pass the result to the template context
+        this.hasInvisibleWinners = hasInvisible;
+        return options.fn(this);
+    },
     checkCurrentTickets: function(tickets, options){
         let hasCurrent = false;
 

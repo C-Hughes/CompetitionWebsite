@@ -38,7 +38,7 @@
                 <li class="is-active">
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasCompetitions}}
-                            {{#checkActiveWinners winners}}
+                            {{#checkVisibleWinners winners}}
                                 {{#each winners}}
                                     {{#if this.active}}
                                         <!-- Competition Column -->
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkActiveWinners}}
+                            {{/checkVisibleWinners}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
@@ -98,7 +98,7 @@
                 <li>
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasCompetitions}}
-                            {{#checkInactiveWinners winners}}
+                            {{#checkInvisibleWinners winners}}
                                 {{#each winners}}
                                     {{#unless this.active}}
                                     <!-- Competition Column -->
@@ -145,7 +145,7 @@
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkInactiveWinners}}
+                            {{/checkInvisibleWinners}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
