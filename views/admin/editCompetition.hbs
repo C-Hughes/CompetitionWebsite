@@ -5,6 +5,15 @@
 </section>
 
 {{> adminNav}}
+<div class="container is-max-desktop mb-4">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/admin">Competitions</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Edit Competition {{competition.id}}</a></li>
+        </ul>
+    </nav>
+</div>
 
 {{#if errors}}
     <div class="container is-max-desktop mb-4">
