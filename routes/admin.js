@@ -97,6 +97,10 @@ router.get('/winners', function(req, res, next) {
     });
 });
 
+router.get('/createWinner', function(req, res, next) {
+    var errors = req.flash('error');
+    res.render('admin/createWinnerCard', { title: 'Create Winner Card', active: { winners: true }, error: errors, errors: errors.length > 0 });
+});
 
 router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });

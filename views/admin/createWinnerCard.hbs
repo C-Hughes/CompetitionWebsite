@@ -1,0 +1,111 @@
+<section class="hero is-danger">
+    <div class="hero-body has-text-centered">
+        <p class="title">Create Winner Card</p>
+    </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-desktop mb-4">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/admin/winners">Winners</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Create Winner Card</a></li>
+        </ul>
+    </nav>
+</div>
+
+{{#if errors}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+
+
+<div class="container is-max-widescreen">
+    <form action="/admin/createWinner" method="post">
+        <div class="card">
+            <div class="card-content">
+                <label class="label">Main Image</label>
+                <div class="container">
+                    <figure class="image">
+                    <img
+                        id="mainImageDisplay"
+                        src=""
+                        alt="Competition Image"
+                        style="max-width: 400px; max-height: 400px"    
+                    />
+                    </figure>
+
+                    <div class="file is-normal has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Upload Main Image </span>
+                            </span>
+                            <span class="file-name"> ... </span>
+                        </label>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Title</label>
+                        <div class="control has-icons-left">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-heading"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Winner Card Description</label>
+                        <div class="control has-icons-left">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-bars"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Competition ID</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-database"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Is Visible</label>
+                        <i class="fa-solid fa-eye"></i>
+                        <input id="visible" name="visible" type="checkbox" checked>
+                        <label for="PostalCheckbox">Visible</label>
+                    </div>
+
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
+                    <button type="submit" class="button is-medium is-fullwidth is-link">Create Winner Card</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+                                        
