@@ -5,3 +5,65 @@
 </section>
 
 {{> adminNav}}
+
+<div class="container is-max-fullhd">
+    <div class="content my-6">
+        <h1 class="title">Winners</h1>
+    </div>
+    <div class="container is-max-desktop mb-4">
+        <a href="/admin/createWinner" class="button is-fullwidth is-link is-outlined">
+            <span class="icon">
+            <i class="fa-solid fa-plus"> </i>
+            </span>
+            <span>Create New Winner Card</span>
+         </a>
+    </div>
+    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+        {{#if winners}}
+            {{#each winners}}
+
+                <!-- Competition Column -->
+                <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
+                    <a href="/admin/editWinner/{{this.id}}" class="is-link">
+                        <div class="card" style="">
+                            <header class="card-header">
+                                {{#if this.visible}}
+                                    <p class="card-header-title">Visible</p>
+                                    <button class="card-header-icon" aria-label="more options">
+                                        <span class="icon">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </span>
+                                    </button>
+                                {{else}}
+                                    <p class="card-header-title">Not Visible</p>
+                                    <button class="card-header-icon" aria-label="more options">
+                                        <span class="icon">
+                                            <i class="fa-solid fa-eye-slash"></i>
+                                        </span>
+                                    </button>
+                                {{/if}}
+                            </header>
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="{{this.imagePath}}" alt="Winner Image" />
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="content" style="height: 100px;">
+                                    <p class="title is-4">{{this.title}}</p>
+                                    <p class="subtitle is-6">{{this.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="column is-full">
+                <div class="notification">
+                    <p>No winners to show.</p>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</div>

@@ -17,13 +17,9 @@ User:
 
 
 Other:
-
 - Coupons
 - Setup stripe for payments
-- Update footer
-- Update FAQ
 - Add functionality for instant win competitions?
-- Try to carry over basket when logged out then logging in
 
 
 Admin functionality:
@@ -57,9 +53,13 @@ User:
 - functionality to edit shipping address
 - Make sure only users with accounts can purchase tickets?
 
+
 Other:
 - Recode buy ticket post route to use an async function for readability
 - Add partial for DOB for billing address & Country dropdown
+- Update FAQ
+- Update footer
+- Try to carry over basket when logged out then logging in
 
 
 Competition:

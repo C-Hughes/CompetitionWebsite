@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 
 var Competition = require('../models/competition');
 var User = require('../models/user');
+var Winner = require('../models/winner');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -23,7 +24,6 @@ const sessionSchema = new mongoose.Schema({
 
 // Create a model for the sessions collection
 const Session = mongoose.model('Session', sessionSchema);
-
 
 /* MUST BE LOGGED IN AND ADMIN TO ACCESS BELOW */
 router.use('/', isAdmin, function(req, res, next) {
@@ -87,14 +87,21 @@ router.get('/editCompetition/:id', function(req, res, next) {
 
 
 router.get('/winners', function(req, res, next) {
-    res.render('admin/winners', { title: 'Winners', active: { winners: true } });
+    var success = req.flash('success');
+    Winner.find({})
+    .then(foundWinners => {
+        res.render('admin/winners', {title: 'Winners', active: { winners: true }, winners: foundWinners, success: success, hasSuccess: success.length > 0});
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 
 router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
 });
-  
+
 
 router.get('/users', function(req, res, next) {
     var success = req.flash('success');
