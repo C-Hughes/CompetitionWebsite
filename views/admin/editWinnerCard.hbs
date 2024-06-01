@@ -37,7 +37,7 @@
 
 
 <div class="container is-max-widescreen">
-    <form action="/admin/editWinner/{{this.id}}" method="post">
+    <form action="/admin/updateWinner/{{this.id}}" method="post">
         <div class="card">
             <div class="card-content">
                 <label class="label">Main Image</label>
@@ -81,7 +81,7 @@
                     <div class="field">
                         <label class="label">Winner Card Description</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]" value="{{winner.description}}">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{winner.description}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -91,7 +91,7 @@
                     <div class="field">
                         <label class="label">Competition ID</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID" value="{{winner.competitionReference}}">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{winner.competitionReference}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
@@ -106,6 +106,7 @@
                     </div>
 
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                    <input type="hidden" name="winnerID" value="{{winner._id}}"> 
                     <button type="submit" class="button is-medium is-fullwidth is-link">Update Winner Card</button>
                 </div>
             </div>

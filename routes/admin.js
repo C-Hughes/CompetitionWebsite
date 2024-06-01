@@ -603,7 +603,7 @@ router.post('/updateWinner', async (req, res, next) => {
     //If no competition id is submitted with the form
     if (!req.body.winnerID) {
         req.flash('error', 'Winner ID Missing');
-        return res.redirect('/admin/editCompetition/' + req.body.compID);
+        return res.redirect('/admin/editWinner/' + req.body.winnerID);
     }
 
     //Set mainImageFile to current compImagePath
@@ -640,7 +640,7 @@ router.post('/updateWinner', async (req, res, next) => {
         } catch (err) {
             //console.log("error path: " + uploadPath);
             req.flash('error', 'Error uploading image - ' + uploadPath);
-            return res.redirect('/admin/editCompetition/' + req.body.compID);
+            return res.redirect('/admin/editWinner/' + req.body.compID);
         }
     }
 
