@@ -123,7 +123,7 @@ passport.use('local.login', new LocalStrategy({
     }
 
     //Find email for login
-    User.findOne({'email': username})
+    User.findOne({ "email" : { $regex : new RegExp(username, "i") } })
     .then((user) => {
         if (user) {
             console.log('found user email = '+ user);
@@ -136,7 +136,7 @@ passport.use('local.login', new LocalStrategy({
             }
         } else {
             //Find username for login
-            User.findOne({'username':username})
+            User.findOne({ "username" : { $regex : new RegExp(username, "i") } })
             .then((foundUser) => {
                 if (foundUser && foundUser.validPassword(password)) {
                     console.log(req.session);
