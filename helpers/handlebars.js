@@ -41,7 +41,7 @@ module.exports = {
         return new Date(entryCloseDate.getTime()) < Date.now() ? options.fn(this) : options.inverse(this);
     },
     ifClosingSoon: function(entryCloseDate, options){
-        //If competition is closing soon (1 hour), do not allow users to buy
+        //If competition is closing soon (1 hour), show warning on competition page
         var ONE_HOUR = 60 * 60 * 1000; /* ms */
         return ((new Date(entryCloseDate.getTime() - ONE_HOUR) < Date.now()) && (new Date(entryCloseDate.getTime()) > Date.now())) ? options.fn(this) : options.inverse(this);
     },

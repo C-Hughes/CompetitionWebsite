@@ -248,7 +248,12 @@ router.post('/updateCompetition', async (req, res, next) => {
         req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
         return res.redirect('/admin/editCompetition/'+req.body.compID+'');
     }
-    
+    //Check that competition entry closing date is at least 30 mins before draw date
+    var THIRTY_MINS = 30 * 60 * 1000; /* ms */
+    if(new Date(new Date(req.body.entryCloseDate).getTime() + THIRTY_MINS) > new Date(new Date(req.body.drawDate).getTime())){
+        req.flash('error', 'The Entry Close Date '+new Date(req.body.entryCloseDate)+' must be at least 30 mins before draw date '+new Date(req.body.drawDate));
+        return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+    }
 
     // If a new image has been uploaded
     if (req.files && req.files.mainImageUpload) {
@@ -385,7 +390,12 @@ router.post('/createCompetition', async (req, res) => {
             req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
             return res.redirect('/admin/editCompetition/'+req.body.compID+'');
         }
-
+        //Check that competition entry closing date is at least 30 mins before draw date
+        var THIRTY_MINS = 30 * 60 * 1000; /* ms */
+        if(new Date(new Date(req.body.entryCloseDate).getTime() + THIRTY_MINS) > new Date(new Date(req.body.drawDate).getTime())){
+            req.flash('error', 'The Entry Close Date '+new Date(req.body.entryCloseDate)+' must be at least 30 mins before draw date '+new Date(req.body.drawDate));
+            return res.redirect('/admin/editCompetition/'+req.body.compID+'');
+        }
         // If a new image has been uploaded
         if (req.files && req.files.mainImageUpload) {
             //console.log(req.files.mainImageUpload);
