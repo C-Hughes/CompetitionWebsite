@@ -17,6 +17,9 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
+    //console.log('Session Basket'+JSON.stringify(req.session.basket));
+
     Ticket.find({userReference: req.user})
     .then(foundTickets => {
         if (foundTickets) {

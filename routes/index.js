@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+const fs = require('fs');
+
 var Competition = require('../models/competition');
 var Basket = require('../models/basket');
 var Order = require('../models/order');
 var BillingAddress = require('../models/billingAddress');
 var Ticket = require('../models/ticket');
-const fs = require('fs');
+var User = require('../models/user');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -57,10 +60,24 @@ router.get('/websiteSecurity', function(req, res, next) {
 });
 
 router.get('/logout', function(req, res, next) {
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
-    });
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        const userBasket = req.session.basket;
+
+        User.findByIdAndUpdate(userId, { basket: userBasket })
+        .then((updatedUser) => {
+            //console.log(updatedUser);
+            req.logout(function(err) {
+                if (err) { return next(err); }
+                res.redirect('/');
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.get('/competition/:id', function(req, res, next) {
@@ -523,11 +540,67 @@ router.post('/login', passport.authenticate('local.login', {
 }));
 */
 
-router.post('/login', (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     // Store the current basket temporarily in the session
     const basketBeforeLogin = req.session.basket;
 
-    passport.authenticate('local.login', (err, user, info) => {
+    try {
+        const { user, info } = await new Promise((resolve, reject) => {
+            passport.authenticate('local.login', (err, user, info) => {
+                if (err) return reject(err);
+                if (!user) return resolve({ user: null, info });
+                resolve({ user, info });
+            })(req, res, next);
+        });
+
+        if (!user) {
+            return res.redirect('/login'); // Login failed
+        }
+
+        await new Promise((resolve, reject) => {
+            req.logIn(user, (err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+
+        if (basketBeforeLogin) {
+            // Restore the basket from the temporary variable
+            req.session.basket = basketBeforeLogin || {};
+        } else {
+            //Set basket and update basket if basket was present when last logged in
+            var basket = new Basket(user.basket);
+            await basket.updateBasket(); // Update the basket
+            req.session.basket = basket;
+        }
+        
+        return res.redirect('/user'); // Login successful
+
+    } catch (err) {
+        return next(err);
+    }
+});
+
+
+/*
+router.post('/register', passport.authenticate('local.signup', {
+    successRedirect: '/user',
+    failureRedirect: '/login',
+    badRequestMessage : 'SIGNUP Please populate required fields',
+    failureFlash: true
+}));
+*/
+
+router.post('/register', (req, res, next) => {
+    // Store the current basket temporarily in the session
+    const basketBeforeLogin = req.session.basket;
+
+    passport.authenticate('local.signup', {
+        successRedirect: '/user',
+        failureRedirect: '/login',
+        badRequestMessage : 'SIGNUP Please populate required fields',
+        failureFlash: true
+    }, (err, user, info) => {
         if (err) { return next(err); }
         if (!user) {
             return res.redirect('/login'); // Login failed
@@ -544,12 +617,6 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post('/register', passport.authenticate('local.signup', {
-    successRedirect: '/user',
-    failureRedirect: '/login',
-    badRequestMessage : 'SIGNUP Please populate required fields',
-    failureFlash: true
-}));
 
 
 ///////////////////////////////////////////////////

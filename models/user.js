@@ -24,6 +24,7 @@ var userSchema = new Schema({
     usersReferred: {type: Number, required: false, default: 0},
     joindate: {type: Date, default: Date.now, required: true},
     isAdmin: {type: Boolean, required: true, default: false},
+    basket: {type: Object, required: false, default: {}},
     lastlogin: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });
