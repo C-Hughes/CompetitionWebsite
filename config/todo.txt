@@ -16,6 +16,7 @@ User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
+- Take time out radiobuttons and functionality
 
 
 Other:

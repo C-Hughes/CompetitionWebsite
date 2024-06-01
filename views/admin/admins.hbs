@@ -6,3 +6,44 @@
 
 {{> adminNav}}
 
+<div class="container is-max-desktop">
+    <section class="section">
+        <h2 class="title">
+            Add Administrator
+        </h2>
+    </section>
+
+    <div class="mx-3">
+        <div class="container">
+            <form action="/admin/addAdministrator" method="post">
+                <div class="field">
+                    <label class="label">User Account Name or Email Address</label>
+                    <div class="control has-icons-left">
+                        <input id="addAdminName" name="addAdminName" class="input" type="text" placeholder="User Name or Email Address">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field-body">
+                    <div class="field">
+                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                        <div class="control">
+                            <button type="submit" class="button is-danger">Add Administrator</button>
+                        </div>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+
+    <hr></hr>
+
+    <section class="section">
+        <h2 class="title">
+            Administrators
+        </h2>
+    </section>
+    
+</div>
