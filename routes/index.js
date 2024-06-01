@@ -70,7 +70,7 @@ router.get('/competition/:id', function(req, res, next) {
     Competition.findOne({ _id: compID })
     .then((foundCompetition) => {
         if (foundCompetition) {
-            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, error: error, hasError: error.length > 0 });
+            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, error: error, hasError: error.length > 0});
         } else {
             //req.flash('error', 'This competition does not exists.');
             console.log("Not Found");
@@ -128,6 +128,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                             title: 'Win This ' + foundCompetition.title + '!',
                             competition: foundCompetition,
                             addedToBasket: true,
+                            ticketQty: ticketQty,
                             error: [],
                             hasError: false,
                             additionalCompetition: foundAdditionalCompetition
