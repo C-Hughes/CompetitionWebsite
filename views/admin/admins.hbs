@@ -46,4 +46,20 @@
         </h2>
     </section>
     
+    {{# each admins}}
+        <div class="container notification">
+            <div class="columns is-vcentered is-mobile">
+                <div class="column">
+                    <p class="title is-6">{{this.username}}</p>
+                </div>
+                <div class="column is-2 is-flex is-justify-content-center is-align-items-center">
+                    <a href="/removeAdmin/{{this._id}}" class="button is-danger">
+                        <span class="icon">
+                            <i class="fa-solid fa-trash"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{/each}}
 </div>

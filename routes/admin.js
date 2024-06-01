@@ -10,6 +10,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 });
 
 var Competition = require('../models/competition');
+var User = require('../models/user');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -101,7 +102,16 @@ router.get('/users', function(req, res, next) {
 
 
 router.get('/admins', function(req, res, next) {
-    res.render('admin/admins', { title: 'Admins', active: { admins: true } });
+    var success = req.flash('success');
+    var errors = req.flash('error');
+    
+    User.find({isAdmin: true})
+      .then(foundAdmins => {
+        res.render('admin/admins', { title: 'Admins', active: { admins: true }, admins: foundAdmins, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0 }); 
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 //Get route to delete a competitions additional photo
