@@ -90,7 +90,7 @@ router.get('/winners', function(req, res, next) {
     var success = req.flash('success');
     Winner.find({})
     .then(foundWinners => {
-        res.render('admin/winners', {title: 'Winners', active: { winners: true }, winners: foundWinners, success: success, hasSuccess: success.length > 0});
+        res.render('admin/winners', {title: 'Winners', active: { winners: true }, winners: foundWinners, hasWinners: foundWinners.length > 0, success: success, hasSuccess: success.length > 0});
     })
     .catch(err => {
         console.log(err);
@@ -100,6 +100,25 @@ router.get('/winners', function(req, res, next) {
 router.get('/createWinner', function(req, res, next) {
     var errors = req.flash('error');
     res.render('admin/createWinnerCard', { title: 'Create Winner Card', active: { winners: true }, error: errors, errors: errors.length > 0 });
+});
+
+router.get('/editWinner/:id', function(req, res, next) {
+    var winnerID = req.params.id;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    Winner.findOne({_id: winnerID})
+      .then(foundWinner => {
+            if(foundWinner){
+                res.render('admin/editWinnerCard', {title: 'Edit Winner', active: { winner: true }, winner: foundWinner, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("Error finding winner");
+                return res.render('admin/winners', { title: 'Winners', active: { winner: true }});
+            }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get('/discounts', function(req, res, next) {
@@ -576,6 +595,76 @@ router.post('/createWinner', async (req, res) => {
         console.log(err);
         req.flash('error', 'Error Creating Winner Card');
         res.redirect('/admin/createWinner');
+    }
+});
+
+router.post('/updateWinner', async (req, res, next) => {
+
+    //If no competition id is submitted with the form
+    if (!req.body.winnerID) {
+        req.flash('error', 'Winner ID Missing');
+        return res.redirect('/admin/editCompetition/' + req.body.compID);
+    }
+
+    //Set mainImageFile to current compImagePath
+    var mainImageFile = req.body.winnerImagePath;
+    //console.log('updateCompetition req.body = ' + JSON.stringify(req.body));
+
+    //Input Validation
+    req.checkBody('title', 'Title cannot be empty').notEmpty();
+    req.checkBody('description', 'Description cannot be empty').notEmpty();
+    req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/editWinner/'+req.body.winnerID);
+    }
+
+    // If a new image has been uploaded
+    if (req.files && req.files.mainImageUpload) {
+        //console.log(req.files.mainImageUpload);
+
+        mainImageFile = req.files.mainImageUpload;
+        const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
+
+        try {
+            await moveFile(mainImageFile, uploadPath);
+            mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+            //console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+            //console.log('New Main Image - '+mainImageFile);
+        } catch (err) {
+            //console.log("error path: " + uploadPath);
+            req.flash('error', 'Error uploading image - ' + uploadPath);
+            return res.redirect('/admin/editCompetition/' + req.body.compID);
+        }
+    }
+
+    // Set visible and active checkboxes
+    const visible = req.body.visible === 'on';
+
+    var winnerUpdate = {
+        imagePath: mainImageFile,
+        title: req.body.title,
+        description: req.body.description,
+        competitionReference: req.body.compID,
+        visible: visible,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await Winner.findOneAndUpdate({ _id: req.body.winnerID }, winnerUpdate, { upsert: false });
+
+        req.flash('success', 'Winner Card Successfully Updated');
+        res.redirect('/admin/editWinner/' + req.body.winnerID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Winner Card');
+        res.redirect('/admin/editWinner/' + req.body.winnerID);
     }
 });
 

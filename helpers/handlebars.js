@@ -101,7 +101,7 @@ module.exports = {
         this.hasVisibleWinners = hasVisible;
         return options.fn(this);
     },
-    checkInactiveWinners: function(winners, options){
+    checkInvisibleWinners: function(winners, options){
         let hasInvisible = false;
         // Iterate through winners to check for visible ones
         for (let i = 0; i < winners.length; i++) {

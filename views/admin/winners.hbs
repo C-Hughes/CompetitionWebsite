@@ -37,10 +37,10 @@
             <ul>
                 <li class="is-active">
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
-                        {{#if hasCompetitions}}
+                        {{#if hasWinners}}
                             {{#checkVisibleWinners winners}}
                                 {{#each winners}}
-                                    {{#if this.active}}
+                                    {{#if this.visible}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                                             <a href="/admin/editWinner/{{this.id}}" class="is-link">
@@ -97,13 +97,13 @@
                 </li>
                 <li>
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
-                        {{#if hasCompetitions}}
+                        {{#if hasWinners}}
                             {{#checkInvisibleWinners winners}}
                                 {{#each winners}}
-                                    {{#unless this.active}}
+                                    {{#unless this.visible}}
                                     <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/admin/editCompetition/{{this.id}}" class="is-link">
+                                            <a href="/admin/editWinner/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
                                                     <header class="card-header">
                                                         {{#if this.visible}}
