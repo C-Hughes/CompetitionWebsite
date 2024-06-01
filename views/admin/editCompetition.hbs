@@ -98,9 +98,6 @@
                         </label>
                     </div>
 
-
-
-
                     <div class="field">
                         <label class="label">Title</label>
                         <div class="control has-icons-left">
@@ -110,24 +107,37 @@
                             </span>
                         </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Cash Alternative</label>
-                        <div class="control has-icons-left">
-                            <input id="cashAlternative" name="cashAlternative" class="input" type="text" placeholder="Cash Alternative" value="{{competition.cashAlternative}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Cash Alternative</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="cashAlternative" name="cashAlternative" type="text" class="input" placeholder="Cash Alternative" value="{{competition.cashAlternative}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="cashAlternativeBtn" class="button is-medium is-info" onclick="toggleEditInput('cashAlternative', 'cashAlternativeBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Price</label>
-                        <div class="control has-icons-left">
-                            <input id="price" name="price" class="input is-primary" type="text" placeholder="Price" value="{{competition.price}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Price</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="price" name="price" type="text" class="input  is-primary" placeholder="Price" value="{{competition.price}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="priceBtn" class="button is-medium is-info" onclick="toggleEditInput('price', 'priceBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <div class="field">
                         <label class="label">Discount Price (Leave empty if no discount)</label>
                         <div class="control has-icons-left">
@@ -138,6 +148,7 @@
                         </div>
                         <input type="hidden" name="oldDiscountPrice" value="{{competition.discountPrice}}">   
                     </div>
+
                     <div class="field">
                         <label class="label">Current Entries</label>
                         <div class="control has-icons-left">
@@ -151,78 +162,129 @@
                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
                         <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>
                     </div>
-                    <div class="field">
-                        <label class="label">Max Entries</label>
-                        <div class="control has-icons-left">
-                            <input id="maxEntries" name="maxEntries" class="input" type="text" placeholder="Max Entries" value="{{competition.maxEntries}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Max Entries</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="maxEntries" name="maxEntries" type="text" class="input" placeholder="Max Entries" value="{{competition.maxEntries}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="maxEntriesBtn" class="button is-medium is-info" onclick="toggleEditInput('maxEntries', 'maxEntriesBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Max Entries Per Person</label>
-                        <div class="control has-icons-left">
-                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" class="input" type="text" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Max Entries Per Person</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" type="text" class="input" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="maxEntriesPerPersonBtn" class="button is-medium is-info" onclick="toggleEditInput('maxEntriesPerPerson', 'maxEntriesPerPersonBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Max Postal Votes Per Person</label>
-                        <div class="control has-icons-left">
-                            <input id="maxPostalVotes" name="maxPostalVotes" class="input" type="text" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}">
-                            <span class="icon is-small is-left">
+
+
+                    <label class="label">Max Postal Votes Per Person</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="maxPostalVotes" name="maxPostalVotes" type="text" class="input" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-envelope"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="maxPostalVotesBtn" class="button is-medium is-info" onclick="toggleEditInput('maxPostalVotes', 'maxPostalVotesBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Draw Date (Format: 2024-12-25:19:00)</label>
-                        <div class="control has-icons-left">
-                            <input id="drawDate" name="drawDate" class="input" type="text" placeholder="Draw Date" value="{{competition.drawDate}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Draw Date (Format: 2024-12-25:19:00)</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="drawDate" name="drawDate" type="text" class="input" placeholder="Draw Date" value="{{competition.drawDate}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="drawDateBtn" class="button is-medium is-info" onclick="toggleEditInput('drawDate', 'drawDateBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Entry Close Date (Format: 2024-12-25:18:00)</label>
-                        <div class="control has-icons-left">
-                            <input id="entryCloseDate" name="entryCloseDate" class="input" type="text" placeholder="Entry Close Date" value="{{competition.entryCloseDate}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Entry Close Date (Format: 2024-12-25:18:00)</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="entryCloseDate" name="entryCloseDate" type="text" class="input" placeholder="Entry Close Date" value="{{competition.entryCloseDate}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-clock"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="entryCloseDateBtn" class="button is-medium is-info" onclick="toggleEditInput('entryCloseDate', 'entryCloseDateBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Question Text</label>
-                        <div class="control has-icons-left">
-                            <input id="questionText" name="questionText" class="input" type="text" placeholder="Question Text" value="{{competition.questionText}}">
-                            <span class="icon is-small is-left">
+
+                    <label class="label">Question Text</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="questionText" name="questionText" type="text" class="input" placeholder="Question Text" value="{{competition.questionText}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-question"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="questionTextBtn" class="button is-medium is-info" onclick="toggleEditInput('questionText', 'questionTextBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
-                        <div class="control has-icons-left">
-                            <input id="questionAnswers" name="questionAnswers" class="input" type="text" placeholder="Question Answers" value="{{competition.questionAnswers}}">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-circle-question"></i>
+
+                    <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="questionAnswers" name="questionAnswers" type="text" class="input" placeholder="Question Answers" value="{{competition.questionAnswers}}" readonly>
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-list-ol"></i>
                             </span>
                         </div>
-                    </div>  
-                    <div class="field">
-                        <label class="label">Correct Answer</label>
-                        <div class="control has-icons-left">
-                            <input id="correctAnswer" name="correctAnswer" class="input" type="text" placeholder="Correct Answer" value="{{competition.correctAnswer}}">
-                            <span class="icon is-small is-left">
+                        <div class="control">
+                            <button id="questionAnswersBtn" class="button is-medium is-info" onclick="toggleEditInput('questionAnswers', 'questionAnswersBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="label">Correct Answer</label>
+                    <div class="field has-addons">
+                        <div class="control is-expanded has-icons-left">
+                            <input id="correctAnswer" name="correctAnswer" type="text" class="input" placeholder="Correct Answer" value="{{competition.correctAnswer}}" readonly>
+                            <span class="icon is-left">
                                 <i class="fa-solid fa-circle-check"></i>
                             </span>
                         </div>
+                        <div class="control">
+                            <button id="correctAnswerBtn" class="button is-medium is-info" onclick="toggleEditInput('correctAnswer', 'correctAnswerBtn')" type="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </div>
+
+
                     <div class="field">
                         <label class="label">Competition Description</label>
                         <div class="control">

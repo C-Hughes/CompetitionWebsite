@@ -96,4 +96,14 @@
         console.log("Your browser does not support File API");
     }
 }
+
+function toggleEditInput(id, buttonId){
+    var input = document.getElementById(id);
+    var button = document.getElementById(buttonId);
+
+    if (input.readOnly == true) {
+        input.readOnly = false;
+        button.disabled = true;
+    }
+}
 </script>
