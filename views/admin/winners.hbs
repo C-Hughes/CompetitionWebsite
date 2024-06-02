@@ -46,6 +46,14 @@
                                             <a href="/admin/editWinner/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
                                                     <header class="card-header">
+                                                        {{#if this.pinned}}
+                                                            <p class="card-header-title">Pinned</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-thumbtack"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
                                                         {{#if this.visible}}
                                                             <p class="card-header-title">Visible</p>
                                                             <button class="card-header-icon" aria-label="more options">
@@ -106,6 +114,14 @@
                                             <a href="/admin/editWinner/{{this.id}}" class="is-link">
                                                 <div class="card" style="">
                                                     <header class="card-header">
+                                                        {{#if this.pinned}}
+                                                            <p class="card-header-title">Pinned</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-thumbtack"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
                                                         {{#if this.visible}}
                                                             <p class="card-header-title">Visible</p>
                                                             <button class="card-header-icon" aria-label="more options">
