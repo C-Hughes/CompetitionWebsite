@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
     try {
         const success = req.flash('success');
         const foundCompetition = await Competition.find({});
-        const foundWinnerCards = await Winner.find({}).limit(3);
+        const foundWinnerCards = await Winner.find({pinned: true}).limit(9);
 
         res.render('index', {
             title: 'Giveaway Home',
@@ -60,7 +60,7 @@ router.get('/winners', function(req, res, next) {
 router.get('/winner/:id', function(req, res, next) {
     var winnerID = req.params.id;
 
-    Winner.findOne({ _id: winnerID })
+    Winner.findOne({ _id: winnerID})
     .then((foundWinner) => {
         if (foundWinner) {
             res.render('winner', {title: foundWinner.title, active: { winners: true }, winner: foundWinner});
