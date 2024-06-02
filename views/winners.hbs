@@ -10,33 +10,68 @@
 
 <div class="block">
     <div class="container is-max-fullhd">
-        <div class="columns is-vcentered">
-
+        <div class="columns is-vcentered  is-flex is-justify-content-center">
             {{# each winners}}
                 {{#if this.visible}}
-                    <!-- Column 1 -->
-                    <div class="column is-4 has-text-centered">
-                        <a href="/winner/{{this.id}}" class="is-link">
-                            <div class="card">
-                                <div class="card-image">
-                                <figure class="image is-4by3">
-                                    <img
-                                    src="{{this.imagePath}}"
-                                    alt="Winner Image"
-                                    />
-                                </figure>
-                                </div>
-                                <div class="card-content">
-                                    <div style="height: 120px">
-                                        <p class="title is-4">{{this.title}}</p>
-                                        <p class="subtitle is-6">{{this.description}}</p>
+                    {{#if this.pinned}}
+                        <!-- Column 1 -->
+                        <div class="column is-4 has-text-centered">
+                            <a href="/winner/{{this.id}}" class="is-link">
+                                <div class="card">
+                                    <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img
+                                        src="{{this.imagePath}}"
+                                        alt="Winner Image"
+                                        />
+                                    </figure>
+                                    </div>
+                                    <div class="card-content">
+                                        <div style="height: 120px">
+                                            <p class="title is-4">{{this.title}}</p>
+                                            <p class="subtitle is-6">{{this.description}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>    
-                    </div>
+                            </a>    
+                        </div>
+                    {{/if}}
                 {{/if}}
             {{/each}}
+        </div>
+
+        <div class="columns is-vcentered is-flex is-justify-content-center">
+            {{# each winners}}
+                {{#if this.visible}}
+                    {{#unless this.pinned}}
+                        <!-- Column 1 -->
+                        <div class="column is-4 has-text-centered">
+                            <a href="/winner/{{this.id}}" class="is-link">
+                                <div class="card">
+                                    <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img
+                                        src="{{this.imagePath}}"
+                                        alt="Winner Image"
+                                        />
+                                    </figure>
+                                    </div>
+                                    <div class="card-content">
+                                        <div style="height: 120px">
+                                            <p class="title is-4">{{this.title}}</p>
+                                            <p class="subtitle is-6">{{this.description}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>    
+                        </div>
+                    {{/unless}}
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+            
         </div>
     </div>
 </div>
