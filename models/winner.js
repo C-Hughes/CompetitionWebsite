@@ -7,6 +7,7 @@ var winnerSchema = new Schema({
     description: {type: String, required: true},
     competitionReference: {type: Schema.Types.ObjectId, ref: 'Competition', required: true},
     visible: {type: Boolean, required: true, default: false},
+    pinned: {type: Boolean, required: true, default: false},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true},
 });
