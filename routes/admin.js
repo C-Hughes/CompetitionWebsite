@@ -574,11 +574,16 @@ router.post('/createWinner', async (req, res) => {
                 return res.redirect('/admin/createWinner/');
             }
         }
+
+        const visible = req.body.visible === 'on';
+        const pinned = req.body.pinned === 'on';
         
         const newWinner = new Winner({
             imagePath: mainImageFile,
             title: req.body.title,
             description: req.body.description,
+            visible: visible,
+            pinned: pinned,
             competitionReference: req.body.compID,
         });
 
@@ -652,6 +657,7 @@ router.post('/updateWinner', async (req, res, next) => {
 
     // Set visible and active checkboxes
     const visible = req.body.visible === 'on';
+    const pinned = req.body.pinned === 'on';
 
     var winnerUpdate = {
         imagePath: mainImageFile,
@@ -659,6 +665,7 @@ router.post('/updateWinner', async (req, res, next) => {
         description: req.body.description,
         competitionReference: req.body.compID,
         visible: visible,
+        pinned: pinned,
         lastUpdated: new Date().toISOString(),
     };
 

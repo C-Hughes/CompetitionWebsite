@@ -104,6 +104,13 @@
                         <label for="PostalCheckbox">Visible</label>
                     </div>
 
+                    <div class="field">
+                        <label class="label">Is Pinned</label>
+                        <i class="fa-solid fa-thumbtack"></i>
+                        <input id="pinned" name="pinned" type="checkbox" {{#if winner.pinned}}checked{{/if}}>
+                        <label for="PostalCheckbox">Pinned</label>
+                    </div>
+
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}">
                     <input type="hidden" name="winnerID" value="{{winner._id}}"> 
                     <button type="submit" class="button is-medium is-fullwidth is-link">Update Winner Card</button>
