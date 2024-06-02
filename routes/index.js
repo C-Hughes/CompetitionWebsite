@@ -43,7 +43,18 @@ router.get('/results', function(req, res, next) {
 });
 
 router.get('/winners', function(req, res, next) {
-    res.render('winners', { title: 'Winners', active: { winners: true } });
+    Winner.find({}).limit(30)
+    .then((foundWinners) => {
+        if (foundWinners) {
+            res.render('winners', {title: 'Winners', active: { winners: true }, winners: foundWinners});
+        } else {
+            console.log("Winners not Found");
+            res.redirect('/');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get('/winner/:id', function(req, res, next) {
