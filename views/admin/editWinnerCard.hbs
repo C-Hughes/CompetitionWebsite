@@ -37,7 +37,7 @@
 
 
 <div class="container is-max-widescreen">
-    <form action="/admin/updateWinner/{{this.id}}" method="post">
+    <form action="/admin/updateWinner" id='updateWinnerForm' method="post" enctype="multipart/form-data" ref='updateWinnerForm' >
         <div class="card">
             <div class="card-content">
                 <label class="label">Main Image</label>
@@ -50,7 +50,7 @@
                         style="max-width: 400px; max-height: 400px"    
                     />
                     </figure>
-                    <input type="hidden" name="compImagePath" value="{{competition.imagePath}}">  
+                    <input type="hidden" name="winnerImagePath" value="{{winner.imagePath}}">  
                 </div>
 
                 <div class="container">
@@ -66,7 +66,6 @@
                             <span class="file-name"> ... </span>
                         </label>
                     </div>
-
 
                     <div class="field">
                         <label class="label">Title</label>

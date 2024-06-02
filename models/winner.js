@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var winnerSchema = new Schema({
-    imagePath: {type: String, required: false},
+    imagePath: {type: String, required: true},
     title: {type: String, required: true},
     description: {type: String, required: true},
     competitionReference: {type: Schema.Types.ObjectId, ref: 'Competition', required: true},

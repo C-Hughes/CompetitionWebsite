@@ -598,6 +598,7 @@ router.post('/createWinner', async (req, res) => {
     }
 });
 
+//Edit winner card
 router.post('/updateWinner', async (req, res, next) => {
 
     //If no competition id is submitted with the form
@@ -608,7 +609,7 @@ router.post('/updateWinner', async (req, res, next) => {
 
     //Set mainImageFile to current compImagePath
     var mainImageFile = req.body.winnerImagePath;
-    //console.log('updateCompetition req.body = ' + JSON.stringify(req.body));
+    //console.log('updateWinner req.body = ' + JSON.stringify(req.body));
 
     //Input Validation
     req.checkBody('title', 'Title cannot be empty').notEmpty();
@@ -625,9 +626,11 @@ router.post('/updateWinner', async (req, res, next) => {
         return res.redirect('/admin/editWinner/'+req.body.winnerID);
     }
 
+    console.log(req.files);
     // If a new image has been uploaded
     if (req.files && req.files.mainImageUpload) {
-        //console.log(req.files.mainImageUpload);
+        console.log('TRUE');
+        console.log(req.files.mainImageUpload);
 
         mainImageFile = req.files.mainImageUpload;
         const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
@@ -635,13 +638,16 @@ router.post('/updateWinner', async (req, res, next) => {
         try {
             await moveFile(mainImageFile, uploadPath);
             mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
-            //console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
-            //console.log('New Main Image - '+mainImageFile);
+            console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+            console.log('New Main Image - '+mainImageFile);
         } catch (err) {
             //console.log("error path: " + uploadPath);
             req.flash('error', 'Error uploading image - ' + uploadPath);
-            return res.redirect('/admin/editWinner/' + req.body.compID);
+            return res.redirect('/admin/editWinner/' + req.body.winnerID);
         }
+    } else {
+        req.flash('error', 'Winner image is required');
+        return res.redirect('/admin/editWinner/' + req.body.winnerID);
     }
 
     // Set visible and active checkboxes
