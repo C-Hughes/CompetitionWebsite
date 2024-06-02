@@ -645,7 +645,7 @@ router.post('/updateWinner', async (req, res, next) => {
             req.flash('error', 'Error uploading image - ' + uploadPath);
             return res.redirect('/admin/editWinner/' + req.body.winnerID);
         }
-    } else {
+    } else if (!mainImageFile) {
         req.flash('error', 'Winner image is required');
         return res.redirect('/admin/editWinner/' + req.body.winnerID);
     }
