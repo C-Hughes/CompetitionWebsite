@@ -9,18 +9,29 @@ var Order = require('../models/order');
 var BillingAddress = require('../models/billingAddress');
 var Ticket = require('../models/ticket');
 var User = require('../models/user');
+var Winner = require('../models/winner');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    var success = req.flash('success');
-    Competition.find({})
-      .then(foundCompetition => {
-            res.render('index', {title: 'Giveaway Home', competitions: foundCompetition, areCompetitions: foundCompetition.length > 0, active: { home: true }, success: success, hasSuccess: success.length > 0});
-    })
-      .catch(err => {
-            console.log(err);
-    });
+router.get('/', async (req, res, next) => {
+    try {
+        const success = req.flash('success');
+        const foundCompetition = await Competition.find({});
+        const foundWinnerCards = await Winner.find({}).limit(3);
+
+        res.render('index', {
+            title: 'Giveaway Home',
+            competitions: foundCompetition,
+            areCompetitions: foundCompetition.length > 0,
+            winners: foundWinnerCards,
+            active: { home: true },
+            success: success,
+            hasSuccess: success.length > 0
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);  // Pass the error to the error handling middleware
+    }
 });
 
 router.get('/faq', function(req, res, next) {
@@ -35,8 +46,22 @@ router.get('/winners', function(req, res, next) {
     res.render('winners', { title: 'Winners', active: { winners: true } });
 });
 
-router.get('/winner', function(req, res, next) {
-    res.render('winner', { title: 'Winner', active: { winners: true } });
+router.get('/winner/:id', function(req, res, next) {
+    var winnerID = req.params.id;
+
+    Winner.findOne({ _id: winnerID })
+    .then((foundWinner) => {
+        if (foundWinner) {
+            res.render('winner', {title: foundWinner.title, active: { winners: true }, winner: foundWinner});
+        } else {
+            //req.flash('error', 'This competition does not exists.');
+            console.log("Not Found");
+            res.redirect('/');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get(['/termsandconditions', '/terms&conditions', '/t&cs','/tandcs'], function(req, res, next) {
