@@ -23,10 +23,8 @@ Other:
 
 
 Admin functionality:
-- Page that shows a list of all admins
-- Ability to add users as admins / remove admins
 - Administrate coupon codes
-- Add / Edit winners on winner pages
+
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
@@ -60,7 +58,8 @@ Other:
 - Update FAQ
 - Update footer
 - Try to carry over basket when logged out then logging in
-
+- Winners in DB appear on Index page and /winners page
+- Add pinned functionality for winners Cards
 
 Competition:
 - Add additional images for competitions
@@ -80,7 +79,9 @@ Competition:
 Admin:
 - Add / Edit competitions
 - Add check to edit/create competition so last entry to competion cannot be more less than 30 mins before draw date
-
+- Ability to add users as admins / remove admins
+- Add / Edit winners on winner pages
+- Page that shows a list of all admins
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'
