@@ -45,25 +45,43 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/correctEntries/:id/:correctAnswer', function(req, res, next) {
-    var compID = req.params.id;
-    var compCorrectAnswer = req.params.correctAnswer;
-    var success = req.flash('success');
-    var errors = req.flash('error');
+router.get('/correctEntries/:id/:correctAnswer', async (req, res, next) => {
+    const compID = req.params.id;
+    const compCorrectAnswer = req.params.correctAnswer;
+    const success = req.flash('success');
+    const errors = req.flash('error');
 
-    Ticket.find({competitionReference: compID, compAnswer: compCorrectAnswer})
-      .then(foundTickets => {
-            if(foundTickets){
-                res.render('admin/correctEntries', {title: 'View Correct Entries', active: { dashboard: true }, tickets: foundTickets, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
-            } else {
-                console.log("Error finding competition");
-                req.flash('error', 'Error finding competition tickets');
-                return res.render('admin/dashboard', { title: 'Dashboard', active: { dashboard: true }});
-            }
-    })
-    .catch(err => {
+    try {
+        const competition = await Competition.findOne({ _id: compID});
+        const foundTickets = await Ticket.find({ competitionReference: compID, compAnswer: compCorrectAnswer });
+
+        if (foundTickets) {
+            res.render('admin/correctEntries', {
+                title: 'View Correct Entries',
+                active: { dashboard: true },
+                competition: competition,
+                tickets: foundTickets,
+                success: success,
+                hasSuccess: success.length > 0,
+                error: errors,
+                errors: errors.length > 0
+            });
+        } else {
+            console.log("Error finding competition");
+            req.flash('error', 'Error finding competition tickets');
+            res.render('admin/dashboard', {
+                title: 'Dashboard',
+                active: { dashboard: true }
+            });
+        }
+    } catch (err) {
         console.log(err);
-    });
+        req.flash('error', 'An error occurred while fetching tickets');
+        res.render('admin/dashboard', {
+            title: 'Dashboard',
+            active: { dashboard: true }
+        });
+    }
 });
 
 router.get('/createCompetition', function(req, res, next) {
