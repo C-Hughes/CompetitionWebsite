@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 var Competition = require('../models/competition');
 var User = require('../models/user');
 var Winner = require('../models/winner');
-var DrawResults = require('../models/drawResults');
+var DrawResult = require('../models/drawResults');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -124,7 +124,7 @@ router.get('/editWinner/:id', function(req, res, next) {
 
 router.get('/drawResults', function(req, res, next) {
     var success = req.flash('success');
-    DrawResults.find({})
+    DrawResult.find({})
     .then(foundResults => {
         res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0});
     })
@@ -719,7 +719,7 @@ router.post('/createDrawResult', async (req, res) => {
         }
 
         //Lookup username and find userID
-        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
+        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
         
         if(returnedUser){
             var userReference = returnedUser._id;
@@ -728,10 +728,9 @@ router.post('/createDrawResult', async (req, res) => {
             return res.redirect('/admin/createDrawResult');
         }
 
-
         const visible = req.body.visible === 'on';
         
-        const newWinner = new Winner({
+        const newDrawResult = new DrawResult({
             competitionReference: req.body.compID,
             userReference: userReference,
             title: req.body.title,
@@ -740,19 +739,19 @@ router.post('/createDrawResult', async (req, res) => {
             visible: visible,
         });
 
-        const savedWinner = await newWinner.save();
+        const savedDrawResult = await newDrawResult.save();
 
-        if (savedWinner) {
-            console.log('Winner Card Saved!');
-            res.redirect('/admin/winners');
+        if (savedDrawResult) {
+            console.log('Draw Result Card Saved!');
+            res.redirect('/admin/drawResults');
         } else {
-            console.log('Error Saving Winner Card');
-            res.redirect('/admin/createWinner');
+            console.log('Error Saving Draw Result Card');
+            res.redirect('/admin/createDrawResult');
         }
     } catch (err) {
         console.log(err);
-        req.flash('error', 'Error Creating Winner Card');
-        res.redirect('/admin/createWinner');
+        req.flash('error', 'Error Creating Draw Result Card');
+        res.redirect('/admin/createDrawResult');
     }
 });
 
