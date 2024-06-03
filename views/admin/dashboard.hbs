@@ -113,8 +113,7 @@
                                                                     <i class="fas fa-ticket"></i>
                                                                 </span>
                                                                 <span>View Correct Entries</span>
-                                                            </a>                                                            
-                                                            
+                                                            </a>                                                             
                                                             <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                                         </div>
                                                     </div>
@@ -148,50 +147,59 @@
                                 {{#each competitions}}
                                     {{#unless this.active}}
                                     <!-- Competition Column -->
-                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/admin/editCompetition/{{this.id}}" class="is-link">
-                                                <div class="card" style="">
-                                                    <header class="card-header">
-                                                        {{#if this.visible}}
-                                                            <p class="card-header-title">Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{else}}
-                                                            <p class="card-header-title">Hidden</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye-slash"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{/if}}
-                                                    </header>
-                                                    <div class="card-image">
-                                                        <figure class="image is-4by3">
-                                                            <img src="{{this.imagePath}}" alt="Competition Image" />
-                                                        </figure>
+                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered is-vcentered">
+                                            <div class="card" style="">
+                                                <header class="card-header">
+                                                    {{#if this.visible}}
+                                                        <p class="card-header-title">Visible</p>
+                                                        <button class="card-header-icon" aria-label="more options">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </span>
+                                                        </button>
+                                                    {{else}}
+                                                        <p class="card-header-title">Hidden</p>
+                                                        <button class="card-header-icon" aria-label="more options">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-eye-slash"></i>
+                                                            </span>
+                                                        </button>
+                                                    {{/if}}
+                                                </header>
+                                                <div class="card-image">
+                                                    <figure class="image is-4by3">
+                                                        <img src="{{this.imagePath}}" alt="Competition Image" />
+                                                    </figure>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="content" style="height: 100px;">
+                                                        <p class="title is-4">Win this {{this.title}}</p>
+                                                        <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                                                     </div>
-                                                    <div class="card-content">
-                                                        <div class="content" style="height: 100px;">
-                                                            <p class="title is-4">Win this {{this.title}}</p>
-                                                            <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
+                                                    <div class="content" style="">
+                                                        <div style="">
+                                                            <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
                                                         </div>
-                                                        <div class="content" style="">
-                                                            <div style="">
-                                                                <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
-                                                            </div>
-                                                            <div style="margin-top: 30px">
-                                                                <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
-                                                                <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                                                <button class="button is-medium is-fullwidth is-link">Edit Competition</button>
-                                                                <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
-                                                            </div>
+                                                        <div style="margin-top: 30px">
+                                                            <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
+                                                            <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
+                                                            <a href="/admin/editCompetition/{{this.id}}" class="button is-medium is-fullwidth is-link">
+                                                                <span class="icon is-small">
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                </span>
+                                                                <span>Edit Competition</span>
+                                                            </a>
+                                                            <a href="/admin/correctEntries/{{this.id}}" class="button is-medium is-fullwidth is-primary mt-2">
+                                                                <span class="icon is-small">
+                                                                    <i class="fas fa-ticket"></i>
+                                                                </span>
+                                                                <span>View Correct Entries</span>
+                                                            </a>  
+                                                            <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     {{/unless}}
                                 {{/each}}
