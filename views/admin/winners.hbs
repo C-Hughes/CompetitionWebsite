@@ -38,7 +38,7 @@
                 <li class="is-active">
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasWinners}}
-                            {{#checkVisibleWinners winners}}
+                            {{#checkVisible winners}}
                                 {{#each winners}}
                                     {{#if this.visible}}
                                         {{#if this.pinned}}
@@ -88,14 +88,14 @@
                                         {{/if}}
                                     {{/if}}    
                                 {{/each}}
-                                {{#unless hasVisibleWinners}}
+                                {{#unless hasVisible}}
                                     <div class="column is-full">
                                         <div class="notification">
                                             <p>No visible winner cards to show.1</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkVisibleWinners}}
+                            {{/checkVisible}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
@@ -165,7 +165,7 @@
                 <li>
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasWinners}}
-                            {{#checkInvisibleWinners winners}}
+                            {{#checkInvisible winners}}
                                 {{#each winners}}
                                     {{#unless this.visible}}
                                         {{#if this.pinned}}
@@ -215,14 +215,14 @@
                                         {{/if}}    
                                     {{/unless}}
                                 {{/each}}
-                                {{#unless hasInvisibleWinners}}
+                                {{#unless hasInvisible}}
                                     <div class="column is-full">
                                         <div class="notification">
                                             <p>No Invisible winner cards to show.</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkInvisibleWinners}}
+                            {{/checkInvisible}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
