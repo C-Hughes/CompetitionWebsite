@@ -45,7 +45,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/correctEntries/:id/:correctAnswer', async (req, res, next) => {
+router.get('/competitionEntries/:id/:correctAnswer', async (req, res, next) => {
     const compID = req.params.id;
     const compCorrectAnswer = req.params.correctAnswer;
     const success = req.flash('success');
@@ -59,8 +59,8 @@ router.get('/correctEntries/:id/:correctAnswer', async (req, res, next) => {
         const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(compCorrectAnswer, 'i') } } });
 
         if (competition) {
-            res.render('admin/correctEntries', {
-                title: 'View Correct Entries',
+            res.render('admin/competitionEntries', {
+                title: 'View Competition Entries',
                 active: { dashboard: true },
                 competition: competition,
                 correctTickets: correctTickets,
