@@ -13,6 +13,7 @@ var Competition = require('../models/competition');
 var User = require('../models/user');
 var Winner = require('../models/winner');
 var DrawResult = require('../models/drawResults');
+var Ticket = require('../models/ticket');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -41,6 +42,27 @@ router.get('/', function(req, res, next) {
     })
       .catch(err => {
             console.log(err);
+    });
+});
+
+router.get('/correctEntries/:id/:correctAnswer', function(req, res, next) {
+    var compID = req.params.id;
+    var compCorrectAnswer = req.params.correctAnswer;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    Ticket.find({competitionReference: compID, compAnswer: compCorrectAnswer})
+      .then(foundTickets => {
+            if(foundTickets){
+                res.render('admin/correctEntries', {title: 'View Correct Entries', active: { dashboard: true }, tickets: foundTickets, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("Error finding competition");
+                req.flash('error', 'Error finding competition tickets');
+                return res.render('admin/dashboard', { title: 'Dashboard', active: { dashboard: true }});
+            }
+    })
+    .catch(err => {
+        console.log(err);
     });
 });
 
