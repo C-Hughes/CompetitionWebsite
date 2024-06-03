@@ -20,7 +20,11 @@ Other:
 - Coupons
 - Setup stripe for payments
 - Add functionality for instant win competitions?
-
+- Email sending capability
+- Email verification
+- Email password reset
+- Get pinned previous winners in a seperate query for when there are a large number of winnerCards
+- Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 
 Admin functionality:
 - Administrate coupon codes

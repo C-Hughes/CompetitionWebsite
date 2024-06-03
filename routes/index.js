@@ -42,19 +42,26 @@ router.get('/results', function(req, res, next) {
     res.render('drawResults', { title: 'Draw Results', active: { results: true } });
 });
 
-router.get('/winners', function(req, res, next) {
-    Winner.find({}).limit(30)
-    .then((foundWinners) => {
+router.get('/winners', async (req, res, next) => {
+    try {
+        const foundPinned = await Winner.find({pinned: true}).limit(9);
+        const foundWinners = await Winner.find({pinned: false}).limit(24);
+
         if (foundWinners) {
-            res.render('winners', {title: 'Winners', active: { winners: true }, winners: foundWinners});
+            res.render('winners', { 
+                title: 'Winners', 
+                active: { winners: true }, 
+                pinned: foundPinned,
+                winners: foundWinners 
+            });
         } else {
             console.log("Winners not Found");
             res.redirect('/');
         }
-    })
-    .catch(err => {
+    } catch (err) {
         console.log(err);
-    });
+        next(err);  // Pass the error to the error handling middleware
+    }
 });
 
 router.get('/winner/:id', function(req, res, next) {
