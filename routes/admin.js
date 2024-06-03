@@ -443,6 +443,7 @@ router.post('/updateCompetition', async (req, res, next) => {
         questionText: req.body.questionText,
         questionAnswers: questionAnswers,
         correctAnswer: req.body.correctAnswer,
+        winningTicketNumber: req.body.winningTicketNumber,
         active: active,
         visible: visible,
         lastUpdated: new Date().toISOString(),
