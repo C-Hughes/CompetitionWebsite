@@ -28,8 +28,9 @@ Other:
 
 Admin functionality:
 - Administrate coupon codes
-- Page to generate list of all entries to a competition that entered with the correct answer (Correct Entries)
 - User info lookup in admin/users
+- Add winningTicketNumber input to edit competition form
+- Add winningTicketNumber input to Competition Entries form
 
 
 AntiCheat / User monitoring:
@@ -92,6 +93,7 @@ Admin:
 - Add / Edit winners on winner pages
 - Page that shows a list of all admins
 - Add Draw Results Fuctionality
+- Page to generate list of all entries to a competition that entered with the correct answer (Correct Entries)
 
 
 //   cd ../../../../../ 

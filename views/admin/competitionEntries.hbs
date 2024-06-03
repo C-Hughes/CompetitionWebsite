@@ -71,6 +71,26 @@
         </div>
     </div>
 
+    <form action="/admin/competitionEntries" method="post">
+        <label class="label">Winning Ticket Number</label>
+        <div class="field has-addons">
+            <div class="control is-expanded has-icons-left">
+                <input id="winningTicketNumber" name="winningTicketNumber" type="text" class="input" placeholder="Winning Ticket Number" value="{{competition.winningTicketNumber}}" readonly>
+                <span class="icon is-left">
+                    <i class="fa-solid fa-circle-check"></i>
+                </span>
+            </div>
+            <div class="control">
+                <button id="winningTicketNumberBtn" class="button is-medium is-info" onclick="toggleEditInput('winningTicketNumber', 'winningTicketNumberBtn')" type="button">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </div>
+        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+        <input type="hidden" name="compID" value="{{competition._id}}">   
+        <button type="submit" class="button is-fullwidth is-link mb-3">Update Winning Ticket Number</button>
+    </form>
+
     <div class="container is-max-desktop mb-4">
         <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">Edit Competition</a>
     </div>
