@@ -45,18 +45,17 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/competitionEntries/:id/:correctAnswer', async (req, res, next) => {
+router.get('/competitionEntries/:id', async (req, res, next) => {
     const compID = req.params.id;
-    const compCorrectAnswer = req.params.correctAnswer;
     const success = req.flash('success');
     const errors = req.flash('error');
 
     try {
         const competition = await Competition.findOne({ _id: compID});
-        const correctTickets = await Ticket.find({ competitionReference: compID, compAnswer: compCorrectAnswer }).populate('userReference');
-        const incorrectTickets = await Ticket.find({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(compCorrectAnswer, 'i') } } }).populate('userReference');
-        const correctUsers = await Ticket.countDocuments({ competitionReference: compID, compAnswer: compCorrectAnswer });
-        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(compCorrectAnswer, 'i') } } });
+        const correctTickets = await Ticket.find({ competitionReference: compID, compAnswer: competition.correctAnswer }).populate('userReference');
+        const incorrectTickets = await Ticket.find({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(competition.correctAnswer, 'i') } } }).populate('userReference');
+        const correctUsers = await Ticket.countDocuments({ competitionReference: compID, compAnswer: competition.correctAnswer });
+        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(competition.correctAnswer, 'i') } } });
 
         if (competition) {
             res.render('admin/competitionEntries', {
@@ -888,7 +887,28 @@ router.post('/updateDrawResult', async (req, res, next) => {
         res.redirect('/admin/editDrawResult/' + req.body.drawResultID);
     }
 });
+//////////////////////////////////////////////////////////////////////////////////////
 
+////////////Competition Entries - Update Competition Winning Ticket Number////////////
+router.post('/competitionEntries', async (req, res, next) => {
+
+    //If no draw Result ID is submitted with the form
+    if (!req.body.compID) {
+        req.flash('error', 'Competition ID Missing from competitionEntries form');
+        return res.redirect('/admin');
+    }
+
+    try {
+        await Competition.findOneAndUpdate({ _id: req.body.compID }, {winningTicketNumber: req.body.winningTicketNumber, lastUpdated: new Date().toISOString() }, { upsert: false });
+
+        req.flash('success', 'Winning Ticket Number Successfully Updated');
+        res.redirect('/admin/competitionEntries/'+req.body.compID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Winning Ticket Number');
+        res.redirect('/admin/competitionEntries/'+req.body.compID);
+    }
+});
   ///////////////////////////////Test Routes//////////////////////////////////////
 
   router.get('/addRewards', function(req, res, next) {
