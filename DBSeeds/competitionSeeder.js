@@ -1,7 +1,7 @@
 var Competition = require('../models/competition');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
+mongoose.connect(process.env.MONGOOSE_CONNECT, {
     serverSelectionTimeoutMS: 5000
 });
 
