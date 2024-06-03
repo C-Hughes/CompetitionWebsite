@@ -67,6 +67,7 @@
         <h2 class="title">
             <p>Users Answers</p>
         </h2>      
+        <p id="totalRowCount"></p>
     </section>
     <div class="tabs-wrapper">
         <div class="tabs is-centered mt-6 is-boxed">
@@ -87,7 +88,7 @@
             <ul>
                 <li class="is-active">
                     {{#if correctUsers}}
-                            <table class="table is-bordered is-striped is-narrow is-fullwidth">
+                        <table id="correctTable" class="table is-bordered is-striped is-narrow is-fullwidth">
                             <thead>
                                 <tr class="is-clickable">
                                     <th><span>Username</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
@@ -121,7 +122,7 @@
                 </li>
                 <li>
                     {{#if incorrectUsers}}
-                        <table class="table is-bordered is-striped is-narrow is-fullwidth">
+                        <table id="incorrectTable" class="table is-bordered is-striped is-narrow is-fullwidth">
                             <thead>
                                 <tr class="is-clickable">
                                     <th></span>Username<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
@@ -161,6 +162,7 @@
 
 
 <script>
+//JS TO SORT TABLE COLUMNS
 const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
 const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
@@ -175,4 +177,23 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', funct
         .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
         .forEach(tr => tbody.appendChild(tr));
 }));
+//////////////////////////
+// Function to count the number of rows in the table
+function countTableRows(tableId) {
+    if(document.getElementById(tableId)){
+        const table = document.getElementById(tableId);
+        const tbody = table.querySelector('tbody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+        return rowCount;
+    } else {
+        return 0;
+    }
+
+}
+
+// Get the count of rows and display it
+const correctRowCount = countTableRows('correctTable');
+const incorrectRowCount = countTableRows('incorrectTable');
+var totalRowCount = correctRowCount+incorrectRowCount;
+document.getElementById('totalRowCount').innerText = 'Total Entries Displayed in Tables Below: '+totalRowCount;
 </script>
