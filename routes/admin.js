@@ -86,6 +86,7 @@ router.get('/editCompetition/:id', function(req, res, next) {
     });
 });
 
+// Draw Results ///////////////////////////////////
 router.get('/drawResults', function(req, res, next) {
     var success = req.flash('success');
     DrawResult.find({}).populate('competitionReference')
@@ -102,6 +103,26 @@ router.get('/createDrawResult', function(req, res, next) {
     res.render('admin/createDrawResultCard', { title: 'Create Draw Result', active: { drawResults: true }, error: errors, errors: errors.length > 0 });
 });
 
+router.get('/editDrawResult/:id', function(req, res, next) {
+    var drawResultID = req.params.id;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    DrawResult.findOne({_id: drawResultID})
+      .then(foundDrawResult => {
+            if(foundDrawResult){
+                res.render('admin/editDrawResultCard', {title: 'Edit Draw Result', active: { drawResults: true }, drawResult: foundDrawResult, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("Error finding draw result");
+                return res.render('admin/drawResults', { title: 'Draw Results', active: { drawResults: true }});
+            }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+//////////////////////////////////////////////
+// Winners ///////////////////////////////////
 router.get('/winners', function(req, res, next) {
     var success = req.flash('success');
     Winner.find({})
@@ -136,7 +157,7 @@ router.get('/editWinner/:id', function(req, res, next) {
         console.log(err);
     });
 });
-
+//////////////////////////////////////////////
 
 router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });

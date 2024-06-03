@@ -1,6 +1,6 @@
 <section class="hero is-danger">
     <div class="hero-body has-text-centered">
-        <p class="title">Create Draw Result Card</p>
+        <p class="title">Edit Draw Result Card</p>
     </div>
 </section>
 
@@ -11,7 +11,7 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/admin/drawResults">Draw Results</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Create Draw Result Card</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Edit Draw Result Card</a></li>
         </ul>
     </nav>
 </div>
@@ -37,14 +37,24 @@
 
 
 <div class="container is-max-widescreen">
-    <form action="/admin/createDrawResult" method="post">
+    <form action="/admin/updateDrawResult" method="post">
         <div class="card">
             <div class="card-content">
 
                     <div class="field">
                         <label class="label">Competition ID</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{drawResult.competitionReference}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-database"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Winner User ID</label>
+                        <div class="control has-icons-left">
+                            <input id="winnerID" name="winnerID" class="input" type="text" value="{{drawResult.userReference}}" disabled>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
@@ -54,7 +64,7 @@
                     <div class="field">
                         <label class="label">Winner Username</label>
                         <div class="control has-icons-left">
-                            <input id="username" name="username" class="input" type="text" placeholder="Winner Username">
+                            <input id="username" name="username" class="input" type="text" placeholder="Winner Username" value="{{drawResult.userReference.username}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                             </span>
@@ -64,7 +74,7 @@
                     <div class="field">
                         <label class="label">Title</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="[Winner Name] won this [Competition Title]!">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{drawResult.title}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -72,9 +82,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Card Description</label>
+                        <label class="label">Draw Result Card Description</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{drawResult.description}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -84,7 +94,7 @@
                     <div class="field">
                         <label class="label">Winning Ticket Number</label>
                         <div class="control has-icons-left">
-                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number">
+                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number" value="{{drawResult.winningTicketNumber}}">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
@@ -94,12 +104,13 @@
                     <div class="field">
                         <label class="label">Is Visible</label>
                         <i class="fa-solid fa-eye"></i>
-                        <input id="visible" name="visible" type="checkbox" checked>
+                        <input id="visible" name="visible" type="checkbox" {{#if drawResult.visible}}checked{{/if}}>
                         <label for="PostalCheckbox">Visible</label>
                     </div>
 
-                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
-                    <button type="submit" class="button is-medium is-fullwidth is-link">Create Draw Result Card</button>
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                    <input type="hidden" name="winnerID" value="{{drawResult._id}}"> 
+                    <button type="submit" class="button is-medium is-fullwidth is-link">Update Draw Result Card</button>
                 </div>
             </div>
         </div>
