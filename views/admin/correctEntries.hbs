@@ -123,13 +123,15 @@
                             </thead>
                             <tbody>
                                 {{# each tickets}}
-                                <tr>
-                                    <td>{{this.userReference.username}}</td>
-                                    <td>{{this.userReference.firstName}}</td>
-                                    <td>{{this.userReference.lastName}}</td>
-                                    <th>{{this.userReference.ticketNumbersObject}}</th>
-                                    <td>{{this.compAnswer}}</td>
-                                </tr>
+                                    {{# each this.ticketNumbersObjects}}
+                                        <tr>
+                                            <td>{{../this.userReference.username}}</td>
+                                            <td>{{../this.userReference.firstName}}</td>
+                                            <td>{{../this.userReference.lastName}}</td>
+                                            <th>{{this.ticketNumber}}</th>
+                                            <td>{{../this.compAnswer}}</td>
+                                        </tr>
+                                    {{/each}}
                                 {{/each}}
                             </tbody>
                         </table>
