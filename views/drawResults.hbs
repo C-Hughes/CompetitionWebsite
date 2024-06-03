@@ -6,78 +6,35 @@
   </section>
 </div>
 
-
-
 <div class="block">
-  <div class="container">
-    <div class="columns is-vcentered">
+    <div class="container is-max-fullhd">
+        <div class="columns is-vcentered  is-flex is-justify-content-center">
+            {{# each drawResults}}
+                {{#if this.visible}}
 
-      <!-- Column 1 -->
-      <div class="column has-text-centered">
-            <a href="/winner" class="is-link">
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                        <img
-                            src="https://bulma.io/assets/images/placeholders/256x256.png"
-                            alt="Placeholder image"
-                        />
-                        </figure>
+                    <!-- Column 1 -->
+                    <div class="column is-4 has-text-centered">
+                        <a href="/drawResult/{{this.id}}" class="is-link">
+                            <div class="card">
+                                <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img
+                                    src="{{this.competitionReference.imagePath}}"
+                                    alt="Draw Result Image"
+                                    />
+                                </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div style="height: 100px">
+                                        <p class="title is-4">{{this.title}}</p>
+                                        <p class="subtitle is-6">{{this.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>    
                     </div>
-                    <div class="card-content">
-                        <div style="height: 120px">
-                        <p class="title is-4">Michael Won This BMW S1000RR!</p>
-                        <p class="subtitle is-6">Winning ticket - #6036! Draw date: 21/04/2024</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-      </div>
-
-      <!-- Column 2 -->
-      <div class="column has-text-centered">
-        <a href="/winner" class="is-link">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                    <img
-                        src="https://bulma.io/assets/images/placeholders/256x256.png"
-                        alt="Placeholder image"
-                    />
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div style="height: 120px">
-                    <p class="title is-4">Michael Won This BMW S1000RR!</p>
-                    <p class="subtitle is-6">Winning ticket - #6036! Draw date: 21/04/2024</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-      </div>
-
-
-      <!-- Column 3 -->
-      <div class="column has-text-centered">
-        <a href="/winner" class="is-link">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                    <img
-                        src="https://bulma.io/assets/images/placeholders/256x256.png"
-                        alt="Placeholder image"
-                    />
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div style="height: 120px">
-                    <p class="title is-4">Michael Won This BMW S1000RR!</p>
-                    <p class="subtitle is-6">Winning ticket - #6036! Draw date: 21/04/2024</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-      </div>
+                {{/if}}
+            {{/each}}
+        </div>
     </div>
-  </div>
 </div>

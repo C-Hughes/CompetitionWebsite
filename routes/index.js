@@ -10,7 +10,7 @@ var BillingAddress = require('../models/billingAddress');
 var Ticket = require('../models/ticket');
 var User = require('../models/user');
 var Winner = require('../models/winner');
-
+var DrawResult = require('../models/drawResults');
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -39,7 +39,13 @@ router.get('/faq', function(req, res, next) {
 });
 
 router.get('/results', function(req, res, next) {
-    res.render('drawResults', { title: 'Draw Results', active: { results: true } });
+    DrawResult.find({}).populate('competitionReference')
+    .then(foundResults => {
+        res.render('drawResults', {title: 'Draw Results', active: { results: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0});
+    })
+    .catch(err => {
+        console.log(err);
+    });
 });
 
 router.get('/winners', async (req, res, next) => {
