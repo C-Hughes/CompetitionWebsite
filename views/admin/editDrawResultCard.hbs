@@ -44,7 +44,17 @@
                     <div class="field">
                         <label class="label">Competition ID</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{drawResult.competitionReference}}">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{drawResult.competitionReference.id}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-database"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Competition Title</label>
+                        <div class="control has-icons-left">
+                            <input id="compTitle" name="compTitle" class="input" type="text" value="{{drawResult.competitionReference.title}}" disabled>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
