@@ -278,7 +278,7 @@ router.post('/updateCompetition', async (req, res, next) => {
     //If no competition id is submitted with the form
     if (!req.body.compID) {
         req.flash('error', 'Competition ID Missing');
-        return res.redirect('/admin/editCompetition/' + req.body.compID);
+        return res.redirect('/admin');
     }
 
     //Set mainImageFile to current compImagePath
@@ -650,7 +650,7 @@ router.post('/updateWinner', async (req, res, next) => {
     //If no competition id is submitted with the form
     if (!req.body.winnerID) {
         req.flash('error', 'Winner ID Missing');
-        return res.redirect('/admin/editWinner/' + req.body.winnerID);
+        return res.redirect('/admin/winners');
     }
 
     //Set mainImageFile to current compImagePath
@@ -777,6 +777,66 @@ router.post('/createDrawResult', async (req, res) => {
         console.log(err);
         req.flash('error', 'Error Creating Draw Result Card');
         res.redirect('/admin/createDrawResult');
+    }
+});
+
+//Edit draw result card
+router.post('/updateDrawResult', async (req, res, next) => {
+
+    //If no draw Result ID is submitted with the form
+    if (!req.body.drawResultID) {
+        req.flash('error', 'Draw Result ID Missing');
+        return res.redirect('/admin/drawResults');
+    }
+
+    //Input Validation
+    req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
+    req.checkBody('username', 'Winner username cannot be empty').notEmpty();
+    req.checkBody('title', 'Title cannot be empty').notEmpty();
+    req.checkBody('description', 'Description cannot be empty').notEmpty();
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/createDrawResult');
+    }
+
+    //Lookup username and find userID
+    var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
+        
+    if(returnedUser){
+        var userReference = returnedUser._id;
+    } else {
+        req.flash('error', 'Username not found');
+        return res.redirect('/admin/createDrawResult');
+    }
+
+    // Set visible and active checkboxes
+    const visible = req.body.visible === 'on';
+
+    var drawResultUpdate = {
+        competitionReference: req.body.compID,
+        userReference: userReference,
+        title: req.body.title,
+        description: req.body.description,
+        winningTicketNumber: req.body.winningTicketNumber,
+        visible: visible,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await DrawResult.findOneAndUpdate({ _id: req.body.drawResultID }, drawResultUpdate, { upsert: false });
+
+        req.flash('success', 'Draw Result Card Successfully Updated');
+        res.redirect('/admin/editDrawResult/' + req.body.drawResultID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Draw Result Card');
+        res.redirect('/admin/editDrawResult/' + req.body.drawResultID);
     }
 });
 
