@@ -88,7 +88,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{# each tickets}}
+                                {{# each correctTickets}}
                                     {{# each this.ticketNumbersObjects}}
                                         <tr>
                                             <td>{{../this.userReference.username}}</td>
@@ -122,7 +122,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{# each tickets}}
+                                {{# each incorrectTickets}}
                                     {{# each this.ticketNumbersObjects}}
                                         <tr>
                                             <td>{{../this.userReference.username}}</td>
