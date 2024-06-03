@@ -28,8 +28,7 @@ Other:
 
 Admin functionality:
 - Administrate coupon codes
-- Add Draw Results Fuctionality
-- Page to generate list of all entries to a competition that entered with the correct answer
+- Page to generate list of all entries to a competition that entered with the correct answer (Correct Entries)
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
@@ -41,7 +40,7 @@ AntiCheat / User monitoring:
 Testing:
 Test create competition and preview competition
 Test entry close date create/update competition
-
+Test Draw Result creation fully
 
 -----------------------------------------------------------------------------------------
 
@@ -68,6 +67,7 @@ Other:
 - Get pinned previous winners in a seperate query for when there are a large number of winnerCards
 - Update to use .env
 
+
 Competition:
 - Add additional images for competitions
 - Only display competitions that are marked as visible
@@ -89,6 +89,8 @@ Admin:
 - Ability to add users as admins / remove admins
 - Add / Edit winners on winner pages
 - Page that shows a list of all admins
+- Add Draw Results Fuctionality
+
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'

@@ -54,61 +54,73 @@
         <div class="tabs-content">
             <ul>
                 <li class="is-active">
-                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center is-vcentered">
                         {{#if hasCompetitions}}
                             {{#checkActiveCompetitions competitions}}
                                 {{#each competitions}}
                                     {{#if this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/admin/editCompetition/{{this.id}}" class="is-link">
-                                                <div class="card" style="">
-                                                    <header class="card-header">
-                                                        {{#if this.visible}}
-                                                            <p class="card-header-title">Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{else}}
-                                                            <p class="card-header-title">Not Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye-slash"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{/if}}
-                                                    </header>
-                                                    <div class="card-image">
-                                                        <figure class="image is-4by3">
-                                                            <img src="{{this.imagePath}}" alt="Competition Image" />
-                                                        </figure>
+
+                                            <div class="card" style="">
+                                                <header class="card-header">
+                                                    {{#if this.visible}}
+                                                        <p class="card-header-title">Visible</p>
+                                                        <button class="card-header-icon" aria-label="more options">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </span>
+                                                        </button>
+                                                    {{else}}
+                                                        <p class="card-header-title">Not Visible</p>
+                                                        <button class="card-header-icon" aria-label="more options">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-eye-slash"></i>
+                                                            </span>
+                                                        </button>
+                                                    {{/if}}
+                                                </header>
+                                                <div class="card-image">
+                                                    <figure class="image is-4by3">
+                                                        <img src="{{this.imagePath}}" alt="Competition Image" />
+                                                    </figure>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="content" style="height: 100px;">
+                                                        <p class="title is-4">Win this {{this.title}}</p>
+                                                        <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
                                                     </div>
-                                                    <div class="card-content">
-                                                        <div class="content" style="height: 100px;">
-                                                            <p class="title is-4">Win this {{this.title}}</p>
-                                                            <p class="subtitle is-6">Cash Alternative: £{{this.cashAlternative}}</p>
+                                                    <div class="content">
+                                                        <div>
+                                                            {{#if this.discountPrice}}
+                                                                <p class="title is-5 has-text-primary"><s>£{{formatPrice price}}</s></p>
+                                                                <p class="title is-1 has-text-primary">£{{formatPrice discountPrice}}</p>
+                                                            {{else}}
+                                                                <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
+                                                            {{/if}}
                                                         </div>
-                                                        <div class="content">
-                                                            <div>
-                                                                {{#if this.discountPrice}}
-                                                                    <p class="title is-5 has-text-primary"><s>£{{formatPrice price}}</s></p>
-                                                                    <p class="title is-1 has-text-primary">£{{formatPrice discountPrice}}</p>
-                                                                {{else}}
-                                                                    <p class="title is-1 has-text-primary">£{{formatPrice price}}</p>
-                                                                {{/if}}
-                                                            </div>
-                                                            <div style="margin-top: 30px">
-                                                                <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
-                                                                <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
-                                                                <button class="button is-medium is-fullwidth is-link">Edit Competition</button>
-                                                                <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
-                                                            </div>
+                                                        <div style="margin-top: 30px">
+                                                            <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
+                                                            <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
+                                                            <a href="/admin/editCompetition/{{this.id}}" class="button is-medium is-fullwidth is-link">
+                                                                <span class="icon is-small">
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                                </span>
+                                                                <span>Edit Competition</span>
+                                                            </a>
+                                                            <a href="/admin/correctEntries/{{this.id}}" class="button is-medium is-fullwidth is-primary mt-2">
+                                                                <span class="icon is-small">
+                                                                    <i class="fas fa-ticket"></i>
+                                                                </span>
+                                                                <span>View Correct Entries</span>
+                                                            </a>                                                            
+                                                            
+                                                            <p><time datetime="2024-06-02 19:00">Draw {{formatDateCompCard this.drawDate}}</time></p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
+
                                         </div>
                                     {{/if}}
                                 {{/each}}
