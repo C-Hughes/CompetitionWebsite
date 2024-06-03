@@ -133,6 +133,11 @@ router.get('/drawResults', function(req, res, next) {
     });
 });
 
+router.get('/createDrawResult', function(req, res, next) {
+    var errors = req.flash('error');
+    res.render('admin/createDrawResultCard', { title: 'Create Draw Result', active: { drawResults: true }, error: errors, errors: errors.length > 0 });
+});
+
 router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
 });
