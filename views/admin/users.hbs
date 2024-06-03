@@ -7,11 +7,39 @@
 {{> adminNav}}
 
 <div class="container is-max-desktop">
-    <section class="section">
-        <h2 class="title">
-            <p>Total Users: {{userCount}}</p>
-        </h2>
-    </section>
+    <div class="content my-6">
+        <h1 class="title">Lookup User</h1>
+    </div>
+
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <form action="/admin/competitionEntries" method="post">
+        <div class="field">
+            <label class="label">Username / Email Address / Display Name / First Name / Last Name</label>
+            <div class="control has-icons-left">
+                <input id="userLookupInfo" name="userLookupInfo" class="input" type="text" placeholder="User Information">
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </div>
+        </div>
+       
+        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+        <button type="submit" class="button is-fullwidth is-link mb-3">Lookup User</button>
+    </form>
+
+    <hr></hr>
+
+    <div class="content my-6">
+        <h1 class="title">Total Users: {{userCount}}</h1>
+    </div>
     
     {{# each users}}
         <div class="container notification">
