@@ -55,7 +55,7 @@ router.get('/correctEntries/:id/:correctAnswer', async (req, res, next) => {
         const competition = await Competition.findOne({ _id: compID});
         const foundTickets = await Ticket.find({ competitionReference: compID, compAnswer: compCorrectAnswer }).populate('userReference');
         const correctUsers = await Ticket.countDocuments({ competitionReference: compID, compAnswer: compCorrectAnswer });
-        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": /compCorrectAnswer/i } });
+        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(compCorrectAnswer, 'i') } } });
 
         if (foundTickets) {
             res.render('admin/correctEntries', {
