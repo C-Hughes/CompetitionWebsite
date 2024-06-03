@@ -86,6 +86,21 @@ router.get('/editCompetition/:id', function(req, res, next) {
     });
 });
 
+router.get('/drawResults', function(req, res, next) {
+    var success = req.flash('success');
+    DrawResult.find({}).populate('competitionReference')
+    .then(foundResults => {
+        res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0});
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
+router.get('/createDrawResult', function(req, res, next) {
+    var errors = req.flash('error');
+    res.render('admin/createDrawResultCard', { title: 'Create Draw Result', active: { drawResults: true }, error: errors, errors: errors.length > 0 });
+});
 
 router.get('/winners', function(req, res, next) {
     var success = req.flash('success');
@@ -122,21 +137,6 @@ router.get('/editWinner/:id', function(req, res, next) {
     });
 });
 
-router.get('/drawResults', function(req, res, next) {
-    var success = req.flash('success');
-    DrawResult.find({})
-    .then(foundResults => {
-        res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0});
-    })
-    .catch(err => {
-        console.log(err);
-    });
-});
-
-router.get('/createDrawResult', function(req, res, next) {
-    var errors = req.flash('error');
-    res.render('admin/createDrawResultCard', { title: 'Create Draw Result', active: { drawResults: true }, error: errors, errors: errors.length > 0 });
-});
 
 router.get('/discounts', function(req, res, next) {
     res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
@@ -216,6 +216,10 @@ router.get('/removeAdditionalImage/:compID', function(req, res, next) {
         res.redirect('/admin/editCompetition/'+compID);
     });
 });
+
+////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////// POST ROUTES /////////////////////////////////////
 
