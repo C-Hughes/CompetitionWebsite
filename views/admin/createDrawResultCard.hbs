@@ -1,6 +1,6 @@
 <section class="hero is-danger">
     <div class="hero-body has-text-centered">
-        <p class="title">Create Winner Card</p>
+        <p class="title">Create Draw Result Card</p>
     </div>
 </section>
 
@@ -37,37 +37,34 @@
 
 
 <div class="container is-max-widescreen">
-    <form action="/admin/createWinner" method="post" enctype="multipart/form-data" ref='createWinnerForm' id='createWinnerForm'>
+    <form action="/admin/createDrawResult" method="post">
         <div class="card">
             <div class="card-content">
-                <label class="label">Main Image</label>
-                <div class="container">
-                    <figure class="image">
-                    <img
-                        id="mainImageDisplay"
-                        src=""
-                        alt="Competition Image"
-                        style="max-width: 400px; max-height: 400px"    
-                    />
-                    </figure>
 
-                    <div class="file is-normal has-name">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
-                            <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fas fa-upload"></i>
+                    <div class="field">
+                        <label class="label">Competition ID</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-database"></i>
                             </span>
-                            <span class="file-label"> Upload Main Image </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Winner Username</label>
+                        <div class="control has-icons-left">
+                            <input id="username" name="username" class="input" type="text" placeholder="Winner Username">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-user"></i>
                             </span>
-                            <span class="file-name"> ... </span>
-                        </label>
+                        </div>
                     </div>
 
                     <div class="field">
                         <label class="label">Title</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="[Winner Name] won this [Competition Title]!">
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -85,11 +82,11 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
+                        <label class="label">Winning Ticket Number</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number">
                             <span class="icon is-small is-left">
-                                <i class="fa-solid fa-database"></i>
+                                <i class="fa-solid fa-ticket"></i>
                             </span>
                         </div>
                     </div>
@@ -101,15 +98,8 @@
                         <label for="PostalCheckbox">Visible</label>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Is Pinned</label>
-                        <i class="fa-solid fa-thumbtack"></i>
-                        <input id="pinned" name="pinned" type="checkbox" checked>
-                        <label for="PostalCheckbox">Pinned</label>
-                    </div>
-
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
-                    <button type="submit" class="button is-medium is-fullwidth is-link">Create Winner Card</button>
+                    <button type="submit" class="button is-medium is-fullwidth is-link">Create Draw Result Card</button>
                 </div>
             </div>
         </div>

@@ -176,7 +176,7 @@ router.get('/admins', function(req, res, next) {
     });
 });
 
-//Get route to remove an admin
+//////////Get route to remove an admin////////////////////////
 router.get('/removeAdmin/:userID', function(req, res, next) {
     var userID = req.params.userID;
 
@@ -196,7 +196,7 @@ router.get('/removeAdmin/:userID', function(req, res, next) {
     });
 });
 
-//Get route to delete a competitions additional photo
+////////////Get route to delete a competitions additional photo//////////////////
 router.get('/removeAdditionalImage/:compID', function(req, res, next) {
     var compID = req.params.compID;
     var imageID = req.query.imageID;
@@ -247,7 +247,7 @@ router.post('/addAdministrator', function(req, res, next) {
     });
 });
 
-
+//////////////////////////// Create/Edit Competition //////////////////////////////
 router.post('/updateCompetition', async (req, res, next) => {
 
     //If no competition id is submitted with the form
@@ -519,7 +519,6 @@ router.post('/createCompetition', async (req, res) => {
     }
 });
 
-
 //Update the competition visible or active from the preview competition page
 router.post('/updatePreviewCompetition', function(req, res, next) {
 
@@ -553,8 +552,8 @@ router.post('/updatePreviewCompetition', function(req, res, next) {
         res.redirect('/admin/previewCompetition/'+req.body.compID+'');
     }
 });
-
-// Create a new competition
+//////////////////////////////////////////////////////////////////////
+////////////////////// Create a new winner card //////////////////////
 router.post('/createWinner', async (req, res) => {
     try {
         //Set mainImageFile to current compImagePath
@@ -695,6 +694,65 @@ router.post('/updateWinner', async (req, res, next) => {
         console.log(err);
         req.flash('error', 'Error updating Winner Card');
         res.redirect('/admin/editWinner/' + req.body.winnerID);
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////
+//////////////////// Create a new draw result card /////////////////////
+router.post('/createDrawResult', async (req, res) => {
+    try {
+
+        //Input Validation
+        req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
+        req.checkBody('username', 'Winner username cannot be empty').notEmpty();
+        req.checkBody('title', 'Title cannot be empty').notEmpty();
+        req.checkBody('description', 'Description cannot be empty').notEmpty();
+ 
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/createDrawResult');
+        }
+
+        //Lookup username and find userID
+        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
+        
+        if(returnedUser){
+            var userReference = returnedUser._id;
+        } else {
+            req.flash('error', 'Username not found');
+            return res.redirect('/admin/createDrawResult');
+        }
+
+
+        const visible = req.body.visible === 'on';
+        
+        const newWinner = new Winner({
+            competitionReference: req.body.compID,
+            userReference: userReference,
+            title: req.body.title,
+            description: req.body.description,
+            winningTicketNumber: req.body.winningTicketNumber,
+            visible: visible,
+        });
+
+        const savedWinner = await newWinner.save();
+
+        if (savedWinner) {
+            console.log('Winner Card Saved!');
+            res.redirect('/admin/winners');
+        } else {
+            console.log('Error Saving Winner Card');
+            res.redirect('/admin/createWinner');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Creating Winner Card');
+        res.redirect('/admin/createWinner');
     }
 });
 

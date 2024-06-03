@@ -29,6 +29,7 @@ Other:
 Admin functionality:
 - Administrate coupon codes
 - Add Draw Results Fuctionality
+- Page to generate list of all entries to a competition that entered with the correct answer
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
