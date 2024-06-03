@@ -56,7 +56,17 @@
                         <div class="control has-icons-left">
                             <input id="compTitle" name="compTitle" class="input" type="text" value="{{drawResult.competitionReference.title}}" disabled>
                             <span class="icon is-small is-left">
-                                <i class="fa-solid fa-database"></i>
+                                <i class="fa-solid fa-heading"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Competition DrawDate</label>
+                        <div class="control has-icons-left">
+                            <input id="compDrawDate" name="compDrawDate" class="input" type="text" value="{{formatDate drawResult.competitionReference.drawDate}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-clock"></i>
                             </span>
                         </div>
                     </div>
