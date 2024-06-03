@@ -48,6 +48,18 @@ router.get('/results', function(req, res, next) {
     });
 });
 
+router.get('/drawResult/:id', function(req, res, next) {
+    var drawResultID = req.params.id;
+
+    DrawResult.findOne({ _id: drawResultID}).populate('competitionReference')
+    .then(foundResult => {
+        res.render('drawResult', {title: 'Draw Result - '+foundResult.title, active: { results: true }, drawResult: foundResult, hasDrawResult: foundResult.length > 0});
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 router.get('/winners', async (req, res, next) => {
     try {
         const foundPinned = await Winner.find({pinned: true}).limit(9);

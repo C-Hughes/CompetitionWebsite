@@ -1,0 +1,33 @@
+<div class="block">
+  <section class="hero is-link">
+    <div class="hero-body has-text-centered">
+      <p class="title">Draw Result</p>
+    </div>
+  </section>
+</div>
+
+
+<div class="section container is-max-desktop">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/results">Draw Results</a></li>
+            <li class="is-active"><a href="#" aria-current="page">{{drawResult.title}}</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div style="max-height:500px; max-width:500px;" class="mx-auto">
+            <figure class="image is-1by1">
+                <img src="{{drawResult.competitionReference.imagePath}}" />
+            </figure>
+        </div>
+
+        <section class="hero">
+            <div class="hero-body">
+                <p class="title">{{drawResult.title}}</p>
+                <p class="subtitle">{{drawResult.description}}</p>
+            </div>
+        </section>
+    </div>
+</div>
