@@ -34,9 +34,10 @@ router.use('/', isAdmin, function(req, res, next) {
 /* GET admin listings. */
 router.get('/', function(req, res, next) {
     var success = req.flash('success');
+    var errors = req.flash('error');
     Competition.find({})
       .then(foundCompetition => {
-            res.render('admin/dashboard', {title: 'Dashboard', active: { dashboard: true }, competitions: foundCompetition, hasCompetitions: foundCompetition.length > 0, success: success, hasSuccess: success.length > 0});
+            res.render('admin/dashboard', {title: 'Dashboard', active: { dashboard: true }, competitions: foundCompetition, hasCompetitions: foundCompetition.length > 0, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
     })
       .catch(err => {
             console.log(err);
@@ -89,9 +90,10 @@ router.get('/editCompetition/:id', function(req, res, next) {
 // Draw Results ///////////////////////////////////
 router.get('/drawResults', function(req, res, next) {
     var success = req.flash('success');
+    var errors = req.flash('error');
     DrawResult.find({}).populate('competitionReference')
     .then(foundResults => {
-        res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0});
+        res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
     })
     .catch(err => {
         console.log(err);
@@ -125,9 +127,10 @@ router.get('/editDrawResult/:id', function(req, res, next) {
 // Winners ///////////////////////////////////
 router.get('/winners', function(req, res, next) {
     var success = req.flash('success');
+    var errors = req.flash('error');
     Winner.find({})
     .then(foundWinners => {
-        res.render('admin/winners', {title: 'Winners', active: { winners: true }, winners: foundWinners, hasWinners: foundWinners.length > 0, success: success, hasSuccess: success.length > 0});
+        res.render('admin/winners', {title: 'Winners', active: { winners: true }, winners: foundWinners, hasWinners: foundWinners.length > 0, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
     })
     .catch(err => {
         console.log(err);
@@ -812,7 +815,7 @@ router.post('/updateDrawResult', async (req, res, next) => {
         var userReference = returnedUser._id;
     } else {
         req.flash('error', 'Username not found');
-        return res.redirect('/admin/createDrawResult');
+        return res.redirect('/admin/editDrawResult'+ req.body.drawResultID);
     }
 
     // Set visible and active checkboxes

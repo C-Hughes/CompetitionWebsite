@@ -18,6 +18,24 @@
             <span>Create New Competition</span>
          </a>
     </div>
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
     <div class="tabs-wrapper">
         <div class="tabs is-centered mt-6 is-boxed">
             <ul>
