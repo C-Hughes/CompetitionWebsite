@@ -13,6 +13,7 @@ var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo');
 var fileUpload = require('express-fileupload');
+require('dotenv').config();
 //var multer  = require('multer');
 //var upload = multer({ dest: 'uploads/' });
 
@@ -24,7 +25,7 @@ var adminRouter = require('./routes/admin');
 var app = express();
 
 // Connect to the database
-mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
+mongoose.connect(process.env.MONGOOSE_CONNECT, {
     serverSelectionTimeoutMS: 5000
 });
 require('./config/passport');
@@ -51,11 +52,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
 app.use(session({
-    secret: 'SessionSecret1dheys',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/CompetitionMain',
+        mongoUrl: process.env.MONGO_STORE_URL,
         mongooseConnection: mongoose.connection,
         ttl: 30 * 24 * 60 * 60 // save session for 30 days
     }),

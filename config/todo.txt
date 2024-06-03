@@ -19,11 +19,12 @@ User:
 Other:
 - Coupons
 - Setup stripe for payments
-- Add functionality for instant win competitions?
+- Add functionality for instant win competitions
 - Email sending capability
 - Email verification
 - Email password reset
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
+
 
 Admin functionality:
 - Administrate coupon codes
