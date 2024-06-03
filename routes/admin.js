@@ -108,7 +108,7 @@ router.get('/editDrawResult/:id', function(req, res, next) {
     var success = req.flash('success');
     var errors = req.flash('error');
 
-    DrawResult.findOne({_id: drawResultID})
+    DrawResult.findOne({_id: drawResultID}).populate('userReference')
       .then(foundDrawResult => {
             if(foundDrawResult){
                 res.render('admin/editDrawResultCard', {title: 'Edit Draw Result', active: { drawResults: true }, drawResult: foundDrawResult, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
