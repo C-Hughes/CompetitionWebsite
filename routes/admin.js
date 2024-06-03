@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 var Competition = require('../models/competition');
 var User = require('../models/user');
 var Winner = require('../models/winner');
+var DrawResults = require('../models/drawResults');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -115,6 +116,17 @@ router.get('/editWinner/:id', function(req, res, next) {
                 console.log("Error finding winner");
                 return res.render('admin/winners', { title: 'Winners', active: { winner: true }});
             }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
+router.get('/drawResults', function(req, res, next) {
+    var success = req.flash('success');
+    DrawResults.find({})
+    .then(foundResults => {
+        res.render('admin/drawResults', {title: 'Draw Results', active: { drawResults: true }, drawResults: foundResults, hasDrawResults: foundResults.length > 0, success: success, hasSuccess: success.length > 0});
     })
     .catch(err => {
         console.log(err);
