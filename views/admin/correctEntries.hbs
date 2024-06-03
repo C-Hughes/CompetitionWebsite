@@ -6,7 +6,7 @@
 
 {{> adminNav}}
 
-<div class="container is-max-fullhd">
+<div class="container is-max-widescreen">
     <div class="content my-6">
         <h1 class="title">Competition Correct Entries</h1>
     </div>
@@ -21,8 +21,131 @@
         </div>
     </div>
 
+    <div class="field">
+        <label class="label">Competition Question</label>
+        <div class="control has-icons-left">
+            <input id="compQuestion" name="compQuestion" class="input" type="text" value="{{competition.questionText}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-circle-question"></i>
+            </span>
+        </div>
+    </div>
 
+    <div class="field">
+        <label class="label">Competition Answers</label>
+        <div class="control has-icons-left">
+            <input id="compTitle" name="compTitle" class="input" type="text" value="{{competition.questionAnswers}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-list-ol"></i>
+            </span>
+        </div>
+    </div>
 
+    <div class="field">
+        <label class="label">Correct Answer</label>
+        <div class="control has-icons-left">
+            <input id="compTitle" name="compTitle" class="input" type="text" value="{{competition.correctAnswer}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-circle-check"></i>
+            </span>
+        </div>
+    </div>
 
+    <hr></hr>
+
+    <section class="section">
+        <h2 class="title">
+            <p>Users with Correct Answers: {{correctUsers}}</p>
+        </h2>
+        <h2 class="title">
+            <p>Users with Incorrect Answers: {{incorrectUsers}}</p>
+        </h2>        
+    </section>
+    <div class="tabs-wrapper">
+        <div class="tabs is-centered mt-6 is-boxed">
+            <ul>
+                <li class="is-active">
+                    <a>
+                        <span>Correct</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span>Incorrect</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tabs-content">
+            <ul>
+                <li class="is-active">
+                    {{#if correctUsers}}
+                            <table class="table is-bordered is-striped is-narrow is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Ticket Number</th>
+                                    <th>Comp Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{# each tickets}}
+                                    {{# each this.ticketNumbersObjects}}
+                                        <tr>
+                                            <td>{{../this.userReference.username}}</td>
+                                            <td>{{../this.userReference.firstName}}</td>
+                                            <td>{{../this.userReference.lastName}}</td>
+                                            <th>{{this.ticketNumber}}</th>
+                                            <td>{{../this.compAnswer}}</td>
+                                        </tr>
+                                    {{/each}}
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <div class="column is-full">
+                            <div class="notification">
+                                <p>No correct entries to show.</p>
+                            </div>
+                        </div>
+                    {{/if}}
+                </li>
+                <li>
+                    {{#if incorrectUsers}}
+                        <table class="table is-bordered is-striped is-narrow is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Ticket Number</th>
+                                    <th>Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{# each tickets}}
+                                <tr>
+                                    <td>{{this.userReference.username}}</td>
+                                    <td>{{this.userReference.firstName}}</td>
+                                    <td>{{this.userReference.lastName}}</td>
+                                    <th>{{this.userReference.ticketNumbersObject}}</th>
+                                    <td>{{this.compAnswer}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <div class="column is-full">
+                            <div class="notification">
+                                <p>No incorrect entries to show.</p>
+                            </div>
+                        </div>
+                    {{/if}}
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </div>
