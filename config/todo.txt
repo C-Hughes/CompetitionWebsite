@@ -28,7 +28,6 @@ Other:
 
 Admin functionality:
 - Administrate coupon codes
-- User info lookup in admin/users
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
 
 
@@ -95,6 +94,7 @@ Admin:
 - Page to generate list of all entries to a competition that entered with the correct answer (Correct Entries)
 - Add winningTicketNumber input to edit competition form
 - Add winningTicketNumber input to Competition Entries form
+- User info lookup in admin/users
 
 
 //   cd ../../../../../ 

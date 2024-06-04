@@ -12,6 +12,7 @@ var competitionSchema = new Schema({
     drawDate: {type: Date, required: true},
     entryCloseDate: {type: Date, required: true},
     currentEntries: {type: Number, required: true, default: 0},
+    pendingEntries: {type: Number, required: true, default: 0},
     maxEntries: {type: Number, required: true},
     maxEntriesPerPerson: {type: Number, required: true, default: 100},
     maxPostalVotes: {type: Number, required: true, default: 1},
