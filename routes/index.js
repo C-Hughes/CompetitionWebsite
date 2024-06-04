@@ -500,6 +500,7 @@ router.post('/processCard', async (req, res, next) => {
                             $inc: { 'pendingEntries': -comp.qty },
                             lastUpdated: new Date().toISOString(),
                         };
+                        console.log('Cancelllled - Competition qty to reduce = '+comp.qty);
                         await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
                     }
                     return res.redirect('/checkout');
@@ -583,6 +584,7 @@ router.post('/processCard', async (req, res, next) => {
                     },
                     lastUpdated: new Date().toISOString(),
                 };
+                console.log('Complete - Competition qty to reduce = '+comp.qty);
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 ////////////////////////////////////////////////////////////////
@@ -754,10 +756,8 @@ function startPendingOrderTimer(orderID){
             const foundOrder = await Order.findOneAndUpdate({ _id: orderID, orderStatus: 'Pending' }, { orderStatus: 'Cancelled' }, { upsert: false });
 
             if(foundOrder){
-                var basket = new Basket(foundOrder.basket);
-                var competitionEntries = basket.generateArray();
                 //Go through each competition in basket.
-                for (let comp of competitionEntries) {
+                for (let comp of foundOrder.basket) {
                     //Get competition from basket item
                     const foundCompetition = await Competition.findOne({ _id: comp.item._id });
                     if (!foundCompetition) {
@@ -765,6 +765,7 @@ function startPendingOrderTimer(orderID){
                     }
 
                     ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
+                    console.log('Competition qty to reduce = '+comp.qty);
                     var competitionPendingUpdate = {
                         $inc: { 'pendingEntries': -comp.qty },
                         lastUpdated: new Date().toISOString(),
@@ -778,5 +779,5 @@ function startPendingOrderTimer(orderID){
         } catch (err) {
             console.log(err);
         }
-    }, 610 * 1000);
+    }, 5 * 1000);
 }

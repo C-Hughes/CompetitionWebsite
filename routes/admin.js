@@ -952,8 +952,7 @@ router.post('/users', async (req, res, next) => {
 
 
 ///////////////////////////////Test Routes//////////////////////////////////////
-
-  router.get('/addRewards', function(req, res, next) {
+router.get('/addRewards', function(req, res, next) {
 
     var pointsToAdd = 10;
     //Update most recent order to include updated basket with ticket numbers.
@@ -965,6 +964,23 @@ router.post('/users', async (req, res, next) => {
     .catch(err => {
         console.log(err);
     });
+});
+
+router.get('/decreasePending', async (req, res, next) => {
+
+    var entriesToReduce = 10;
+
+    try{
+        var competitionPendingUpdate = {
+            $inc: { 'pendingEntries': -entriesToReduce },
+            lastUpdated: new Date().toISOString(),
+        };
+        await Competition.findOneAndUpdate({ _id: '665f555b3049fd153f57ab37' }, competitionPendingUpdate, { upsert: false });
+
+    } catch (err) {
+        console.log(err);
+    }
+    return res.redirect('/admin/competitionEntries/665f555b3049fd153f57ab37');
 });
 
 /////////////////////////////////////////////////////////////////////////////////

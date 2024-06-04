@@ -19,9 +19,7 @@ async function cancelExpiredPendingOrders() {
             order.orderStatus = 'Cancelled';
             await order.save();
         
-            var basket = new Basket(order.basket);
-            var competitionEntries = basket.generateArray();
-            for (let comp of competitionEntries) {
+            for (let comp of order.basket) {
                 //Get competition from basket item
                 const foundCompetition = await Competition.findOne({ _id: comp.item._id });
                 if (!foundCompetition) {
@@ -33,6 +31,7 @@ async function cancelExpiredPendingOrders() {
                     $inc: { 'pendingEntries': -comp.qty },
                     lastUpdated: new Date().toISOString(),
                 };
+                console.log('CancelledCRON - Competition qty to reduce = '+comp.qty);
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
             }
         }
