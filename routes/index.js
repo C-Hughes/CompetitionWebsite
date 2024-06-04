@@ -478,7 +478,7 @@ router.post('/processCard', async (req, res, next) => {
             const savedOrder = await Order.findOne({ userReference: req.user, orderStatus: 'Pending'}).sort({ created: -1 });
             if (!savedOrder) {
                 console.log("No Order Found");
-                req.flash('error', 'Order error. No pending order found. Please try again.');
+                req.flash('error', 'No pending order found. Please complete all orders within 10 minutes. Please try again.');
                 return res.redirect('/checkout');
             } else {
                 //If found, check basket to make sure price and qty match, otherwise there is an error.
@@ -749,7 +749,7 @@ function startPendingOrderTimer(orderID){
         try{
             //console.log('Timer ended.... Check if order is still pending');
             //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
-            const foundOrder = await Order.findOneAndUpdate({ _id: orderID }, { orderStatus: 'Cancelled' }, { upsert: false });
+            const foundOrder = await Order.findOneAndUpdate({ _id: orderID, orderStatus: 'Pending' }, { orderStatus: 'Cancelled' }, { upsert: false });
 
             if(foundOrder){
                 var basket = new Basket(foundOrder.basket);
