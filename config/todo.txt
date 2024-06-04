@@ -29,6 +29,7 @@ Other:
 Admin functionality:
 - Administrate coupon codes
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
+- Ability for admin to manually enter people into competitions that have posted in.
 
 
 AntiCheat / User monitoring:
