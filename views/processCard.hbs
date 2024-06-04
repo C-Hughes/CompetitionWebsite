@@ -59,29 +59,61 @@
 </div>
 
 <script>
-// Initial countdown time in seconds (e.g., 10 minutes)
-let countdownTime = 10 * 60; // 10 minutes
+    // Set the total countdown time in seconds (10 minutes)
+    const totalCountdownTime = 10 * 60;
 
-setInterval(function() {
-    var div = document.querySelector("#counter");
+    // Function to start the countdown timer
+    function startTimer(initialCountdownTime) {
+        let countdownTime = initialCountdownTime;
 
-    // Decrement the countdown time
-    countdownTime--;
+        const intervalID = setInterval(function() {
+            var div = document.querySelector("#counter");
 
-    if (countdownTime <= 0) {
-        window.location.replace("/basket");
-    } else {
-        var minutes = Math.floor(countdownTime / 60);
-        var seconds = countdownTime % 60;
+            // Decrement the countdown time
+            countdownTime--;
 
-        if (minutes > 0) {
-            div.textContent = `${minutes} Minutes ${seconds} Seconds`;
-        } else {
-            div.textContent = `${seconds} Seconds`;
-        }
+            if (countdownTime <= 0) {
+                clearInterval(intervalID);
+                window.location.replace("/basket");
+            } else {
+                // Store the current countdown time in sessionStorage
+                sessionStorage.setItem('currentCountdownTime', countdownTime);
+
+                var minutes = Math.floor(countdownTime / 60);
+                var seconds = countdownTime % 60;
+
+                if (minutes > 0) {
+                    div.textContent = `${minutes} Minutes ${seconds} Seconds`;
+                } else {
+                    div.textContent = `${seconds} Seconds`;
+                }
+            }
+        }, 1000);
     }
-}, 1000);
 
-// Initialize the div with the initial time
-document.querySelector("#counter").textContent = `10 Minutes 0 Seconds`;
+    // On page load
+    window.onload = function() {
+        let initialCountdownTime;
+        const storedCurrentTime = sessionStorage.getItem('currentCountdownTime');
+
+        // If the stored current time is available and valid, use it
+        if (storedCurrentTime) {
+            initialCountdownTime = parseInt(storedCurrentTime);
+        } else {
+            // Initialize the countdown time
+            initialCountdownTime = totalCountdownTime;
+            // Store the initial countdown time in sessionStorage
+            sessionStorage.setItem('currentCountdownTime', initialCountdownTime);
+        }
+
+        // If the timer is already expired
+        if (initialCountdownTime <= 0) {
+            window.location.replace("/basket");
+        } else {
+            startTimer(initialCountdownTime);
+        }
+    };
+
+    // Initialize the div with the initial time
+    document.querySelector("#counter").textContent = `__ Minutes __ Seconds`;
 </script>
