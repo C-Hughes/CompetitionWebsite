@@ -418,9 +418,10 @@ router.post('/checkout', async (req, res, next) => {
         req.flash('success', 'Your billing details were saved');
         
         const basket = new Basket(req.session.basket);
+        var competitionEntries = basket.generateArray();
         const order = new Order({
             userReference: req.user,
-            basket: basket,
+            basket: competitionEntries,
             billingAddressReference: foundBAddress._id,
             billingAddress: foundBAddress,
             paymentID: '-',
@@ -430,11 +431,7 @@ router.post('/checkout', async (req, res, next) => {
         await order.save();
 
         //Go through each competition in basket.
-        var competitionEntries = basket.generateArray();
-        console.log('POST CHECKOUT COMP ENTRIES');
-
         for (let comp of competitionEntries) {
-            console.log('Updating Comp pendingEntries'+comp.item._id);
             //Get competition from basket item
             const foundCompetition = await Competition.findOne({ _id: comp.item._id });
 

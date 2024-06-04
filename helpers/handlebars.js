@@ -62,6 +62,9 @@ module.exports = {
     ifOR: function(value, value2, options){
         return (value || value2) ? options.fn(this) : options.inverse(this);
     },
+    viewJSON: function(value, options){
+        return JSON.stringify(value);
+    },
     checkActiveCompetitions: function(competitions, options){
         let hasActive = false;
 
