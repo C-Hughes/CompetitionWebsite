@@ -415,7 +415,7 @@ router.post('/checkout', async (req, res, next) => {
     };
     try {
         const foundBAddress = await BillingAddress.findOneAndUpdate({ userReference: req.user }, billingAddressUpdate, { upsert: true, new: true });
-        req.flash('success', 'Your billing details were saved');
+        //req.flash('success', 'Your billing details were saved');
         
         const basket = new Basket(req.session.basket);
         var competitionEntries = basket.generateArray();
@@ -434,7 +434,6 @@ router.post('/checkout', async (req, res, next) => {
         for (let comp of competitionEntries) {
             //Get competition from basket item
             const foundCompetition = await Competition.findOne({ _id: comp.item._id });
-
             if (!foundCompetition) {
                 req.flash('error', 'This competition does not exist.');
                 console.log('/Checkout POST - ERROR COMPETITION DOES NOT EXIST');
@@ -447,7 +446,6 @@ router.post('/checkout', async (req, res, next) => {
                 lastUpdated: new Date().toISOString(),
             };
             await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
-
         }
         res.redirect('/processCard');
     } catch (err) {
@@ -464,6 +462,7 @@ router.post('/processCard', async (req, res, next) => {
     } else {
         try {
             var basket = new Basket(req.session.basket);
+            var competitionEntries = basket.generateArray();
 
             // Get BillingAddress Reference from UserID
             const foundBAddress = await BillingAddress.findOne({ userReference: req.user });
@@ -481,34 +480,15 @@ router.post('/processCard', async (req, res, next) => {
                 return res.redirect('/checkout');
             } else {
                 //If found, check basket to make sure price and qty match, otherwise there is an error.
-                if(basket.totalPrice != savedOrder.basket.totalPrice || basket.totalQty != savedOrder.basket.totalQty){
+                if(competitionEntries.totalPrice != savedOrder.basket.totalPrice || competitionEntries.totalQty != savedOrder.basket.totalQty){
                     req.flash('error', 'Order error. Your order record & basket do not match. Please try again.');
                     return res.redirect('/checkout');
                 }
             }
-            /*
-            var order = new Order({
-                userReference: req.user,
-                //orderNumber: '0000000001',
-                basket: basket,
-                billingAddressReference: foundBAddress._id,
-                billingAddress: foundBAddress,
-                paymentID: 'TESTREFERENCE',
-                paymentPrice: req.session.basket.totalPrice,
-            });
-            const savedOrder = await order.save();
-            console.log('SUCCESS SAVE ORDER - ID= ' + savedOrder.id);
-            */
-
-            var competitionEntries = basket.generateArray();
 
             for (let comp of competitionEntries) {
-                //console.log('CompID ' + comp.item._id);
-                //console.log('qty ' + comp.qty);
-                //console.log('answer ' + comp.questionAnswer);
 
                 const foundCompetition = await Competition.findOne({ _id: comp.item._id });
-
                 if (!foundCompetition) {
                     req.flash('error', 'This competition does not exist.');
                     console.log('ERROR COMPETITION DOES NOT EXIST');
@@ -522,7 +502,6 @@ router.post('/processCard', async (req, res, next) => {
                 //console.log('Generating - ' + comp.qty + ' - Tickets');
                 for (let i = 0; i < comp.qty; i++) {
                     //console.log('Tickets Generated ' + i + '/' + comp.qty);
-
                     let foundRandomNumber = false;
                     while (!foundRandomNumber) {
                         var randomTicketNumber = Math.floor(Math.random() * foundCompetition.maxEntries) + 1;
@@ -547,14 +526,11 @@ router.post('/processCard', async (req, res, next) => {
 
                 //Sort newTicketNumbers lowest to highest
                 newTicketNumbers = newTicketNumbers.sort((a, b) => a - b);
-                //console.log('SORTED NEW TICKET NUMBERS: ' + newTicketNumbers);
-
                 //Update comp.ticketNumbers to update the basket for orderReceived Page
                 comp.ticketNumbers = newTicketNumbers;
 
                 //Sort ticketOrderObjArray lowest to highest
                 //ticketOrderObjArray.sort((a, b) => parseFloat(a.ticketNumber) - parseFloat(b.ticketNumber));
-                //console.log('!!!NEW TICKETORDER ARRAY = ' + ticketOrderObjArray);
 
                 var ticketUpdate = {
                     userReference: req.user,
@@ -575,12 +551,10 @@ router.post('/processCard', async (req, res, next) => {
                     ticketUpdate,
                     { upsert: true }
                 );
-                //console.log('TICKETS UPDATED IN TICKET DB');
 
                 ///////////////UPDATE COMPETITION RECORD FOR MOST RECENT PURCHASED TICKETS/////////////////
                 //Sort all sold tickets for the competition to update in the database
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
-                //console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
                     $inc: { 'currentEntries': comp.qty },
@@ -589,12 +563,10 @@ router.post('/processCard', async (req, res, next) => {
                 };
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
-                //console.log('SOLD TICKETS UPDATED IN COMPETITION DB ' + comp.item.title);
                 ////////////////////////////////////////////////////////////////
 
                 //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
                 await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries, orderStatus: 'Complete' }, { upsert: false });
-                //console.log('ORDER UPDATED WITH TICKET NUMBERS ' + comp.item.title);
             }
 
             req.flash('success', 'Your purchase was successful');
