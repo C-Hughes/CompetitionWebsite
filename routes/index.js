@@ -431,8 +431,10 @@ router.post('/checkout', async (req, res, next) => {
 
         //Go through each competition in basket.
         var competitionEntries = basket.generateArray();
+        console.log('POST CHECKOUT COMP ENTRIES');
 
         for (let comp of competitionEntries) {
+            console.log('Updating Comp pendingEntries'+comp.item._id);
             //Get competition from basket item
             const foundCompetition = await Competition.findOne({ _id: comp.item._id });
 
@@ -581,7 +583,7 @@ router.post('/processCard', async (req, res, next) => {
                 ///////////////UPDATE COMPETITION RECORD FOR MOST RECENT PURCHASED TICKETS/////////////////
                 //Sort all sold tickets for the competition to update in the database
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
-                console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
+                //console.log('SORTED COMPETITION TICKETS SOLD ARRAY ' + soldCompTicketNumbers);
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
                     $inc: { 'currentEntries': comp.qty },
@@ -595,7 +597,7 @@ router.post('/processCard', async (req, res, next) => {
 
                 //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
                 await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries, orderStatus: 'Complete' }, { upsert: false });
-                console.log('ORDER UPDATED WITH TICKET NUMBERS ' + comp.item.title);
+                //console.log('ORDER UPDATED WITH TICKET NUMBERS ' + comp.item.title);
             }
 
             req.flash('success', 'Your purchase was successful');

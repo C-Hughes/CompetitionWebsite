@@ -46,8 +46,12 @@ module.exports = {
         return ((new Date(entryCloseDate.getTime() - ONE_HOUR) < Date.now()) && (new Date(entryCloseDate.getTime()) > Date.now())) ? options.fn(this) : options.inverse(this);
     },
     formatTicketNumberOutput: function(cond1, options){
-        var toString = cond1.toString();
-        return toString.replaceAll(",",", ");;        
+        if(cond1){
+            var toString = cond1.toString();
+            return toString.replaceAll(",",", "); 
+        } else {
+            return "";
+        }
     },
     isTrue: function(value, options){
         if(value === true) {
