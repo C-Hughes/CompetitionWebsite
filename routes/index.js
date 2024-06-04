@@ -776,5 +776,5 @@ function startPendingOrderTimer(orderID){
         } catch (err) {
             console.log(err);
         }
-    }, 60 * 1000);
+    }, 610 * 1000);
 }
