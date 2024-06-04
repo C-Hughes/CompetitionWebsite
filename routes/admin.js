@@ -218,7 +218,7 @@ router.get('/users', function(req, res, next) {
 
     User.countDocuments({})
     .then(count => {
-        User.find({}).limit(25)
+        User.find({}).limit(50)
         .then(foundUsers => {
             res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0, userCount: count}); 
         })
@@ -829,7 +829,7 @@ router.post('/createDrawResult', async (req, res) => {
     }
 });
 
-//Edit draw result card
+//Edit draw result card/////////////////////////////////////////////
 router.post('/updateDrawResult', async (req, res, next) => {
 
     //If no draw Result ID is submitted with the form
@@ -910,7 +910,48 @@ router.post('/competitionEntries', async (req, res, next) => {
         res.redirect('/admin/competitionEntries/'+req.body.compID);
     }
 });
-  ///////////////////////////////Test Routes//////////////////////////////////////
+
+////////////Find User Details from submitted form////////////
+router.post('/users', async (req, res, next) => {
+
+    var userLookupInfo = req.body.userLookupInfo;
+    //If no draw Result ID is submitted with the form
+    if (!userLookupInfo) {
+        req.flash('error', 'User Information input is missing');
+        return res.redirect('/admin/users');
+    }
+
+    try {
+        var foundUser = await User.find({ "username" : { $regex : new RegExp(userLookupInfo, "i") } });
+        if(foundUser.length == 0){
+            foundUser = await User.find({ "emailAddress" : { $regex : new RegExp(userLookupInfo, "i") } });
+        }
+        if(foundUser.length == 0){
+            foundUser = await User.find({ "displayName" : { $regex : new RegExp(userLookupInfo, "i") } });
+        }
+        if(foundUser.length == 0){
+            foundUser = await User.find({ "firstName" : { $regex : new RegExp(userLookupInfo, "i") } });
+        }
+        if(foundUser.length == 0){
+            foundUser = await User.find({ "lastName" : { $regex : new RegExp(userLookupInfo, "i") } });
+        }
+
+        if(foundUser.length > 0){
+            res.render('admin/users', { title: 'Users', active: { users: true }, userInfo: foundUser});
+        } else {
+            res.render('admin/users', { title: 'Users', active: { users: true }, errors: true, error: ["User Details Not Found"]});
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Winning Ticket Number');
+        res.redirect('/admin/competitionEntries/'+req.body.compID);
+    }
+});
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////Test Routes//////////////////////////////////////
 
   router.get('/addRewards', function(req, res, next) {
 

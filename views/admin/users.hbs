@@ -10,7 +10,6 @@
     <div class="content my-6">
         <h1 class="title">Lookup User</h1>
     </div>
-
     {{#if errors}}
         <div class="container is-max-desktop mb-4">
             <div class="notification is-danger is-light">
@@ -20,7 +19,7 @@
             </div>
         </div>
     {{/if}}
-    <form action="/admin/competitionEntries" method="post">
+    <form action="/admin/users" method="post">
         <div class="field">
             <label class="label">Username / Email Address / Display Name / First Name / Last Name</label>
             <div class="control has-icons-left">
@@ -35,25 +34,54 @@
         <button type="submit" class="button is-fullwidth is-link mb-3">Lookup User</button>
     </form>
 
-    <hr></hr>
+    {{#if userInfo}}
+        <table class="table is-bordered is-striped is-narrow is-fullwidth">
+            <thead>
+                <tr class="is-clickable">
+                    <th></span>UserID<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                    <th><span>Username</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                    <th><span>Display Name</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                    <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                    <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                    <th></span>Email Address<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <div class="content my-6">
-        <h1 class="title">Total Users: {{userCount}}</h1>
-    </div>
-    
-    {{# each users}}
-        <div class="container notification">
-            <div class="columns is-vcentered is-mobile">
-                <div class="column is-3">
-                    <p class="title is-6">{{this.username}}</p>
-                </div>
-                <div class="column is-3">
-                    <p class="title is-6">{{this.displayName}}</p>
-                </div>
-                <div class="column is-3">
-                    <p class="title is-6">{{this.emailAddress}}</p>
+                {{#each userInfo}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.username}}</td>
+                        <td>{{this.displayName}}</td>
+                        <td>{{this.firstName}}</td>
+                        <td>{{this.lastName}}</td>
+                        <td>{{this.emailAddress}}</td>
+                    </tr>
+                {{/each}}    
+            </tbody>
+        </table>
+    {{else}}    
+        
+        <hr></hr>
+
+        <div class="content my-6">
+            <h1 class="title">Total Users: {{userCount}}</h1>
+        </div>
+        
+        {{# each users}}
+            <div class="container notification">
+                <div class="columns is-vcentered is-mobile">
+                    <div class="column is-3">
+                        <p class="title is-6">{{this.username}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">{{this.displayName}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">{{this.emailAddress}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    {{/each}}
+        {{/each}}
+    {{/if}}
 </div>
