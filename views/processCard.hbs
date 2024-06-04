@@ -7,8 +7,9 @@
 <div class="columns is-multiline my-6">
     <div class="column is-one-third"></div>
     <div class="column is-one-third is-max-desktop" style="min-width: 400px">
-        <div class="containermy-6">
+        <div class="container">
             <div class="mx-3">
+                <div class="block"><span id="counter">31</span> seconds to complete the order.</div>
                 <form action="/processCard" method="post">
                     <div class="container">
                         <div class="field">
@@ -56,3 +57,14 @@
     </div>
     <div class="column is-one-third"></div>
 </div>
+
+<script>
+    setInterval(function() {
+        var div = document.querySelector("#counter");
+        var count = div.textContent * 1 - 1;
+        div.textContent = count;
+        if (count <= 0) {
+            window.location.replace("/basket");
+        }
+    }, 1000);
+</script>

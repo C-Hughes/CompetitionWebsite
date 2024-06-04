@@ -55,7 +55,7 @@ User:
 - Get update communication preferences working
 - functionality to edit shipping address
 - Make sure only users with accounts can purchase tickets?
-
+- List orders on user dashboard
 
 Other:
 - Recode buy ticket post route to use an async function for readability

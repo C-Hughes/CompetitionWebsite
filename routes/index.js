@@ -428,7 +428,7 @@ router.post('/checkout', async (req, res, next) => {
             orderStatus: 'Pending',
             paymentPrice: req.session.basket.totalPrice,
         });
-        await order.save();
+        const savedOrder = await order.save();
 
         //Go through each competition in basket.
         for (let comp of competitionEntries) {
@@ -447,6 +447,8 @@ router.post('/checkout', async (req, res, next) => {
             };
             await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
         }
+        //Start Timer to check if order
+        startPendingOrderTimer(savedOrder._id);
         res.redirect('/processCard');
     } catch (err) {
         console.log(err);
@@ -719,4 +721,42 @@ function notLoggedIn(req, res, next){
       return next();
     }
     res.redirect('/');
+}
+
+//Timer to check if order has been completed or if it needs to be cancelled (After 10 minutes)
+function startPendingOrderTimer(orderID){
+    console.log('Starting timer for orderID '+orderID);
+
+    setTimeout(async function(){
+        try{
+            console.log('Timer ended.... Check if order is still pending');
+            //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
+            const foundOrder = await Order.findOneAndUpdate({ _id: orderID }, { orderStatus: 'Cancelled' }, { upsert: false });
+
+            if(foundOrder){
+                var basket = new Basket(foundOrder.basket);
+                var competitionEntries = basket.generateArray();
+                //Go through each competition in basket.
+                for (let comp of competitionEntries) {
+                    //Get competition from basket item
+                    const foundCompetition = await Competition.findOne({ _id: comp.item._id });
+                    if (!foundCompetition) {
+                        req.flash('error', 'startPendingOrderTimer - This competition does not exist.');
+                    }
+
+                    ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
+                    var competitionPendingUpdate = {
+                        $inc: { 'pendingEntries': -comp.qty },
+                        lastUpdated: new Date().toISOString(),
+                    };
+                    await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+                }
+                console.log('Competitions updated...');
+            } else {
+                console.log('Order Completed, nothing to update');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }, 30 * 1000);
 }
