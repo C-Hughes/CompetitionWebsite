@@ -478,18 +478,36 @@ router.post('/processCard', async (req, res, next) => {
             const savedOrder = await Order.findOne({ userReference: req.user, orderStatus: 'Pending'}).sort({ created: -1 });
             if (!savedOrder) {
                 console.log("No Order Found");
-                req.flash('error', 'Order error. Your order record was not found. Please try again.');
+                req.flash('error', 'Order error. No pending order found. Please try again.');
                 return res.redirect('/checkout');
             } else {
                 //If found, check basket to make sure price and qty match, otherwise there is an error.
-                if(competitionEntries.totalPrice != savedOrder.basket.totalPrice || competitionEntries.totalQty != savedOrder.basket.totalQty){
-                    req.flash('error', 'Order error. Your order record & basket do not match. Please try again.');
+                if(competitionEntries.totalPrice != savedOrder.basket.totalPrice || competitionEntries.totalQty != savedOrder.basket.totalQty || competitionEntries.length != savedOrder.basket.length){
+                    req.flash('error', 'Order error. Your pending order record & basket do not match. Pending order has been cancelled. Please try again.');
+                    
+                    //If basket and found order basket do not match, cancel the order and remove 
+                    await Order.findOneAndUpdate({ _id: savedOrder._id }, { orderStatus: 'Cancelled' }, { upsert: false });
+
+                    for (let comp of competitionEntries) {
+                        //Get competition from basket item
+                        const foundCompetition = await Competition.findOne({ _id: comp.item._id });
+                        if (!foundCompetition) {
+                            req.flash('error', 'This competition does not exist.');
+                        }
+
+                        ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
+                        var competitionPendingUpdate = {
+                            $inc: { 'pendingEntries': -comp.qty },
+                            lastUpdated: new Date().toISOString(),
+                        };
+                        await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+                    }
                     return res.redirect('/checkout');
                 }
             }
 
+            //If order found and basket is the same, generate ticket numbers and update competitions info
             for (let comp of competitionEntries) {
-
                 const foundCompetition = await Competition.findOne({ _id: comp.item._id });
                 if (!foundCompetition) {
                     req.flash('error', 'This competition does not exist.');
@@ -729,7 +747,7 @@ function startPendingOrderTimer(orderID){
 
     setTimeout(async function(){
         try{
-            console.log('Timer ended.... Check if order is still pending');
+            //console.log('Timer ended.... Check if order is still pending');
             //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
             const foundOrder = await Order.findOneAndUpdate({ _id: orderID }, { orderStatus: 'Cancelled' }, { upsert: false });
 
@@ -758,5 +776,5 @@ function startPendingOrderTimer(orderID){
         } catch (err) {
             console.log(err);
         }
-    }, 30 * 1000);
+    }, 600 * 1000);
 }

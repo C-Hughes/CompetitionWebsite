@@ -9,7 +9,7 @@
     <div class="column is-one-third is-max-desktop" style="min-width: 400px">
         <div class="container">
             <div class="mx-3">
-                <div class="block"><span id="counter">31</span> seconds to complete the order.</div>
+                <div class="block"><strong id="counter">600</strong> to complete the order.</div>
                 <form action="/processCard" method="post">
                     <div class="container">
                         <div class="field">
@@ -59,12 +59,29 @@
 </div>
 
 <script>
-    setInterval(function() {
-        var div = document.querySelector("#counter");
-        var count = div.textContent * 1 - 1;
-        div.textContent = count;
-        if (count <= 0) {
-            window.location.replace("/basket");
+// Initial countdown time in seconds (e.g., 10 minutes)
+let countdownTime = 10 * 60; // 10 minutes
+
+setInterval(function() {
+    var div = document.querySelector("#counter");
+
+    // Decrement the countdown time
+    countdownTime--;
+
+    if (countdownTime <= 0) {
+        window.location.replace("/basket");
+    } else {
+        var minutes = Math.floor(countdownTime / 60);
+        var seconds = countdownTime % 60;
+
+        if (minutes > 0) {
+            div.textContent = `${minutes} Minutes ${seconds} Seconds`;
+        } else {
+            div.textContent = `${seconds} Seconds`;
         }
-    }, 1000);
+    }
+}, 1000);
+
+// Initialize the div with the initial time
+document.querySelector("#counter").textContent = `10 Minutes 0 Seconds`;
 </script>

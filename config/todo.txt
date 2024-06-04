@@ -42,6 +42,7 @@ Testing:
 Test create competition and preview competition
 Test entry close date create/update competition
 Test Draw Result creation fully
+Reset all DBs and test order cancellation if order not completed within time limit
 
 -----------------------------------------------------------------------------------------
 
