@@ -25,7 +25,7 @@ async function cancelExpiredPendingOrders() {
                 //Get competition from basket item
                 const foundCompetition = await Competition.findOne({ _id: comp.item._id });
                 if (!foundCompetition) {
-                    req.flash('error', 'startPendingOrderTimer - This competition does not exist.');
+                    console.log('CRONJOB cancelExpiredPendingOrders - This competition does not exist.');
                 }
 
                 ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
@@ -36,6 +36,7 @@ async function cancelExpiredPendingOrders() {
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
             }
         }
+        console.log('CRONJOB cancelExpiredPendingOrders - Completed');
     } catch (error) {
         console.error('Error performing the scheduled task', error);
     }
