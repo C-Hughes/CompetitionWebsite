@@ -123,6 +123,37 @@
             </ul>
         </div>
     </div>
+
+    <hr></hr>
+    <div class="content my-6">
+        <h1 class="title">My Orders</h1>
+    </div>
+    {{#if hasOrders}}
+        {{#each orders}}
+            <div class="container notification">
+                <div class="columns is-vcentered is-mobile">
+                    <div class="column is-3">
+                        <p class="title is-6">Date</p>
+                        <p class="subtitle is-6">{{formatDate this.created}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">Payment Price</p>
+                        <p class="subtitle is-6">£{{this.paymentPrice}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">Order Status</p>
+                        <p class="subtitle is-6">{{this.orderStatus}}</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="column is-full">
+            <div class="notification">
+                <p>No orders to show.</p>
+            </div>
+        </div>
+    {{/if}}
 </div>
 
 

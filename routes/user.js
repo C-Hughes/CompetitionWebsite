@@ -7,7 +7,7 @@ var BillingAddress = require('../models/billingAddress');
 var ShippingAddress = require('../models/shippingAddress');
 var User = require('../models/user');
 var Ticket = require('../models/ticket');
-
+var Order = require('../models/order');
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
 router.use('/', isLoggedIn, function(req, res, next) {
@@ -16,33 +16,28 @@ router.use('/', isLoggedIn, function(req, res, next) {
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', async (req, res, next) => {
+    try {
+        const foundTickets = await Ticket.find({ userReference: req.user });
+        const foundOrders = await Order.find({ userReference: req.user }).sort({ created: -1 });
 
-    //console.log('Session Basket'+JSON.stringify(req.session.basket));
-
-    Ticket.find({userReference: req.user})
-    .then(foundTickets => {
         if (foundTickets) {
-            //var basket;
-            var compArr = [];
-            foundTickets.forEach(function(comp){
+            const compArr = foundTickets.map(comp => {
                 comp.ticketNumbersObjects.sort((a, b) => {
                     return parseInt(a.ticketNumber) - parseInt(b.ticketNumber);
                 });
-                compArr.push(comp);
-
-                //console.log('COMP: '+comp);
+                return comp;
             });
 
-            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, competitions: compArr, hasCompetitions: foundTickets.length > 0});
+            return res.render('user/dashboard', {title: 'My Account', active: { dashboard: true }, competitions: compArr, hasCompetitions: foundTickets.length > 0, orders: foundOrders, hasOrders: foundOrders.length > 0});
         } else {
             console.log("No Competitions Found");
-            return res.render('user/dashboard', { title: 'My Account', active: { dashboard: true }, competitions: ""});
+            return res.render('user/dashboard', {title: 'My Account', active: { dashboard: true }, competitions: "", hasCompetitions: foundTickets.length > 0, orders: foundOrders, hasOrders: foundOrders.length > 0});
         }
-    })
-    .catch(err => {
+    } catch (err) {
         console.log(err);
-    });
+        return res.render('user/dashboard', {title: 'My Account', active: { dashboard: true }, competitions: "", orders: ""});
+    }
 });
 
 router.get('/viewOrder/:id', function(req, res, next) {

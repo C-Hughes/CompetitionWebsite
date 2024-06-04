@@ -167,6 +167,15 @@
                             </span>
                         </div>
                     </div>
+                    <div class="field">
+                        <label class="label">Pending Entries</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Current Entries" value="{{competition.pendingEntries}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </span>
+                        </div>
+                    </div>
                     <div class="mb-4">
                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.maxEntries}}%</p>
                         <progress class="progress is-info" value="{{competition.currentEntries}}" max="{{competition.maxEntries}}"></progress>

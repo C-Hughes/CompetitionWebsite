@@ -199,7 +199,12 @@
                                 <i class="fa-solid fa-tag"></i>
                             </span>
                             <div class="px-2">
-                                <p class="title is-6 is-uppercase">Entries only £{{formatPrice competition.price}}</p>
+                                <p class="title is-6 is-uppercase">Entries only £{{#if competition.discountPrice}} {{formatPrice competition.discountPrice}} {{else}} {{formatPrice competition.price}} {{/if}}</p>
+                            <p class="title is-5 has-text-primary"><s>£{{formatPrice competition.price}}</s></p>
+                            <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.discountPrice}}</p>
+                        {{else}}
+                            <p class="title is-1 is-spaced has-text-primary">£{{formatPrice competition.price}}</p>
+                        {{/if}}
                             </div>
                         </p>
                     </div>
