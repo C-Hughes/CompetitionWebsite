@@ -201,7 +201,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                     req.session.basket = basket;
 
                     if (foundAdditionalCompetition) {
-                        console.log('Got one' + foundAdditionalCompetition.title);
+                        //console.log('Got one' + foundAdditionalCompetition.title);
                         res.render('competition', {
                             title: 'Win This ' + foundCompetition.title + '!',
                             competition: foundCompetition,
@@ -212,7 +212,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                             additionalCompetition: foundAdditionalCompetition
                         });
                     } else {
-                        console.log('Not found one');
+                        //console.log('Not found one');
                         res.render('competition', {
                             title: 'Win This ' + foundCompetition.title + '!',
                             competition: foundCompetition,
@@ -776,5 +776,5 @@ function startPendingOrderTimer(orderID){
         } catch (err) {
             console.log(err);
         }
-    }, 600 * 1000);
+    }, 60 * 1000);
 }
