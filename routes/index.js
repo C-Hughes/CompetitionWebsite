@@ -362,66 +362,99 @@ router.get('/images/:imageName', (req, res) => {
 
 ////////////////////////// ROUTE POSTS ////////////////////////////
 
-router.post('/checkout', function(req, res, next) {
+router.post('/checkout', async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
-    } else {
-        //var basket = new Basket(req.session.basket);
-        //Input Validation
-        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
-        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
-        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.emailAddress){
-            req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }
-        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
-            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
-            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
-            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
-            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-            //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
-            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
-        }   
+    }
+    //Input Validation
+    req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+    req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+    req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+    req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+    req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+    req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+    if(req.body.emailAddress){
+        req.checkBody('emailAddress', 'Email is not valid').isEmail();
+    }
+    if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
+        req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+        req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+        req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+        req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+        //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
+        req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+    }   
 
-        var errors = req.validationErrors();
-        if (errors){
-            var messages = [];
-            errors.forEach(function(error){
-                messages.push(error.msg);
-            });
-            req.flash('error', messages);
-            return res.redirect('/checkout');
-        }
-        
-        var billingAddressUpdate = {
-            userReference: req.user,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            countryRegion: req.body.countryRegion,
-            streetAddress1: req.body.streetAddress1,
-            streetAddress2: req.body.streetAddress2,
-            townCity: req.body.townCity,
-            county: req.body.county,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
-            DOBDD: req.body.DOBDD,
-            DOBMM: req.body.DOBMM,
-            DOBYY: req.body.DOBYY,
-            emailAddress: req.body.emailAddress,
-            lastUpdated: new Date().toISOString(),
-        };
-        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
-        .then(() => {
-            req.flash('success', 'Your billing details were saved');
-            res.redirect('/processCard');
-        })
-        .catch(err => {
-            console.log(err);
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
         });
+        req.flash('error', messages);
+        return res.redirect('/checkout');
+    }
+    
+    var billingAddressUpdate = {
+        userReference: req.user,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        countryRegion: req.body.countryRegion,
+        streetAddress1: req.body.streetAddress1,
+        streetAddress2: req.body.streetAddress2,
+        townCity: req.body.townCity,
+        county: req.body.county,
+        postcode: req.body.postcode,
+        phoneNumber: req.body.phoneNumber,
+        DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
+        DOBDD: req.body.DOBDD,
+        DOBMM: req.body.DOBMM,
+        DOBYY: req.body.DOBYY,
+        emailAddress: req.body.emailAddress,
+        lastUpdated: new Date().toISOString(),
+    };
+    try {
+        const foundBAddress = await BillingAddress.findOneAndUpdate({ userReference: req.user }, billingAddressUpdate, { upsert: true, new: true });
+        req.flash('success', 'Your billing details were saved');
+        
+        const basket = new Basket(req.session.basket);
+        const order = new Order({
+            userReference: req.user,
+            basket: basket,
+            billingAddressReference: foundBAddress._id,
+            billingAddress: foundBAddress,
+            paymentID: '-',
+            orderStatus: 'Pending',
+            paymentPrice: req.session.basket.totalPrice,
+        });
+        await order.save();
+
+        //Go through each competition in basket.
+        var competitionEntries = basket.generateArray();
+
+        for (let comp of competitionEntries) {
+            //Get competition from basket item
+            const foundCompetition = await Competition.findOne({ _id: comp.item._id });
+
+            if (!foundCompetition) {
+                req.flash('error', 'This competition does not exist.');
+                console.log('/Checkout POST - ERROR COMPETITION DOES NOT EXIST');
+                return res.redirect('/basket');
+            }
+
+            ///////////////UPDATE COMPETITION RECORD - ADD TICKET QTY TO pendingEntries count/////////////////
+            var competitionPendingUpdate = {
+                $inc: { 'pendingEntries': comp.qty },
+                lastUpdated: new Date().toISOString(),
+            };
+            await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+
+        }
+        res.redirect('/processCard');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'An error occurred during checkout');
+        res.redirect('/checkout');
     }
 });
 
@@ -538,6 +571,7 @@ router.post('/processCard', async (req, res, next) => {
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
                     $inc: { 'currentEntries': comp.qty },
+                    lastUpdated: new Date().toISOString(),
                 };
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
