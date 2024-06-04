@@ -7,7 +7,7 @@ When buying tickets:
 
 Competitions:
 - If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
-
+- Update postal vote information
 
 User:
 - Schema for challenge board & challenge board functionality
@@ -43,6 +43,7 @@ Test create competition and preview competition
 Test entry close date create/update competition
 Test Draw Result creation fully
 Reset all DBs and test order cancellation if order not completed within time limit
+Adding multiple items to basket and make sure when order is cancelled that pending entries are removed.
 
 -----------------------------------------------------------------------------------------
 
