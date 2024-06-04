@@ -1,7 +1,7 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- Make sure they cannot buy more than max for comp (before payment is made) - Allocate tickets to users for 10minutes until a successful payment is made, so another user cannot buy tickets after payment has been made
+- Make sure they cannot buy more than max for comp (before payment is made)
 - check to see how many user has bought already and if they can buy anymore
 
 
@@ -83,6 +83,7 @@ Competition:
 - Add modal/carrosel to view larger images of competition images
 - Update slider so button disables if at minimum or maximum
 - Update homepage banner so it cycles through large images of selected competitions. Add info and enter now button too
+- Allocate tickets to users for 10minutes until a successful payment is made, so another user cannot buy tickets after payment has been made
 
 
 Admin:

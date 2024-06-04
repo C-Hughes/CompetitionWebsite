@@ -577,8 +577,10 @@ router.post('/processCard', async (req, res, next) => {
                 soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
                 var competitionTicketsUpdate = {
                     ticketNumbersSold: soldCompTicketNumbers,
-                    $inc: { 'currentEntries': comp.qty },
-                    $inc: { 'pendingEntries': -comp.qty },
+                    $inc: {
+                        'currentEntries': comp.qty,
+                        'pendingEntries': -comp.qty
+                    },
                     lastUpdated: new Date().toISOString(),
                 };
                 //Update competition to include purchased ticket numbers and total purchased qty.
