@@ -13,6 +13,7 @@ var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo');
 var fileUpload = require('express-fileupload');
+
 require('dotenv').config();
 //var multer  = require('multer');
 //var upload = multer({ dest: 'uploads/' });
@@ -29,7 +30,7 @@ mongoose.connect(process.env.MONGOOSE_CONNECT, {
     serverSelectionTimeoutMS: 5000
 });
 require('./config/passport');
-
+require('./config/cronJobs');
 
 // view engine setup
 var hbs = app.engine('.hbs', expressHbs.engine({
