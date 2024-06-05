@@ -6,7 +6,7 @@ var Basket = require('../models/basket');
 
 // Function to perform the scheduled task
 async function cancelExpiredPendingOrders() {
-    console.log('Performing the scheduled task');
+    console.log('Starting CRON - cancelExpiredPendingOrders');
     try {
         const fifteenMinutesAgo = new Date(Date.now() - (15 * 60 * 1000));
 
@@ -35,9 +35,9 @@ async function cancelExpiredPendingOrders() {
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
             }
         }
-        console.log('CRONJOB cancelExpiredPendingOrders - Completed');
+        console.log('Completed CRON - cancelExpiredPendingOrders');
     } catch (error) {
-        console.error('Error performing the scheduled task', error);
+        console.error('Error CRON - cancelExpiredPendingOrders', error);
     }
 }
 
