@@ -90,8 +90,8 @@ passport.use('local.signup', new LocalStrategy({
         newUser.referralCode = referralCode;
         newUser.signupReferralCodeUsed = referralCodeInput;
         newUser.displayName = username;
-        newUser.joindate = new Date();
-        newUser.lastlogin = new Date();
+        newUser.joinDate = new Date();
+        newUser.lastLogin = new Date();
 
         await newUser.save();
         return done(null, newUser);
@@ -123,9 +123,9 @@ passport.use('local.login', new LocalStrategy({
         let user = await User.findOne({ "email" : { $regex : new RegExp(username, "i") } });
 
         if (user) {
-            console.log('found user email = ' + user);
             // If user found and password is valid
             if (user.validPassword(password)) {
+                await User.findOneAndUpdate({ _id: user._id }, { lastLogin: new Date() }, { upsert: false });
                 return done(null, user);
             } else {
                 return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
@@ -134,6 +134,7 @@ passport.use('local.login', new LocalStrategy({
             // Find username for login
             user = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
             if (user && user.validPassword(password)) {
+                await User.findOneAndUpdate({ _id: user._id }, { lastLogin: new Date() }, { upsert: false });
                 return done(null, user);
             } else {
                 return done(null, false, req.flash('lError', 'Username or Password is incorrect'));

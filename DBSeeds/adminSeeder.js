@@ -14,8 +14,8 @@ newUser.displayName = 'Admin';
 newUser.emailAddress = 'Admin@admin.com';
 newUser.referralCode = 'ADMINREFERRAL';
 newUser.isAdmin = true;
-newUser.joindate = new Date();
-newUser.lastlogin = new Date();
+newUser.joinDate = new Date();
+newUser.lastLogin = new Date();
 newUser.save({})
 .then(() => {
     console.log('Admin saved!');
