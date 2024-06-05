@@ -219,7 +219,7 @@ router.get('/users', function(req, res, next) {
 
     User.countDocuments({})
     .then(count => {
-        User.find({}).limit(50)
+        User.find({}).limit(50).sort({created: -1})
         .then(foundUsers => {
             res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0, userCount: count}); 
         })
