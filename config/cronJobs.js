@@ -23,7 +23,7 @@ async function cancelExpiredPendingOrders() {
                 //Get competition from basket item
                 const foundCompetition = await Competition.findOne({ _id: comp.item._id });
                 if (!foundCompetition) {
-                    console.log('CRONJOB cancelExpiredPendingOrders - This competition does not exist.');
+                    console.log('CRON cancelExpiredPendingOrders - This competition does not exist.');
                 }
 
                 ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
@@ -31,7 +31,7 @@ async function cancelExpiredPendingOrders() {
                     $inc: { 'pendingEntries': -comp.qty },
                     lastUpdated: new Date().toISOString(),
                 };
-                console.log('CancelledCRON - Competition qty to reduce = '+comp.qty);
+                console.log('CRON Cancelled Order Found - Competition qty to reduce = '+comp.qty);
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
             }
         }
