@@ -7,7 +7,8 @@ mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
 
 var Competitions = [
     new Competition({
-        imagePath: 'https://www.gamespot.com/a/uploads/screen_kubrick/1574/15747411/3756082-xbox-series-x-review-promothumb.jpg',
+        imagePath: 'http://localhost:3000/images/xboxMain.jpg',
+        additionalImagePaths : [ "http://localhost:3000/images/xboxImage1.jpg", "http://localhost:3000/images/xboxImage2.jpg", "http://localhost:3000/images/xboxImage3.jpg", "http://localhost:3000/images/xboxImage4.jpg", "http://localhost:3000/images/xboxImage5.jpg" ],
         title: 'Xbox Series X 1TB',
         description: 'Introducing Xbox Series X, the fastest, most powerful Xbox ever. Play thousands of titles from four generations of consoles—all games look and play best on Xbox Series X.\n' +
             '  Experience next-gen speed and performance with the Xbox Velocity Architecture, powered by a custom SSD and integrated software\n' +
@@ -28,7 +29,7 @@ var Competitions = [
         visible: true
     }),
     new Competition({
-        imagePath: 'https://images.idgesg.net/images/article/2021/01/samsung-870-evo-sata-ssd-primary-100873962-orig.jpg?quality=50&strip=all',
+        imagePath: 'http://localhost:3000/images/samsung-870-evo.jpg',
         title: '2TB Samsung SSD Evo',
         description: 'Introducing Samsung SSD\n' +
             '  More Text\n' +
@@ -49,7 +50,7 @@ var Competitions = [
         visible: true
     }),
     new Competition({
-        imagePath: 'http://im.ziffdavisinternational.com/ign_es/screenshot/default/75105box3injpg-8bb66b_jj3d.jpg',
+        imagePath: 'http://localhost:3000/images/LegoStarWarsF.jpg',
         title: 'LEGO StarWars Millennium Falcon',
         description: 'Introducing LEGO StarWars Millennium Falcon\n' +
             '  More Text\n' +
