@@ -67,27 +67,25 @@
                     </div>
                 </div>
                 <div id="userInfo_{{this._id}}" style="display:none">
-                    <p class="title is-6">Shipping Address</p>
                     <div class="columns is-vcentered is-multiline">
-                        <div class="column is-2">
+                        <div class="column is-5">
                             <p class="title is-6">Shipping Address</p>
-                            <p class="subtitle is-6">{{this}}</p>
+                            <p>{{this.shippingAddressReference.firstName}}</p>
+                            <p>{{this.shippingAddressReference.lastName}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress1}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress2}}</p>
+                            <p>{{this.shippingAddressReference.townCity}}</p>
+                            <p>{{this.shippingAddressReference.county}}</p>
+                            <p>{{this.shippingAddressReference.postcode}}</p>
                         </div>
-                        <div class="column is-2">
-                            <p class="title is-6">Username</p>
-                            <p class="subtitle is-6">{{this.username}}</p>
-                        </div>
-                        <div class="column is-2">
-                            <p class="title is-6">First Name</p>
-                            <p class="subtitle is-6">{{this.firstName}}</p>
-                        </div>
-                        <div class="column is-2">
-                            <p class="title is-6">Last Name</p>
-                            <p class="subtitle is-6">{{this.lastName}}</p>
-                        </div>     
-                        <div class="column is-3">
-                            <p class="title is-6">Email Address</p>
-                            <p class="subtitle is-6">{{this.emailAddress}}</p>
+                        <div class="column is-7">
+                            <p class="title is-6">User Info</p>
+                            <p><strong>Reward Points:</strong> {{this.rewardPoints}}</p>
+                            <p><strong>Reward Level:</strong> {{this.rewardLevel}}</p>
+                            <p><strong>Referral Code used at signup:</strong> {{this.signupReferralCodeUsed}}</p>
+                            <p><strong>Other Users Referred:</strong> {{this.usersReferred}}</p>
+                            <p><strong>Join Date:</strong> {{formatDate this.joindate}}</p>
+                            <p><strong>Last Login:</strong> {{formatDate this.lastlogin}}</p>
                         </div>
                     </div>
                 </div>
