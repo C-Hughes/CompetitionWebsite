@@ -106,52 +106,43 @@ passport.use('local.login', new LocalStrategy({
     usernameField: 'usernameEmail',
     passwordField: 'passwordL',
     passReqToCallback: true
-}, function(req, username, password, done){
+}, async function(req, username, password, done){
 
-    //var email = req.body.email;
+    try {
+        // Input Validation
+        req.checkBody('usernameEmail', 'Username is empty').notEmpty();
+        req.checkBody('passwordL', 'Password is empty').notEmpty();
 
-    //Input Validation
-    req.checkBody('usernameEmail', 'Username is empty').notEmpty();
-    req.checkBody('passwordL', 'Password is empty').notEmpty();
+        const errors = req.validationErrors();
+        if (errors){
+            const lMessages = errors.map(error => error.msg);
+            return done(null, false, req.flash('lError', lMessages));
+        }
 
-    var errors = req.validationErrors();
-    if (errors){
-        var lMessages = [];
-        errors.forEach(function(error){
-            lMessages.push(error.msg);
-        });
-        return done(null, false, req.flash('lError', lMessages));
-    }
+        // Find email for login
+        let user = await User.findOne({ "email" : { $regex : new RegExp(username, "i") } });
 
-    //Find email for login
-    User.findOne({ "email" : { $regex : new RegExp(username, "i") } })
-    .then((user) => {
         if (user) {
-            console.log('found user email = '+ user);
-            //If user found and password is valid
-            if(user.validPassword(password)){
+            console.log('found user email = ' + user);
+            // If user found and password is valid
+            if (user.validPassword(password)) {
                 return done(null, user);
             } else {
                 return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
             }
         } else {
-            //Find username for login
-            User.findOne({ "username" : { $regex : new RegExp(username, "i") } })
-            .then((foundUser) => {
-                if (foundUser && foundUser.validPassword(password)) {
-                    return done(null, foundUser);
-                } else {
-                    return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
-                }
-            })
-                .catch(err => {
-                console.log(err);
-          });
+            // Find username for login
+            user = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
+            if (user && user.validPassword(password)) {
+                return done(null, user);
+            } else {
+                return done(null, false, req.flash('lError', 'Username or Password is incorrect'));
+            }
         }
-    })
-      .catch(err => {
+    } catch (err) {
         console.log(err);
-    });
+        return done(err);
+    }
 }));
 
 
