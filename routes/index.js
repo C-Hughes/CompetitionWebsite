@@ -168,9 +168,10 @@ router.get('/basket', async function(req, res, next) {
             return res.render('basket', { title: 'Basket', products: null });
         } else {
             var basket = new Basket(req.session.basket);
-            await basket.updateBasket(); // Update the basket
+            error = await basket.updateBasket(); // Update the basket
+
             req.session.basket = basket;
-            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice });
+            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, error: error, hasError: error.length > 0});
         }
     } catch (error) {
         console.log('Error updating basket:', error);

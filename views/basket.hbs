@@ -4,6 +4,24 @@
   </div>
 </section>
 
+{{#if hasError}}
+    <div class="container is-max-desktop mt-6">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mt-6">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
 
 {{# if products}}
     <section class="hero">

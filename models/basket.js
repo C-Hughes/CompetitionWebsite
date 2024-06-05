@@ -69,14 +69,30 @@ module.exports = function Basket(oldBasket){
     this.updateBasket = async function() {
         //console.log('Updating Basket...');
         this.totalPrice = 0;
+        var messages = [];
 
         for (var id in this.items){
             try {
                 const foundCompetition = await Competition.findOne({ _id: this.items[id].item._id });
-                if (foundCompetition) {
+                if (foundCompetition && !foundCompetition.active) {
+                    //If competition is not active, remove it from the basket.
+                    console.log("UpdateBasket Error - Comp Not Active");
+                    this.removeItem(id);
+                    messages.push('Competition Is No Longer Active - Removed From Basket');
+                } else if (foundCompetition && new Date(foundCompetition.entryCloseDate.getTime()) < Date.now()) {
+                    //If competition last entry date has passed, remove it from the basket.
+                    console.log("UpdateBasket Error - Entries Closed");
+                    this.removeItem(id);
+                    messages.push('Entries to Competition Have Closed - Removed From Basket');
+                } else if (foundCompetition && foundCompetition.visible && foundCompetition.active) {
+                    //If competition is found and is active and visible then update info and price
+
                     //Update basket item to current info
                     this.items[id].item = foundCompetition;
-                    //console.log('item = '+this.items[id].item);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    //Make sure a user cannot add more tickets if a competition is sold out
+                    //Make sure a user cannot add more tickets than is allowed per person
 
                     //if foundCompetition has a discountPrice set
                     if(foundCompetition.discountPrice){
@@ -87,21 +103,19 @@ module.exports = function Basket(oldBasket){
                     }
                     this.totalPrice += this.items[id].price;
                 } else {
-                    //If competition is not found, remove it from the basket.
-                    console.log("Error updateBasket() COMP Not Found");
+                    //If competition is not found or is invisible, remove it from the basket.
+                    console.log("UpdateBasket Error - Comp Not Found");
                     this.removeItem(id);
+                    messages.push('Competition Not Found - Removed From Basket');
                 }
             } catch (err) {
                 console.log(err);
             }
         }
         /*
-        Make sure a user cannot add more tickets if a competition is sold out
-        Make sure a user cannot add more tickets than is allowed per person
-        - Make sure they cannot buy more than max for comp (before payment is made)
-        - check to see how many user has bought already and if they can buy anymore
         - If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
         */
+       return messages;
     }
 
     //Make sure a user cannot add more tickets than is allowed per person
