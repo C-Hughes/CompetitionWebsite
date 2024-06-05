@@ -45,6 +45,7 @@ module.exports = function Basket(oldBasket){
     };
 
     this.removeItem = function(id){
+        console.log('Basket - Removing Item');
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         delete this.items[id];
@@ -86,7 +87,9 @@ module.exports = function Basket(oldBasket){
                     }
                     this.totalPrice += this.items[id].price;
                 } else {
+                    //If competition is not found, remove it from the basket.
                     console.log("Error updateBasket() COMP Not Found");
+                    this.removeItem(id);
                 }
             } catch (err) {
                 console.log(err);
