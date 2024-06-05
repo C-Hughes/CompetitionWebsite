@@ -35,31 +35,65 @@
     </form>
 
     {{#if userInfo}}
-        <table class="table is-bordered is-striped is-narrow is-fullwidth">
-            <thead>
-                <tr class="is-clickable">
-                    <th></span>UserID<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                    <th><span>Username</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                    <th><span>Display Name</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                    <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                    <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                    <th></span>Email Address<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                </tr>
-            </thead>
-            <tbody>
+        {{#each userInfo}}
+            <div class="container notification">
+                <div class="columns is-vcentered">
+                    <div class="column is-2">
+                        <p class="title is-6">UserID</p>
+                        <p class="subtitle is-6">{{this._id}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Username</p>
+                        <p class="subtitle is-6">{{this.username}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">First Name</p>
+                        <p class="subtitle is-6">{{this.firstName}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Last Name</p>
+                        <p class="subtitle is-6">{{this.lastName}}</p>
+                    </div>     
+                    <div class="column is-3">
+                        <p class="title is-6">Email Address</p>
+                        <p class="subtitle is-6">{{this.emailAddress}}</p>
+                    </div>                 
+                    <div class="column is-1">
+                        <button class="button is-link" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div id="userInfo_{{this._id}}" style="display:none">
+                    <p class="title is-6">Shipping Address</p>
+                    <div class="columns is-vcentered is-multiline">
+                        <div class="column is-2">
+                            <p class="title is-6">Shipping Address</p>
+                            <p class="subtitle is-6">{{this._id}}</p>
+                        </div>
+                        <div class="column is-2">
+                            <p class="title is-6">Username</p>
+                            <p class="subtitle is-6">{{this.username}}</p>
+                        </div>
+                        <div class="column is-2">
+                            <p class="title is-6">First Name</p>
+                            <p class="subtitle is-6">{{this.firstName}}</p>
+                        </div>
+                        <div class="column is-2">
+                            <p class="title is-6">Last Name</p>
+                            <p class="subtitle is-6">{{this.lastName}}</p>
+                        </div>     
+                        <div class="column is-3">
+                            <p class="title is-6">Email Address</p>
+                            <p class="subtitle is-6">{{this.emailAddress}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
 
-                {{#each userInfo}}
-                    <tr>
-                        <td>{{this._id}}</td>
-                        <td>{{this.username}}</td>
-                        <td>{{this.displayName}}</td>
-                        <td>{{this.firstName}}</td>
-                        <td>{{this.lastName}}</td>
-                        <td>{{this.emailAddress}}</td>
-                    </tr>
-                {{/each}}    
-            </tbody>
-        </table>
     {{else}}    
         
         <hr></hr>
