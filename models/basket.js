@@ -92,10 +92,13 @@ module.exports = function Basket(oldBasket){
                 console.log(err);
             }
         }
-
-        //Make sure a user cannot add more tickets if a competition is sold out
-
-        //Make sure a user cannot add more tickets than is allowed per person
+        /*
+        Make sure a user cannot add more tickets if a competition is sold out
+        Make sure a user cannot add more tickets than is allowed per person
+        - Make sure they cannot buy more than max for comp (before payment is made)
+        - check to see how many user has bought already and if they can buy anymore
+        - If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
+        */
     }
 
     //Make sure a user cannot add more tickets than is allowed per person
