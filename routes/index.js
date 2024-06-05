@@ -674,13 +674,13 @@ router.post('/login', async (req, res, next) => {
             req.session.basket = basketBeforeLogin || {};
         } else {
             //Set basket and update basket if basket was present when last logged in
-            var basket = new Basket(user.basket);
-            await basket.updateBasket(); // Update the basket
-            req.session.basket = basket;
+            if(user.basket){
+                var basket = new Basket(user.basket);
+                await basket.updateBasket(); // Update the basket
+                req.session.basket = basket;
+            }
         }
-        
         return res.redirect('/user'); // Login successful
-
     } catch (err) {
         return next(err);
     }
