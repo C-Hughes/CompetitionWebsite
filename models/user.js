@@ -23,9 +23,9 @@ var userSchema = new Schema({
     referralCode: {type: String, required: true},
     signupReferralCodeUsed: {type: String, required: false},
     usersReferred: {type: Number, required: false, default: 0},
-    joinDate: {type: Date, default: Date.now, required: true},
     isAdmin: {type: Boolean, required: true, default: false},
     basket: {type: Object, required: false, default: {}},
+    joinDate: {type: Date, default: Date.now, required: true},
     lastLogin: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });
