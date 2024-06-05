@@ -280,7 +280,7 @@ router.get('/checkout', isLoggedIn, function(req, res, next) {
     } else {
 
         var basket = new Basket(req.session.basket);
-        basket.updateBasket()
+        basket.updateBasket(req.user)
         .then(() => {
             req.session.basket = basket;
             BillingAddress.findOne({userReference: req.user})
@@ -308,7 +308,7 @@ router.get('/processCard', function(req, res, next) {
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
-        basket.updateBasket()
+        basket.updateBasket(req.user)
         .then(() => {
             req.session.basket = basket;
             res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});

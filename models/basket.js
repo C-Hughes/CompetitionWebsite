@@ -96,7 +96,7 @@ module.exports = function Basket(oldBasket){
                     ////////////////////////////////////////////////////////////////////////////////////
                     //Make sure a user cannot add more tickets than max per person.
                     //Get Number of tickets User has already purchased for competition.
-                    const userEntries = await Ticket.findOne({ userReference: user.id, competitionReference: this.items[id].item._id});
+                    const userEntries = await Ticket.findOne({ userReference: user._id, competitionReference: this.items[id].item._id});
 
                     if(userEntries){
                         if(userEntries.ticketQty >= foundCompetition.maxEntriesPerPerson){
@@ -123,7 +123,7 @@ module.exports = function Basket(oldBasket){
                         messages.push('You Can Only Purchased '+foundCompetition.maxEntriesPerPerson+' Tickets. Ticket Quantity Updated');
                     }
                     
-                    if((foundCompetition.currentEntries) >= foundCompetition.maxEntries){
+                    if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
                         //Maximum entries have been reached - Competition is sold out
                         console.log("UpdateBasket Error - Comp is sold out");
                         this.removeItem(id);
