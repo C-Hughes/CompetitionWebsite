@@ -112,7 +112,6 @@ router.get('/safePlaying', function(req, res, next) {
 });
 
 
-
 ////////////////////// ROUTE POSTS //////////////////////////////
 
 router.post('/address/:addressType', async function(req, res, next) {
@@ -201,7 +200,8 @@ router.post('/address/:addressType', async function(req, res, next) {
                 lastUpdated: new Date().toISOString(),
             };
 
-            await ShippingAddress.findOneAndUpdate({ userReference: req.user }, shippingAddressUpdate, { upsert: true });
+            const shippingRef = await ShippingAddress.findOneAndUpdate({ userReference: req.user }, shippingAddressUpdate, { upsert: true });
+            await User.findOneAndUpdate({ id: req.user }, {shippingAddressReference: shippingRef}, { upsert: false });
             req.flash('success', 'Your shipping details were saved');
             res.redirect('/user/address');
         } else {

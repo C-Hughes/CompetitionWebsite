@@ -9,6 +9,7 @@ var userSchema = new Schema({
     lastName: {type: String, required: true},
     displayName: {type: String, required: true},
     emailAddress: {type: String, required: true},
+    shippingAddressReference: {type: Schema.Types.ObjectId, ref: 'ShippingAddress', required: false},
     isEmailVerified: {type: Boolean, required: true, default: false},
     DOB: {type: String, required: false},
     DOBDD: {type: Number, required: false},
