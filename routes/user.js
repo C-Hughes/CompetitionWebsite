@@ -201,7 +201,7 @@ router.post('/address/:addressType', async function(req, res, next) {
             };
 
             const shippingRef = await ShippingAddress.findOneAndUpdate({ userReference: req.user }, shippingAddressUpdate, { upsert: true });
-            await User.findOneAndUpdate({ id: req.user }, {shippingAddressReference: shippingRef}, { upsert: false });
+            await User.findOneAndUpdate({ _id: req.user }, {shippingAddressReference: shippingRef.id}, { upsert: false });
             req.flash('success', 'Your shipping details were saved');
             res.redirect('/user/address');
         } else {

@@ -923,7 +923,7 @@ router.post('/users', async (req, res, next) => {
     }
 
     try {
-        var foundUser = await User.find({ "username" : { $regex : new RegExp(userLookupInfo, "i") } });
+        var foundUser = await User.find({ "username" : { $regex : new RegExp(userLookupInfo, "i") } }).populate('shippingAddressReference');
         if(foundUser.length == 0){
             foundUser = await User.find({ "emailAddress" : { $regex : new RegExp(userLookupInfo, "i") } });
         }
