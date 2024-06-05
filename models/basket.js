@@ -105,14 +105,15 @@ module.exports = function Basket(oldBasket){
                             this.removeItem(id);
                             messages.push('You Have Purchased the Maximum Tickets Allowed Per Person - Competition Removed From Basket');
 
-                        } else if(userEntries.ticketQty + this.items[id].qty >= foundCompetition.maxEntriesPerPerson){
+                        } else if(userEntries.ticketQty + this.items[id].qty > foundCompetition.maxEntriesPerPerson){
                             //Maximum entries for user exceeded - Update Ticket Qty to MAX allowed.
                             console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
-                            var maxTickets = ((userEntries + this.items[id].qty) - foundCompetition.maxEntriesPerPerson);
-                            var subbedQty = this.items[id].qty - maxTickets
-                            this.items[id].qty = maxTickets;
-                            this.totalQty -= subbedQty;
-                            messages.push('You Have Almost Purchased the Maximum Tickets Allowed Per Person - Ticket Quantity Updated');
+                            //var subbedQty = this.items[id].qty - maxTickets
+                            var basketTickets = this.items[id].qty;
+                            this.items[id].qty = foundCompetition.maxEntriesPerPerson - userEntries.ticketQty;
+                            var ticketOver = basketTickets - this.items[id].qty;
+                            this.totalQty -= ticketOver;
+                            messages.push('Maximum Tickets Per Person is '+foundCompetition.maxEntriesPerPerson+'. Ticket Quantity Updated.');
                         }
                     }
                     if(this.items[id].qty > foundCompetition.maxEntriesPerPerson){
@@ -120,7 +121,7 @@ module.exports = function Basket(oldBasket){
                         var subbedQty = this.items[id].qty - foundCompetition.maxEntriesPerPerson;
                         this.items[id].qty = foundCompetition.maxEntriesPerPerson;
                         this.totalQty -= subbedQty;
-                        messages.push('You Can Only Purchased '+foundCompetition.maxEntriesPerPerson+' Tickets. Ticket Quantity Updated');
+                        messages.push('You Can Only Purchased '+foundCompetition.maxEntriesPerPerson+' Tickets - Ticket Quantity Updated.');
                     }
                     
                     if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
