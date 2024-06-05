@@ -115,111 +115,102 @@ router.get('/safePlaying', function(req, res, next) {
 
 ////////////////////// ROUTE POSTS //////////////////////////////
 
-router.post('/address/:addressType', function(req, res, next) {
-    var addressType = req.params.addressType;
+router.post('/address/:addressType', async function(req, res, next) {
+    const addressType = req.params.addressType;
 
-    if(addressType == "billing"){
-        //Input Validation
-        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
-        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
-        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.emailAddress){
-            req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }
-        if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY){
-            req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
-            req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
-            req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
-            req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-            //req.checkBody('DOBMM', 'Date of Birth Month must be a String').isString();
-            req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
-        }    
+    try {
+        if (addressType === "billing") {
+            // Input Validation
+            req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+            req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+            req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+            req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+            req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+            req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+            if (req.body.emailAddress) {
+                req.checkBody('emailAddress', 'Email is not valid').isEmail();
+            }
+            if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY) {
+                req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
+                req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
+                req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
+                req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
+                req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
+            }
 
-        var errors = req.validationErrors();
-        if (errors){
-            var messages = [];
-            errors.forEach(function(error){
-                messages.push(error.msg);
-            });
-            req.flash('error', messages);
-            return res.redirect('/user/address');
-        }
-        
-        var billingAddressUpdate = {
-            userReference: req.user,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            countryRegion: req.body.countryRegion,
-            streetAddress1: req.body.streetAddress1,
-            streetAddress2: req.body.streetAddress2,
-            townCity: req.body.townCity,
-            county: req.body.county,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            DOB: new Date(''+req.body.DOBDD+'/'+req.body.DOBMM+'/'+req.body.DOBYY+''),
-            DOBDD: req.body.DOBDD,
-            DOBMM: req.body.DOBMM,
-            DOBYY: req.body.DOBYY,
-            emailAddress: req.body.emailAddress,
-            lastUpdated: new Date().toISOString(),
-        };
-        BillingAddress.findOneAndUpdate({userReference: req.user}, billingAddressUpdate, {upsert: true})
-        .then(() => {
+            const errors = req.validationErrors();
+            if (errors) {
+                const messages = errors.map(error => error.msg);
+                req.flash('error', messages);
+                return res.redirect('/user/address');
+            }
+
+            const billingAddressUpdate = {
+                userReference: req.user,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                countryRegion: req.body.countryRegion,
+                streetAddress1: req.body.streetAddress1,
+                streetAddress2: req.body.streetAddress2,
+                townCity: req.body.townCity,
+                county: req.body.county,
+                postcode: req.body.postcode,
+                phoneNumber: req.body.phoneNumber,
+                DOB: new Date(`${req.body.DOBDD}/${req.body.DOBMM}/${req.body.DOBYY}`),
+                DOBDD: req.body.DOBDD,
+                DOBMM: req.body.DOBMM,
+                DOBYY: req.body.DOBYY,
+                emailAddress: req.body.emailAddress,
+                lastUpdated: new Date().toISOString(),
+            };
+
+            await BillingAddress.findOneAndUpdate({ userReference: req.user }, billingAddressUpdate, { upsert: true });
             req.flash('success', 'Your billing details were saved');
             res.redirect('/user/address');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    } else if(addressType == "shipping"){ 
-        //Input Validation
-        req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
-        req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-        req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
-        req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
-        req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
-        req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-        if(req.body.emailAddress){
-            req.checkBody('emailAddress', 'Email is not valid').isEmail();
-        }
+        } else if (addressType === "shipping") {
+            // Input Validation
+            req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
+            req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
+            req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
+            req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
+            req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
+            req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+            if (req.body.emailAddress) {
+                req.checkBody('emailAddress', 'Email is not valid').isEmail();
+            }
 
-        var errors = req.validationErrors();
-        if (errors){
-            var messages = [];
-            errors.forEach(function(error){
-                messages.push(error.msg);
-            });
-            req.flash('error', messages);
-            return res.redirect('/user/address');
-        }
-        
-        var shippingAddressUpdate = {
-            userReference: req.user,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            countryRegion: req.body.countryRegion,
-            streetAddress1: req.body.streetAddress1,
-            streetAddress2: req.body.streetAddress2,
-            townCity: req.body.townCity,
-            county: req.body.county,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            emailAddress: req.body.emailAddress,
-            lastUpdated: new Date().toISOString(),
-        };
-        ShippingAddress.findOneAndUpdate({userReference: req.user}, shippingAddressUpdate, {upsert: true})
-        .then(() => {
+            const errors = req.validationErrors();
+            if (errors) {
+                const messages = errors.map(error => error.msg);
+                req.flash('error', messages);
+                return res.redirect('/user/address');
+            }
+
+            const shippingAddressUpdate = {
+                userReference: req.user,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                countryRegion: req.body.countryRegion,
+                streetAddress1: req.body.streetAddress1,
+                streetAddress2: req.body.streetAddress2,
+                townCity: req.body.townCity,
+                county: req.body.county,
+                postcode: req.body.postcode,
+                phoneNumber: req.body.phoneNumber,
+                emailAddress: req.body.emailAddress,
+                lastUpdated: new Date().toISOString(),
+            };
+
+            await ShippingAddress.findOneAndUpdate({ userReference: req.user }, shippingAddressUpdate, { upsert: true });
             req.flash('success', 'Your shipping details were saved');
             res.redirect('/user/address');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    } else {
-        req.flash('error', 'Unknown Address Type');
+        } else {
+            req.flash('error', 'Unknown Address Type');
+            res.redirect('/user/address');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'An error occurred while updating your address');
         res.redirect('/user/address');
     }
 });

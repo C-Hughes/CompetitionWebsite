@@ -14,6 +14,7 @@ var User = require('../models/user');
 var Winner = require('../models/winner');
 var DrawResult = require('../models/drawResults');
 var Ticket = require('../models/ticket');
+var ShippingAddress = require('../models/shippingAddress');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -937,6 +938,13 @@ router.post('/users', async (req, res, next) => {
         }
 
         if(foundUser.length > 0){
+            //Get shipping address of foundUsers
+            for (let user of foundUser) {
+                //Get competition from basket item
+                const foundSAddress = await ShippingAddress.findOne({ userReference: user._id });
+                
+            }
+
             res.render('admin/users', { title: 'Users', active: { users: true }, userInfo: foundUser});
         } else {
             res.render('admin/users', { title: 'Users', active: { users: true }, errors: true, error: ["User Details Not Found"]});
@@ -952,6 +960,7 @@ router.post('/users', async (req, res, next) => {
 
 
 ///////////////////////////////Test Routes//////////////////////////////////////
+/*
 router.get('/addRewards', function(req, res, next) {
 
     var pointsToAdd = 10;
@@ -982,7 +991,7 @@ router.get('/decreasePending', async (req, res, next) => {
     }
     return res.redirect('/admin/competitionEntries/665f555b3049fd153f57ab37');
 });
-
+*/
 /////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
