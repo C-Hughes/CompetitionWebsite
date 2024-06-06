@@ -21,6 +21,9 @@ module.exports = {
     calculateCompTotalEntries: function(currentEntries, pendingEntries, options){
         return currentEntries + pendingEntries;
     },
+    ifSoldOut: function(currentEntries, pendingEntries, maxEntries, options){
+        return (currentEntries + pendingEntries) >= maxEntries;
+    },
     formatDate: function(cond1, options){
         var date = new Date(cond1);
         var year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);

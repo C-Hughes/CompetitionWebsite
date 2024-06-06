@@ -87,6 +87,20 @@
                                         </div>
                                     </div>
                                 </div>
+                            {{else}}
+                                {{#ifSoldOut competition.currentEntries competition.pendingEntries competition.maxEntries}}
+                                    <div class="notification is-warning has-text-centered">
+                                        <div>
+                                            <span class="icon fas fa-2x">
+                                                <i class="fa-solid fa-clock"></i>
+                                            </span>
+                                            <div>
+                                                <p>This competition has sold out.</p>
+                                                <p>The draw will take place soon.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/ifSoldOut}}
                             {{/ifClosingSoon}}
                             <div class="tabs-wrapper">
                                 <div class="tabs is-centered">
