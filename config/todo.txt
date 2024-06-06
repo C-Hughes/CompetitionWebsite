@@ -1,10 +1,6 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- Make sure they cannot buy more than max for comp (before payment is made)
-- check to see how many user has bought already and if they can buy anymore
-- If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
-- Check to make sure user cannot exceed max tickets per person, check for different answers to the same question...
 
 Competitions:
 - Update postal vote information
@@ -91,6 +87,13 @@ Competition:
 - Update homepage banner so it cycles through large images of selected competitions. Add info and enter now button too
 - Allocate tickets to users for 10minutes until a successful payment is made, so another user cannot buy tickets after payment has been made
 - Add cronjob to cancel any pending orders that are more than 15mins old (Incase server was restarted)
+
+
+When Buying Tickets:
+- Make sure they cannot buy more than max for comp (before payment is made)
+- check to see how many user has bought already and if they can buy anymore
+- If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
+- Check to make sure user cannot exceed max tickets per person, check for different answers to the same question...
 
 
 Admin:

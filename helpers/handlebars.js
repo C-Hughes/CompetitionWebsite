@@ -1,6 +1,6 @@
 module.exports = {
-    getPercentage: function(currentEntries, maxEntries){
-      return Math.floor((currentEntries / maxEntries) * 100);
+    getPercentage: function(currentEntries, pendingEntries, maxEntries){
+      return Math.floor(((currentEntries+pendingEntries) / maxEntries) * 100);
     },
     formatPrice: function(price){
         return (Math.round(price * 100) / 100).toFixed(2);
@@ -17,6 +17,9 @@ module.exports = {
     },
     ifDateInPast: function(cond1, options){
         return new Date(cond1) > Date.now() ? options.fn(this) : options.inverse(this);
+    },
+    calculateCompTotalEntries: function(currentEntries, pendingEntries, options){
+        return currentEntries + pendingEntries;
     },
     formatDate: function(cond1, options){
         var date = new Date(cond1);
