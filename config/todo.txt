@@ -8,6 +8,8 @@ When buying tickets:
 
 Competitions:
 - Update postal vote information
+- Add check when on competition page, if competition has sold out dow not allow users to add to basket.
+- Add updateCompetition to /addToBasket route?
 
 
 User:

@@ -82,15 +82,15 @@ module.exports = function Basket(oldBasket){
                 
                 //If competition is not active, remove it from the basket.
                 if (foundCompetition && !foundCompetition.active) {
-                    console.log("UpdateBasket Error - Comp Not Active");
+                    //console.log("UpdateBasket Error - Comp Not Active");
                     this.removeItem(id);
-                    messages.push('Competition Is No Longer Active - Removed From Basket');
+                    messages.push('Competition '+foundCompetition.title+' Is No Longer Active - Removed From Basket');
 
                 //If competition last entry date has passed, remove it from the basket.    
                 } else if (foundCompetition && new Date(foundCompetition.entryCloseDate.getTime()) < Date.now()) {
-                    console.log("UpdateBasket Error - Entries Closed");
+                    //console.log("UpdateBasket Error - Entries Closed");
                     this.removeItem(id);
-                    messages.push('Entries to Competition Have Closed - Removed From Basket');
+                    messages.push('Entries to Competition '+foundCompetition.title+' Have Closed - Removed From Basket');
 
                 //If competition is found and is active and visible then it can be added to basket - Do further checks    
                 } else if (foundCompetition && foundCompetition.visible && foundCompetition.active) {
@@ -98,7 +98,6 @@ module.exports = function Basket(oldBasket){
                     //Check if competition is in basket more than once
                     if(!basketComps[currentCompID]){
                         //First time Competition is in basket
-                        console.log('Not in basket yet');
                         basketComps[currentCompID] = {
                             totalQty: 0,
                             instances: []
@@ -126,6 +125,7 @@ module.exports = function Basket(oldBasket){
                     }
                     //If less than 0 remove item, otherwise do additional checks
                     if(this.items[id].qty <= 0){
+                        messages.push(''+foundCompetition.title+' has been Removed from Basket.');
                         this.removeItem(id);
                         console.log('Deleting item...');
                     } else {
@@ -135,7 +135,7 @@ module.exports = function Basket(oldBasket){
                         if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
                             console.log("UpdateBasket Error - Comp is sold out");
                             this.removeItem(id);
-                            messages.push('Competition Now Sold Out - Removed From Basket');
+                            messages.push('Competition '+foundCompetition.title+' Now Sold Out - Removed From Basket');
 
                         //Competition entries + pending entries exceeds max tickets available, notify user.
                         //Update basket qty to be max available if pendingEntries are cancelled.    
@@ -154,18 +154,19 @@ module.exports = function Basket(oldBasket){
                                 messages.push('Last Remaining Tickets for '+foundCompetition.title+' are in the Process of Being Purchased. Remove From Basket or Check Back Later to See if you can Purchase.');
                             }
 
-                        //Competition + user entries exceeds max tickets available, reduce ticket.qty.                        
-                        } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) >= foundCompetition.maxEntries){
-                            var maxTickets = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) - foundCompetition.maxEntries);
-                            var subbedQty = basketComps[currentCompID].totalQty - maxTickets;
-                            this.items[id].qty -= subbedQty;
-                            this.totalQty -= subbedQty;
-                            basketComps[currentCompID].totalQty -= subbedQty;
-                            messages.push('Last Remaining Tickets are in the Process of Being Purchased. Ticket Quantity Updated. Purchase soon to secure tickets.');
+                        //Competition + pending Entries + user basket exceeds max tickets available, reduce ticket.qty.                     
+                        } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) > foundCompetition.maxEntries){
+                            var subQty = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) - foundCompetition.maxEntries);
+                            //var subbedQty = basketComps[currentCompID].totalQty - maxTickets;
+                            this.items[id].qty -= subQty;
+                            this.totalQty -= subQty;
+                            basketComps[currentCompID].totalQty -= subQty;
+                            messages.push('Last Remaining Tickets are in the Process of Being Purchased for '+foundCompetition.title+'. Ticket Quantity Updated. Purchase Soon to Secure Last Tickets!');
                         }
 
                         ///////////////////////////////////////////////////////////////////////
                         if(this.items[id].qty <= 0){
+                            messages.push(''+foundCompetition.title+' has been Removed from Basket.');
                             this.removeItem(id);
                             console.log('Deleting item...');
                         }
