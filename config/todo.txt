@@ -4,7 +4,7 @@ When buying tickets:
 - Make sure they cannot buy more than max for comp (before payment is made)
 - check to see how many user has bought already and if they can buy anymore
 - If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
-
+- Check to make sure user cannot exceed max tickets per person, check for different answers to the same question...
 
 Competitions:
 - Update postal vote information

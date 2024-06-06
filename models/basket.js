@@ -71,44 +71,117 @@ module.exports = function Basket(oldBasket){
         //console.log('Updating Basket...');
         this.totalPrice = 0;
         var messages = [];
+        //Store competitionIds of each item in basket, if two competition IDs are the same, user is buying tickets for the same competition with different answers...
+        //Extra checks required to make sure user can not buy more tickets than max allowed...  
+        var basketComps = {};
 
         for (var id in this.items){
             try {
-                const foundCompetition = await Competition.findOne({ _id: this.items[id].item._id });
+                var currentCompID = this.items[id].item._id
+                const foundCompetition = await Competition.findOne({ _id: currentCompID });
+                
+                //Check if competition is in basket more than once
+                if(!basketComps[currentCompID]){
+                    //First time Competition is in basket
+                    console.log('Not in basket yet');
+                    basketComps[currentCompID] = {
+                        totalQty: 0,
+                        instances: []
+                    };
+                } else {
+                    //Competition in basket more than once
+                    console.log('In basket more than once');
+
+                }
+                basketComps[currentCompID].totalQty += this.items[id].qty;
+                basketComps[currentCompID].instances.push(id);
+
+                //Get Number of tickets User has already purchased for competition.
+                const userEntries = await Ticket.findOne({ userReference: user._id, competitionReference: currentCompID});
+
+                let userPurchasedEntries = userEntries ? userEntries.ticketQty : 0;
+                let maxAllowedPerPerson = foundCompetition.maxEntriesPerPerson;
+
+                
+                if(userPurchasedEntries + basketComps[currentCompID].totalQty > maxAllowedPerPerson){
+                    //Do checks to see if more than maximum tickets have been added to basket.
+                    console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
+                    
+                    let excessQty = (userPurchasedEntries + basketComps[currentCompID].totalQty) - maxAllowedPerPerson;
+                    this.items[id].qty -= excessQty;
+                    this.totalQty -= excessQty;
+                    basketComps[currentCompID].totalQty -= excessQty;
+                    messages.push('Maximum Tickets Per Person for Competition '+foundCompetition.title+' is '+maxAllowedPerPerson+'. Ticket Quantity Reduced.');
+                
+                
+                } else if(basketComps[currentCompID].totalQty > maxAllowedPerPerson){
+                    //User has added more tickets than is allowed per person                    
+                    console.log("UpdateBasket Error - User has added more tickets to basket than is allowed per person");
+                    
+                    var subbedQty = basketComps[currentCompID].totalQty - maxAllowedPerPerson;
+                    this.items[id].qty -= subbedQty;
+                    this.totalQty -= subbedQty;
+                    basketComps[currentCompID].totalQty -= subbedQty;
+                    messages.push('You Can Only Purchase '+maxAllowedPerPerson+' Tickets for Competition '+foundCompetition.title+'. Ticket Quantity Reduced.');
+                }
 
 
+
+                if(this.items[id].qty <= 0){
+                    this.removeItem(id);
+                    console.log('Deleting item...');
+                }
+
+
+
+                //if foundCompetition has a discountPrice set
+                if(foundCompetition.discountPrice){
+                    //Update Total price for this specific item
+                    this.items[id].price = this.items[id].item.discountPrice * this.items[id].qty;
+                } else {
+                    this.items[id].price = this.items[id].item.price * this.items[id].qty;
+                }
+                this.totalPrice += this.items[id].price;
+
+
+
+/*
+
+
+
+
+                //If competition is not active, remove it from the basket.
                 if (foundCompetition && !foundCompetition.active) {
-                    //If competition is not active, remove it from the basket.
                     console.log("UpdateBasket Error - Comp Not Active");
                     this.removeItem(id);
                     messages.push('Competition Is No Longer Active - Removed From Basket');
+
+                //If competition last entry date has passed, remove it from the basket.    
                 } else if (foundCompetition && new Date(foundCompetition.entryCloseDate.getTime()) < Date.now()) {
-                    //If competition last entry date has passed, remove it from the basket.
                     console.log("UpdateBasket Error - Entries Closed");
                     this.removeItem(id);
                     messages.push('Entries to Competition Have Closed - Removed From Basket');
-                } else if (foundCompetition && foundCompetition.visible && foundCompetition.active) {
-                    //If competition is found and is active and visible then update info and price
 
+                //If competition is found and is active and visible then update info and price    
+                } else if (foundCompetition && foundCompetition.visible && foundCompetition.active) {
                     //Update basket item to current info
                     this.items[id].item = foundCompetition;
 
                     ////////////////////////////////////////////////////////////////////////////////////
                     //Make sure a user cannot add more tickets than max per person.
-                    //Get Number of tickets User has already purchased for competition.
-                    const userEntries = await Ticket.findOne({ userReference: user._id, competitionReference: this.items[id].item._id});
+                    
+                    
 
                     if(userEntries){
+                        //Maximum entries for user has been reached - Update Ticket Qty.
                         if(userEntries.ticketQty >= foundCompetition.maxEntriesPerPerson){
-                            //Maximum entries for user has been reached - Update Ticket Qty.
                             console.log("UpdateBasket Error - User has purchased MAX TICKETS");
                             this.removeItem(id);
                             messages.push('You Have Purchased the Maximum Tickets Allowed Per Person - Competition Removed From Basket');
 
+                        //Maximum entries for user exceeded - Update Ticket Qty to MAX allowed.    
                         } else if(userEntries.ticketQty + this.items[id].qty > foundCompetition.maxEntriesPerPerson){
-                            //Maximum entries for user exceeded - Update Ticket Qty to MAX allowed.
                             console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
-                            //var subbedQty = this.items[id].qty - maxTickets
                             var basketTickets = this.items[id].qty;
                             this.items[id].qty = foundCompetition.maxEntriesPerPerson - userEntries.ticketQty;
                             var ticketOver = basketTickets - this.items[id].qty;
@@ -116,31 +189,30 @@ module.exports = function Basket(oldBasket){
                             messages.push('Maximum Tickets Per Person is '+foundCompetition.maxEntriesPerPerson+'. Ticket Quantity Updated.');
                         }
                     }
+                    //User has added more tickets than is allowed per person
                     if(this.items[id].qty > foundCompetition.maxEntriesPerPerson){
-                        //User has added more tickets than is allowed per person
                         var subbedQty = this.items[id].qty - foundCompetition.maxEntriesPerPerson;
                         this.items[id].qty = foundCompetition.maxEntriesPerPerson;
                         this.totalQty -= subbedQty;
                         messages.push('You Can Only Purchased '+foundCompetition.maxEntriesPerPerson+' Tickets - Ticket Quantity Updated.');
                     }
-                    
+                    //Maximum entries have been reached - Competition is sold out
                     if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
-                        //Maximum entries have been reached - Competition is sold out
                         console.log("UpdateBasket Error - Comp is sold out");
                         this.removeItem(id);
                         messages.push('Competition Now Sold Out - Removed From Basket');
 
+                    //Competition entries + pending entries exceeds max tickets available, notify user.
+                    //Update basket qty to be max available if pendingEntries are cancelled.    
                     } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries) >= foundCompetition.maxEntries){
-                        //Competition entries + pending entries exceeds max tickets available, notify user.
-                        //Update basket qty to be max available if pendingEntries are cancelled.
                         console.log("Current + Pending = maxEntries");
                         var subbedQty = this.items[id].qty - (foundCompetition.currentEntries + foundCompetition.pendingEntries);
                         this.items[id].qty = foundCompetition.pendingEntries;
                         this.totalQty -= subbedQty;
                         messages.push('Last Remaining Tickets are in the Process of Being Purchased. Ticket Quantity Updated. Remove From Basket or Check Back Later to See if you can Purchase.');
 
+                    //Competition + user entries exceeds max tickets available, reduce ticket.qty.                        
                     } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + this.items[id].qty) >= foundCompetition.maxEntries){
-                        //Competition + user entries exceeds max tickets available, reduce ticket.qty.
                         var maxTickets = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + this.items[id].qty) - foundCompetition.maxEntries);
                         var subbedQty = this.items[id].qty - maxTickets;
                         this.items[id].qty = maxTickets;
@@ -163,6 +235,9 @@ module.exports = function Basket(oldBasket){
                     this.removeItem(id);
                     messages.push('Competition Not Found - Removed From Basket');
                 }
+*/
+
+
             } catch (err) {
                 console.log(err);
             }
