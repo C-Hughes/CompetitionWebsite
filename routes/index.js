@@ -201,6 +201,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                     basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
                     req.session.basket = basket;
 
+                    //Get a different competition to display on added to basket modal popup.
                     if (foundAdditionalCompetition) {
                         //console.log('Got one' + foundAdditionalCompetition.title);
                         res.render('competition', {
