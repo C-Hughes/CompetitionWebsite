@@ -113,30 +113,16 @@ module.exports = function Basket(oldBasket){
                     basketComps[currentCompID].totalQty -= excessQty;
                     messages.push('Maximum Tickets Per Person for Competition '+foundCompetition.title+' is '+maxAllowedPerPerson+'. Ticket Quantity Reduced.');
                 
-                
-                } else if(basketComps[currentCompID].totalQty > maxAllowedPerPerson){
-                    //User has added more tickets than is allowed per person                    
-                    console.log("UpdateBasket Error - User has added more tickets to basket than is allowed per person");
-                    
-                    var subbedQty = basketComps[currentCompID].totalQty - maxAllowedPerPerson;
-                    this.items[id].qty -= subbedQty;
-                    this.totalQty -= subbedQty;
-                    basketComps[currentCompID].totalQty -= subbedQty;
-                    messages.push('You Can Only Purchase '+maxAllowedPerPerson+' Tickets for Competition '+foundCompetition.title+'. Ticket Quantity Reduced.');
                 }
-
-
 
                 if(this.items[id].qty <= 0){
                     this.removeItem(id);
                     console.log('Deleting item...');
                 }
 
-
-
-                //if foundCompetition has a discountPrice set
+                //Update Item Price
                 if(foundCompetition.discountPrice){
-                    //Update Total price for this specific item
+                    //Update using discounted price
                     this.items[id].price = this.items[id].item.discountPrice * this.items[id].qty;
                 } else {
                     this.items[id].price = this.items[id].item.price * this.items[id].qty;
