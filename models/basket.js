@@ -114,8 +114,47 @@ module.exports = function Basket(oldBasket){
                     let maxAllowedPerPerson = foundCompetition.maxEntriesPerPerson;
 
 
+                    ///////////////////Additional Checks//////////////////////////////////
+
+                    //Maximum entries have been reached - Competition is sold out
+                    if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
+                        console.log("UpdateBasket Error - Comp is sold out");
+                        this.removeItem(id);
+                        messages.push('Competition Now Sold Out - Removed From Basket');
+
+                    //Competition entries + pending entries exceeds max tickets available, notify user.
+                    //Update basket qty to be max available if pendingEntries are cancelled.    
+                    } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries) >= foundCompetition.maxEntries){
+                        console.log("Current + Pending = maxEntries");
+                        var pendingDifference = basketComps[currentCompID].totalQty - foundCompetition.pendingEntries;
+
+                        if(pendingDifference > 0){
+                            //User is trying to purchase more tickets than is pending for purchase, reduce basket qty
+                            this.items[id].qty -= pendingDifference;
+                            this.totalQty -= pendingDifference;
+                            basketComps[currentCompID].totalQty -= pendingDifference;
+                            messages.push('Last Remaining Tickets for '+foundCompetition.title+' are in the Process of Being Purchased. Ticket Quantity Updated. Remove From Basket or Check Back Later to See if you can Purchase.');
+                        } else {
+                            //User is trying to purchase less tickets than is pending for purchase, Do not reduce basket qty & notify user.
+                            messages.push('Last Remaining Tickets for '+foundCompetition.title+' are in the Process of Being Purchased. Remove From Basket or Check Back Later to See if you can Purchase.');
+                        }
+
+                    //Competition + user entries exceeds max tickets available, reduce ticket.qty.                        
+                    } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) >= foundCompetition.maxEntries){
+                        var maxTickets = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) - foundCompetition.maxEntries);
+                        var subbedQty = basketComps[currentCompID].totalQty - maxTickets;
+                        this.items[id].qty -= subbedQty;
+                        this.totalQty -= subbedQty;
+                        basketComps[currentCompID].totalQty -= subbedQty;
+                        messages.push('Last Remaining Tickets are in the Process of Being Purchased. Ticket Quantity Updated. Purchase soon to secure tickets.');
+                    }
+
+                    ///////////////////////////////////////////////////////////////////////
+
+
+
+                    //Check to see if user is trying to purchase more than maximum allowed.
                     if(userPurchasedEntries + basketComps[currentCompID].totalQty > maxAllowedPerPerson){
-                        //Check to see if user is trying to purchase more than maximum allowed.
                         console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
                         
                         let excessQty = (userPurchasedEntries + basketComps[currentCompID].totalQty) - maxAllowedPerPerson;
