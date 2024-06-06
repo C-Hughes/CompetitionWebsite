@@ -59,7 +59,6 @@
                         <p class="subtitle is-6 has-text-left">Sold: {{getPercentage competition.currentEntries competition.pendingEntries competition.maxEntries}}%</p>
                         <progress class="progress is-info" value="{{calculateCompTotalEntries competition.currentEntries competition.pendingEntries}}" max="{{competition.maxEntries}}"></progress>
                         <p class="subtitle is-6 has-text-centered">{{calculateCompTotalEntries competition.currentEntries competition.pendingEntries}} / {{competition.maxEntries}}</p>
-
                     </div>
 
                     {{#if competition.active}}
