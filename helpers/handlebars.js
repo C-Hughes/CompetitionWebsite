@@ -22,7 +22,7 @@ module.exports = {
         return currentEntries + pendingEntries;
     },
     ifSoldOut: function(currentEntries, pendingEntries, maxEntries, options){
-        return (currentEntries + pendingEntries) >= maxEntries;
+        return (currentEntries + pendingEntries) >= maxEntries ? options.fn(this) : options.inverse(this);
     },
     formatDate: function(cond1, options){
         var date = new Date(cond1);
