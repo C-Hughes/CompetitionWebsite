@@ -114,7 +114,7 @@ module.exports = function Basket(oldBasket){
 
                     //Check to see if user is trying to purchase more than maximum allowed.
                     if(userPurchasedEntries + basketComps[currentCompID].totalQty > maxAllowedPerPerson){
-                        console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
+                        //console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
                         
                         let excessQty = (userPurchasedEntries + basketComps[currentCompID].totalQty) - maxAllowedPerPerson;
                         this.items[id].qty -= excessQty;
@@ -133,14 +133,14 @@ module.exports = function Basket(oldBasket){
                         ///////////////////Additional Checks//////////////////////////////////
                         //Maximum entries have been reached - Competition is sold out
                         if(foundCompetition.currentEntries >= foundCompetition.maxEntries){
-                            console.log("UpdateBasket Error - Comp is sold out");
+                            //console.log("UpdateBasket Error - Comp is sold out");
                             this.removeItem(id);
                             messages.push('Competition '+foundCompetition.title+' Now Sold Out - Removed From Basket');
 
                         //Competition entries + pending entries exceeds max tickets available, notify user.
                         //Update basket qty to be max available if pendingEntries are cancelled.    
                         } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries) >= foundCompetition.maxEntries){
-                            console.log("Current + Pending = maxEntries");
+                            //console.log("Current + Pending = maxEntries");
                             //var pendingDifference = basketComps[currentCompID].totalQty - foundCompetition.pendingEntries;
                             this.items[id].qty -= basketComps[currentCompID].totalQty;
                             this.totalQty -= basketComps[currentCompID].totalQty;
@@ -162,7 +162,7 @@ module.exports = function Basket(oldBasket){
                         if(this.items[id].qty <= 0){
                             messages.push(''+foundCompetition.title+' has been Removed from Basket.');
                             this.removeItem(id);
-                            console.log('Deleting item...');
+                            //console.log('Deleting item...');
                         }
 
                     }
@@ -179,7 +179,7 @@ module.exports = function Basket(oldBasket){
 
                 } else {
                     //If competition is not found or is invisible, remove it from the basket.
-                    console.log("UpdateBasket Error - Comp Not Found");
+                    //console.log("UpdateBasket Error - Comp Not Found");
                     this.removeItem(id);
                     messages.push('Competition Not Found - Removed From Basket');
                 }

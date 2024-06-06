@@ -196,7 +196,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
             if (foundCompetition) {
                 const foundAdditionalCompetition = await Competition.findOne({ _id: {$ne: compID}, active: true, visible: true, entryCloseDate: { $gt: Date.now() }});
 
-                if (foundCompetition.active && foundCompetition.visible && new Date(foundCompetition.entryCloseDate.getTime()) > Date.now()) {
+                if (foundCompetition.active && foundCompetition.visible && new Date(foundCompetition.entryCloseDate.getTime()) > Date.now() && ((foundCompetition.currentEntries + foundCompetition.pendingEntries) < foundCompetition.maxEntries)) {
                     //Add to basket
                     basket.add(foundCompetition, foundCompetition.id, compAnswer, ticketQty);
                     req.session.basket = basket;
@@ -225,6 +225,10 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                 } else if (new Date(foundCompetition.entryCloseDate.getTime()) < Date.now()) {
                     req.flash('error', 'Entries to this competition have now closed');
                     console.log("Add to basket: Draw DateTime is within hour and now closed");
+                    res.redirect('/basket');
+                } else if ((foundCompetition.currentEntries + foundCompetition.pendingEntries) >= foundCompetition.maxEntries) {
+                    req.flash('error', 'Entries to this competition have now sold out');
+                    console.log("Add to basket: Competition is sold out");
                     res.redirect('/basket');
                 } else {
                     req.flash('error', 'You cannot purchase tickets for this competition');

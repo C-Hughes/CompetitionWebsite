@@ -4,7 +4,6 @@ When buying tickets:
 
 Competitions:
 - Update postal vote information
-- Add check when on competition page, if competition has sold out do not allow users to add to basket.
 - Add updateCompetition to /addToBasket route?
 
 
@@ -87,6 +86,7 @@ Competition:
 - Update homepage banner so it cycles through large images of selected competitions. Add info and enter now button too
 - Allocate tickets to users for 10minutes until a successful payment is made, so another user cannot buy tickets after payment has been made
 - Add cronjob to cancel any pending orders that are more than 15mins old (Incase server was restarted)
+- Add check when on competition page, if competition has sold out do not allow users to add to basket.
 
 
 When Buying Tickets:
