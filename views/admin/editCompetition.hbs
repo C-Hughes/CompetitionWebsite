@@ -5,7 +5,7 @@
 </section>
 
 {{> adminNav}}
-<div class="container is-max-desktop mb-4">
+<div class="container is-max-widescreen mb-4">
     <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
         <ul>
             <li><a href="/">Home</a></li>
@@ -16,7 +16,7 @@
 </div>
 
 {{#if errors}}
-    <div class="container is-max-desktop mb-4">
+    <div class="container is-max-widescreen mb-4">
         <div class="notification is-danger is-light">
             {{#each error}}
                 <p>{{this}}</p>
@@ -25,7 +25,7 @@
     </div>
 {{/if}}
 {{#if hasSuccess}}
-    <div class="container is-max-desktop mb-4">
+    <div class="container is-max-widescreen mb-4">
         <div class="notification is-success is-light">
             {{#each success}}
                 <p>{{this}}</p>
@@ -34,7 +34,7 @@
     </div>
 {{/if}}
 
-<div class="container is-max-desktop mb-4">
+<div class="container is-max-widescreen mb-4">
     <a href="/competition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">View Competition Page </a>
 </div>
 
