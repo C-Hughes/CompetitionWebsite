@@ -100,8 +100,8 @@
                                                             {{/if}}
                                                         </div>
                                                         <div style="margin-top: 30px">
-                                                            <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries maxEntries}}%</p>
-                                                            <progress class="progress is-info" value="{{this.currentEntries}}" max="{{this.maxEntries}}"></progress>
+                                                            <p class="subtitle is-6 has-text-left">Sold: {{getPercentage currentEntries pendingEntries maxEntries}}%</p>
+                                                            <progress class="progress is-info" value="{{calculateCompTotalEntries this.currentEntries this.pendingEntries}}" max="{{this.maxEntries}}"></progress>
                                                             <a href="/admin/editCompetition/{{this.id}}" class="button is-medium is-fullwidth is-link">
                                                                 <span class="icon is-small">
                                                                     <i class="fa-solid fa-pen-to-square"></i>

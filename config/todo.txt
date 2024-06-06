@@ -11,7 +11,7 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
-
+- Remove country options for shipping address - Only UK residents eligible
 
 Other:
 - Coupons
