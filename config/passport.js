@@ -54,13 +54,13 @@ passport.use('local.signup', new LocalStrategy({
 
     try {
         // Check if email already exists
-        const emailUser = await User.findOne({'emailAddress': email});
+        const emailUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(email, "i") } });
         if (emailUser && email != "") {
             return done(null, false, req.flash('sError', 'Email is already in use.'));
         }
 
         // Check if username already exists
-        const foundUser = await User.findOne({'username': username});
+        const foundUser = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
         if (foundUser) {
             return done(null, false, req.flash('sError', 'Username is already in use.'));
         }
@@ -120,7 +120,7 @@ passport.use('local.login', new LocalStrategy({
         }
 
         // Find email for login
-        let user = await User.findOne({ "email" : { $regex : new RegExp(username, "i") } });
+        let user = await User.findOne({ "emailAddress" : { $regex : new RegExp(username, "i") } });
 
         if (user) {
             // If user found and password is valid
