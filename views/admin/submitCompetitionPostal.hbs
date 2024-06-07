@@ -52,26 +52,6 @@
     </div>
 
     <div class="field">
-        <label class="label">Competition Question</label>
-        <div class="control has-icons-left">
-            <input id="compQuestion" name="compQuestion" class="input" type="text" value="{{competition.questionText}}" disabled>
-            <span class="icon is-small is-left">
-                <i class="fa-solid fa-circle-question"></i>
-            </span>
-        </div>
-    </div>
-
-    <div class="field">
-        <label class="label">Competition Answers</label>
-        <div class="control has-icons-left">
-            <input id="" name="" class="input" type="text" value="{{competition.questionAnswers}}" disabled>
-            <span class="icon is-small is-left">
-                <i class="fa-solid fa-list-ol"></i>
-            </span>
-        </div>
-    </div>
-
-    <div class="field">
         <label class="label">Number of Entries</label>
         <div class="control has-icons-left">
             <input id="" name="" class="input" type="text" value="{{competition.currentEntries}}" disabled>
@@ -111,9 +91,19 @@
         </div>
     </div>
 
+    <div class="field">
+        <label class="label">Entry Close Date</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{formatDate competition.entryCloseDate}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-envelope"></i>
+            </span>
+        </div>
+    </div>
+
     <hr></hr>
 
-    <form action="/admin/competitionEntries" method="post">
+    <form action="/admin/submitCompetitionPostal" method="post">
         <div class="field">
             <label class="label">Postal Entrants Username or Email Address</label>
             <div class="control has-icons-left">
@@ -121,6 +111,39 @@
                 <span class="icon is-small is-left">
                     <i class="fa-solid fa-user"></i>
                 </span>
+            </div>
+        </div>
+
+        <label class="label">{{competition.questionText}}</label>
+        <div id="errorMessage" class="has-text-danger is-dark has-text-centered">
+            {{#if hasError}}
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            {{/if}}
+        </div>
+        <div class="fixed-grid">
+            <div class="grid" id="questionButtons">
+                <div class="cell">
+                    <button id="answer1Button" class="button is-fullwidth" type="button" onclick="answerQuestionsButtons(1)">
+                        <span>{{competition.questionAnswers.[0]}}</span>
+                    </button>
+                </div>
+                <div class="cell">
+                    <button id="answer2Button" class="button is-fullwidth" type="button" onclick="answerQuestionsButtons(2)">
+                        <span>{{competition.questionAnswers.[1]}}</span>
+                    </button>
+                    </div>
+                <div class="cell">
+                    <button id="answer3Button" class="button is-fullwidth" type="button" onclick="answerQuestionsButtons(3)">
+                        <span>{{competition.questionAnswers.[2]}}</span>
+                    </button>
+                    </div>
+                <div class="cell">
+                    <button id="answer4Button" class="button is-fullwidth" type="button" onclick="answerQuestionsButtons(4)">
+                        <span>{{competition.questionAnswers.[3]}}</span>
+                    </button>
+                </div>
             </div>
         </div>
 
