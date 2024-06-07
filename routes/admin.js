@@ -90,6 +90,26 @@ router.get('/competitionEntries/:id', async (req, res, next) => {
     }
 });
 
+router.get('/submitCompetitionPostal/:id', function(req, res, next) {
+    var compID = req.params.id;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    Competition.findOne({_id: compID})
+      .then(foundCompetition => {
+            if(foundCompetition){
+                res.render('admin/submitCompetitionPostal', {title: 'Submit Competition Postal Entry', active: { dashboard: true }, competition: foundCompetition, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0});
+            } else {
+                console.log("Error finding competition");
+                req.flash('error', 'finding competition');
+                return res.redirect('/admin');
+            }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 router.get('/createCompetition', function(req, res, next) {
     var errors = req.flash('error');
     res.render('admin/createCompetition', { title: 'Create Competition', active: { dashboard: true }, error: errors, errors: errors.length > 0 });

@@ -1,0 +1,140 @@
+<section class="hero is-danger">
+  <div class="hero-body has-text-centered">
+    <p class="title">Submit Postal Entry</p>
+  </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-widescreen">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/admin">Competitions</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Submit Postal Vote Entry</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="container is-max-widescreen">
+    <div class="content my-6">
+        <h1 class="title">Submit Postal Entry</h1>
+    </div>
+
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+
+
+    <div class="field">
+        <label class="label">Competition Title</label>
+        <div class="control has-icons-left">
+            <input id="compTitle" name="compTitle" class="input" type="text" value="{{competition.title}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-heading"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Competition Question</label>
+        <div class="control has-icons-left">
+            <input id="compQuestion" name="compQuestion" class="input" type="text" value="{{competition.questionText}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-circle-question"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Competition Answers</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{competition.questionAnswers}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-list-ol"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Number of Entries</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{competition.currentEntries}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-ticket"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Pending Entries</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{competition.pendingEntries}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-ticket"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Maximum Entries</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{competition.maxEntries}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-ticket"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Maximum Postal Entries per Person</label>
+        <div class="control has-icons-left">
+            <input id="" name="" class="input" type="text" value="{{competition.maxPostalVotes}}" disabled>
+            <span class="icon is-small is-left">
+                <i class="fa-solid fa-envelope"></i>
+            </span>
+        </div>
+    </div>
+
+    <hr></hr>
+
+    <form action="/admin/competitionEntries" method="post">
+        <div class="field">
+            <label class="label">Postal Entrants Username or Email Address</label>
+            <div class="control has-icons-left">
+                <input id="" name="" class="input" type="text" placeholder="Username or Email Address">
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </div>
+        </div>
+
+
+        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+        <input type="hidden" name="compID" value="{{competition._id}}">
+        <button type="submit" class="button is-fullwidth is-link mb-3">Submit Postal Entry</button>
+    </form>
+
+    <div class="container mb-4">
+        <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">Edit Competition</a>
+    </div>
+
+    <hr></hr>
+
+</div>
+
