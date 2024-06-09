@@ -647,6 +647,33 @@ router.post('/updatePreviewCompetition', function(req, res, next) {
         res.redirect('/admin/previewCompetition/'+req.body.compID+'');
     }
 });
+
+
+//Submit Postal Entry to a competition
+router.post('/submitPostalEntry', function(req, res, next) {
+
+    //If no competition id is submitted with the form
+    if(req.body.compID){
+        //Check to make sure required fields are set.
+
+        //Check to make sure competition is not sold out.
+
+        //Check to make sure user has not exceeded max postal entries per person.
+
+
+        //Create new order for the user and mark as a postal vote...
+        //paymentID = 'PostalEntry' & paymentPrice = 0;
+
+
+        //Generate a ticket number and update/insert into ticket db.
+
+    } else {
+        req.flash('error', 'Competition ID Missing');
+        res.redirect('/admin/');
+    }
+});
+
+
 //////////////////////////////////////////////////////////////////////
 ////////////////////// Create a new winner card //////////////////////
 router.post('/createWinner', async (req, res) => {
