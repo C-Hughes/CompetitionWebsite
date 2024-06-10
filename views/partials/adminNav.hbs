@@ -117,6 +117,7 @@ function verifyCompAnswerAdmin(){
 
     var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
     var isFocused = false;
+
     //Remove is active from every button
     for (i = 0; i <= buttons.length - 1; i++) {
         //If button has is-focused class
@@ -126,6 +127,7 @@ function verifyCompAnswerAdmin(){
         }
     }
     if(isFocused == false){
+        errorMessage.style.display = 'block';
         errorMessage.innerText = "Please select an answer";
     }
     return isFocused;
@@ -134,10 +136,10 @@ function verifyCompAnswerAdmin(){
 function answerPostalQuestionsButtons(buttonNumber){
 
     //Get every button in questionsButtons div
-    var answer1Button = document.getElementById("answer1Button");
-    var answer2Button = document.getElementById("answer2Button");
-    var answer3Button = document.getElementById("answer3Button");
-    var answer4Button = document.getElementById("answer4Button");
+    var answer1Button = document.getElementById("answer1PostalButton");
+    var answer2Button = document.getElementById("answer2PostalButton");
+    var answer3Button = document.getElementById("answer3PostalButton");
+    var answer4Button = document.getElementById("answer4PostalButton");
     var addToBasketButton = document.getElementById("addToBasketButton");
 
     var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);

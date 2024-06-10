@@ -51,6 +51,10 @@
             </div>
         </div>
     {{/if}}
+        <div id="errorMessage" class="container is-max-desktop mb-4" style="display: none;">
+            <div class="notification is-danger is-light">
+            </div>
+        </div>
 
 
     <div class="field">
@@ -115,7 +119,7 @@
 
     <hr></hr>
 
-    <form action="/admin/submitCompetitionPostal" method="post">
+    <form action="/admin/submitPostalEntry" method="post">
         <div class="field">
             <label class="label">Postal Entrants Username or Email Address</label>
             <div class="control has-icons-left">
@@ -137,22 +141,22 @@
         <div class="fixed-grid">
             <div class="grid" id="questionButtons">
                 <div class="cell">
-                    <button id="answer1Button" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(1)">
+                    <button id="answer1PostalButton" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(1)">
                         <span>{{competition.questionAnswers.[0]}}</span>
                     </button>
                 </div>
                 <div class="cell">
-                    <button id="answer2Button" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(2)">
+                    <button id="answer2PostalButton" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(2)">
                         <span>{{competition.questionAnswers.[1]}}</span>
                     </button>
                     </div>
                 <div class="cell">
-                    <button id="answer3Button" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(3)">
+                    <button id="answer3PostalButton" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(3)">
                         <span>{{competition.questionAnswers.[2]}}</span>
                     </button>
                     </div>
                 <div class="cell">
-                    <button id="answer4Button" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(4)">
+                    <button id="answer4PostalButton" class="button is-fullwidth" type="button" onclick="answerPostalQuestionsButtons(4)">
                         <span>{{competition.questionAnswers.[3]}}</span>
                     </button>
                 </div>
@@ -162,7 +166,7 @@
         <input type="hidden" name="postalAnswer" value="">
         <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
         <input type="hidden" name="compID" value="{{competition._id}}">
-        <button id="addToBasketButton" type="submit" class="button is-fullwidth is-warning" onclick="return verifyCompAnswerAdmin()">
+        <button id="addToBasketButton" class="button is-fullwidth is-warning" onclick="return verifyCompAnswerAdmin()">
             <span class="icon">
                 <i class="fa-solid fa-envelope-open-text"></i>
             </span>

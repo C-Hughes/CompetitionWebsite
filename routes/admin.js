@@ -679,7 +679,7 @@ router.post('/submitPostalEntry', async (req, res, next) => {
     try {
         if (!req.body.compID) {
             req.flash('error', 'Competition ID Missing');
-            return res.redirect('/admin/');
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
         }
 
         //Check to make sure required fields are set.
