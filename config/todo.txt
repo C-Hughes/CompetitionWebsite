@@ -18,8 +18,9 @@ Other:
 - Setup stripe for payments
 - Add functionality for instant win competitions
 - Email sending capability
-- Email verification
+- Email user verification
 - Email password reset
+- Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 
 

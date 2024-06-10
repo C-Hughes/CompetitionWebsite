@@ -119,7 +119,7 @@
         <div class="field">
             <label class="label">Postal Entrants Username or Email Address</label>
             <div class="control has-icons-left">
-                <input id="" name="" class="input" type="text" placeholder="Username or Email Address">
+                <input id="userInfo" name="userInfo" class="input" type="text" placeholder="Username or Email Address">
                 <span class="icon is-small is-left">
                     <i class="fa-solid fa-user"></i>
                 </span>
@@ -159,7 +159,7 @@
             </div>
         </div>
 
-        <input type="hidden" name="compAnswer" value="">
+        <input type="hidden" name="postalAnswer" value="">
         <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
         <input type="hidden" name="compID" value="{{competition._id}}">
         <button id="addToBasketButton" type="submit" class="button is-fullwidth is-warning" onclick="return verifyCompAnswerAdmin()">

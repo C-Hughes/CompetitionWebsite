@@ -655,6 +655,8 @@ router.post('/submitPostalEntry', function(req, res, next) {
     //If no competition id is submitted with the form
     if(req.body.compID){
         //Check to make sure required fields are set.
+        req.checkBody('userInfo', 'Title cannot be empty').notEmpty();
+        req.checkBody('postalAnswer', 'Description cannot be empty').notEmpty();
 
         //Check to make sure competition is not sold out.
 
@@ -669,6 +671,101 @@ router.post('/submitPostalEntry', function(req, res, next) {
 
     } else {
         req.flash('error', 'Competition ID Missing');
+        res.redirect('/admin/');
+    }
+});
+
+router.post('/submitPostalEntry', async (req, res, next) => {
+    try {
+        if (!req.body.compID) {
+            req.flash('error', 'Competition ID Missing');
+            return res.redirect('/admin/');
+        }
+
+        //Check to make sure required fields are set.
+        req.checkBody('userInfo', 'Username or Email Address cannot be empty').notEmpty();
+        req.checkBody('postalAnswer', 'Answer to competition question cannot be empty').notEmpty();
+
+        // Validate required fields
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        }
+
+        // Find the competition
+        const competition = await Competition.findById(req.body.compID);
+        if (!competition) {
+            req.flash('error', 'Competition ID not found');
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        }
+
+        // Check if competition is sold out
+        if (competition.currentEntries >= competition.maxEntries) {
+            req.flash('error', 'Competition is sold out');
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        }
+        // Check if competition + pendingEntries is sold out
+        if ((competition.currentEntries + competition.pendingEntries) >= competition.maxEntries) {
+            req.flash('error', 'The last remaining tickets are in the process of being purchased. Check back later to see if they are cancelled.');
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        }
+
+        //Get User Information
+        const postalUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.userInfo, "i") } });
+        if (!postalUser) {
+            const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(req.body.userInfo, "i") } });
+            if (!postalUser) {
+                req.flash('error', 'Username / Email Address not found');
+                return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            }
+        }
+
+        // Check if user has not exceeded max postal entries per person
+        const userPostalEntry = await Ticket.findOne({ userReference: postalUser._id, hasPostalVoteEntry: true});
+
+        const userPostalOrders = await Order.find({ userReference: postalUser._id});
+
+        if (userPostalOrders) {
+            req.flash('error', 'Order Found - Basket = '+userPostalOrders.basket);
+            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        }
+
+        /*
+        // Create a new order for the user and mark as a postal vote
+        const newOrder = new Order({
+            user: req.user._id,
+            competition: competition._id,
+            paymentID: 'PostalEntry',
+            paymentPrice: 0,
+            entries: 1,
+            postalAnswer: req.body.postalAnswer
+        });
+
+        await newOrder.save();
+
+        // Generate a ticket number and update/insert into ticket DB
+        const newTicket = new Ticket({
+            userReference: req.user._id,
+            competitionReference: competition._id,
+            ticketNumbers: [ logic to generate ticket numbers ],
+            paymentID: 'PostalEntry',
+            ticketQty: 1
+        });
+
+        await newTicket.save();
+
+        */
+
+        req.flash('success', 'Postal entry submitted successfully');
+        res.redirect('/admin/');
+    } catch (error) {
+        console.log('Error submitting postal entry:', error);
+        req.flash('error', 'An error occurred while submitting the postal entry');
         res.redirect('/admin/');
     }
 });

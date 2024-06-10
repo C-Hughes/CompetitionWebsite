@@ -13,6 +13,7 @@ var ticketSchema = new Schema({
     compAnswer: {type: String, required: true},
     ticketNumbers: [{type: Number, required: true}],
     ticketNumbersObjects: [{type: Object, required: true}],
+    hasPostalVoteEntry: {type: Boolean, required: true, default: false},
     //mostRecentlyPurchasedTicketNumbers: [{type: Number, required: true}],
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
