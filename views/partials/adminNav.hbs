@@ -128,7 +128,7 @@ function verifyCompAnswerAdmin(){
     }
     if(isFocused == false){
         errorMessage.style.display = 'block';
-        errorMessage.innerText = "Please select an answer";
+        errorMessage.innerText = "Please select an answer to the competition question";
     }
     return isFocused;
 }
@@ -140,7 +140,7 @@ function answerPostalQuestionsButtons(buttonNumber){
     var answer2Button = document.getElementById("answer2PostalButton");
     var answer3Button = document.getElementById("answer3PostalButton");
     var answer4Button = document.getElementById("answer4PostalButton");
-    var addToBasketButton = document.getElementById("addToBasketButton");
+    var postalAnswerInput = document.getElementById("postalAnswer");
 
     var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
 
@@ -161,10 +161,7 @@ function answerPostalQuestionsButtons(buttonNumber){
 
     var questionAnswer = buttons[buttonNumber-1].innerText;
 
-    //Update addToBasketButton URL
-    var url = addToBasketButton.getAttribute("href");
-    var tempArray = url.split("/");
-    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+questionAnswer+"/"+tempArray[4];
-    addToBasketButton.href=newHREF;
+    //Update postalAnswerInput to contain the selected answer
+    postalAnswerInput.value = questionAnswer;
 }
 </script>

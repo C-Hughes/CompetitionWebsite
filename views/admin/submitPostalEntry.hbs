@@ -51,8 +51,8 @@
             </div>
         </div>
     {{/if}}
-    <div class="container is-max-desktop mb-4" style="display: none;">
-        <div id="errorMessage" class="notification is-danger is-light">
+    <div class="container is-max-desktop mb-4" >
+        <div id="errorMessage" class="notification is-danger is-light" style="display: none;">
         </div>
     </div>
 
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <input type="hidden" name="postalAnswer" value="">
+        <input type="hidden" id="postalAnswer" name="postalAnswer" value="">
         <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
         <input type="hidden" name="compID" value="{{competition._id}}">
         <button id="addToBasketButton" class="button is-fullwidth is-warning" onclick="return verifyCompAnswerAdmin()">
