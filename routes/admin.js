@@ -14,6 +14,7 @@ var User = require('../models/user');
 var Winner = require('../models/winner');
 var DrawResult = require('../models/drawResults');
 var Ticket = require('../models/ticket');
+var Order = require('../models/order');
 var ShippingAddress = require('../models/shippingAddress');
 
 // Define a schema for the sessions collection
@@ -648,38 +649,13 @@ router.post('/updatePreviewCompetition', function(req, res, next) {
     }
 });
 
-
-//Submit Postal Entry to a competition
-router.post('/submitPostalEntry', function(req, res, next) {
-
-    //If no competition id is submitted with the form
-    if(req.body.compID){
-        //Check to make sure required fields are set.
-        req.checkBody('userInfo', 'Title cannot be empty').notEmpty();
-        req.checkBody('postalAnswer', 'Description cannot be empty').notEmpty();
-
-        //Check to make sure competition is not sold out.
-
-        //Check to make sure user has not exceeded max postal entries per person.
-
-
-        //Create new order for the user and mark as a postal vote...
-        //paymentID = 'PostalEntry' & paymentPrice = 0;
-
-
-        //Generate a ticket number and update/insert into ticket db.
-
-    } else {
-        req.flash('error', 'Competition ID Missing');
-        res.redirect('/admin/');
-    }
-});
-
+//Submit a postal entry for a user.
 router.post('/submitPostalEntry', async (req, res, next) => {
     try {
+
         if (!req.body.compID) {
             req.flash('error', 'Competition ID Missing');
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
         //Check to make sure required fields are set.
@@ -694,25 +670,25 @@ router.post('/submitPostalEntry', async (req, res, next) => {
                 messages.push(error.msg);
             });
             req.flash('error', messages);
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
         // Find the competition
         const competition = await Competition.findById(req.body.compID);
         if (!competition) {
             req.flash('error', 'Competition ID not found');
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
         // Check if competition is sold out
         if (competition.currentEntries >= competition.maxEntries) {
             req.flash('error', 'Competition is sold out');
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
         // Check if competition + pendingEntries is sold out
         if ((competition.currentEntries + competition.pendingEntries) >= competition.maxEntries) {
             req.flash('error', 'The last remaining tickets are in the process of being purchased. Check back later to see if they are cancelled.');
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
         //Get User Information
@@ -721,18 +697,19 @@ router.post('/submitPostalEntry', async (req, res, next) => {
             const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(req.body.userInfo, "i") } });
             if (!postalUser) {
                 req.flash('error', 'Username / Email Address not found');
-                return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+                return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
             }
         }
 
         // Check if user has not exceeded max postal entries per person
         const userPostalEntry = await Ticket.findOne({ userReference: postalUser._id, hasPostalVoteEntry: true});
 
-        const userPostalOrders = await Order.find({ userReference: postalUser._id});
+        //const userPostalOrders = await Order.find({ userReference: postalUser._id});        
+        var postalVotesSubmitted = await findPostalEntry(postalUser._id, req.body.compID);
 
-        if (userPostalOrders) {
-            req.flash('error', 'Order Found - Basket = '+userPostalOrders.basket);
-            return res.redirect('/admin/submitPostalEntry'+req.body.compID);
+        if (postalVotesSubmitted) {
+            req.flash('error', 'Order Found - Entries = '+postalVotesSubmitted);
+            return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
         /*
@@ -766,7 +743,7 @@ router.post('/submitPostalEntry', async (req, res, next) => {
     } catch (error) {
         console.log('Error submitting postal entry:', error);
         req.flash('error', 'An error occurred while submitting the postal entry');
-        res.redirect('/admin/');
+        res.redirect('/admin/submitPostalEntry/'+req.body.compID);
     }
 });
 
@@ -1189,5 +1166,43 @@ async function clearAllBaskets() {
         console.log('All baskets have been cleared.');
     } catch (err) {
     console.error('Error clearing baskets:', err);
+    }
+}
+
+//Search orders for ID in Basket
+async function findPostalEntry(userID, competitionID) {
+    try {
+    const userPostalOrders = await Order.find({userReference: userID, paymentID: 'Postal Entry'});
+    var postalVoteEntries = 0;
+        
+    userPostalOrders.forEach(order => {
+        order.basket.forEach(basketItem => {
+            //console.log('Basket Item:', basketItem);
+
+            // Assuming `item` is an object or an array containing an `_id` field
+            if (Array.isArray(basketItem.item)) {
+                basketItem.item.forEach(item => {
+                    //console.log('Item in array:', item);
+
+                    if (item._id == competitionID) {
+                        console.log(`Found item in order ${order._id}`);
+                        postalVoteEntries++;
+                        // Do something with the found item
+                    }
+                });
+            } else {
+                //console.log('Single item:', basketItem.item);
+
+                if (basketItem.item._id && basketItem.item._id == competitionID) {
+                    console.log(`Found item in order ${order._id}`);
+                    postalVoteEntries++;
+                    // Do something with the found item
+                }
+            }
+        });
+    });
+    return postalVoteEntries;
+    } catch (err) {
+        console.error(err);
     }
 }

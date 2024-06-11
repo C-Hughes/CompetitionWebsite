@@ -4,6 +4,7 @@ When buying tickets:
 
 Competitions:
 - Update postal vote information
+- Update competition slider, if almost sold out reduce max tickets in slider
 
 
 User:
@@ -12,6 +13,7 @@ User:
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
 - Remove country options for shipping address - Only UK residents eligible
+
 
 Other:
 - Coupons
