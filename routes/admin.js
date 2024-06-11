@@ -708,43 +708,99 @@ router.post('/submitPostalEntry', async (req, res, next) => {
             req.flash('error', 'User has reached maximum postal entries for this competition. Postal Entries = '+postalVotesSubmitted);
             return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
-        
+
+        //Generate Tickets
+        var soldCompTicketNumbers = competition.ticketNumbersSold;
+        var ticketOrderObjArray = [];
+        var newTicketNumbers = [];
+
+
+        let foundRandomNumber = false;
+        while (!foundRandomNumber) {
+            var randomTicketNumber = Math.floor(Math.random() * competition.maxEntries) + 1;
+            //console.log('RANDOM NUMBER ' + randomTicketNumber);
+
+            if (soldCompTicketNumbers.length === 0 || !soldCompTicketNumbers.includes(randomTicketNumber)) {
+                foundRandomNumber = true;
+            } else {
+                console.log('Duplicate ticketnumber generated, finding a new one - ' + randomTicketNumber);
+            }
+        }
+
+        //Update arrays of sold ticket numbers
+        newTicketNumbers.push(randomTicketNumber);
+        soldCompTicketNumbers.push(randomTicketNumber);
+
+
         // Create a new order for the user and mark as a postal vote
         const newOrder = new Order({
             userReference: req.user._id,
             basket: [
                 {
-                  item: competition,
-                  uniqueID: Date.now(),
-                  qty: 1,
-                  price: 0,
-                  questionAnswer: req.body.postalAnswer,
-                  ticketNumbers: []
+                    item: competition,
+                    uniqueID: Date.now(),
+                    qty: 1,
+                    price: 0,
+                    questionAnswer: req.body.postalAnswer,
+                    ticketNumbers: newTicketNumbers
                 }
-              ],
+                ],
             paymentID: 'PostalEntry',
             paymentPrice: 0,
             orderStatus: 'Completed',
             postalAnswer: req.body.postalAnswer
         });
+        var savedOrder = await newOrder.save();
 
 
-        await newOrder.save();
+        var ticketObj = {};
+        ticketObj["orderID"] = savedOrder.id;
+        ticketObj["ticketNumber"] = randomTicketNumber;
+        ticketOrderObjArray.push(ticketObj);
+        
 
+        //Sort newTicketNumbers lowest to highest
+        newTicketNumbers = newTicketNumbers.sort((a, b) => a - b);
+        //Update comp.ticketNumbers to update the basket for orderReceived Page
+        //comp.ticketNumbers = newTicketNumbers;
 
-        /*
-        // Generate a ticket number and update/insert into ticket DB
-        const newTicket = new Ticket({
+        var ticketUpdate = {
             userReference: req.user._id,
-            competitionReference: competition._id,
-            ticketNumbers: [ logic to generate ticket numbers ],
-            paymentID: 'PostalEntry',
-            ticketQty: 1
-        });
+            competitionReference: req.body.compID,
+            competitionTitle: competition.title,
+            competitionDrawDate: competition.drawDate,
+            $inc: { ticketQty: 1 },
+            compAnswer: req.body.postalAnswer,
+            $push: { 
+                ticketNumbers: { $each: newTicketNumbers },
+                ticketNumbersObjects: { $each: ticketOrderObjArray }
+            },
+            //mostRecentlyPurchasedTicketNumbers: newTicketNumbers,
+            lastUpdated: new Date().toISOString(),
+        };
+        await Ticket.findOneAndUpdate(
+            { userReference: req.user._id, compAnswer: req.body.postalAnswer },
+            ticketUpdate,
+            { upsert: true }
+        );
 
-        await newTicket.save();
+        ///////////////UPDATE COMPETITION RECORD FOR MOST RECENT PURCHASED TICKETS/////////////////
+        //Sort all sold tickets for the competition to update in the database
+        soldCompTicketNumbers = soldCompTicketNumbers.sort((a, b) => a - b);
+        var competitionTicketsUpdate = {
+            ticketNumbersSold: soldCompTicketNumbers,
+            $inc: {
+                'currentEntries': 1,
+            },
+            lastUpdated: new Date().toISOString(),
+        };
+        //Update competition to include purchased ticket numbers and total purchased qty.
+        await Competition.findOneAndUpdate({ _id: req.body.compID }, competitionTicketsUpdate, { upsert: false });
+        ////////////////////////////////////////////////////////////////
 
-        */
+        //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.
+        //await Order.findOneAndUpdate({ _id: savedOrder.id }, { basket: competitionEntries, orderStatus: 'Complete' }, { upsert: false });
+
 
         req.flash('success', 'Postal entry submitted successfully');
         res.redirect('/admin/');
