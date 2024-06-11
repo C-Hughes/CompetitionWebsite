@@ -701,30 +701,38 @@ router.post('/submitPostalEntry', async (req, res, next) => {
             }
         }
 
-        // Check if user has not exceeded max postal entries per person
-        const userPostalEntry = await Ticket.findOne({ userReference: postalUser._id, hasPostalVoteEntry: true});
-
-        //const userPostalOrders = await Order.find({ userReference: postalUser._id});        
+        // Check if user has not exceeded max postal entries per person      
         var postalVotesSubmitted = await findPostalEntry(postalUser._id, req.body.compID);
 
-        if (postalVotesSubmitted) {
-            req.flash('error', 'Order Found - Entries = '+postalVotesSubmitted);
+        if (postalVotesSubmitted >= competition.maxPostalVotes) {
+            req.flash('error', 'User has reached maximum postal entries for this competition. Postal Entries = '+postalVotesSubmitted);
             return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
-
-        /*
+        
         // Create a new order for the user and mark as a postal vote
         const newOrder = new Order({
-            user: req.user._id,
-            competition: competition._id,
+            userReference: req.user._id,
+            basket: [
+                {
+                  item: competition,
+                  uniqueID: Date.now(),
+                  qty: 1,
+                  price: 0,
+                  questionAnswer: req.body.postalAnswer,
+                  ticketNumbers: []
+                }
+              ],
             paymentID: 'PostalEntry',
             paymentPrice: 0,
-            entries: 1,
+            orderStatus: 'Completed',
             postalAnswer: req.body.postalAnswer
         });
 
+
         await newOrder.save();
 
+
+        /*
         // Generate a ticket number and update/insert into ticket DB
         const newTicket = new Ticket({
             userReference: req.user._id,
@@ -1172,7 +1180,7 @@ async function clearAllBaskets() {
 //Search orders for ID in Basket
 async function findPostalEntry(userID, competitionID) {
     try {
-    const userPostalOrders = await Order.find({userReference: userID, paymentID: 'Postal Entry'});
+    const userPostalOrders = await Order.find({userReference: userID, paymentID: 'PostalEntry'});
     var postalVoteEntries = 0;
         
     userPostalOrders.forEach(order => {
