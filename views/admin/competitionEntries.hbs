@@ -152,30 +152,32 @@
             <ul>
                 <li class="is-active">
                     {{#if correctUsers}}
-                        <table id="correctTable" class="table is-bordered is-striped is-narrow is-fullwidth">
-                            <thead>
-                                <tr class="is-clickable">
-                                    <th><span>Username</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Ticket Number<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Comp Answer<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{# each correctTickets}}
-                                    {{# each this.ticketNumbersObjects}}
-                                        <tr>
-                                            <td>{{../this.userReference.username}}</td>
-                                            <td>{{../this.userReference.firstName}}</td>
-                                            <td>{{../this.userReference.lastName}}</td>
-                                            <th>{{this.ticketNumber}}</th>
-                                            <td>{{../this.compAnswer}}</td>
-                                        </tr>
+                        <div class="table-container">
+                            <table id="correctTable" class="table is-bordered is-striped is-narrow is-fullwidth">
+                                <thead>
+                                    <tr class="is-clickable">
+                                        <th><span>Username</span><span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Ticket Number<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Comp Answer<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{# each correctTickets}}
+                                        {{# each this.ticketNumbersObjects}}
+                                            <tr>
+                                                <td>{{../this.userReference.username}}</td>
+                                                <td>{{../this.userReference.firstName}}</td>
+                                                <td>{{../this.userReference.lastName}}</td>
+                                                <th>{{this.ticketNumber}}</th>
+                                                <td>{{../this.compAnswer}}</td>
+                                            </tr>
+                                        {{/each}}
                                     {{/each}}
-                                {{/each}}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     {{else}}
                         <div class="column is-full">
                             <div class="notification">
@@ -186,30 +188,32 @@
                 </li>
                 <li>
                     {{#if incorrectUsers}}
-                        <table id="incorrectTable" class="table is-bordered is-striped is-narrow is-fullwidth">
-                            <thead>
-                                <tr class="is-clickable">
-                                    <th></span>Username<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Ticket Number<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                    <th></span>Answer<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{# each incorrectTickets}}
-                                    {{# each this.ticketNumbersObjects}}
-                                        <tr>
-                                            <td>{{../this.userReference.username}}</td>
-                                            <td>{{../this.userReference.firstName}}</td>
-                                            <td>{{../this.userReference.lastName}}</td>
-                                            <th>{{this.ticketNumber}}</th>
-                                            <td>{{../this.compAnswer}}</td>
-                                        </tr>
+                        <div class="table-container">
+                            <table id="incorrectTable" class="table is-bordered is-striped is-narrow is-fullwidth">
+                                <thead>
+                                    <tr class="is-clickable">
+                                        <th></span>Username<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>First Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Last Name<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Ticket Number<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                        <th></span>Answer<span class="icon is-small is-pulled-right"><i class="fa-solid fa-sort-down"></i></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{# each incorrectTickets}}
+                                        {{# each this.ticketNumbersObjects}}
+                                            <tr>
+                                                <td>{{../this.userReference.username}}</td>
+                                                <td>{{../this.userReference.firstName}}</td>
+                                                <td>{{../this.userReference.lastName}}</td>
+                                                <th>{{this.ticketNumber}}</th>
+                                                <td>{{../this.compAnswer}}</td>
+                                            </tr>
+                                        {{/each}}
                                     {{/each}}
-                                {{/each}}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     {{else}}
                         <div class="column is-full">
                             <div class="notification">
