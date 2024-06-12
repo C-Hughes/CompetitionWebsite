@@ -10,8 +10,7 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
-- Save user's light/dark theme preference to session
-- Save user's light/dark theme preference
+- Save user's light/dark theme preference to DB
 
 
 Other:
@@ -62,6 +61,7 @@ User:
 - List orders on user dashboard
 - Remove country options for shipping address - Only UK residents eligible
 - Update billing address display in users orders when a postal vote has been submitted.
+- Save user's light/dark theme preference to session
 
 
 Other:

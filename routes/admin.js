@@ -287,6 +287,13 @@ router.get('/removeAdmin/:userID', function(req, res, next) {
     });
 });
 
+router.get('/overwatch', function(req, res, next) {
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    res.render('admin/overwatch', { title: 'Overwatch', active: { overwatch: true } });
+});
+
 ////////////Get route to delete a competitions additional photo//////////////////
 router.get('/removeAdditionalImage/:compID', function(req, res, next) {
     var compID = req.params.compID;
