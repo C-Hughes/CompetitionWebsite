@@ -21,36 +21,42 @@ module.exports = {
     calculateCompTotalEntries: function(currentEntries, pendingEntries, options){
         return currentEntries + pendingEntries;
     },
-    calculateMaxTicketsPurchasable: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, options){
+    calculateMaxTicketsPurchasable: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, userCompTicketQty, options){
+        var returnValue = 10;
         if(currentEntries+pendingEntries+maxEntriesPerPerson >= maxEntries){
             var entriesAvailable = maxEntries - (currentEntries + pendingEntries);
             if(entriesAvailable <= maxEntriesPerPerson){
-                return maxEntries - (currentEntries + pendingEntries);
-            } else {
-                return maxEntriesPerPerson;
+                returnValue = maxEntries - (currentEntries + pendingEntries);
             }
+        }
+        //If user has entered tickets already
+        if(returnValue > (maxEntriesPerPerson - userCompTicketQty)){
+            return maxEntriesPerPerson - userCompTicketQty
         } else {
-            return maxEntriesPerPerson;
+            return returnValue; 
         }
     },
-    calculateCurrentTicketsSelected: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, options){
+    calculateCurrentTicketsSelected: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, userCompTicketQty, options){
+        var returnValue = 10;
         if(currentEntries+pendingEntries+maxEntriesPerPerson >= maxEntries){
             var entriesAvailable = maxEntries - (currentEntries + pendingEntries);
             if(entriesAvailable <= maxEntriesPerPerson && entriesAvailable < 10){
-                return maxEntries - (currentEntries + pendingEntries);
+                returnValue = maxEntries - (currentEntries + pendingEntries);
             } else {
                 if(maxEntriesPerPerson < 10){
-                    return maxEntriesPerPerson;  
-                } else {
-                    return 10;
+                    returnValue =  maxEntriesPerPerson;
                 }
             }
         } else {
             if(maxEntriesPerPerson < 10){
-                return maxEntriesPerPerson;  
-            } else {
-                return 10;  
+                returnValue = maxEntriesPerPerson;  
             }
+        }
+        //If user has entered tickets already
+        if(returnValue > (maxEntriesPerPerson - userCompTicketQty)){
+            return maxEntriesPerPerson - userCompTicketQty
+        } else {
+            return returnValue; 
         }
     },
     ifSoldOut: function(currentEntries, pendingEntries, maxEntries, options){

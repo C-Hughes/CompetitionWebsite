@@ -141,23 +141,28 @@ router.get('/logout', function(req, res, next) {
     }
 });
 
-router.get('/competition/:id', function(req, res, next) {
-    var compID = req.params.id;
-    var error = req.flash('error');
+router.get('/competition/:id', async (req, res, next) => {
+    try {
+        const compID = req.params.id;
+        const error = req.flash('error');
 
-    Competition.findOne({ _id: compID })
-    .then((foundCompetition) => {
+        const foundCompetition = await Competition.findOne({ _id: compID });
+        const foundTickets = await Ticket.findOne({ userReference: req.user._id, competitionReference: compID });
+        var userCompTicketQty = 0;
+        if (foundTickets){
+            userCompTicketQty = foundTickets.ticketQty;
+        }
+        
         if (foundCompetition) {
-            res.render('competition', {title: 'Win This '+foundCompetition.title+'!', competition: foundCompetition, error: error, hasError: error.length > 0});
+            res.render('competition', {title: 'Win This ' + foundCompetition.title + '!', competition: foundCompetition, userCompTicketQty: userCompTicketQty, error: error, hasError: error.length > 0});
         } else {
-            //req.flash('error', 'This competition does not exists.');
             console.log("Not Found");
             res.redirect('/');
         }
-    })
-    .catch(err => {
-        console.log(err);
-    });
+    } catch (err) {
+        console.error(err);
+        next(err); // Call next middleware with error to handle it properly
+    }
 });
 
 //////////////////////////// Basket Routes /////////////////////////////

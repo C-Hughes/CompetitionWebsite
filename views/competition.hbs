@@ -153,18 +153,18 @@
                                                         How many tickets?
                                                         </p>
                                                         <div>
-                                                            <input id="sliderWithValue" class="slider has-output is-fullwidth" min="1" max="{{calculateMaxTicketsPurchasable competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries}}" value="{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries}}" step="1" type="range" oninput="updateTicketCount()" onmouseup="updateTicketCount()" onchange="updateTicketCount()">
+                                                            <input id="sliderWithValue" class="slider has-output is-fullwidth" min="1" max="{{calculateMaxTicketsPurchasable competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}" value="{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}" step="1" type="range" oninput="updateTicketCount()" onmouseup="updateTicketCount()" onchange="updateTicketCount()">
                                                             <output id="ticketSliderCount" for="sliderWithValue">{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries}}</output>
                                                         </div>
 
                                                         <div class="buttons has-addons is-centered">
                                                             <button id="subTicketButton" class="button" onclick="updateTicketCount('-')">-</button>
-                                                            <button id="ticketButtonCount" class="button is-static">Number of tickets: {{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries}}</button>
+                                                            <button id="ticketButtonCount" class="button is-static">Number of tickets: {{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}</button>
                                                             <button id="addTicketButton" class="button" onclick="updateTicketCount('+')">+</button>
                                                         </div>
                                                     </div>
                                                     <footer class="card-footer">
-                                                        <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries}}" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
+                                                        <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
                                                             <span>Add Tickets to Basket</span>
                                                             <span class="icon">
                                                                 <i class="fa-solid fa-ticket"></i>
@@ -667,6 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateImage();
+    
+    updateTicketCount();
 });
-
 </script>
