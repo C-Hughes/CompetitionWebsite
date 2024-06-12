@@ -3,7 +3,6 @@
 When buying tickets:
 
 Competitions:
-- Update competition slider to also calculate how many tickets the user has already purchased.
 
 
 User:
@@ -92,6 +91,7 @@ Competition:
 - Add check to /addToBasket to make sure competition is not sold out before adding tickets to basket
 - Update postal vote information
 - Update competition slider, if almost sold out reduce max tickets in slider
+- Update competition slider to also calculate how many tickets the user has already purchased.
 
 
 When Buying Tickets:
