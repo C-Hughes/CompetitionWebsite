@@ -10,8 +10,7 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
-- Remove country options for shipping address - Only UK residents eligible
-- Update billing address display in users orders when a postal vote has been submitted.
+
 
 Other:
 - Coupons
@@ -27,7 +26,6 @@ Other:
 Admin functionality:
 - Administrate coupon codes
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
-- Ability for admin to manually enter people into competitions that have posted in.
 - Ban users for x amount of time
 
 
@@ -45,6 +43,7 @@ Test Draw Result creation fully
 Reset all DBs and test order cancellation if order not completed within time limit
 Adding multiple items to basket and make sure when order is cancelled that pending entries are removed.
 Check all updateBasket checks are working correctly
+Check postal vote entry
 
 -----------------------------------------------------------------------------------------
 
@@ -59,6 +58,9 @@ User:
 - functionality to edit shipping address
 - Make sure only users with accounts can purchase tickets?
 - List orders on user dashboard
+- Remove country options for shipping address - Only UK residents eligible
+- Update billing address display in users orders when a postal vote has been submitted.
+
 
 Other:
 - Recode buy ticket post route to use an async function for readability
@@ -112,7 +114,7 @@ Admin:
 - Add winningTicketNumber input to edit competition form
 - Add winningTicketNumber input to Competition Entries form
 - User info lookup in admin/users
-
+- Ability for admin to manually enter people into competitions that have posted in.
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'

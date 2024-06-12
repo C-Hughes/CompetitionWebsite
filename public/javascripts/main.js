@@ -246,3 +246,24 @@ function copyShareLink(type, text){
     // Copy the text inside the text field
     navigator.clipboard.writeText(copyText.value);
 }
+
+function changeTheme(){
+    var HTMLTheme = document.getElementById("HTMLTheme");
+    var changeThemeButton = document.getElementById("changeThemeButton");
+    
+    if(HTMLTheme.classList.contains('theme-dark')){
+        HTMLTheme.classList.remove('theme-dark');
+        HTMLTheme.classList.add('theme-light');
+
+        changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-moon"></i></span><span>Dark Theme</span>';
+        changeThemeButton.classList.remove('is-light');
+        changeThemeButton.classList.add('is-dark');
+    } else {
+        HTMLTheme.classList.remove('theme-light');
+        HTMLTheme.classList.add('theme-dark');
+
+        changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-sun"></i></span><span>Light Theme</span>';
+        changeThemeButton.classList.remove('is-dark');
+        changeThemeButton.classList.add('is-light');
+    }
+}
