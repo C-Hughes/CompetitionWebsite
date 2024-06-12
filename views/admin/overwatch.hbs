@@ -45,10 +45,11 @@
                 <div id="ref_{{this._id}}" class="columns" style="display:none">
                     <div class="column">
                         <p>
-                            {{# each this.ticketNumbersObjects}}
-                                <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
+                            {{# each this.users}}
+                                <p>{{this._id}}</p>
+                                <p>{{this.username}}</p>
+                                <p>{{this.emailAddress}}</p>
                             {{/each}}
-                            TEST
                         </p>
                     </div>
                 </div>

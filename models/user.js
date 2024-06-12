@@ -30,6 +30,10 @@ var userSchema = new Schema({
     lastUpdated: {type: Date, default: Date.now, required: true}
 });
 
+// Ensure the relevant fields are indexed
+userSchema.index({ referralCode: 1 });
+userSchema.index({ signupReferralCodeUsed: 1 });
+
 userSchema.methods.encryptPassword = function(password){
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);

@@ -309,17 +309,37 @@ router.get('/overwatch', async (req, res, next) => {
             },
             {
                 $limit: 10
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: '_id',
+                    foreignField: 'signupReferralCodeUsed',
+                    as: 'users'
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    count: 1,
+                    users: {
+                        _id: 1,
+                        username: 1,
+                        emailAddress: 1
+                    }
+                }
             }
         ]);
 
         if (result.length > 0) {
             console.log('Top 10 signupReferralCodeUsed:');
             result.forEach((code, index) => {
-                console.log(`${index + 1}. ${code._id} with ${code.count} uses`);
+                //console.log(`${index + 1}. ${code._id} with ${code.count} uses`);
+                //console.log('Users:', code.users);
             });
             //return result;
         } else {
-            console.log('No signupReferralCodeUsed found');
+            //console.log('No signupReferralCodeUsed found');
             //return [];
         }
 
