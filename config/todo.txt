@@ -3,7 +3,6 @@
 When buying tickets:
 
 Competitions:
-- Update postal vote information
 - Update competition slider, if almost sold out reduce max tickets in slider
 
 
@@ -91,6 +90,7 @@ Competition:
 - Add cronjob to cancel any pending orders that are more than 15mins old (Incase server was restarted)
 - Add check when on competition page, if competition has sold out do not allow users to add to basket.
 - Add check to /addToBasket to make sure competition is not sold out before adding tickets to basket
+- Update postal vote information
 
 
 When Buying Tickets:
