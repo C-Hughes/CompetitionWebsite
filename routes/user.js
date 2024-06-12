@@ -148,7 +148,6 @@ router.post('/address/:addressType', async function(req, res, next) {
                 userReference: req.user,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
-                countryRegion: req.body.countryRegion,
                 streetAddress1: req.body.streetAddress1,
                 streetAddress2: req.body.streetAddress2,
                 townCity: req.body.townCity,
