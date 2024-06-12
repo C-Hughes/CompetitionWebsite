@@ -95,46 +95,81 @@ function answerQuestionsButtons(buttonNumber){
 
 ///////////////////////////////// Open modal //////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', () => {
-  // Functions to open and close a modal
-  function openModal($el) {
-    $el.classList.add('is-active');
-  }
-
-  function closeModal($el) {
-    $el.classList.remove('is-active');
-  }
-
-  function closeAllModals() {
-    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-      closeModal($modal);
-    });
-  }
-
-  // Add a click event on buttons to open a specific modal
-  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-    const modal = $trigger.dataset.target;
-    const $target = document.getElementById(modal);
-
-    $trigger.addEventListener('click', () => {
-      openModal($target);
-    });
-  });
-
-  // Add a click event on various child elements to close the parent modal
-  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete') || []).forEach(($close) => {
-    const $target = $close.closest('.modal');
-
-    $close.addEventListener('click', () => {
-      closeModal($target);
-    });
-  });
-
-  // Add a keyboard event to close all modals
-  document.addEventListener('keydown', (event) => {
-    if(event.key === "Escape") {
-      closeAllModals();
+    // Functions to open and close a modal
+    function openModal($el) {
+        $el.classList.add('is-active');
     }
-  });
+
+    function closeModal($el) {
+        $el.classList.remove('is-active');
+    }
+
+    function closeAllModals() {
+        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+        closeModal($modal);
+        });
+    }
+
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
+
+        $trigger.addEventListener('click', () => {
+        openModal($target);
+        });
+    });
+
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete') || []).forEach(($close) => {
+        const $target = $close.closest('.modal');
+
+        $close.addEventListener('click', () => {
+        closeModal($target);
+        });
+    });
+
+    // Add a keyboard event to close all modals
+    document.addEventListener('keydown', (event) => {
+        if(event.key === "Escape") {
+        closeAllModals();
+        }
+    });
+
+    ////////////////////////////Set Theme///////////////////////////////////
+    var HTMLTheme = document.getElementById("HTMLTheme");
+    var changeThemeButton = document.getElementById("changeThemeButton");
+
+    // Check the session storage for the theme
+    var storedTheme = sessionStorage.getItem('theme');
+
+    console.log(storedTheme);
+
+    if (storedTheme) {
+        HTMLTheme.classList.add(storedTheme);
+        if (storedTheme == 'theme-light') {
+            HTMLTheme.classList.remove('theme-dark');
+            HTMLTheme.classList.add('theme-light');
+
+            changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-moon"></i></span><span>Dark Theme</span>';
+            changeThemeButton.classList.remove('is-light');
+            changeThemeButton.classList.add('is-dark');
+        } else {
+            HTMLTheme.classList.remove('theme-light');
+            HTMLTheme.classList.add('theme-dark');
+
+            changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-sun"></i></span><span>Light Theme</span>';
+            changeThemeButton.classList.remove('is-dark');
+            changeThemeButton.classList.add('is-light');
+        }
+    } else {
+        // Default to dark theme if no theme is stored
+        HTMLTheme.classList.add('theme-dark');
+        changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-sun"></i></span><span>Light Theme</span>';
+        changeThemeButton.classList.remove('is-dark');
+        changeThemeButton.classList.add('is-light');
+        sessionStorage.setItem('theme', 'theme-dark');
+    }
 });
 
 function closeBasketModal(){
@@ -258,6 +293,8 @@ function changeTheme(){
         changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-moon"></i></span><span>Dark Theme</span>';
         changeThemeButton.classList.remove('is-light');
         changeThemeButton.classList.add('is-dark');
+
+        sessionStorage.setItem('theme', 'theme-light');
     } else {
         HTMLTheme.classList.remove('theme-light');
         HTMLTheme.classList.add('theme-dark');
@@ -265,5 +302,7 @@ function changeTheme(){
         changeThemeButton.innerHTML = '<span class="icon"><i class="fa-solid fa-sun"></i></span><span>Light Theme</span>';
         changeThemeButton.classList.remove('is-dark');
         changeThemeButton.classList.add('is-light');
+
+        sessionStorage.setItem('theme', 'theme-dark');
     }
 }

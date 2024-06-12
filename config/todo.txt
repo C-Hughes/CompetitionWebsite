@@ -10,6 +10,8 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
+- Save user's light/dark theme preference to session
+- Save user's light/dark theme preference
 
 
 Other:
@@ -21,7 +23,7 @@ Other:
 - Email password reset
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
-- Button in Footer to change light / dark theme
+
 
 Admin functionality:
 - Administrate coupon codes
@@ -72,6 +74,7 @@ Other:
 - Add pinned functionality for winners Cards
 - Get pinned previous winners in a seperate query for when there are a large number of winnerCards
 - Update to use .env
+- Button in Footer to change light / dark theme
 
 
 Competition:
