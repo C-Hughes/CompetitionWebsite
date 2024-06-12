@@ -5,7 +5,7 @@ var shippingAddressSchema = new Schema({
     userReference: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
-    countryRegion: {type: String, required: true},
+    countryRegion: {type: String, required: false},
     streetAddress1: {type: String, required: true},
     streetAddress2: {type: String, required: false},
     townCity: {type: String, required: true},

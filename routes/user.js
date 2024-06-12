@@ -170,7 +170,6 @@ router.post('/address/:addressType', async function(req, res, next) {
             // Input Validation
             req.checkBody('firstName', 'First Name cannot be empty').notEmpty();
             req.checkBody('lastName', 'Last Name cannot be empty').notEmpty();
-            req.checkBody('countryRegion', 'Country / Region cannot be empty').notEmpty();
             req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
             req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
             req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
@@ -189,7 +188,6 @@ router.post('/address/:addressType', async function(req, res, next) {
                 userReference: req.user,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
-                countryRegion: req.body.countryRegion,
                 streetAddress1: req.body.streetAddress1,
                 streetAddress2: req.body.streetAddress2,
                 townCity: req.body.townCity,

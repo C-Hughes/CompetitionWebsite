@@ -258,7 +258,7 @@
                                 <p>{{userShippingAddress.streetAddress1}}</p>
                                 <p>{{userShippingAddress.phoneNumber}}</p>
                                 <p>{{userShippingAddress.townCity}}</p>
-                                <p>{{userShippingAddress.countryRegion}}</p>
+                                <p>United Kingdom</p>
                             {{else}}
                                 <p>You have not set up this type of address yet.</p>
                             {{/if}}
@@ -281,24 +281,6 @@
                                     <i class="fa-solid fa-user"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <label class="label">Country / Region</label>
-                            <div class="field">
-                                <p class="control has-icons-left">
-                                    <span class="select is-fullwidth">
-                                        <select id="countryRegion" name="countryRegion">
-                                            {{#if userShippingAddress.countryRegion}}
-                                                <option selected>{{userShippingAddress.countryRegion}}</option>
-                                            {{else}}
-                                                <option value="">Country</option>
-                                            {{/if}}
-                                            {{> countryDropdown}}
-                                        </select>
-                                    </span>
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-globe"></i>
-                                    </span>
-                                </p>
                             </div>
                             <div class="field">
                                 <label class="label">Street Address</label>
