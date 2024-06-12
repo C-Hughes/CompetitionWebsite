@@ -75,7 +75,7 @@
 
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Payment method:</strong></p>
-        <p class="subtitle is-6 is-pulled-right"><strong>Debit/Credit Card</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>{{#isPostalEntry order.paymentID}}Postal Entry{{else}}Debit/Credit Card{{/isPostalEntry}}</strong></p>
     </div>
     <br />
     <hr />
