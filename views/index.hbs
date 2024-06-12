@@ -1,29 +1,31 @@
 
 {{#if areCompetitions}}
+    {{#checkVisible competitions}}
+        {{#if hasVisible}}                     
+            <div id="homeBannerContainer" class="homeBannerContainer">
 
-    <div id="homeBannerContainer" class="homeBannerContainer">
-
-        <button id="leftButton" class="homeBannerNavButton left">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <button id="rightButton" class="homeBannerNavButton right">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-        <a id="homeBannerLink" class="homeBannerLink">
-            <div class="homeBannerOverlay">
-                <h1 id="homeBannerTitle" class="title is-2">Win This RS6 Launch Edition + VW Campervan</h1>
-                <p id="homeBannerDrawDate" class="subtitle is-4">Draw Tonight 9PM</p>
-                <button id="homeBannerEnterButton" class="button is-primary is-medium">
-                    <span>Enter Now</span>
-                    <span class="icon">
-                        <i class="fa-solid fa-ticket"></i>
-                    </span>
+                <button id="leftButton" class="homeBannerNavButton left">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                
+                <button id="rightButton" class="homeBannerNavButton right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <a id="homeBannerLink" class="homeBannerLink">
+                    <div class="homeBannerOverlay">
+                        <h1 id="homeBannerTitle" class="title is-2">Win This RS6 Launch Edition + VW Campervan</h1>
+                        <p id="homeBannerDrawDate" class="subtitle is-4">Draw Tonight 9PM</p>
+                        <button id="homeBannerEnterButton" class="button is-primary is-medium">
+                            <span>Enter Now</span>
+                            <span class="icon">
+                                <i class="fa-solid fa-ticket"></i>
+                            </span>
+                        </button>
+                        
+                    </div>
+                </a>    
             </div>
-        </a>    
-    </div>
-
+        {{/if}}
+    {{/checkVisible}}
 {{/if}}
 
 <section class="hero is-dark py-2">
@@ -65,40 +67,44 @@
 </section>
 
 {{#if areCompetitions}}
-<section class="hero">
-    <div class="hero-body">
-        <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
-    </div>
-</section>       
-{{else}}
-<section class="hero">
-    <div class="hero-body">
-        <p class="title has-text-centered is-uppercase">Check back later for more competitions!</p>
-    </div>
-</section>     
-    
-<div class="container is-max-fullhd">
-    <div class="columns is-multiline">
-        <div class="column"></div>
-        <div class="column is-half">    
-            <div class="field" style="margin-bottom: 100px">
-                <label class="label">Sign up for alerts when new competitions are added!</label>
-                <div class="field-body">
-                    <div class="field has-addons">
-                        <div class="control is-expanded">
-                            <input class="input" type="email" placeholder="Email Address">
-                        </div>
-                        <div class="control">
-                            <button class="button is-primary">Sign Up</button>
-                        </div>
-                    </div>
+    {{#checkVisible competitions}}
+        {{#if hasVisible}}  
+            <section class="hero">
+                <div class="hero-body">
+                    <p class="title has-text-centered is-uppercase">Upcoming Competitions</p>
                 </div>
-            </div>
+            </section>
+        {{else}}
+            <section class="hero">
+                <div class="hero-body">
+                    <p class="title has-text-centered is-uppercase">Check back later for more competitions!</p>
+                </div>
+            </section>     
+                
+            <div class="container is-max-fullhd">
+                <div class="columns is-multiline">
+                    <div class="column"></div>
+                    <div class="column is-half">    
+                        <div class="field" style="margin-bottom: 100px">
+                            <label class="label">Sign up for alerts when new competitions are added!</label>
+                            <div class="field-body">
+                                <div class="field has-addons">
+                                    <div class="control is-expanded">
+                                        <input class="input" type="email" placeholder="Email Address">
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-primary">Sign Up</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-        </div>
-        <div class="column"></div>
-    </div>
-</div>            
+                    </div>
+                    <div class="column"></div>
+                </div>
+            </div>            
+        {{/if}}
+    {{/checkVisible}}
 {{/if}}
 
 <div class="container">
