@@ -6,6 +6,16 @@
 
 {{> userNav}}
 
+<div class="container is-max-widescreen">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/user">Dashboard</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Order {{order._id}}</a></li>
+        </ul>
+    </nav>
+</div>
+
 <div class="container is-max-widescreen my-6">
     <h2 class="subtitle is-6">Order <strong>{{order._id}}</strong> was placed on <strong>{{formatDate order.created}}</strong> and is currently <strong>{{order.orderStatus}}.</strong></h2>
     <hr />
@@ -77,14 +87,19 @@
     <br />
     <hr />
 
-    <h1 class="title is-3">Billing Address</strong></h2>
-    <p>{{order.billingAddress.firstName}} {{order.billingAddress.lastName}}</p>
-    <p>{{order.billingAddress.streetAddress1}}</p>
-    <p>{{order.billingAddress.townCity}}</p>
-    <p>{{order.billingAddress.postcode}}</p>
-    <p>{{order.billingAddress.phoneNumber}}</p>
-    <br />
-    <p>{{order.billingAddress.emailAddress}}</p>
-
+    {{#if order.billingAddress}}
+        <h1 class="title is-3">Billing Address</strong></h2>
+        <p>{{order.billingAddress.firstName}} {{order.billingAddress.lastName}}</p>
+        <p>{{order.billingAddress.streetAddress1}}</p>
+        <p>{{order.billingAddress.townCity}}</p>
+        <p>{{order.billingAddress.postcode}}</p>
+        <p>{{order.billingAddress.phoneNumber}}</p>
+        <br />
+        <p>{{order.billingAddress.emailAddress}}</p>
+    {{else}}
+        {{#isPostalEntry order.paymentID}}
+            <h1 class="title is-3">Postal Entry</strong></h2>
+        {{/isPostalEntry}}
+    {{/if}}
 
 </div>

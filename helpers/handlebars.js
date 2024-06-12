@@ -65,6 +65,12 @@ module.exports = {
         }
         return options.inverse(this);
     },
+    isPostalEntry: function(value, options){
+        if(value === 'PostalEntry') {
+            return options.fn(this);
+        }
+        return options.inverse(this);
+    },
     ifOR: function(value, value2, options){
         return (value || value2) ? options.fn(this) : options.inverse(this);
     },
