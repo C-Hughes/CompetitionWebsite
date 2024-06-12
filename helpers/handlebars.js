@@ -22,7 +22,7 @@ module.exports = {
         return currentEntries + pendingEntries;
     },
     calculateMaxTicketsPurchasable: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, userCompTicketQty, options){
-        var returnValue = 10;
+        var returnValue = maxEntriesPerPerson;
         if(currentEntries+pendingEntries+maxEntriesPerPerson >= maxEntries){
             var entriesAvailable = maxEntries - (currentEntries + pendingEntries);
             if(entriesAvailable <= maxEntriesPerPerson){
