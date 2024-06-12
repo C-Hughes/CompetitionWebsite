@@ -801,7 +801,7 @@ router.post('/submitPostalEntry', async (req, res, next) => {
 
 
         req.flash('success', 'Postal entry submitted successfully');
-        res.redirect('/admin/');
+        res.redirect('/admin/submitPostalEntry/'+req.body.compID);
     } catch (error) {
         console.log('Error submitting postal entry:', error);
         req.flash('error', 'An error occurred while submitting the postal entry');
