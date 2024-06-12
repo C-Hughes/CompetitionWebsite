@@ -5,3 +5,60 @@
 </section>
 
 {{> adminNav}}
+
+<div class="container is-max-fullhd">
+    <div class="content my-6">
+        <h1 class="title">Most Used Referrals</h1>
+    </div>
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if referrals}}
+        {{#each referrals}}
+            <div class="container notification">
+                <div class="columns is-vcentered">
+                    <div class="column is-3">
+                        <p class="title is-6">Referral Code</p>
+                        <p class="subtitle is-6">{{this._id}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">Times Used</p>
+                        <p class="subtitle is-6">{{this.count}}</p>
+                    </div>
+                    <div class="column is-4">
+                    </div>
+                    <div class="column is-2">
+                        <button onclick="toggleElement('ref_{{this._id}}')" class="button is-link">
+                            <span class="icon">
+                                <i class="fa-solid fa-angle-down"></i>
+                            </span>
+                            <span>View Users</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="ref_{{this._id}}" class="columns" style="display:none">
+                    <div class="column">
+                        <p>
+                            {{# each this.ticketNumbersObjects}}
+                                <a href="/user/viewOrder/{{this.orderID}}">{{this.ticketNumber}}</a>
+                            {{/each}}
+                            TEST
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="column is-full">
+            <div class="notification">
+                <p>No orders to show.</p>
+            </div>
+        </div>
+    {{/if}}
+</div>    

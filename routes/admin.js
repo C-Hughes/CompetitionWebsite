@@ -287,11 +287,47 @@ router.get('/removeAdmin/:userID', function(req, res, next) {
     });
 });
 
-router.get('/overwatch', function(req, res, next) {
+router.get('/overwatch', async (req, res, next) => {
     var success = req.flash('success');
     var errors = req.flash('error');
 
-    res.render('admin/overwatch', { title: 'Overwatch', active: { overwatch: true } });
+    try {
+        const result = await User.aggregate([
+            {
+                $match: {
+                    signupReferralCodeUsed: { $nin: [null, ""] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$signupReferralCodeUsed",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { count: -1 }
+            },
+            {
+                $limit: 10
+            }
+        ]);
+
+        if (result.length > 0) {
+            console.log('Top 10 signupReferralCodeUsed:');
+            result.forEach((code, index) => {
+                console.log(`${index + 1}. ${code._id} with ${code.count} uses`);
+            });
+            //return result;
+        } else {
+            console.log('No signupReferralCodeUsed found');
+            //return [];
+        }
+
+        res.render('admin/overwatch', { title: 'Overwatch', active: { overwatch: true }, referrals: result});
+
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 ////////////Get route to delete a competitions additional photo//////////////////
