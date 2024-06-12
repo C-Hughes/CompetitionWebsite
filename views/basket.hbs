@@ -103,9 +103,19 @@
                             </div>
                             <div class="column is-full">
                                 {{#if user}}
-                                    <a href="/checkout" class="button is-medium is-fullwidth is-primary">Proceed to Checkout</a>
+                                    <a href="/checkout" class="button is-medium is-fullwidth is-primary">
+                                        <span class="icon">
+                                            <i class="fa-solid fa-cash-register"></i>
+                                        </span>
+                                        <span>Proceed to Checkout</span>    
+                                    </a>
                                 {{else}}
-                                    <a href="/login" class="button is-medium is-fullwidth is-primary">Login to Checkout</a>
+                                    <a href="/login" class="button is-medium is-fullwidth is-primary">
+                                        <span class="icon">
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                        <span>Login to Checkout</span>
+                                    </a>
                                 {{/if}}
                             </div>
                         </div>
@@ -122,7 +132,12 @@
         </div>
     </div>
     <div class="buttons is-centered">
-        <a href="/" class="button is-large is-link">Return to Competitions</a>
+        <a href="/" class="button is-large is-link">
+            <span class="icon">
+                <i class="fa-solid fa-dice"></i>
+            </span>
+            <span>Return to Competitions</span>                        
+        </a>
     </div>
 {{/if}}
 

@@ -175,7 +175,12 @@
     </form>
 
     <div class="container">
-        <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined mt-4">Edit Competition</a>
+        <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined mt-4">
+            <span class="icon is-small">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </span>
+            <span>Edit Competition</span>
+        </a>
         <a href="/admin/competitionEntries/{{this.id}}" class="button is-fullwidth is-primary is-outlined mt-4">
             <span class="icon is-small">
                 <i class="fas fa-ticket"></i>

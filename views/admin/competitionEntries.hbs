@@ -118,11 +118,21 @@
         </div>
         <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
         <input type="hidden" name="compID" value="{{competition._id}}">
-        <button type="submit" class="button is-fullwidth is-link mb-3">Update Winning Ticket Number</button>
+        <button type="submit" class="button is-fullwidth is-link mb-3">
+            <span class="icon">
+                <i class="fa-solid fa-upload"></i>
+            </span>
+            <span>Update Winning Ticket Number</span>
+        </button>
     </form>
 
     <div class="container mb-4">
-        <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">Edit Competition</a>
+        <a href="/admin/editCompetition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">
+            <span class="icon">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </span>
+            <span>Edit Competition</span>
+        </a>
     </div>
 
     <hr></hr>

@@ -35,7 +35,12 @@
 {{/if}}
 
 <div class="container is-max-desktop mb-4">
-    <a href="/competition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">View Competition Page </a>
+    <a href="/competition/{{competition.id}}" class="button is-fullwidth is-link is-outlined">
+        <span class="icon">
+            <i class="fa-solid fa-right-to-bracket"></i>
+        </span>
+        <span>View Competition Page</span>
+    </a>
 </div>
 
 
@@ -364,7 +369,12 @@
                     </div>           
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
                     <input type="hidden" name="compID" value="{{competition._id}}">   
-                    <button type="submit" class="button is-medium is-fullwidth is-link">Update Competition</button>
+                    <button type="submit" class="button is-medium is-fullwidth is-link">
+                        <span class="icon">
+                            <i class="fa-solid fa-upload"></i>
+                        </span>
+                        <span>Update Competition</span>
+                    </button>
                 </div>
             </div>
         </div>

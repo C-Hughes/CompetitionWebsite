@@ -196,7 +196,7 @@ function editForm(defaultDisplay, defaultClosed, button, buttonType){
             
         //}
         var buttonElem = document.getElementById(button);
-        buttonElem.innerHTML = "<button type='"+buttonType+"' class='card-footer-item has-text-link'>Save Address</button>";      
+        buttonElem.innerHTML = "<button type='"+buttonType+"' class='card-footer-item has-text-link'><span class='icon'><i class='fa-solid fa-floppy-disk'></i></span><span>Save Address</span></button>";  
     }
 }
 

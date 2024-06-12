@@ -44,7 +44,12 @@
                                                         <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
                                                         <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
                                                         <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
-                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
+                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-ticket"></i>
+                                                            </span>
+                                                            <span>View Ticket Numbers</span>
+                                                        </button>
                                                         <br />
                                                         <p id="comp_{{this._id}}" class="notification" style="display:none">
                                                             {{# each this.ticketNumbersObjects}}
@@ -90,7 +95,12 @@
                                                         <p class="subtitle is-6"><strong>Draw Date:</strong> {{formatDate this.competitionDrawDate}}</p>
                                                         <p class="subtitle is-6">You have<strong> {{this.ticketQty}} </strong>tickets</p>
                                                         <p class="subtitle is-6">Answer: <strong> {{this.compAnswer}} </strong></p>
-                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">View Ticket Numbers</button>
+                                                        <button onclick="toggleElement('comp_{{this._id}}')" class="button is-medium is-fullwidth is-link">
+                                                            <span class="icon">
+                                                                <i class="fa-solid fa-ticket"></i>
+                                                            </span>
+                                                            <span>View Ticket Numbers</span>
+                                                        </button>
                                                         <br />
                                                         <p id="comp_{{this._id}}" class="notification" style="display:none">
                                                             {{# each this.ticketNumbersObjects}}
