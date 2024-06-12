@@ -39,10 +39,18 @@ module.exports = {
             if(entriesAvailable <= maxEntriesPerPerson && entriesAvailable < 10){
                 return maxEntries - (currentEntries + pendingEntries);
             } else {
-                return 10;
+                if(maxEntriesPerPerson < 10){
+                    return maxEntriesPerPerson;  
+                } else {
+                    return 10;
+                }
             }
         } else {
-            return 10;
+            if(maxEntriesPerPerson < 10){
+                return maxEntriesPerPerson;  
+            } else {
+                return 10;  
+            }
         }
     },
     ifSoldOut: function(currentEntries, pendingEntries, maxEntries, options){
