@@ -21,6 +21,30 @@ module.exports = {
     calculateCompTotalEntries: function(currentEntries, pendingEntries, options){
         return currentEntries + pendingEntries;
     },
+    calculateMaxTicketsPurchasable: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, options){
+        if(currentEntries+pendingEntries+maxEntriesPerPerson >= maxEntries){
+            var entriesAvailable = maxEntries - (currentEntries + pendingEntries);
+            if(entriesAvailable <= maxEntriesPerPerson){
+                return maxEntries - (currentEntries + pendingEntries);
+            } else {
+                return maxEntriesPerPerson;
+            }
+        } else {
+            return maxEntriesPerPerson;
+        }
+    },
+    calculateCurrentTicketsSelected: function(maxEntries, maxEntriesPerPerson, currentEntries, pendingEntries, options){
+        if(currentEntries+pendingEntries+maxEntriesPerPerson >= maxEntries){
+            var entriesAvailable = maxEntries - (currentEntries + pendingEntries);
+            if(entriesAvailable <= maxEntriesPerPerson && entriesAvailable < 10){
+                return maxEntries - (currentEntries + pendingEntries);
+            } else {
+                return 10;
+            }
+        } else {
+            return 10;
+        }
+    },
     ifSoldOut: function(currentEntries, pendingEntries, maxEntries, options){
         return (currentEntries + pendingEntries) >= maxEntries ? options.fn(this) : options.inverse(this);
     },
