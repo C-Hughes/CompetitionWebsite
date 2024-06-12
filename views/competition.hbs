@@ -45,7 +45,7 @@
                         Win this {{competition.title}}!
                     </h2>
                     <h2 class="subtitle is-6">
-                        Cash Alternative: £{{competition.cashAlternative}}
+                        {{#if competition.cashAlternative}}Cash Alternative: £{{competition.cashAlternative}}{{/if}}
                     </h2>
 
                     <div class="content">

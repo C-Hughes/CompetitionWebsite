@@ -358,7 +358,6 @@ router.post('/updateCompetition', async (req, res, next) => {
 
     //Input Validation
     req.checkBody('title', 'Title cannot be empty').notEmpty();
-    req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
     req.checkBody('price', 'Price cannot be empty').notEmpty();
     req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
     req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
@@ -499,7 +498,6 @@ router.post('/createCompetition', async (req, res) => {
 
         //Input Validation
         req.checkBody('title', 'Title cannot be empty').notEmpty();
-        req.checkBody('cashAlternative', 'Cash Alternative cannot be empty').notEmpty();
         req.checkBody('price', 'Price cannot be empty').notEmpty();
         req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
         req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
