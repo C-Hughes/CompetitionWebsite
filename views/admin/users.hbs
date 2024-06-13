@@ -10,10 +10,19 @@
     <div class="content my-6">
         <h1 class="title">Lookup User</h1>
     </div>
-    {{#if errors}}
+    {{#if hasErrors}}
         <div class="container is-max-desktop mb-4">
             <div class="notification is-danger is-light">
                 {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
                     <p>{{this}}</p>
                 {{/each}}
             </div>
@@ -91,6 +100,40 @@
                             <p><strong>Other Users Referred:</strong> {{this.usersReferred}}</p>
                             <p><strong>Join Date:</strong> {{formatDate this.joinDate}}</p>
                             <p><strong>Last Login:</strong> {{formatDate this.lastLogin}}</p>
+                        </div>
+                    </div>
+                    <div class="columns is-vcentered is-multiline">
+                        <div class="column">
+                            <form action="/admin/updateUserBan" method="post">
+                                <label class="label">User Banned Until Date (Format: 2024-12-25:19:00) (Leave Blank is User is Not Banned)</label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left">
+                                        <input id="userBannedUntil" name="userBannedUntil" type="text" class="input" placeholder="Date User is Banned Until" value="{{this.bannedUntilDate}}" readonly>
+                                        <span class="icon is-left">
+                                            <i class="fa-solid fa-user-lock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control">
+                                        <button id="drawDateBtn" class="button is-medium is-warning" onclick="toggleEditInput('drawDate', 'drawDateBtn')" type="button">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field-body">
+                                    <input type="hidden" name="userID" value="{{this._id}}"> 
+                                    <div class="field">
+                                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                                        <div class="control">
+                                            <button type="submit" class="button is-danger">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-gavel"></i>
+                                                </span>
+                                                <span>Update User Ban Date</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>    
                         </div>
                     </div>
                 </div>

@@ -242,7 +242,7 @@ router.get('/users', function(req, res, next) {
     .then(count => {
         User.find({}).limit(50).sort({created: -1})
         .then(foundUsers => {
-            res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, errors: errors.length > 0, userCount: count}); 
+            res.render('admin/users', { title: 'Users', active: { users: true }, users: foundUsers, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0, userCount: count}); 
         })
         .catch(err => {
             console.log(err);
@@ -1199,6 +1199,46 @@ router.post('/users', async (req, res, next) => {
         console.log(err);
         req.flash('error', 'Error updating Winning Ticket Number');
         res.redirect('/admin/competitionEntries/'+req.body.compID);
+    }
+});
+
+router.post('/updateUserBan', async (req, res, next) => {
+
+    //If no draw Result ID is submitted with the form
+    if (!req.body.userID) {
+        req.flash('error', 'User ID Missing');
+        return res.redirect('/admin/users');
+    }
+
+    //Lookup username and find userID
+    var returnedUser = await User.findById(req.body.userID);
+        
+    if(!returnedUser){
+        req.flash('error', 'UserID not found');
+        return res.redirect('/admin/users');
+    }
+
+    var userBannedUntil = req.body.userBannedUntil;
+    if(userBannedUntil && userBannedUntil!=''){
+        userBannedUntil = new Date(req.body.userBannedUntil).toISOString()
+    }
+
+    var userBanUpdate = {
+        bannedUntilDate: userBannedUntil,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await User.findOneAndUpdate({ _id: req.body.userID }, userBanUpdate, { upsert: false });
+
+        req.flash('success', 'User Ban Date Has Been Updated');
+        console.log('success');
+        res.redirect('/admin/users/');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Updating User Ban Date');
+        console.log('error');
+        res.redirect('/admin/users/');
     }
 });
 
