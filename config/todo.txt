@@ -21,6 +21,7 @@ Other:
 - Email password reset
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
+- Extra checks for all forms that accept date values. Make sure that the dates submitted are valid.
 
 
 Admin functionality:
