@@ -423,7 +423,9 @@ router.post('/updateCompetition', async (req, res, next) => {
     req.checkBody('title', 'Title cannot be empty').notEmpty();
     req.checkBody('price', 'Price cannot be empty').notEmpty();
     req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+    req.checkBody('drawDate', 'Draw Date Format is not Valid').isDate();
     req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
+    req.checkBody('entryCloseDate', 'Entry Close Date Format is not Valid').isDate();
     req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
     req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
     req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
@@ -563,7 +565,9 @@ router.post('/createCompetition', async (req, res) => {
         req.checkBody('title', 'Title cannot be empty').notEmpty();
         req.checkBody('price', 'Price cannot be empty').notEmpty();
         req.checkBody('drawDate', 'Draw Date cannot be empty').notEmpty();
+        req.checkBody('drawDate', 'Draw Date Format is not Valid').isDate();
         req.checkBody('entryCloseDate', 'Entry Close Date cannot be empty').notEmpty();
+        req.checkBody('entryCloseDate', 'Entry Close Date Format is not Valid').isDate();
         req.checkBody('maxEntries', 'Max Entries cannot be empty').notEmpty();
         req.checkBody('maxEntriesPerPerson', 'MaxEntriesPerPerson cannot be empty').notEmpty();
         req.checkBody('maxPostalVotes', 'MaxPostalVotes cannot be empty').notEmpty();
