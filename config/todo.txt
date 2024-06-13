@@ -10,6 +10,7 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
+- Take time out users can still log in, but not make any purchases
 
 
 Other:

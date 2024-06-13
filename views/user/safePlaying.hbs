@@ -6,6 +6,25 @@
 
 {{> userNav}}
 
+    {{#if hasError}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+
 <div class="container is-max-widescreen">
     <section class="section">
         <h2 class="title">
@@ -42,37 +61,40 @@
     </section>
 
     <div class="container">
-        <div class="control">
-            <label class="label">Take time out</label>
-            <p>
-                <input class="is-checkradio" id="Radio1Day" type="radio" name="safePlayingRadio">
-                <label for="Radio1Day">1 Day</label>
-            </p>
-            <p>
-                <input class="is-checkradio" id="Radio1Week" type="radio" name="safePlayingRadio">
-                <label for="Radio1Week">1 Week</label>
-            </p>
-            <p>
-                <input class="is-checkradio" id="Radio1Month" type="radio" name="safePlayingRadio">
-                <label for="Radio1Month">1 Month</label>
-            </p>
-            <p>
-                <input class="is-checkradio" id="Radio3Month" type="radio" name="safePlayingRadio">
-                <label for="Radio3Month">3 Months</label>
-            </p>
-        </div>
-        <br/>
-        <div class="field-body">
-            <div class="field">
-                <div class="control">
-                    <button class="button is-link">
-                        <span class="icon">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                        </span>
-                        <span>Save Changes</span>
-                    </button>
+        <form action="/user/timeOut" method="post">
+            <div class="control">
+                <label class="label">Take time out</label>
+                <p>
+                    <input class="is-checkradio" id="Radio1Day" type="radio" value="1" name="safePlayingRadio">
+                    <label for="Radio1Day">1 Day</label>
+                </p>
+                <p>
+                    <input class="is-checkradio" id="Radio1Week" type="radio" value="7" name="safePlayingRadio">
+                    <label for="Radio1Week">1 Week</label>
+                </p>
+                <p>
+                    <input class="is-checkradio" id="Radio1Month" type="radio" value="30" name="safePlayingRadio">
+                    <label for="Radio1Month">1 Month</label>
+                </p>
+                <p>
+                    <input class="is-checkradio" id="Radio3Month" type="radio" value="90" name="safePlayingRadio">
+                    <label for="Radio3Month">3 Months</label>
+                </p>
+            </div>
+            <br/>
+            <div class="field-body">
+                <div class="field">
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
+                    <div class="control">
+                        <button type="submit" class="button is-link">
+                            <span class="icon">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </span>
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>   
     </div>
 </div>

@@ -108,7 +108,10 @@ router.get('/rewards', function(req, res, next) {
 });
 
 router.get('/safePlaying', function(req, res, next) {
-    res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true } });
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    res.render('user/safePlaying', { title: 'Safe Playing', active: { safePlaying: true }, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0 });
 });
 
 
@@ -294,6 +297,37 @@ router.post('/updatePassword', passport.authenticate('local.updatePassword', {
     successFlash: true,
     successFlash: 'Your password has been updated',
 }));
+
+router.post('/timeOut', async (req, res, next) => {
+    //If no draw Result ID is submitted with the form
+    if (!req.body.safePlayingRadio) {
+        req.flash('error', 'Please Select an Option');
+        return res.redirect('/user/safePlaying');
+    }
+
+    console.log('OptionSelected = ' + req.body.safePlayingRadio);
+
+    var timeOutUntil = req.body.safePlayingRadio * 24 * 60 * 60 * 1000; /* ms */
+    var timeOutUntilDate = new Date(Date.now() + timeOutUntil);
+
+    var userBanUpdate = {
+        bannedUntilDate: timeOutUntilDate,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await User.findOneAndUpdate({ _id: req.user }, userBanUpdate, { upsert: false });
+
+        req.flash('success', 'Time out updated. You can now play again '+timeOutUntilDate);
+        console.log('success');
+        res.redirect('/user/safePlaying/');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Updating User Ban Date');
+        console.log('error');
+        res.redirect('/user/safePlaying/');
+    }
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
