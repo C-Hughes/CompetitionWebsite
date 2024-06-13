@@ -10,7 +10,7 @@
     <div class="content my-6">
         <h1 class="title">Lookup User</h1>
     </div>
-    {{#if hasErrors}}
+    {{#if hasError}}
         <div class="container is-max-desktop mb-4">
             <div class="notification is-danger is-light">
                 {{#each error}}
@@ -114,7 +114,7 @@
                                         </span>
                                     </div>
                                     <div class="control">
-                                        <button id="drawDateBtn" class="button is-medium is-warning" onclick="toggleEditInput('drawDate', 'drawDateBtn')" type="button">
+                                        <button id="userBannedUntilBtn" class="button is-medium is-warning" onclick="toggleEditInput('userBannedUntil', 'userBannedUntilBtn')" type="button">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                     </div>

@@ -1210,17 +1210,30 @@ router.post('/updateUserBan', async (req, res, next) => {
         return res.redirect('/admin/users');
     }
 
+    var userBannedUntil = req.body.userBannedUntil;
+    if(userBannedUntil){
+        req.checkBody('userBannedUntil', 'Date Format is not Valid').isDate();
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            console.log(messages);
+            return res.redirect('/admin/users');
+        }
+        userBannedUntil = new Date(userBannedUntil).toISOString()
+    }
+    
+
     //Lookup username and find userID
     var returnedUser = await User.findById(req.body.userID);
         
     if(!returnedUser){
         req.flash('error', 'UserID not found');
         return res.redirect('/admin/users');
-    }
-
-    var userBannedUntil = req.body.userBannedUntil;
-    if(userBannedUntil && userBannedUntil!=''){
-        userBannedUntil = new Date(req.body.userBannedUntil).toISOString()
     }
 
     var userBanUpdate = {
