@@ -26,6 +26,7 @@ var userSchema = new Schema({
     isAdmin: {type: Boolean, required: true, default: false},
     basket: {type: Object, required: false, default: {}},
     joinDate: {type: Date, default: Date.now, required: true},
+    bannedUntilDate: {type: Date, required: false},
     lastLogin: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}
 });

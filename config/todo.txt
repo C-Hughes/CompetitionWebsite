@@ -10,7 +10,6 @@ User:
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
 - Take time out radiobuttons and functionality
-- Save user's light/dark theme preference to DB
 
 
 Other:
