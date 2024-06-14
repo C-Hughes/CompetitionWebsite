@@ -233,6 +233,10 @@ router.get('/coupons', function(req, res, next) {
     res.render('admin/coupons', { title: 'Coupons', active: { coupons: true } });
 });
 
+router.get('/createCoupon', function(req, res, next) {
+    res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true } });
+});
+
 
 router.get('/users', function(req, res, next) {
     var success = req.flash('success');
