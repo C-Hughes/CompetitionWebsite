@@ -59,6 +59,11 @@
             If you feel the need to take a short break from playing please choose from below. This will prevent you from being able to make payments for the duration selected.
         </h2>
         <div class="container">
+            {{#ifBanned user.bannedUntilDate}}
+                <div class="has-text-danger is-dark">
+                    <p>Timeout: You Cannot Make Any Payments Until {{formatDate user.bannedUntilDate}}</p>
+                </div>
+            {{/ifBanned}}
             <form action="/user/timeOut" method="post">
                 <div class="control">
                     <label class="label">Take time out</label>
