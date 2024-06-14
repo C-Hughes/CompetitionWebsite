@@ -41,51 +41,96 @@
         <div class="card">
             <div class="card-content">
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">User ID (If Coupon Only Applies to a Specific User)</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title">
+                            <input id="title" name="title" class="input" type="text" placeholder="User ID">
                             <span class="icon is-small is-left">
-                                <i class="fa-solid fa-heading"></i>
+                                <i class="fa-solid fa-circle-user"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Card Description</label>
+                        <label class="label">Competition ID (If Coupon Only Applies to a Specific Competition)</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]">
+                            <input id="description" name="description" class="input" type="text" placeholder="Competition ID">
                             <span class="icon is-small is-left">
-                                <i class="fa-solid fa-bars"></i>
+                                <i class="fa-solid fa-dice"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
-                        <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-database"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Is Visible</label>
-                        <i class="fa-solid fa-eye"></i>
+                        <label class="label">Is Sitewide (If Coupon Applies to Any Competition Across the Whole Website)</label>
+                        <i class="fa-solid fa-tag"></i>
                         <input id="visible" name="visible" type="checkbox" checked>
-                        <label for="PostalCheckbox">Visible</label>
+                        <label for="PostalCheckbox">Sitewide</label>
                     </div>
 
                     <div class="field">
-                        <label class="label">Is Pinned</label>
-                        <i class="fa-solid fa-thumbtack"></i>
-                        <input id="pinned" name="pinned" type="checkbox" checked>
-                        <label for="PostalCheckbox">Pinned</label>
+                        <label class="label">Coupon Code</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Coupon Code">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-barcode"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Amount (£ Discount from Whole Basket)</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Coupon £ Amount Reduction">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Percent (% Discount from Whole Basket)</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Coupon % Percent Reduction">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-percent"></i>
+                            </span>
+                        </div>
+                    </div>                    
+
+                    <div class="field">
+                        <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until)</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Date of Expiry for Coupon">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </div>
+                    </div>     
+
+                    <div class="field">
+                        <label class="label">Number Of Uses Per Person (How Many Times the Coupon Code Can be Used Per Person)</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Number of Coupon Uses (Per Person)">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </span>
+                        </div>
+                    </div>   
+
+                    <div class="field">
+                        <label class="label">Is Active (Discount is Active and Can be Used)</label>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <input id="visible" name="visible" type="checkbox" checked>
+                        <label for="PostalCheckbox">Active</label>
                     </div>
 
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
-                    <button type="submit" class="button is-medium is-fullwidth is-link">Create Winner Card</button>
+                    <button type="submit" class="button is-medium is-fullwidth is-link">
+                        <span class="icon">
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+                        <span>Create Coupon</span>
+                    </button>
                 </div>
             </div>
         </div>
