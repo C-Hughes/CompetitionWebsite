@@ -229,8 +229,8 @@ router.get('/editWinner/:id', function(req, res, next) {
 });
 //////////////////////////////////////////////
 
-router.get('/discounts', function(req, res, next) {
-    res.render('admin/discounts', { title: 'Discounts', active: { discounts: true } });
+router.get('/coupons', function(req, res, next) {
+    res.render('admin/coupons', { title: 'Coupons', active: { coupons: true } });
 });
 
 
