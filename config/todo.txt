@@ -20,13 +20,12 @@ Other:
 - Email password reset
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
-- Extra checks for all forms that accept date values. Make sure that the dates submitted are valid.
 
 
 Admin functionality:
 - Administrate coupon codes
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
-- Ban users for x amount of time
+
 
 
 AntiCheat / User monitoring:
@@ -77,6 +76,7 @@ Other:
 - Get pinned previous winners in a seperate query for when there are a large number of winnerCards
 - Update to use .env
 - Button in Footer to change light / dark theme
+- Extra checks for all forms that accept date values. Make sure that the dates submitted are valid.
 
 
 Competition:
@@ -120,6 +120,8 @@ Admin:
 - Add winningTicketNumber input to Competition Entries form
 - User info lookup in admin/users
 - Ability for admin to manually enter people into competitions that have posted in.
+- Ban users for x amount of time
+
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'
