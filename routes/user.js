@@ -318,7 +318,7 @@ router.post('/timeOut', async (req, res, next) => {
     try {
         await User.findOneAndUpdate({ _id: req.user }, userBanUpdate, { upsert: false });
 
-        req.flash('success', 'Time out updated. You can now play again '+timeOutUntilDate);
+        req.flash('success', 'Time Out Updated. You Cannot Play Until '+timeOutUntilDate);
         console.log('success');
         res.redirect('/user/safePlaying/');
     } catch (err) {

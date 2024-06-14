@@ -89,6 +89,14 @@ module.exports = {
         var ONE_HOUR = 60 * 60 * 1000; /* ms */
         return ((new Date(entryCloseDate.getTime() - ONE_HOUR) < Date.now()) && (new Date(entryCloseDate.getTime()) > Date.now())) ? options.fn(this) : options.inverse(this);
     },
+    ifBanned: function(banDate, options){
+        if(!banDate){
+            return options.inverse(this);
+        } else {
+            //If user is still banned
+            return new Date(banDate.getTime()) > Date.now() ? options.fn(this) : options.inverse(this);
+        }
+    },
     formatTicketNumberOutput: function(cond1, options){
         if(cond1){
             var toString = cond1.toString();

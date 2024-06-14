@@ -9,8 +9,8 @@ User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
-- Take time out radiobuttons and functionality
 - Take time out users can still log in, but not make any purchases
+- Display current time out date/Time on safeplaying page if applicable and datetime is in the future
 
 
 Other:
@@ -63,6 +63,7 @@ User:
 - Remove country options for shipping address - Only UK residents eligible
 - Update billing address display in users orders when a postal vote has been submitted.
 - Save user's light/dark theme preference to session
+- Take time out radiobuttons and functionality
 
 
 Other:

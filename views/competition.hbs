@@ -124,6 +124,7 @@
                                                                     <p>{{this}}</p>
                                                                 {{/each}}
                                                             {{/if}}
+                                                            {{#ifBanned user.bannedUntilDate}}<p>Timeout: You Cannot Play Until {{formatDate user.bannedUntilDate}}</p>{{/ifBanned}}
                                                         </div>
                                                         <div class="fixed-grid">
                                                             <div class="grid" id="questionButtons">
@@ -164,7 +165,7 @@
                                                         </div>
                                                     </div>
                                                     <footer class="card-footer">
-                                                        <a id="addToBasketButton" href="/addToBasket/{{competition._id}}/1/{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}" class="button card-footer-item is-primary" onclick="return verifyCompAnswer()">
+                                                        <a id="addToBasketButton" class="button card-footer-item is-primary" {{#ifBanned user.bannedUntilDate}}disabled{{else}}href="/addToBasket/{{competition._id}}/1/{{calculateCurrentTicketsSelected competition.maxEntries competition.maxEntriesPerPerson competition.currentEntries competition.pendingEntries userCompTicketQty}}" onclick="return verifyCompAnswer()"{{/ifBanned}}>
                                                             <span>Add Tickets to Basket</span>
                                                             <span class="icon">
                                                                 <i class="fa-solid fa-ticket"></i>
