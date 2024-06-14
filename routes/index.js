@@ -283,7 +283,7 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
 ////////////////////// Basket Checkout/Payment/OrderReceived ////////////////////////////////
 
 //Must be logged in to access checkout
-router.get('/checkout', isLoggedIn, function(req, res, next) {
+router.get('/checkout', isLoggedIn, isNotBanned, function(req, res, next) {
     var errors = req.flash('error');
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
@@ -313,7 +313,7 @@ router.get('/checkout', isLoggedIn, function(req, res, next) {
     }
 });
 
-router.get('/processCard', function(req, res, next) {
+router.get('/processCard', isNotBanned, function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
@@ -373,7 +373,7 @@ router.get('/images/:imageName', (req, res) => {
 
 ////////////////////////// ROUTE POSTS ////////////////////////////
 
-router.post('/checkout', async (req, res, next) => {
+router.post('/checkout', isNotBanned, async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     }
@@ -469,7 +469,7 @@ router.post('/checkout', async (req, res, next) => {
 });
 
 
-router.post('/processCard', async (req, res, next) => {
+router.post('/processCard', isNotBanned, async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
@@ -754,6 +754,14 @@ function notLoggedIn(req, res, next){
       return next();
     }
     res.redirect('/');
+}
+
+//Check if user is currently banned
+function isNotBanned(req, res, next){
+    if(!req.user.bannedUntilDate || (new Date(req.user.bannedUntilDate.getTime()) < Date.now())){
+      return next();
+    }
+    res.redirect('/basket');
 }
 
 //Timer to check if order has been completed or if it needs to be cancelled (After 10 minutes)
