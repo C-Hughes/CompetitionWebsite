@@ -1,33 +1,309 @@
 <section class="hero is-danger">
   <div class="hero-body has-text-centered">
-    <p class="title">Discounts</p>
+    <p class="title">Coupons</p>
   </div>
 </section>
 
 {{> adminNav}}
 
 
+<div class="container is-max-fullhd">
+    <div class="content my-6">
+        <h1 class="title">Coupons</h1>
+    </div>
+    <a href="/admin/createCoupon" class="button is-fullwidth is-link is-outlined">
+        <span class="icon">
+        <i class="fa-solid fa-plus"> </i>
+        </span>
+        <span>Create New Coupon</span>
+    </a>
 
-<div class="content">
-                                                    <p>Postal entries to this competition receive {{competition.maxPostalVotes}} ticket.</p>
-                                                    <p>You may enter the competition using the Postal Entry Route by complying with the following conditions:</p>
-                                                    <ul>
-                                                        <li>Send your entry on an unenclosed postcard to the Promoter at the following address:
-                                                        <address>[ADDRESS]</address>
-                                                        </li>
-                                                        <li>Include with your entry the following information:
-                                                        <ul>
-                                                            <li>Your full name;</li>
-                                                            <li>Your address;</li>
-                                                            <li>A contact telephone number and the email address linked to your account; and</li>
-                                                            <li>Your chosen competition, and your answer to the Competition Question.</li>
-                                                        </ul>
-                                                        </li>
-                                                        <li>Incomplete or illegible entries will be disqualified;</li>
-                                                        <li>You may make multiple free entries for any competition (up to any limit placed on entries by the Promoter) but each free entry must be submitted and posted to the Promoter separately. Bulk entries will not be accepted as multiple entries and if a bulk entry is received, it will be counted as one single entry;</li>
-                                                        <li>By entering the competition, you are confirming that you are eligible to enter and accept these terms and conditions;</li>
-                                                        <li>Your entry must be received by the Promoter prior to the Closing Date. Entries received after the Closing Date will not be entered into the random draw. If an entry is received by the Postal Entry Route within 72 hours after the Closing Date, the Entrant will receive a credit equal to the cost of entry via the Online Entry Route to the draw, which will enable the Entrant to enter an alternative draw(s) of their choice on the Website/App using the Online Entry Route;</li>
-                                                        <li>The Promoter will email each Entrant who has submitted a valid entry via the Postal Entry Route to confirm their ticket number;</li>
-                                                        <li>Entrants must have created an account on the Website/App for the free entry to be processed. All details on the postcard must correspond to the details on the account to receive the order confirmation and ticket number. Postal entries received without a registered account cannot be processed. Entrants must add an address to the related account for entries to be processed.</li>
-                                                    </ul>
+    <div class="content my-6">
+        <h1 class="title">Lookup Coupons</h1>
+    </div>
+    {{#if hasError}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <form action="/admin/users" method="post">
+        <div class="field">
+            <label class="label">Coupon Code</label>
+            <div class="control has-icons-left">
+                <input id="userCouponInfo" name="userCouponInfo" class="input" type="text" placeholder="Coupon Code">
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-percent"></i>
+                </span>
+            </div>
+        </div>
+       
+        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+        <button type="submit" class="button is-fullwidth is-link mb-3">
+            <span class="icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <span>Lookup Coupon</span>
+        </button>
+    </form>
+
+    {{#if userInfo}}
+        {{#each userInfo}}
+            <div class="container notification">
+                <div class="columns is-vcentered">
+                    <div class="column is-2">
+                        <p class="title is-6">UserID</p>
+                        <p class="subtitle is-6">{{this._id}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Username</p>
+                        <p class="subtitle is-6">{{this.username}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">First Name</p>
+                        <p class="subtitle is-6">{{this.firstName}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Last Name</p>
+                        <p class="subtitle is-6">{{this.lastName}}</p>
+                    </div>     
+                    <div class="column is-3">
+                        <p class="title is-6">Email Address</p>
+                        <p class="subtitle is-6">{{this.emailAddress}}</p>
+                    </div>                 
+                    <div class="column is-1">
+                        <button class="button is-link" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div id="userInfo_{{this._id}}" style="display:none">
+                    <div class="columns is-vcentered is-multiline">
+                        <div class="column is-5">
+                            <p class="title is-6">Shipping Address</p>
+                            <p>{{this.shippingAddressReference.firstName}}</p>
+                            <p>{{this.shippingAddressReference.lastName}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress1}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress2}}</p>
+                            <p>{{this.shippingAddressReference.townCity}}</p>
+                            <p>{{this.shippingAddressReference.county}}</p>
+                            <p>{{this.shippingAddressReference.postcode}}</p>
+                        </div>
+                        <div class="column is-7">
+                            <p class="title is-6">User Info</p>
+                            <p><strong>Reward Points:</strong> {{this.rewardPoints}}</p>
+                            <p><strong>Reward Level:</strong> {{this.rewardLevel}}</p>
+                            <p><strong>Referral Code used at signup:</strong> {{this.signupReferralCodeUsed}}</p>
+                            <p><strong>Other Users Referred:</strong> {{this.usersReferred}}</p>
+                            <p><strong>Join Date:</strong> {{formatDate this.joinDate}}</p>
+                            <p><strong>Last Login:</strong> {{formatDate this.lastLogin}}</p>
+                        </div>
+                    </div>
+                    <div class="columns is-vcentered is-multiline">
+                        <div class="column">
+                            <form action="/admin/updateUserBan" method="post">
+                                <label class="label">User Banned Until Date (Format: 2024-12-25:19:00) (Leave Blank is User is Not Banned)</label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left">
+                                        <input id="userBannedUntil" name="userBannedUntil" type="text" class="input" placeholder="Date User is Banned Until" value="{{this.bannedUntilDate}}" readonly>
+                                        <span class="icon is-left">
+                                            <i class="fa-solid fa-user-lock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control">
+                                        <button id="userBannedUntilBtn" class="button is-medium is-warning" onclick="toggleEditInput('userBannedUntil', 'userBannedUntilBtn')" type="button">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field-body">
+                                    <input type="hidden" name="userID" value="{{this._id}}"> 
+                                    <div class="field">
+                                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                                        <div class="control">
+                                            <button type="submit" class="button is-danger">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-gavel"></i>
+                                                </span>
+                                                <span>Update User Ban Date</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+
+    <div class="tabs-wrapper">
+        <div class="tabs is-centered mt-6 is-boxed">
+            <ul>
+                <li class="is-active">
+                    <a>
+                        <span>Sitewide Coupons</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span>Other Coupons</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tabs-content">
+            <ul>
+                <li class="is-active">
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                        {{#if hasCoupons}}
+                            {{#checkVisible drawResults}}
+                                {{#each drawResults}}
+                                    {{#if this.visible}}
+                                        <!-- Competition Column -->
+                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
+                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
+                                                <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Not Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
+                                                    <div class="card-image">
+                                                        <figure class="image is-4by3">
+                                                            <img src="{{this.competitionReference.imagePath}}" alt="Competition Image" />
+                                                        </figure>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="content" style="height: 100px;">
+                                                            <p class="title is-4">{{this.title}}</p>
+                                                            <p class="subtitle is-6">{{this.description}}</p>
+                                                        </div>
+                                                        <button class="button is-fullwidth is-link">
+                                                            <span class="icon is-small">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </span>
+                                                            <span>Edit Draw Result</span>
+                                                        </button>
+                                                    </div>
+
                                                 </div>
+                                            </a>
+                                        </div>
+                                    {{/if}}    
+                                {{/each}}
+                                {{#unless hasVisible}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No visible Draw Result cards to show.</p>
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/checkVisible}}
+                        {{else}}
+                            <div class="column is-full">
+                                <div class="notification">
+                                    <p>No Sitewide Coupons show.</p>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                </li>
+                <!-- Invisible Draw Result Cards -->
+                <li>
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                        {{#if hasDrawResults}}
+                            {{#checkInvisible drawResults}}
+                                {{#each drawResults}}
+                                    {{#unless this.visible}}
+                                        <!-- Competition Column -->
+                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
+                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
+                                                <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Hidden</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
+                                                    <div class="card-image">
+                                                        <figure class="image is-4by3">
+                                                            <img src="{{this.imagePath}}" alt="Competition Image" />
+                                                        </figure>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="content" style="height: 100px;">
+                                                            <p class="title is-4">{{this.title}}</p>
+                                                            <p class="subtitle is-6">{{this.description}}</p>
+                                                        </div>
+                                                        <button class="button is-fullwidth is-link">
+                                                            <span class="icon is-small">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </span>
+                                                            <span>Edit Draw Result</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {{/unless}}
+                                {{/each}}
+                                {{#unless hasInvisible}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No Coupons show.</p>
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/checkInvisible}}
+                        {{else}}
+                            <div class="column is-full">
+                                <div class="notification">
+                                    <p>No Coupons show.</p>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
