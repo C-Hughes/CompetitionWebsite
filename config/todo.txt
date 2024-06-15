@@ -8,7 +8,7 @@ User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
-
+- When user has taken timout display a message when they try to go to checkout
 
 Other:
 - Coupons
