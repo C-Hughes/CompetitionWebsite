@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div id="userInfo_{{foundCouponInfo._id}}" style="display:none">
-                <div class="columns is-vcentered is-multiline">
+                <div class="columns is-multiline">
                     <div class="column is-5">
                         <p class="title is-6">Applies To:</p>
                         <p><strong>User ID:</strong> {{foundCouponInfo.userReference._id}}</p>
@@ -116,7 +116,8 @@
                     <div class="column is-7">
                         <p class="title is-6">More Info</p> 
                         <p><strong>Coupon ID:</strong> {{foundCouponInfo.id}}</p>  
-                        <p><strong>Times it Can be Used Per Person:</strong> {{foundCouponInfo.numberOfUses}}</p>
+                        <p><strong>Times it Can be Used Per Person:</strong> {{foundCouponInfo.numberOfUsesPerPerson}}</p>
+                        <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{foundCouponInfo.totalNumberOfUses}}</p>
                         <p><strong>Times it Has Been Used:</strong> {{foundCouponInfo.timesUsed}}</p>                                              
                         <p><strong>Created:</strong> {{formatDate foundCouponInfo.created}}</p>
                         <p><strong>Last Updated:</strong> {{formatDate foundCouponInfo.lastUpdated}}</p>
@@ -189,7 +190,7 @@
                                             </div>
                                         </div>
                                         <div id="userInfo_{{this._id}}" style="display:none">
-                                            <div class="columns is-vcentered is-multiline">
+                                            <div class="columns is-multiline">
                                                 <div class="column is-5">
                                                     <p class="title is-6">Applies To:</p>
                                                     <p><strong>User ID:</strong> {{this.userReference._id}}</p>
@@ -201,7 +202,8 @@
                                                 <div class="column is-7">
                                                     <p class="title is-6">More Info</p>  
                                                     <p><strong>Coupon ID:</strong> {{this.id}}</p>   
-                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUses}}</p>
+                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUsesPerPerson}}</p>
+                                                    <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{this.totalNumberOfUses}}</p>
                                                     <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
                                                     <p><strong>Created:</strong> {{formatDate this.created}}</p>
                                                     <p><strong>Last Updated:</strong> {{formatDate this.lastUpdated}}</p>
@@ -267,7 +269,7 @@
                                             </div>
                                         </div>
                                         <div id="userInfo_{{this._id}}" style="display:none">
-                                            <div class="columns is-vcentered is-multiline">
+                                            <div class="columns is-multiline">
                                                 <div class="column is-5">
                                                     <p class="title is-6">Applies To:</p>
                                                     <p><strong>User ID:</strong> {{this.userReference._id}}</p>
@@ -279,7 +281,8 @@
                                                 <div class="column is-7">
                                                     <p class="title is-6">More Info</p>   
                                                     <p><strong>Coupon ID:</strong> {{this.id}}</p>  
-                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUses}}</p>
+                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUsesPerPerson}}</p>
+                                                    <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{this.totalNumberOfUses}}</p>
                                                     <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
                                                     <p><strong>Created:</strong> {{formatDate this.created}}</p>
                                                     <p><strong>Last Updated:</strong> {{formatDate this.lastUpdated}}</p>
