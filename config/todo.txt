@@ -20,6 +20,8 @@ Other:
 - Email password reset
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
+- Add * to all required fields / add required html tag to required fields
+- Update all userlookups in forms to use findUser function. Also save userID in DB.
 
 
 Admin functionality:

@@ -5,6 +5,7 @@ const fileUpload = require('express-fileupload');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 mongoose.connect('mongodb://localhost:27017/CompetitionMain', {
     serverSelectionTimeoutMS: 5000
 });
@@ -234,7 +235,8 @@ router.get('/coupons', function(req, res, next) {
 });
 
 router.get('/createCoupon', function(req, res, next) {
-    res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true } });
+    var errors = req.flash('error');
+    res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true }, error: errors, hasError: errors.length > 0 });
 });
 
 
@@ -1049,11 +1051,18 @@ router.post('/createDrawResult', async (req, res) => {
 
         //Lookup username and find userID
         var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
-        
         if(returnedUser){
             var userReference = returnedUser._id;
         } else {
             req.flash('error', 'Username not found');
+            return res.redirect('/admin/createDrawResult');
+        }
+
+        //Check if compID is valid
+        // Find the competition
+        const competition = await Competition.findById(req.body.compID);
+        if (!competition) {
+            req.flash('error', 'Competition ID not found');
             return res.redirect('/admin/createDrawResult');
         }
 
@@ -1144,6 +1153,74 @@ router.post('/updateDrawResult', async (req, res, next) => {
     }
 });
 //////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////Create a New Coupon////////////////////////////////////////
+router.post('/createCoupon', async (req, res) => {
+    try {
+
+        //Input Validation
+        req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
+        req.checkBody('couponExpiry', 'Coupon expiry date cannot be empty').notEmpty();
+        req.checkBody('couponExpiry', 'Coupon expiry date format is invalid').notDate();
+        req.checkBody('numberUses', 'Number of uses per person cannot be empty').notEmpty();
+ 
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/createCoupon');
+        }
+
+        //Lookup username and find userID
+        //var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
+
+        //Lookup userinfo and get userID  
+        if(req.body.userInfo){
+            var foundUserID = await findUserID(req.body.userInfo);
+            if(!foundUserID){
+                req.flash('error', 'User was not found');
+                return res.redirect('/admin/createCoupon');
+            }
+        }
+
+        //Find Competition ID  
+        if(req.body.compID){
+            const competition = await Competition.findById(req.body.compID);
+            if (!competition) {
+                req.flash('error', 'Competition ID not found');
+                return res.redirect('/admin/createCoupon');
+            }
+        }
+
+        const sitewide = req.body.visible === 'on';
+        const active = req.body.visible === 'on';
+        
+        const newDrawResult = new DrawResult({
+            competitionReference: req.body.compID,
+            userReference: userReference,
+            title: req.body.title,
+            description: req.body.description,
+            winningTicketNumber: req.body.winningTicketNumber,
+            visible: visible,
+        });
+
+        const savedDrawResult = await newDrawResult.save();
+
+        if (savedDrawResult) {
+            console.log('Draw Result Card Saved!');
+            res.redirect('/admin/drawResults');
+        } else {
+            console.log('Error Saving Draw Result Card');
+            res.redirect('/admin/createDrawResult');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Creating Draw Result Card');
+        res.redirect('/admin/createDrawResult');
+    }
+});
 
 ////////////Competition Entries - Update Competition Winning Ticket Number////////////
 router.post('/competitionEntries', async (req, res, next) => {
@@ -1352,6 +1429,30 @@ async function clearAllBaskets() {
         console.log('All baskets have been cleared.');
     } catch (err) {
     console.error('Error clearing baskets:', err);
+    }
+}
+
+//Search username/email/userID to find a users account
+async function findUserID(userInfo) {
+    try {
+        var foundUser;
+        foundUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(userInfo, "i") } });
+        if(foundUser){
+            return foundUser._id;
+        }
+        foundUser = await User.findOne({ "username" : { $regex : new RegExp(userInfo, "i") } });
+        if(foundUser){
+            return foundUser._id;
+        }
+        if(ObjectId.isValid(userInfo)){
+            foundUser = await User.findById({_id: userInfo});
+            if(foundUser){
+                return foundUser._id;
+            }
+        }
+        return false;
+    } catch (err) {
+        console.error(err);
     }
 }
 
