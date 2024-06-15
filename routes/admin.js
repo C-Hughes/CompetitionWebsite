@@ -1269,7 +1269,7 @@ router.post('/createCoupon', async (req, res) => {
             couponPercent: req.body.couponPercent,
             couponExpiryDate: req.body.couponExpiryDate,
             numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
-            totalNumberOfUses: totalNumberOfUses,
+            totalNumberOfUses: req.body.totalNumberOfUses,
             active: active,
         });
         const savedCoupon = await newCoupon.save();
@@ -1364,7 +1364,7 @@ router.post('/updateCoupon', async (req, res, next) => {
         couponPercent: req.body.couponPercent,
         couponExpiryDate: req.body.couponExpiryDate,
         numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
-        totalNumberOfUses: totalNumberOfUses,
+        totalNumberOfUses: req.body.totalNumberOfUses,
         active: active,
         lastUpdated: new Date().toISOString(),
     };
