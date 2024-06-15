@@ -8,9 +8,10 @@ var couponSchema = new Schema({
     couponCode: {type: String, required: true},
     couponAmount: {type: Number, required: false},
     couponPercent: {type: Number, required: false},
-    couponExpiryDate: {type: Boolean, required: true, default: false},
+    couponExpiryDate: {type: Date, required: true},
     numberOfUses: {type: Number, required: true, default: 1},
-    active: {type: Boolean, required: true, default: true},
+    timesUsed: {type: Number, required: true, default: 0},
+    active: {type: Boolean, required: true, default: false},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true},
 });

@@ -17,6 +17,7 @@ var DrawResult = require('../models/drawResults');
 var Ticket = require('../models/ticket');
 var Order = require('../models/order');
 var ShippingAddress = require('../models/shippingAddress');
+var Coupon = require('../models/coupon');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -1158,14 +1159,14 @@ router.post('/createCoupon', async (req, res) => {
     try {
 
         var couponCode = req.body.couponCode.replace(/[^a-z0-9-_]/gi, "");
-
+        couponCode = couponCode.toLowerCase();
         //Input Validation
         req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
-        req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:20});
-        req.checkBody('couponExpiry', 'Coupon expiry date cannot be empty').notEmpty();
-        req.checkBody('couponExpiry', 'Coupon expiry date format is invalid').notDate();
-        req.checkBody('numberUses', 'Number of uses per person cannot be empty').notEmpty();
-        req.checkBody('numberUses', 'Number of uses must be a number').isNumber();
+        req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
+        req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
+        req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
+        req.checkBody('numberOfUses', 'Number of uses per person cannot be empty').notEmpty();
+        req.checkBody('numberOfUses', 'Number of uses must be a number').isInt();
  
         var errors = req.validationErrors();
         if (errors){
