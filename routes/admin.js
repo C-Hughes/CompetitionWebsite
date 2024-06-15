@@ -265,6 +265,24 @@ router.get('/createCoupon', function(req, res, next) {
     res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true }, error: errors, hasError: errors.length > 0 });
 });
 
+router.get('/editCoupon/:id', function(req, res, next) {
+    var couponID = req.params.id;
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    Coupon.findOne({_id: couponID})
+      .then(foundCoupon => {
+        if(foundCoupon){
+            res.render('admin/editCoupon', {title: 'Edit Coupon', active: { coupons: true }, coupon: foundCoupon, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0});
+        } else {
+            console.log("Error finding winner");
+            return res.redirect('admin/coupons');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
 
 router.get('/users', function(req, res, next) {
     var success = req.flash('success');
@@ -1214,9 +1232,10 @@ router.post('/createCoupon', async (req, res) => {
         }
 
         //Find Competition ID  
+        var foundCompID; 
         if(req.body.compID){
-            const competition = await Competition.findById(req.body.compID);
-            if (!competition) {
+            const foundCompID = await Competition.findById(req.body.compID);
+            if (!foundCompID) {
                 req.flash('error', 'Competition ID not found');
                 return res.redirect('/admin/createCoupon');
             }
@@ -1241,7 +1260,7 @@ router.post('/createCoupon', async (req, res) => {
         
         const newCoupon = new Coupon({
             userReference: foundUserID,
-            competitionReference: req.body.compID,
+            competitionReference: foundCompID,
             sitewide: sitewide,
             couponCode: couponCode,
             couponAmount: req.body.couponAmount,
@@ -1266,6 +1285,95 @@ router.post('/createCoupon', async (req, res) => {
     }
 });
 
+router.post('/updateCoupon', async (req, res, next) => {
+
+    //If no competition id is submitted with the form
+    if (!req.body.couponID) {
+        req.flash('error', 'Coupon ID Missing');
+        return res.redirect('/admin/coupons');
+    }
+
+    var couponCode = req.body.couponCode.replace(/[^a-z0-9-_]/gi, "");
+    couponCode = couponCode.toLowerCase();
+    //Input Validation
+    req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
+    req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
+    req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
+    req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
+    req.checkBody('numberOfUses', 'Number of uses per person cannot be empty').notEmpty();
+    req.checkBody('numberOfUses', 'Number of uses must be a number').isInt();
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/createCoupon');
+    }
+
+    //Lookup userinfo and get userID 
+    var foundUserID; 
+    if(req.body.userInfo){
+        foundUserID = await findUserID(req.body.userInfo);
+        if(!foundUserID){
+            req.flash('error', 'User was not found');
+            return res.redirect('/admin/createCoupon');
+        }
+    }
+
+    //Find Competition ID  
+    var foundCompID; 
+    if(req.body.compID){
+        const foundCompID = await Competition.findById(req.body.compID);
+        if (!foundCompID) {
+            req.flash('error', 'Competition ID not found');
+            return res.redirect('/admin/createCoupon');
+        }
+    }
+
+    //couponType Check
+    if(req.body.couponAmount && req.body.couponPercent){
+        req.flash('error', 'Coupon Amount and Coupon Percent cannot both have a value. Select One.');
+        return res.redirect('/admin/createCoupon');
+    } else if(!req.body.couponAmount && !req.body.couponPercent){
+        req.flash('error', 'Coupon Amount or Coupon Percent must have a value.');
+        return res.redirect('/admin/createCoupon');
+    }
+
+    const sitewide = req.body.visible === 'on';
+    const active = req.body.visible === 'on';
+
+    if(req.body.compID && sitewide){
+        req.flash('error', 'Coupon cannot apply sitewide & to a specific Competition ID');
+        return res.redirect('/admin/createCoupon');
+    }
+
+    var couponUpdate = {
+        userReference: foundUserID,
+        competitionReference: foundCompID,
+        sitewide: sitewide,
+        couponCode: couponCode,
+        couponAmount: req.body.couponAmount,
+        couponPercent: req.body.couponPercent,
+        couponExpiryDate: req.body.couponExpiryDate,
+        numberOfUses: req.body.numberOfUses,
+        active: active,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await Coupon.findOneAndUpdate({ _id: req.body.couponID }, couponUpdate, { upsert: false });
+
+        req.flash('success', 'Coupon Successfully Updated');
+        res.redirect('/admin/editCoupon/' + req.body.couponID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Coupon');
+        res.redirect('/admin/editCoupon/' + req.body.couponID);
+    }
+});
 ////////////Competition Entries - Update Competition Winning Ticket Number////////////
 router.post('/competitionEntries', async (req, res, next) => {
 

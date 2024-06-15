@@ -173,50 +173,32 @@
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasSCoupons}}
                             {{#each sitewideCoupons}}
-                                
-                                <!-- Competition Column -->
-                                <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                    <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
-                                        <div class="card" style="">
-                                            <header class="card-header">
-                                                {{#if this.visible}}
-                                                    <p class="card-header-title">Visible</p>
-                                                    <button class="card-header-icon" aria-label="more options">
-                                                        <span class="icon">
-                                                            <i class="fa-solid fa-eye"></i>
-                                                        </span>
-                                                    </button>
-                                                {{else}}
-                                                    <p class="card-header-title">Not Visible</p>
-                                                    <button class="card-header-icon" aria-label="more options">
-                                                        <span class="icon">
-                                                            <i class="fa-solid fa-eye-slash"></i>
-                                                        </span>
-                                                    </button>
-                                                {{/if}}
-                                            </header>
-                                            <div class="card-image">
-                                                <figure class="image is-4by3">
-                                                    <img src="{{this.competitionReference.imagePath}}" alt="Competition Image" />
-                                                </figure>
-                                            </div>
-                                            <div class="card-content">
-                                                <div class="content" style="height: 100px;">
-                                                    <p class="title is-4">{{this.title}}</p>
-                                                    <p class="subtitle is-6">{{this.description}}</p>
-                                                </div>
-                                                <button class="button is-fullwidth is-link">
-                                                    <span class="icon is-small">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </span>
-                                                    <span>Edit Draw Result</span>
-                                                </button>
-                                            </div>
-
+                                <div class="container notification">
+                                    <div class="columns is-vcentered">
+                                        <div class="column is-3">
+                                            <p class="title is-6">Date</p>
+                                            <p class="subtitle is-6">{{formatDate this.created}}</p>
                                         </div>
-                                    </a>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Payment Price</p>
+                                            <p class="subtitle is-6">£{{this.paymentPrice}}</p>
+                                        </div>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Order Status</p>
+                                            <p class="subtitle is-6">{{this.orderStatus}}</p>
+                                        </div>
+                                        <div class="column is-1">
+                                        </div>
+                                        <div class="column is-2">
+                                            <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                <span class="icon is-small">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </span>
+                                                <span>Edit Coupon</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                     
                             {{/each}}
                         {{else}}
                             <div class="column is-full">
@@ -229,49 +211,34 @@
                 </li>
                 <!-- Invisible Draw Result Cards -->
                 <li>
-                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                    <div class="columns is-multiline">
                         {{#if hasOCoupons}}
                             {{#each otherCoupons}}
-                                <!-- Competition Column -->
-                                <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                    <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
-                                        <div class="card" style="">
-                                            <header class="card-header">
-                                                {{#if this.visible}}
-                                                    <p class="card-header-title">Visible</p>
-                                                    <button class="card-header-icon" aria-label="more options">
-                                                        <span class="icon">
-                                                            <i class="fa-solid fa-eye"></i>
-                                                        </span>
-                                                    </button>
-                                                {{else}}
-                                                    <p class="card-header-title">Hidden</p>
-                                                    <button class="card-header-icon" aria-label="more options">
-                                                        <span class="icon">
-                                                            <i class="fa-solid fa-eye-slash"></i>
-                                                        </span>
-                                                    </button>
-                                                {{/if}}
-                                            </header>
-                                            <div class="card-image">
-                                                <figure class="image is-4by3">
-                                                    <img src="{{this.imagePath}}" alt="Competition Image" />
-                                                </figure>
-                                            </div>
-                                            <div class="card-content">
-                                                <div class="content" style="height: 100px;">
-                                                    <p class="title is-4">{{this.title}}</p>
-                                                    <p class="subtitle is-6">{{this.description}}</p>
-                                                </div>
-                                                <button class="button is-fullwidth is-link">
-                                                    <span class="icon is-small">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </span>
-                                                    <span>Edit Draw Result</span>
-                                                </button>
-                                            </div>
+                                <div class="container notification">
+                                    <div class="columns is-vcentered">
+                                        <div class="column is-3">
+                                            <p class="title is-6">Date</p>
+                                            <p class="subtitle is-6">{{formatDate this.created}}</p>
                                         </div>
-                                    </a>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Payment Price</p>
+                                            <p class="subtitle is-6">£{{this.paymentPrice}}</p>
+                                        </div>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Order Status</p>
+                                            <p class="subtitle is-6">{{this.orderStatus}}</p>
+                                        </div>
+                                        <div class="column is-1">
+                                        </div>
+                                        <div class="column is-2">
+                                            <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                <span class="icon is-small">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </span>
+                                                <span>Edit Coupon</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             {{/each}}
                         {{else}}

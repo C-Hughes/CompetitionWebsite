@@ -1,0 +1,140 @@
+<section class="hero is-danger">
+    <div class="hero-body has-text-centered">
+        <p class="title">Edit Coupon</p>
+    </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-widescreen mb-4">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/admin/coupons">Coupons</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Edit Coupon</a></li>
+        </ul>
+    </nav>
+</div>
+
+{{#if hasError}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+
+
+<div class="container is-max-widescreen">
+    <form action="/admin/updateCoupon" method="post">
+        <div class="card">
+            <div class="card-content">
+                    <div class="field">
+                        <label class="label">Username / Email Address / User ID (If Coupon Only Applies to a Specific User)</label>
+                        <div class="control has-icons-left">
+                            <input id="userInfo" name="userInfo" class="input" type="text" placeholder="User Information" value="{{coupon.userID}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Competition ID (If Coupon Only Applies to a Specific Competition)</label>
+                        <div class="control has-icons-left">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{coupon.compID}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-dice"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Is Sitewide (If Coupon Applies to Any Competition Across the Whole Website)</label>
+                        <i class="fa-solid fa-tag"></i>
+                        <input id="sitewide" name="sitewide" type="checkbox" {{#if coupon.sitewide}}checked{{/if}}>
+                        <label for="PostalCheckbox">Sitewide</label>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Code (3-30 Characters A-Z0-9_-) *</label>
+                        <div class="control has-icons-left">
+                            <input id="couponCode" name="couponCode" class="input" type="text" placeholder="Coupon Code" value="{{coupon.couponCode}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-barcode"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Amount (£ Discount from Whole Basket)</label>
+                        <div class="control has-icons-left">
+                            <input id="couponAmount" name="couponAmount" class="input" type="text" placeholder="Coupon £ Amount Reduction" value="{{coupon.couponAmount}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Percent (% Discount from Whole Basket)</label>
+                        <div class="control has-icons-left">
+                            <input id="couponPercent" name="couponPercent" class="input" type="text" placeholder="Coupon % Percent Reduction" value="{{coupon.couponPercent}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-percent"></i>
+                            </span>
+                        </div>
+                    </div>                    
+
+                    <div class="field">
+                        <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until) (Format: 2024-12-25:19:00) *</label>
+                        <div class="control has-icons-left">
+                            <input id="couponExpiryDate" name="couponExpiryDate" class="input" type="text" placeholder="Date of Expiry for Coupon" value="{{formatDate coupon.couponExpiryDate}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                        </div>
+                    </div>     
+
+                    <div class="field">
+                        <label class="label">Number Of Uses Per Person (How Many Times the Coupon Code Can be Used Per Person) *</label>
+                        <div class="control has-icons-left">
+                            <input id="numberOfUses" name="numberOfUses" class="input" type="text" placeholder="Number of Coupon Uses (Per Person)" value="{{coupon.numberOfUses}}">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </span>
+                        </div>
+                    </div>   
+
+                    <div class="field">
+                        <label class="label">Is Active (Discount is Active and Can be Used)</label>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <input id="active" name="active" type="checkbox" {{#if coupon.active}}checked{{/if}}>
+                        <label for="PostalCheckbox">Active</label>
+                    </div>
+
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                    <input type="hidden" name="couponID" value="{{coupon._id}}"> 
+                    <button type="submit" class="button is-medium is-fullwidth is-link">
+                        <span class="icon">
+                            <i class="fa-solid fa-upload"></i>
+                        </span>
+                        <span>Update Coupon</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+                                        
