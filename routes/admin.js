@@ -235,8 +235,12 @@ router.get('/coupons', async function(req, res, next) {
     try {
         var success = req.flash('success');
         var errors = req.flash('error');
-        const sitewideCoupons = await Coupon.find({sitewide: true});
-        const otherCoupons = await Coupon.find({sitewide: false});
+        // Fetch all coupons in a single query
+        const allCoupons = await Coupon.find({});
+        
+        // Separate sitewide and other coupons in memory
+        const sitewideCoupons = allCoupons.filter(coupon => coupon.sitewide);
+        const otherCoupons = allCoupons.filter(coupon => !coupon.sitewide);
 
         res.render('admin/coupons', {
             title: 'Coupons',
