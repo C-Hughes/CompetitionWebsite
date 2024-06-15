@@ -1173,9 +1173,6 @@ router.post('/createCoupon', async (req, res) => {
             return res.redirect('/admin/createCoupon');
         }
 
-        //Lookup username and find userID
-        //var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
-
         //Lookup userinfo and get userID  
         if(req.body.userInfo){
             var foundUserID = await findUserID(req.body.userInfo);
@@ -1196,6 +1193,11 @@ router.post('/createCoupon', async (req, res) => {
 
         const sitewide = req.body.visible === 'on';
         const active = req.body.visible === 'on';
+
+        if(req.body.compID && sitewide){
+            req.flash('error', 'Coupon cannot apply sitewide & to a specific Competition ID');
+            return res.redirect('/admin/createCoupon');
+        }
         
         const newDrawResult = new DrawResult({
             competitionReference: req.body.compID,
