@@ -1276,9 +1276,11 @@ router.post('/createCoupon', async (req, res) => {
 
         if (savedCoupon) {
             //console.log('Coupon Saved!');
+            req.flash('success', 'Coupon Created');
             res.redirect('/admin/coupons');
         } else {
             console.log('Error Saving Coupon');
+            req.flash('error', 'Error Creating New Coupon');
             res.redirect('/admin/createCoupon');
         }
     } catch (err) {

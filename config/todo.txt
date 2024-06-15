@@ -4,7 +4,6 @@ When buying tickets:
 
 Competitions:
 
-
 User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
@@ -25,9 +24,7 @@ Other:
 
 
 Admin functionality:
-- Administrate coupon codes
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
-
 
 
 AntiCheat / User monitoring:
@@ -49,7 +46,7 @@ Check postal vote entry
 -----------------------------------------------------------------------------------------
 
 
-Completed:
+Completed Tasks:
 - Test all share referral / competitions buttons when website is hosted
 
 
@@ -123,6 +120,7 @@ Admin:
 - User info lookup in admin/users
 - Ability for admin to manually enter people into competitions that have posted in.
 - Ban users for x amount of time
+- Administrate coupon codes
 
 
 //   cd ../../../../../ 
