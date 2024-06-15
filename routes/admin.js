@@ -1315,7 +1315,7 @@ router.post('/updateCoupon', async (req, res, next) => {
             messages.push(error.msg);
         });
         req.flash('error', messages);
-        return res.redirect('/admin/createCoupon');
+        return res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
 
     //Lookup userinfo and get userID 
@@ -1324,7 +1324,7 @@ router.post('/updateCoupon', async (req, res, next) => {
         foundUserID = await findUserID(req.body.userInfo);
         if(!foundUserID){
             req.flash('error', 'User was not found');
-            return res.redirect('/admin/createCoupon');
+            return res.redirect('/admin/editCoupon/' + req.body.couponID);
         }
     }
 
@@ -1334,17 +1334,17 @@ router.post('/updateCoupon', async (req, res, next) => {
         const foundCompID = await Competition.findById(req.body.compID);
         if (!foundCompID) {
             req.flash('error', 'Competition ID not found');
-            return res.redirect('/admin/createCoupon');
+            return res.redirect('/admin/editCoupon/' + req.body.couponID);
         }
     }
 
     //couponType Check
     if(req.body.couponAmount && req.body.couponPercent){
         req.flash('error', 'Coupon Amount and Coupon Percent cannot both have a value. Select One.');
-        return res.redirect('/admin/createCoupon');
+        return res.redirect('/admin/editCoupon/' + req.body.couponID);
     } else if(!req.body.couponAmount && !req.body.couponPercent){
         req.flash('error', 'Coupon Amount or Coupon Percent must have a value.');
-        return res.redirect('/admin/createCoupon');
+        return res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
 
     const sitewide = req.body.sitewide === 'on';
@@ -1352,7 +1352,7 @@ router.post('/updateCoupon', async (req, res, next) => {
 
     if(req.body.compID && sitewide){
         req.flash('error', 'Coupon cannot apply sitewide & to a specific Competition ID');
-        return res.redirect('/admin/createCoupon');
+        return res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
 
     var couponUpdate = {
