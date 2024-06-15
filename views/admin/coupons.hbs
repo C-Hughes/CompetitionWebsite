@@ -174,28 +174,63 @@
                         {{#if hasSCoupons}}
                             {{#each sitewideCoupons}}
                                 <div class="container notification">
-                                    <div class="columns is-vcentered">
+                                    <div class="columns">
                                         <div class="column is-3">
-                                            <p class="title is-6">Date</p>
-                                            <p class="subtitle is-6">{{formatDate this.created}}</p>
-                                        </div>
-                                        <div class="column is-3">
-                                            <p class="title is-6">Payment Price</p>
-                                            <p class="subtitle is-6">£{{this.paymentPrice}}</p>
-                                        </div>
-                                        <div class="column is-3">
-                                            <p class="title is-6">Order Status</p>
-                                            <p class="subtitle is-6">{{this.orderStatus}}</p>
-                                        </div>
-                                        <div class="column is-1">
+                                            <p class="title is-6">Coupon Code</p>
+                                            <p class="subtitle is-6">{{this.couponCode}}</p>
                                         </div>
                                         <div class="column is-2">
-                                            <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
-                                                <span class="icon is-small">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </span>
-                                                <span>Edit Coupon</span>
-                                            </a>
+                                            <p class="title is-6">Discount</p>
+                                            {{#if this.couponAmount}}
+                                                <p class="subtitle is-6">£{{this.couponAmount}}</p>
+                                            {{else}}
+                                                <p class="subtitle is-6">{{this.couponPercent}}%</p>
+                                            {{/if}}
+                                        </div>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Expiry Date</p>
+                                            <p class="subtitle is-6">{{formatDate this.couponExpiryDate}}</p>
+                                        </div>
+                                        <div class="column is-2">
+                                            <p class="title is-6">Active</p>
+                                            {{#if this.active}}
+                                                <p class="subtitle is-6">Yes</p>
+                                            {{else}}
+                                                <p class="subtitle is-6">No</p>
+                                            {{/if}}
+                                        </div>             
+                                        <div class="column is-2">
+                                            <div class="buttons has-addons is-right">
+                                                <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                                                    <span class="icon is-small">
+                                                        <i class="fa-solid fa-chevron-down"></i>
+                                                    </span>
+                                                </button>
+                                                <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                    <span class="icon is-small">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </span>
+                                                    <span>Edit</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="userInfo_{{this._id}}" style="display:none">
+                                        <div class="columns is-vcentered is-multiline">
+                                            <div class="column is-5">
+                                                <p class="title is-6">Applies To:</p>
+                                                <p><strong>User Reference:</strong> {{this.userReference}}</p>
+                                                <p><strong>Username:</strong> {{this.userReference.username}}</p>
+                                                <p><strong>Competition Reference:</strong> {{this.compID}}</p>
+                                                <p><strong>Competition Title:</strong> {{this.compID.title}}</p>
+                                            </div>
+                                            <div class="column is-7">
+                                                <p class="title is-6">More Info</p>   
+                                                <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUses}}</p>
+                                                <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
+                                                <p><strong>Created:</strong> {{formatDate this.created}}</p>
+                                                <p><strong>Last Updated:</strong> {{formatDate this.lastUpdated}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -214,29 +249,64 @@
                     <div class="columns is-multiline">
                         {{#if hasOCoupons}}
                             {{#each otherCoupons}}
-                                <div class="container notification">
-                                    <div class="columns is-vcentered">
+                                                                <div class="container notification">
+                                    <div class="columns">
                                         <div class="column is-3">
-                                            <p class="title is-6">Date</p>
-                                            <p class="subtitle is-6">{{formatDate this.created}}</p>
-                                        </div>
-                                        <div class="column is-3">
-                                            <p class="title is-6">Payment Price</p>
-                                            <p class="subtitle is-6">£{{this.paymentPrice}}</p>
-                                        </div>
-                                        <div class="column is-3">
-                                            <p class="title is-6">Order Status</p>
-                                            <p class="subtitle is-6">{{this.orderStatus}}</p>
-                                        </div>
-                                        <div class="column is-1">
+                                            <p class="title is-6">Coupon Code</p>
+                                            <p class="subtitle is-6">{{this.couponCode}}</p>
                                         </div>
                                         <div class="column is-2">
-                                            <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
-                                                <span class="icon is-small">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </span>
-                                                <span>Edit Coupon</span>
-                                            </a>
+                                            <p class="title is-6">Discount</p>
+                                            {{#if this.couponAmount}}
+                                                <p class="subtitle is-6">£{{this.couponAmount}}</p>
+                                            {{else}}
+                                                <p class="subtitle is-6">{{this.couponPercent}}%</p>
+                                            {{/if}}
+                                        </div>
+                                        <div class="column is-3">
+                                            <p class="title is-6">Expiry Date</p>
+                                            <p class="subtitle is-6">{{formatDate this.couponExpiryDate}}</p>
+                                        </div>
+                                        <div class="column is-2">
+                                            <p class="title is-6">Active</p>
+                                            {{#if this.active}}
+                                                <p class="subtitle is-6">Yes</p>
+                                            {{else}}
+                                                <p class="subtitle is-6">No</p>
+                                            {{/if}}
+                                        </div>             
+                                        <div class="column is-2">
+                                            <div class="buttons has-addons is-right">
+                                                <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                                                    <span class="icon is-small">
+                                                        <i class="fa-solid fa-chevron-down"></i>
+                                                    </span>
+                                                </button>
+                                                <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                    <span class="icon is-small">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </span>
+                                                    <span>Edit</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="userInfo_{{this._id}}" style="display:none">
+                                        <div class="columns is-vcentered is-multiline">
+                                            <div class="column is-5">
+                                                <p class="title is-6">Applies To:</p>
+                                                <p><strong>User Reference:</strong> {{this.userReference}}</p>
+                                                <p><strong>Username:</strong> {{this.userReference.username}}</p>
+                                                <p><strong>Competition Reference:</strong> {{this.compID}}</p>
+                                                <p><strong>Competition Title:</strong> {{this.compID.title}}</p>
+                                            </div>
+                                            <div class="column is-7">
+                                                <p class="title is-6">More Info</p>   
+                                                <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUses}}</p>
+                                                <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
+                                                <p><strong>Created:</strong> {{formatDate this.created}}</p>
+                                                <p><strong>Last Updated:</strong> {{formatDate this.lastUpdated}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

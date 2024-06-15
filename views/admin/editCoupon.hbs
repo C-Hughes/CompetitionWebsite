@@ -118,11 +118,40 @@
                     </div>   
 
                     <div class="field">
+                        <label class="label">Number Of Times Coupon Has Been Used</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Times Used" value="{{coupon.timesUsed}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </span>
+                        </div>
+                    </div>   
+
+                    <div class="field">
                         <label class="label">Is Active (Discount is Active and Can be Used)</label>
                         <i class="fa-solid fa-circle-check"></i>
                         <input id="active" name="active" type="checkbox" {{#if coupon.active}}checked{{/if}}>
                         <label for="PostalCheckbox">Active</label>
                     </div>
+
+                    <div class="field">
+                        <label class="label">Coupon Created</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Competition Created" value="{{coupon.created}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-clock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Last Updated</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Last Updated" value="{{coupon.lastUpdated}}" disabled>
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-clock"></i>
+                            </span>
+                        </div>
+                    </div>  
 
                     <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
                     <input type="hidden" name="couponID" value="{{coupon._id}}"> 
