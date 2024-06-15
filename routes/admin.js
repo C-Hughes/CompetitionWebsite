@@ -1250,8 +1250,8 @@ router.post('/createCoupon', async (req, res) => {
             return res.redirect('/admin/createCoupon');
         }
 
-        const sitewide = req.body.visible === 'on';
-        const active = req.body.visible === 'on';
+        const sitewide = req.body.sitewide === 'on';
+        const active = req.body.active === 'on';
 
         if(req.body.compID && sitewide){
             req.flash('error', 'Coupon cannot apply sitewide & to a specific Competition ID');
@@ -1342,8 +1342,8 @@ router.post('/updateCoupon', async (req, res, next) => {
         return res.redirect('/admin/createCoupon');
     }
 
-    const sitewide = req.body.visible === 'on';
-    const active = req.body.visible === 'on';
+    const sitewide = req.body.sitewide === 'on';
+    const active = req.body.active === 'on';
 
     if(req.body.compID && sitewide){
         req.flash('error', 'Coupon cannot apply sitewide & to a specific Competition ID');
