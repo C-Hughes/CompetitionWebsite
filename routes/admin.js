@@ -1236,7 +1236,7 @@ router.post('/createCoupon', async (req, res) => {
         //Find Competition ID  
         var foundCompID; 
         if(req.body.compID){
-            const foundCompID = await Competition.findById(req.body.compID);
+            foundCompID = await Competition.findById(req.body.compID);
             if (!foundCompID) {
                 req.flash('error', 'Competition ID not found');
                 return res.redirect('/admin/createCoupon');
@@ -1332,13 +1332,15 @@ router.post('/updateCoupon', async (req, res, next) => {
 
     //Find Competition ID  
     var foundCompID; 
-    if(req.body.compID){
-        const foundCompID = await Competition.findById(req.body.compID);
+    console.log('CompID '+req.body.compID);
+    if(req.body.compID && ObjectId.isValid(req.body.compID)){
+        foundCompID = await Competition.findById(req.body.compID);
         if (!foundCompID) {
             req.flash('error', 'Competition ID not found');
             return res.redirect('/admin/editCoupon/' + req.body.couponID);
         }
     }
+    console.log('foundCompID'+foundCompID);
 
     //couponType Check
     if(req.body.couponAmount && req.body.couponPercent){
