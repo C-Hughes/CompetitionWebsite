@@ -381,19 +381,9 @@ router.get('/overwatch', async (req, res, next) => {
             }
         ]);
 
-        if (result.length > 0) {
-            console.log('Top 10 signupReferralCodeUsed:');
-            result.forEach((code, index) => {
-                //console.log(`${index + 1}. ${code._id} with ${code.count} uses`);
-                //console.log('Users:', code.users);
-            });
-            //return result;
-        } else {
-            //console.log('No signupReferralCodeUsed found');
-            //return [];
-        }
+        const accountCredit = await User.find({}).sort({ accountCredit: -1 }).limit(10);
 
-        res.render('admin/overwatch', { title: 'Overwatch', active: { overwatch: true }, referrals: result});
+        res.render('admin/overwatch', { title: 'Overwatch', active: { overwatch: true }, referrals: result, accountCredit: accountCredit});
 
     } catch (err) {
         console.error(err);
@@ -1532,6 +1522,42 @@ router.post('/updateUserBan', async (req, res, next) => {
     }
 });
 
+router.post('/updateUserAccountCredit', async (req, res, next) => {
+
+    //If no draw Result ID is submitted with the form
+    if (!req.body.userID) {
+        req.flash('error', 'User ID Missing');
+        return res.redirect('/admin/users');
+    }
+
+    var accountCredit = req.body.accountCredit; 
+
+    //Lookup username and find userID
+    var returnedUser = await User.findById(req.body.userID);
+        
+    if(!returnedUser){
+        req.flash('error', 'UserID not found');
+        return res.redirect('/admin/users');
+    }
+
+    var userAccountCreditUpdate = {
+        accountCredit: accountCredit,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await User.findOneAndUpdate({ _id: req.body.userID }, userAccountCreditUpdate, { upsert: false });
+
+        req.flash('success', 'User Account Credit Has Been Updated');
+        console.log('success');
+        res.redirect('/admin/users/');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Updating User Account Credit');
+        console.log('error');
+        res.redirect('/admin/users/');
+    }
+});
 ///////////////////////////////////////////////////////////////////////////////////
 
 

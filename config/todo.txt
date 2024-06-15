@@ -29,8 +29,8 @@ Admin functionality:
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
-- Show users who have referred the most people
 - Show users who have the highest rewardpoints / reward level
+- Highest account Credit
 
 
 
@@ -122,6 +122,9 @@ Admin:
 - Ban users for x amount of time
 - Administrate coupon codes
 
+
+AntiCheat / User monitoring:
+- Show users who have referred the most people
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'

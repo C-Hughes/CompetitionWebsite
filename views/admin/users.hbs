@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="columns is-vcentered is-multiline">
-                        <div class="column">
+                        <div class="column is-12">
                             <form action="/admin/updateUserBan" method="post">
                                 <label class="label">User Banned Until Date (Format: 2024-12-25:19:00) (Leave Blank is User is Not Banned)</label>
                                 <div class="field has-addons">
@@ -129,6 +129,38 @@
                                                     <i class="fa-solid fa-gavel"></i>
                                                 </span>
                                                 <span>Update User Ban Date</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>    
+                        </div>
+                        <div class="column is-12">
+                            <form action="/admin/updateUserAccountCredit" method="post">
+                                <label class="label">Account Credit</label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded has-icons-left">
+                                        <input id="accountCredit" name="accountCredit" type="text" class="input" placeholder="User's Account Credit" value="{{this.accountCredit}}" readonly>
+                                        <span class="icon is-left">
+                                            <i class="fa-solid fa-coins"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control">
+                                        <button id="accountCreditBtn" class="button is-medium is-warning" onclick="toggleEditInput('accountCredit', 'accountCreditBtn')" type="button">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field-body">
+                                    <input type="hidden" name="userID" value="{{this._id}}"> 
+                                    <div class="field">
+                                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                                        <div class="control">
+                                            <button type="submit" class="button is-danger">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-upload"></i>
+                                                </span>
+                                                <span>Update User's Account Credit</span>
                                             </button>
                                         </div>
                                     </div>

@@ -6,19 +6,20 @@
 
 {{> adminNav}}
 
+{{#if errors}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+
 <div class="container is-max-fullhd">
     <div class="content my-6">
         <h1 class="title">Most Used Referrals</h1>
     </div>
-    {{#if errors}}
-        <div class="container is-max-desktop mb-4">
-            <div class="notification is-danger is-light">
-                {{#each error}}
-                    <p>{{this}}</p>
-                {{/each}}
-            </div>
-        </div>
-    {{/if}}
     {{#if referrals}}
         {{#each referrals}}
             <div class="container notification">
@@ -59,6 +60,54 @@
         <div class="column is-full">
             <div class="notification">
                 <p>No orders to show.</p>
+            </div>
+        </div>
+    {{/if}}
+
+
+
+
+    <div class="content my-6">
+        <h1 class="title">Users with Most Account Credit</h1>
+    </div>
+    {{#if accountCredit}}
+        {{#each accountCredit}}
+            <div class="container notification">
+                <div class="columns is-vcentered">
+                    <div class="column is-3">
+                        <p class="title is-6">Username</p>
+                        <p class="subtitle is-6">{{this.username}}</p>
+                    </div>
+                    <div class="column is-3">
+                        <p class="title is-6">Account Credit</p>
+                        <p class="subtitle is-6">{{this.accountCredit}}</p>
+                    </div>
+                    <div class="column is-4">
+                    </div>
+                    <div class="column is-2">
+                        <button onclick="toggleElement('ref_{{this._id}}')" class="button is-link">
+                            <span class="icon">
+                                <i class="fa-solid fa-angle-down"></i>
+                            </span>
+                            <span>View Users</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="ref_{{this._id}}" class="columns" style="display:none">
+                    <div class="column">
+                        <p><strong>UserID:</strong> {{this._id}}</p>
+                        <p><strong>User Email:</strong> {{this.emailAddress}}</p>
+                        <p><strong>RewardLevel:</strong> {{this.rewardLevel}}</p>
+                        <p><strong>Reward Points:</strong> {{this.rewardPoints}}</p>
+                        <p><strong>Join Date:</strong> {{formatDate this.joinDate}}</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="column is-full">
+            <div class="notification">
+                <p>No accounts with credit to show.</p>
             </div>
         </div>
     {{/if}}
