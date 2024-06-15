@@ -231,8 +231,29 @@ router.get('/editWinner/:id', function(req, res, next) {
 });
 //////////////////////////////////////////////
 
-router.get('/coupons', function(req, res, next) {
-    res.render('admin/coupons', { title: 'Coupons', active: { coupons: true } });
+router.get('/coupons', async function(req, res, next) {
+    try {
+        var success = req.flash('success');
+        var errors = req.flash('error');
+        const sitewideCoupons = await Coupon.find({sitewide: true});
+        const otherCoupons = await Coupon.find({sitewide: false});
+
+        res.render('admin/coupons', {
+            title: 'Coupons',
+            active: { coupons: true },
+            sitewideCoupons: sitewideCoupons,
+            hasSCoupons: sitewideCoupons.length > 0,
+            otherCoupons: otherCoupons,
+            hasOCoupons: otherCoupons.length > 0,
+            success: success,
+            hasSuccess: success.length > 0,
+            error: errors,
+            hasErrors: errors.length > 0
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);  // Pass the error to the next middleware
+    }
 });
 
 router.get('/createCoupon', function(req, res, next) {
