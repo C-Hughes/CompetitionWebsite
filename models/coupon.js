@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var couponSchema = new Schema({
     userReference: {type: Schema.Types.ObjectId, ref: 'User', required: false},
     competitionReference: {type: Schema.Types.ObjectId, ref: 'Competition', required: false},
-    isSitewide: {type: Boolean, required: true, default: false},
+    sitewide: {type: Boolean, required: true, default: false},
     couponCode: {type: String, required: true},
     couponAmount: {type: Number, required: false},
     couponPercent: {type: Number, required: false},

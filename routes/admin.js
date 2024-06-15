@@ -1157,11 +1157,15 @@ router.post('/updateDrawResult', async (req, res, next) => {
 router.post('/createCoupon', async (req, res) => {
     try {
 
+        var couponCode = req.body.couponCode.replace(/[^a-z0-9-_]/gi, "");
+
         //Input Validation
         req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
+        req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:20});
         req.checkBody('couponExpiry', 'Coupon expiry date cannot be empty').notEmpty();
         req.checkBody('couponExpiry', 'Coupon expiry date format is invalid').notDate();
         req.checkBody('numberUses', 'Number of uses per person cannot be empty').notEmpty();
+        req.checkBody('numberUses', 'Number of uses must be a number').isNumber();
  
         var errors = req.validationErrors();
         if (errors){
@@ -1173,9 +1177,10 @@ router.post('/createCoupon', async (req, res) => {
             return res.redirect('/admin/createCoupon');
         }
 
-        //Lookup userinfo and get userID  
+        //Lookup userinfo and get userID 
+        var foundUserID; 
         if(req.body.userInfo){
-            var foundUserID = await findUserID(req.body.userInfo);
+            foundUserID = await findUserID(req.body.userInfo);
             if(!foundUserID){
                 req.flash('error', 'User was not found');
                 return res.redirect('/admin/createCoupon');
@@ -1191,6 +1196,15 @@ router.post('/createCoupon', async (req, res) => {
             }
         }
 
+        //couponType Check
+        if(req.body.couponAmount && req.body.couponPercent){
+            req.flash('error', 'Coupon Amount and Coupon Percent cannot both have a value. Select One.');
+            return res.redirect('/admin/createCoupon');
+        } else if(!req.body.couponAmount && !req.body.couponPercent){
+            req.flash('error', 'Coupon Amount or Coupon Percent must have a value.');
+            return res.redirect('/admin/createCoupon');
+        }
+
         const sitewide = req.body.visible === 'on';
         const active = req.body.visible === 'on';
 
@@ -1199,28 +1213,30 @@ router.post('/createCoupon', async (req, res) => {
             return res.redirect('/admin/createCoupon');
         }
         
-        const newDrawResult = new DrawResult({
+        const newCoupon = new Coupon({
+            userReference: foundUserID,
             competitionReference: req.body.compID,
-            userReference: userReference,
-            title: req.body.title,
-            description: req.body.description,
-            winningTicketNumber: req.body.winningTicketNumber,
-            visible: visible,
+            sitewide: sitewide,
+            couponCode: couponCode,
+            couponAmount: req.body.couponAmount,
+            couponPercent: req.body.couponPercent,
+            couponExpiryDate: req.body.couponExpiryDate,
+            numberOfUses: req.body.numberOfUses,
+            active: active,
         });
+        const savedCoupon = await newCoupon.save();
 
-        const savedDrawResult = await newDrawResult.save();
-
-        if (savedDrawResult) {
-            console.log('Draw Result Card Saved!');
-            res.redirect('/admin/drawResults');
+        if (savedCoupon) {
+            //console.log('Coupon Saved!');
+            res.redirect('/admin/coupons');
         } else {
-            console.log('Error Saving Draw Result Card');
-            res.redirect('/admin/createDrawResult');
+            console.log('Error Saving Coupon');
+            res.redirect('/admin/createCoupon');
         }
     } catch (err) {
         console.log(err);
-        req.flash('error', 'Error Creating Draw Result Card');
-        res.redirect('/admin/createDrawResult');
+        req.flash('error', 'Error Creating New Coupon');
+        res.redirect('/admin/createCoupon');
     }
 });
 
