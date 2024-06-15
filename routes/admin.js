@@ -236,7 +236,7 @@ router.get('/coupons', async function(req, res, next) {
         var success = req.flash('success');
         var errors = req.flash('error');
         // Fetch all coupons in a single query
-        const allCoupons = await Coupon.find({});
+        const allCoupons = await Coupon.find({}).populate('userReference').populate('competitionReference');
         
         // Separate sitewide and other coupons in memory
         const sitewideCoupons = allCoupons.filter(coupon => coupon.sitewide);
@@ -1208,8 +1208,10 @@ router.post('/createCoupon', async (req, res) => {
         req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
         req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
         req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
-        req.checkBody('numberOfUses', 'Number of uses per person cannot be empty').notEmpty();
-        req.checkBody('numberOfUses', 'Number of uses must be a number').isInt();
+        req.checkBody('numberOfUsesPerPerson', 'Number of uses per person cannot be empty').notEmpty();
+        req.checkBody('numberOfUsesPerPerson', 'Number of uses must be a number').isInt();
+        req.checkBody('totalNumberOfUses', 'Total Number of uses cannot be empty').notEmpty();
+        req.checkBody('totalNumberOfUses', 'Total Number of uses must be a number').isInt();
  
         var errors = req.validationErrors();
         if (errors){
@@ -1266,7 +1268,8 @@ router.post('/createCoupon', async (req, res) => {
             couponAmount: req.body.couponAmount,
             couponPercent: req.body.couponPercent,
             couponExpiryDate: req.body.couponExpiryDate,
-            numberOfUses: req.body.numberOfUses,
+            numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
+            totalNumberOfUses: totalNumberOfUses,
             active: active,
         });
         const savedCoupon = await newCoupon.save();
@@ -1300,8 +1303,10 @@ router.post('/updateCoupon', async (req, res, next) => {
     req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
     req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
     req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
-    req.checkBody('numberOfUses', 'Number of uses per person cannot be empty').notEmpty();
-    req.checkBody('numberOfUses', 'Number of uses must be a number').isInt();
+    req.checkBody('numberOfUsesPerPerson', 'Number of uses per person cannot be empty').notEmpty();
+    req.checkBody('numberOfUsesPerPerson', 'Number of uses must be a number').isInt();
+    req.checkBody('totalNumberOfUses', 'Total Number of uses cannot be empty').notEmpty();
+    req.checkBody('totalNumberOfUses', 'Total Number of uses must be a number').isInt();
 
     var errors = req.validationErrors();
     if (errors){
@@ -1358,7 +1363,8 @@ router.post('/updateCoupon', async (req, res, next) => {
         couponAmount: req.body.couponAmount,
         couponPercent: req.body.couponPercent,
         couponExpiryDate: req.body.couponExpiryDate,
-        numberOfUses: req.body.numberOfUses,
+        numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
+        totalNumberOfUses: totalNumberOfUses,
         active: active,
         lastUpdated: new Date().toISOString(),
     };
@@ -1377,10 +1383,6 @@ router.post('/updateCoupon', async (req, res, next) => {
 
 ////////////Find Coupon Details from submitted form////////////
 router.post('/coupons', async (req, res, next) => {
-
-
-    console.log('POSTED');
-
     var couponInfo = req.body.couponInfo;
     //If no draw Result ID is submitted with the form
     if (!couponInfo) {
@@ -1397,11 +1399,9 @@ router.post('/coupons', async (req, res, next) => {
         }
 
         if(!foundCoupon){
-            console.log('Not Found');
             req.flash('error', 'Coupon was not found');
             return res.redirect('/admin/coupons');
         } else {
-            console.log('Found');
             res.render('admin/coupons', { title: 'Coupons', active: { coupons: true }, foundCouponInfo: foundCoupon});
         }
     } catch (err) {

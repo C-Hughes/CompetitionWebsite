@@ -19,7 +19,7 @@
     </a>
 
     <div class="content my-6">
-        <h1 class="title">Lookup Coupons</h1>
+        <h1 class="title">Lookup Coupon</h1>
     </div>
     {{#if hasError}}
         <div class="container is-max-desktop mb-4">
@@ -107,9 +107,10 @@
                 <div class="columns is-vcentered is-multiline">
                     <div class="column is-5">
                         <p class="title is-6">Applies To:</p>
-                        <p><strong>User Reference:</strong> {{foundCouponInfo.userReference}}</p>
+                        <p><strong>User ID:</strong> {{foundCouponInfo.userReference._id}}</p>
                         <p><strong>Username:</strong> {{foundCouponInfo.userReference.username}}</p>
-                        <p><strong>Competition Reference:</strong> {{foundCouponInfo.compID}}</p>
+                        <p><strong>User Email Address:</strong> {{foundCouponInfo.userReference.emailAddress}}</p>
+                        <p><strong>Competition ID:</strong> {{foundCouponInfo.compID}}</p>
                         <p><strong>Competition Title:</strong> {{foundCouponInfo.compID.title}}</p>
                     </div>
                     <div class="column is-7">
@@ -191,9 +192,10 @@
                                             <div class="columns is-vcentered is-multiline">
                                                 <div class="column is-5">
                                                     <p class="title is-6">Applies To:</p>
-                                                    <p><strong>User Reference:</strong> {{this.userReference}}</p>
+                                                    <p><strong>User ID:</strong> {{this.userReference._id}}</p>
                                                     <p><strong>Username:</strong> {{this.userReference.username}}</p>
-                                                    <p><strong>Competition Reference:</strong> {{this.compID}}</p>
+                                                    <p><strong>User Email Address:</strong> {{this.userReference.emailAddress}}</p>
+                                                    <p><strong>Competition ID:</strong> {{this.compID}}</p>
                                                     <p><strong>Competition Title:</strong> {{this.compID.title}}</p>
                                                 </div>
                                                 <div class="column is-7">
@@ -268,9 +270,10 @@
                                             <div class="columns is-vcentered is-multiline">
                                                 <div class="column is-5">
                                                     <p class="title is-6">Applies To:</p>
-                                                    <p><strong>User Reference:</strong> {{this.userReference}}</p>
+                                                    <p><strong>User ID:</strong> {{this.userReference._id}}</p>
                                                     <p><strong>Username:</strong> {{this.userReference.username}}</p>
-                                                    <p><strong>Competition Reference:</strong> {{this.compID}}</p>
+                                                    <p><strong>User Email Address:</strong> {{this.userReference.emailAddress}}</p>
+                                                    <p><strong>Competition ID:</strong> {{this.compID}}</p>
                                                     <p><strong>Competition Title:</strong> {{this.compID.title}}</p>
                                                 </div>
                                                 <div class="column is-7">
