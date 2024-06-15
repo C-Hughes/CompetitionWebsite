@@ -252,7 +252,7 @@ router.get('/coupons', async function(req, res, next) {
             success: success,
             hasSuccess: success.length > 0,
             error: errors,
-            hasErrors: errors.length > 0
+            hasError: errors.length > 0
         });
     } catch (err) {
         console.log(err);
@@ -1374,6 +1374,42 @@ router.post('/updateCoupon', async (req, res, next) => {
         res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
 });
+
+////////////Find Coupon Details from submitted form////////////
+router.post('/coupons', async (req, res, next) => {
+
+
+    console.log('POSTED');
+
+    var couponInfo = req.body.couponInfo;
+    //If no draw Result ID is submitted with the form
+    if (!couponInfo) {
+        req.flash('error', 'Coupon Information is Missing');
+        return res.redirect('/admin/coupons');
+    }
+
+    try {
+        var foundCoupon;
+        if(ObjectId.isValid(couponInfo)){
+            foundCoupon = await Coupon.findById({_id: couponInfo});
+        } else {
+            foundCoupon = await Coupon.findOne({ couponCode: couponInfo });
+        }
+
+        if(!foundCoupon){
+            console.log('Not Found');
+            req.flash('error', 'Coupon was not found');
+            return res.redirect('/admin/coupons');
+        } else {
+            console.log('Found');
+            res.render('admin/coupons', { title: 'Coupons', active: { coupons: true }, foundCouponInfo: foundCoupon});
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Finding Coupon');
+        res.redirect('/admin/coupons');
+    }
+});
 ////////////Competition Entries - Update Competition Winning Ticket Number////////////
 router.post('/competitionEntries', async (req, res, next) => {
 
@@ -1434,8 +1470,8 @@ router.post('/users', async (req, res, next) => {
         }
     } catch (err) {
         console.log(err);
-        req.flash('error', 'Error updating Winning Ticket Number');
-        res.redirect('/admin/competitionEntries/'+req.body.compID);
+        req.flash('error', 'Error Finding Users');
+        res.redirect('/admin/users/');
     }
 });
 
