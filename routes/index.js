@@ -11,6 +11,7 @@ var Ticket = require('../models/ticket');
 var User = require('../models/user');
 var Winner = require('../models/winner');
 var DrawResult = require('../models/drawResults');
+var Coupon = require('../models/coupon');
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -313,7 +314,7 @@ router.get('/checkout', isLoggedIn, isNotBanned, function(req, res, next) {
     }
 });
 
-router.get('/processCard', isNotBanned, function(req, res, next) {
+router.get('/processCard', isLoggedIn, isNotBanned, function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
@@ -373,7 +374,7 @@ router.get('/images/:imageName', (req, res) => {
 
 ////////////////////////// ROUTE POSTS ////////////////////////////
 
-router.post('/checkout', isNotBanned, async (req, res, next) => {
+router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     }
@@ -469,7 +470,7 @@ router.post('/checkout', isNotBanned, async (req, res, next) => {
 });
 
 
-router.post('/processCard', isNotBanned, async (req, res, next) => {
+router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
@@ -617,7 +618,33 @@ router.post('/processCard', isNotBanned, async (req, res, next) => {
     }
 });
 
+router.post('/applyCoupon', async (req, res, next) => {
 
+    //Lookup couponCode
+    var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") } });
+    if(!returnedCoupon){
+        req.flash('error', 'Coupon Code Not Found');
+        return res.redirect('/basket');
+    }
+
+    var userBanUpdate = {
+        bannedUntilDate: userBannedUntil,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await User.findOneAndUpdate({ _id: req.body.userID }, userBanUpdate, { upsert: false });
+
+        req.flash('success', 'User Ban Date Has Been Updated');
+        console.log('success');
+        res.redirect('/admin/users/');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Updating User Ban Date');
+        console.log('error');
+        res.redirect('/admin/users/');
+    }
+});
 ///////////////////////////////////////////////////////////////////
 
 ///////// Logged in users cannot access routes below //////////////

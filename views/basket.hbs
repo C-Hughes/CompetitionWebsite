@@ -95,14 +95,17 @@
 
                         <div class="columns is-multiline">
                             <div class="column is-full is-flex is-justify-content-center is-align-items-center">
-                                <div class="field has-addons">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Coupon Code">
+                                <form action="/applyCoupon" method="post">
+                                    <div class="field has-addons">
+                                        <div class="control">
+                                            <input id="couponCode" name="couponCode" class="input" type="text" placeholder="Coupon Code" required>
+                                        </div>
+                                        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+                                        <div class="control">
+                                            <button type="submit" class="button is-link">Apply Coupon</button>
+                                        </div>
                                     </div>
-                                    <div class="control">
-                                        <button class="button is-link">Apply Coupon</button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                             <div class="column is-full">
                                 <p class="subtitle is-4 is-pulled-left"><strong>Total</strong></p>
