@@ -27,6 +27,14 @@ module.exports = function Basket(oldBasket){
         }
     };
 
+    this.addCoupon = function(couponCode){
+        this.couponsApplied.push(couponCode);
+    };
+
+    this.removeCoupon = function(couponCode){
+        this.couponsApplied.splice(this.couponsApplied.indexOf(couponCode), 1);
+    };
+
     this.increaseByOne = function(id){
         this.items[id].qty++;
         this.totalQty++;
