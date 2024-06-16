@@ -77,6 +77,12 @@ module.exports = function Basket(oldBasket){
 
     //Update whole basket with latest info from DB.
     this.updateBasket = async function(user) {
+        //TODO ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
+
+
+
+
+
         //console.log('Updating Basket...');
         this.totalPrice = 0;
         var messages = [];

@@ -1,6 +1,7 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
+- ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
 
 Competitions:
 
