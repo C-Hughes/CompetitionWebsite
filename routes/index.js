@@ -619,21 +619,37 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
 });
 
 router.post('/applyCoupon', async (req, res, next) => {
+    req.session.oldUrl = req.url;
 
     //Lookup couponCode
-    var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") } });
+    var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") }});
     if(!returnedCoupon){
         req.flash('error', 'Coupon Code Not Found');
-        return res.redirect('/basket');
+        if(req.session.oldUrl){
+            var redirect = req.session.oldUrl;
+            req.session.oldUrl = null;
+            return res.redirect(redirect);
+        } else {
+            console.log('Old URL not found');
+            return res.redirect('/basket'); // Login successful
+        }
     }
+    //Check if coupon is currently active...
 
-    var userBanUpdate = {
-        bannedUntilDate: userBannedUntil,
-        lastUpdated: new Date().toISOString(),
-    };
+    //Check if coupon date has expired...
 
+    //If it applies to a specific user check if current user is that user...
+
+    //If it applies to a specific competition, make sure that competition is in the basket.
+
+    //check times used and if exceeds numberOfUsesPerPerson or totalNumberOfUses...
+
+
+
+
+    //If all checks pass then apply the coupon code to the basket and update price...
     try {
-        await User.findOneAndUpdate({ _id: req.body.userID }, userBanUpdate, { upsert: false });
+        //await User.findOneAndUpdate({ _id: req.body.userID }, userBanUpdate, { upsert: false });
 
         req.flash('success', 'User Ban Date Has Been Updated');
         console.log('success');
