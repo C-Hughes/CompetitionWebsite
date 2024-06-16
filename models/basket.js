@@ -5,6 +5,7 @@ module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
     this.totalQty = oldBasket.totalQty || 0;
     this.totalPrice = oldBasket.totalPrice || 0;
+    this.couponsApplied = oldBasket.couponsApplied || [];
 
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];

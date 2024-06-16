@@ -631,7 +631,7 @@ router.post('/applyCoupon', async (req, res, next) => {
             return res.redirect(redirect);
         } else {
             console.log('Old URL not found');
-            return res.redirect('/basket'); // Login successful
+            return res.redirect('/basket');
         }
     }
     //Check if coupon is currently active...
@@ -640,7 +640,7 @@ router.post('/applyCoupon', async (req, res, next) => {
 
     //If it applies to a specific user check if current user is that user...
 
-    //If it applies to a specific competition, make sure that competition is in the basket.
+    //If it applies to a specific competition, make sure that competition is in the basket...
 
     //check times used and if exceeds numberOfUsesPerPerson or totalNumberOfUses...
 
