@@ -718,7 +718,13 @@ router.post('/login', async (req, res, next) => {
                 req.session.basket = basket;
             }
         }
-        return res.redirect('/user'); // Login successful
+        if(req.session.oldUrl){
+            var redirect = req.session.oldUrl;
+            req.session.oldUrl = null;
+            return res.redirect(redirect);
+        } else {
+            return res.redirect('/user'); // Login successful
+        }
     } catch (err) {
         return next(err);
     }
@@ -755,7 +761,13 @@ router.post('/register', (req, res, next) => {
             // Restore the basket from the temporary variable
             req.session.basket = basketBeforeLogin || {};
 
-            return res.redirect('/user'); // Login successful
+            if(req.session.oldUrl){
+                var redirect = req.session.oldUrl;
+                req.session.oldUrl = null;
+                return res.redirect(redirect);
+            } else {
+                return res.redirect('/user'); // Login successful
+            }
         });
     })(req, res, next);
 });
@@ -772,6 +784,7 @@ function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
       return next();
     }
+    req.session.oldUrl = req.url;
     res.redirect('/login');
 }
 
