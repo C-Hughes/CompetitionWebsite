@@ -286,6 +286,14 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
     res.redirect('/basket');
 });
 
+router.get('/removeCoupon/:couponCode', function(req, res, next) {
+    var couponCode = req.params.couponCode;
+    var basket = new Basket(req.session.basket ? req.session.basket : {});
+
+    basket.removeCoupon(couponCode);
+    req.session.basket = basket;
+    res.redirect('/basket');
+});
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////// Basket Checkout/Payment/OrderReceived ////////////////////////////////
 
