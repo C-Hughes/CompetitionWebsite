@@ -99,7 +99,11 @@ module.exports = function Basket(oldBasket){
             
                 var currentCompID = this.items[id].item._id
                 const foundCompetition = await Competition.findOne({ _id: currentCompID });
-                
+
+                //If competition is found update basketItem
+                if(foundCompetition){
+                    this.items[id].item = foundCompetition;
+                }
                 //If competition is not active, remove it from the basket.
                 if (foundCompetition && !foundCompetition.active) {
                     //console.log("UpdateBasket Error - Comp Not Active");
@@ -240,10 +244,8 @@ module.exports = function Basket(oldBasket){
                         var compInBasket = false;
                         for (var CID in this.items){
                             //Get competition from basket item
-                            console.log('compRef='+returnedCoupon.competitionReference.id);
                             if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
                                 compInBasket = true;
-                                console.log('BasketCompRef='+this.items[CID].item._id);
                             }
                         }
                         if(!compInBasket){
@@ -296,6 +298,7 @@ module.exports = function Basket(oldBasket){
                     //Update Basket Total Price
 
                 }
+                //Update basket total price with coupons applied.
                 this.basketTotalPrice=0;
                 for (var id in this.items){
                     this.basketTotalPrice += this.items[id].itemTotalPrice;
