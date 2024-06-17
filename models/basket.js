@@ -1,6 +1,7 @@
 var Competition = require('../models/competition');
 var Ticket = require('../models/ticket');
 var Coupon = require('../models/coupon');
+var Order = require('../models/order');
 
 module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
@@ -88,6 +89,7 @@ module.exports = function Basket(oldBasket){
         //console.log('Updating Basket...');
         this.basketTotalPrice = 0;
         this.basketSubtotalPrice = 0;
+        var totalReduction = 0;
         var messages = [];
         //Store competitionIds of each item in basket, if two competition IDs are the same, user is buying tickets for the same competition with different answers...
         //Extra checks required to make sure user can not buy more tickets than max allowed...  
@@ -252,26 +254,18 @@ module.exports = function Basket(oldBasket){
                             this.removeCoupon(coupon);
                             messages.push('Coupon '+coupon+' is only valid for competition: '+returnedCoupon.competitionReference.title);
                         }
-                    } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
+                    } else if (returnedCoupon.totalNumberOfUses > 0 && (returnedCoupon.totalNumberOfUses >= timesUsed)){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
                         this.removeCoupon(coupon);
                         messages.push('This Coupon has Already Been Redeemed');
-                    } else if (numberOfUsesPerPerson){
+                    } else if (returnedCoupon.numberOfUsesPerPerson){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
                         var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
 
-                        if(userCouponOrders.length >= numberOfUsesPerPerson){
+                        if(userCouponOrders.length >= returnedCoupon.numberOfUsesPerPerson){
                             this.removeCoupon(coupon);
                             messages.push('This Coupon has Already Been Redeemed');
                         }
-                    }
-
-
-                    //If still valid update basket total/subtotal...
-                    if(returnedCoupon.couponAmount){
-                        
-                    } else if(returnedCoupon.couponPercent){
-
                     }
 
                     //If coupon applies to specific competition
@@ -293,17 +287,19 @@ module.exports = function Basket(oldBasket){
                             }
                         }
                     } else {
+                        if(returnedCoupon.couponAmount){
+                            totalReduction = returnedCoupon.couponAmount
+                        } else if(returnedCoupon.couponPercent){
 
+                        }
                     }
-                    //Update Basket Total Price
-
                 }
                 //Update basket total price with coupons applied.
                 this.basketTotalPrice=0;
                 for (var id in this.items){
                     this.basketTotalPrice += this.items[id].itemTotalPrice;
                 }
-
+                this.basketTotalPrice-=totalReduction;
             }
         } catch (err) {
             console.log(err);
