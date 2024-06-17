@@ -248,7 +248,7 @@ module.exports = function Basket(oldBasket){
                         }
                         if(!compInBasket){
                             this.removeCoupon(coupon);
-                            messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
+                            messages.push('Coupon '+coupon+' is only valid for competition: '+returnedCoupon.competitionReference.title);
                         }
                     } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
