@@ -13,6 +13,7 @@ var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo');
 var fileUpload = require('express-fileupload');
+const favicon = require('serve-favicon');
 
 require('dotenv').config();
 //var multer  = require('multer');
@@ -78,6 +79,7 @@ app.use((req, res, next) => {
 });
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //Might need to remove
 app.use(express.urlencoded({ extended: true }));
 
