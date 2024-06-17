@@ -207,8 +207,13 @@ module.exports = function Basket(oldBasket){
         ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
         if(this.couponsApplied){
             console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
-            for (var coupon in this.couponsApplied){
 
+            console.log('COUPONS = '+this.couponsApplied);
+
+            for (var id in this.couponsApplied){
+
+                console.log('CHECKING COUPON = '+this.couponsApplied[id]);
+                var coupon = this.couponsApplied[id];
                 //Lookup couponCode from DB
                 var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
                 if(!returnedCoupon){
@@ -231,10 +236,10 @@ module.exports = function Basket(oldBasket){
                     }
                 } else if (returnedCoupon.competitionReference){
                     //If it applies to a specific competition, make sure that competition is in the basket...
-                    for (var comp in this.items){
+                    for (var CID in this.items){
                         //Get competition from basket item
                         var compInBasket = false;
-                        if (comp.item._id == returnedCoupon.competitionReference.id) {
+                        if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
                             compInBasket = true;
                         }
                     }
