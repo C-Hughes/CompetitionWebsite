@@ -4,71 +4,71 @@ var Coupon = require('../models/coupon');
 
 module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
-    this.totalQty = oldBasket.totalQty || 0;
-    this.totalPrice = oldBasket.totalPrice || 0;
-    this.subtotalPrice = oldBasket.subtotalPrice || 0;
-    this.couponsApplied = oldBasket.couponsApplied || [];
+    this.basketTotalQty = oldBasket.basketTotalQty || 0;
+    this.basketTotalPrice = oldBasket.basketTotalPrice || 0;
+    this.basketSubtotalPrice = oldBasket.basketSubtotalPrice || 0;
+    this.basketCouponsApplied = oldBasket.basketCouponsApplied || [];
 
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
         if(!storedItem){
             //var price = qty * item.price;
-            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, fullPrice:0, price: 0, questionAnswer: answer, ticketNumbers: []};
+            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, itemSubtotalPrice:0, itemTotalprice: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
-        this.totalQty+= Number(qty);
+        this.basketTotalQty+= Number(qty);
         //Update item to latest info
         storedItem.item = item;
         //this.checkPrice();
         if(storedItem.item.discountPrice){
             storedItem.price += storedItem.item.discountPrice * storedItem.qty;
-            this.totalPrice += storedItem.item.discountPrice * storedItem.qty;
+            this.basketTotalPrice += storedItem.item.discountPrice * storedItem.qty;
         } else {
             storedItem.price += storedItem.item.price * storedItem.qty;
-            this.totalPrice += storedItem.item.price * storedItem.qty;
+            this.basketTotalPrice += storedItem.item.price * storedItem.qty;
         }
     };
 
     this.addCoupon = function(couponCode){
-        if(!this.couponsApplied.includes(couponCode)){
-            this.couponsApplied.push(couponCode);
+        if(!this.basketCouponsApplied.includes(couponCode)){
+            this.basketCouponsApplied.push(couponCode);
         }
     };
 
     this.removeCoupon = function(couponCode){
-        if(this.couponsApplied.includes(couponCode)){
-            this.couponsApplied.splice(this.couponsApplied.indexOf(couponCode), 1);
+        if(this.basketCouponsApplied.includes(couponCode)){
+            this.basketCouponsApplied.splice(this.basketCouponsApplied.indexOf(couponCode), 1);
         }
     };
 
     this.increaseByOne = function(id){
         this.items[id].qty++;
-        this.totalQty++;
+        this.basketTotalQty++;
     };
 
     this.reduceByOne = function(id){
         this.items[id].qty--;
-        this.totalQty--;
+        this.basketTotalQty--;
 
         if (this.items[id].qty <= 0){
             delete this.items[id];
 
             if(this.items.length == 0 || Object.keys(this.items).length == 0){
-                this.totalPrice = 0;
-                this.totalQty = 0;
+                this.basketTotalPrice = 0;
+                this.basketTotalQty = 0;
             }
         }
     };
 
     this.removeItem = function(id){
         console.log('Basket - Removing Item');
-        this.totalQty -= this.items[id].qty;
-        this.totalPrice -= this.items[id].price;
+        this.basketTotalQty -= this.items[id].qty;
+        this.basketTotalPrice -= this.items[id].price;
         delete this.items[id];
 
         if(this.items.length == 0 || Object.keys(this.items).length == 0){
-            this.totalPrice = 0;
-            this.totalQty = 0;
+            this.basketTotalPrice = 0;
+            this.basketTotalQty = 0;
         }
     };
 
@@ -85,8 +85,8 @@ module.exports = function Basket(oldBasket){
     this.updateBasket = async function(user) {
  
         //console.log('Updating Basket...');
-        this.totalPrice = 0;
-        this.subtotalPrice = 0;
+        this.basketTotalPrice = 0;
+        this.basketSubtotalPrice = 0;
         var messages = [];
         //Store competitionIds of each item in basket, if two competition IDs are the same, user is buying tickets for the same competition with different answers...
         //Extra checks required to make sure user can not buy more tickets than max allowed...  
@@ -118,11 +118,11 @@ module.exports = function Basket(oldBasket){
                     if(!basketComps[currentCompID]){
                         //First time Competition is in basket
                         basketComps[currentCompID] = {
-                            totalQty: 0,
+                            basketTotalQty: 0,
                             instances: []
                         };
                     }
-                    basketComps[currentCompID].totalQty += this.items[id].qty;
+                    basketComps[currentCompID].basketTotalQty += this.items[id].qty;
                     basketComps[currentCompID].instances.push(id);
 
                     //Get Number of tickets User has already purchased for competition.
@@ -132,13 +132,13 @@ module.exports = function Basket(oldBasket){
                     let maxAllowedPerPerson = foundCompetition.maxEntriesPerPerson;
 
                     //Check to see if user is trying to purchase more than maximum allowed.
-                    if(userPurchasedEntries + basketComps[currentCompID].totalQty > maxAllowedPerPerson){
+                    if(userPurchasedEntries + basketComps[currentCompID].basketTotalQty > maxAllowedPerPerson){
                         //console.log("UpdateBasket Error - User trying to purchase more tickets than allowed per person");
                         
-                        let excessQty = (userPurchasedEntries + basketComps[currentCompID].totalQty) - maxAllowedPerPerson;
+                        let excessQty = (userPurchasedEntries + basketComps[currentCompID].basketTotalQty) - maxAllowedPerPerson;
                         this.items[id].qty -= excessQty;
-                        this.totalQty -= excessQty;
-                        basketComps[currentCompID].totalQty -= excessQty;
+                        this.basketTotalQty -= excessQty;
+                        basketComps[currentCompID].basketTotalQty -= excessQty;
                         messages.push('Maximum Tickets Per Person for '+foundCompetition.title+' is '+maxAllowedPerPerson+'. Ticket Quantity Reduced.');
                     }
                     //If less than 0 remove item, otherwise do additional checks
@@ -159,20 +159,20 @@ module.exports = function Basket(oldBasket){
                         //Update basket qty to be max available if pendingEntries are cancelled.    
                         } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries) >= foundCompetition.maxEntries){
                             //console.log("Current + Pending = maxEntries");
-                            //var pendingDifference = basketComps[currentCompID].totalQty - foundCompetition.pendingEntries;
-                            this.items[id].qty -= basketComps[currentCompID].totalQty;
-                            this.totalQty -= basketComps[currentCompID].totalQty;
-                            basketComps[currentCompID].totalQty -= basketComps[currentCompID].totalQty;
+                            //var pendingDifference = basketComps[currentCompID].basketTotalQty - foundCompetition.pendingEntries;
+                            this.items[id].qty -= basketComps[currentCompID].basketTotalQty;
+                            this.basketTotalQty -= basketComps[currentCompID].basketTotalQty;
+                            basketComps[currentCompID].basketTotalQty -= basketComps[currentCompID].basketTotalQty;
                             messages.push('Last Remaining Tickets for '+foundCompetition.title+' are Currently Reserved for Purchase. If A Pending Order is Cancelled you May be able to Purchase Later.');
 
 
                         //Competition + pending Entries + user basket exceeds max tickets available, reduce ticket.qty.
-                        } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) > foundCompetition.maxEntries){
-                            var subQty = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].totalQty) - foundCompetition.maxEntries);
-                            //var subbedQty = basketComps[currentCompID].totalQty - maxTickets;
+                        } else if((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].basketTotalQty) > foundCompetition.maxEntries){
+                            var subQty = ((foundCompetition.currentEntries + foundCompetition.pendingEntries + basketComps[currentCompID].basketTotalQty) - foundCompetition.maxEntries);
+                            //var subbedQty = basketComps[currentCompID].basketTotalQty - maxTickets;
                             this.items[id].qty -= subQty;
-                            this.totalQty -= subQty;
-                            basketComps[currentCompID].totalQty -= subQty;
+                            this.basketTotalQty -= subQty;
+                            basketComps[currentCompID].basketTotalQty -= subQty;
                             messages.push('Last Remaining Tickets are in the Process of Being Purchased for '+foundCompetition.title+'. Ticket Quantity Updated. Purchase Soon to Secure Last Tickets!');
                         }
 
@@ -193,8 +193,8 @@ module.exports = function Basket(oldBasket){
                         this.items[id].price = this.items[id].item.price * this.items[id].qty;
                     }
                     this.items[id].fullPrice = this.items[id].price;
-                    this.totalPrice += this.items[id].price;
-                    this.subtotalPrice = this.totalPrice;
+                    this.basketTotalPrice += this.items[id].price;
+                    this.basketSubtotalPrice = this.basketTotalPrice;
 
                 } else {
                     //If competition is not found or is invisible, remove it from the basket.
@@ -205,15 +205,15 @@ module.exports = function Basket(oldBasket){
             }
             ///////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
-            if(this.couponsApplied){
+            if(this.basketCouponsApplied){
                 console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
 
-                console.log('COUPONS = '+this.couponsApplied);
+                console.log('COUPONS = '+this.basketCouponsApplied);
 
-                for (var id in this.couponsApplied){
+                for (var id in this.basketCouponsApplied){
 
-                    console.log('CHECKING COUPON = '+this.couponsApplied[id]);
-                    var coupon = this.couponsApplied[id];
+                    console.log('CHECKING COUPON = '+this.basketCouponsApplied[id]);
+                    var coupon = this.basketCouponsApplied[id];
                     //Lookup couponCode from DB
                     var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
                     if(!returnedCoupon){
@@ -295,9 +295,9 @@ module.exports = function Basket(oldBasket){
                     //Update Basket Total Price
 
                 }
-                this.totalPrice=0;
+                this.basketTotalPrice=0;
                 for (var id in this.items){
-                    this.totalPrice += this.items[id].price;
+                    this.basketTotalPrice += this.items[id].price;
                 }
 
             }

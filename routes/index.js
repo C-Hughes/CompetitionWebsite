@@ -183,7 +183,7 @@ router.get('/basket', saveRedirectURL, async function(req, res, next) {
             error = error.concat(basketErrors);
 
             req.session.basket = basket;
-            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, subtotalPrice: basket.subtotalPrice, basketCoupons: basket.couponsApplied, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
+            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.basketTotalPrice, subtotalPrice: basket.basketSubtotalPrice, basketCoupons: basket.basketCouponsApplied, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
         }
     } catch (error) {
         console.log('Error updating basket:', error);
