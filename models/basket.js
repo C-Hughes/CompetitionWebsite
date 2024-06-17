@@ -236,26 +236,6 @@ module.exports = function Basket(oldBasket){
                         //Check if coupon date has expired...
                         this.removeCoupon(coupon);
                         messages.push('Coupon Code Has Expired');
-                    } else if (returnedCoupon.userReference){
-                        //If it applies to a specific user check if current user is that user...
-
-                        if(user._id.toString() != returnedCoupon.userReference.toString()){
-                            this.removeCoupon(coupon);
-                            messages.push('Invalid Coupon Code11');
-                        }
-                    } else if (returnedCoupon.competitionReference){
-                        //If it applies to a specific competition, make sure that competition is in the basket...
-                        var compInBasket = false;
-                        for (var CID in this.items){
-                            //Get competition from basket item
-                            if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
-                                compInBasket = true;
-                            }
-                        }
-                        if(!compInBasket){
-                            this.removeCoupon(coupon);
-                            messages.push('Coupon '+coupon+' is only valid for competition: '+returnedCoupon.competitionReference.title);
-                        }
                     } else if (returnedCoupon.totalNumberOfUses > 0 && (returnedCoupon.totalNumberOfUses >= timesUsed)){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
                         this.removeCoupon(coupon);
@@ -269,37 +249,57 @@ module.exports = function Basket(oldBasket){
                             messages.push('This Coupon has Already Been Redeemed');
                         }
                     } else {
-                        //Coupon is valid
-                        
-                        //If coupon applies to specific competition
+                        if (returnedCoupon.userReference){
+                            //If it applies to a specific user check if current user is that user...
+    
+                            if(user._id.toString() != returnedCoupon.userReference.toString()){
+                                this.removeCoupon(coupon);
+                                messages.push('Invalid Coupon Code');
+                            }
+                        } 
                         if (returnedCoupon.competitionReference){
+                            //If it applies to a specific competition, make sure that competition is in the basket...
+                            var compInBasket = false;
                             for (var CID in this.items){
                                 //Get competition from basket item
                                 if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
-                                    //Reduce price of this item by the coupon amount
-                                    if(returnedCoupon.couponAmount){
-                                        this.items[CID].itemTotalPrice -= returnedCoupon.couponAmount;
-                                    } else if(returnedCoupon.couponPercent){
-                                        let discountDecimal = returnedCoupon.couponPercent / 100;
-                                        this.items[CID].itemTotalPrice *= (1 - discountDecimal);
-                                    }
-
-                                    //Check to make sure price isn't below 0
-                                    if(this.items[CID].itemTotalPrice < 0){
-                                        this.items[CID].itemTotalPrice = 0;
-                                    }
+                                    compInBasket = true;
                                 }
                             }
-                        } else {
-                            if(returnedCoupon.couponAmount){
-                                totalFlatReduction += returnedCoupon.couponAmount
-                            } else if(returnedCoupon.couponPercent){
-                                totalPercentReduction += returnedCoupon.couponPercent;
+                            if(!compInBasket){
+                                this.removeCoupon(coupon);
+                                messages.push('Coupon '+coupon+' is only valid for competition: '+returnedCoupon.competitionReference.title);
                             }
                         }
                     }
+                        
+                    //If coupon applies to specific competition
+                    if (returnedCoupon.competitionReference){
+                        for (var CID in this.items){
+                            //Get competition from basket item
+                            if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
+                                //Reduce price of this item by the coupon amount
+                                if(returnedCoupon.couponAmount){
+                                    this.items[CID].itemTotalPrice -= returnedCoupon.couponAmount;
+                                } else if(returnedCoupon.couponPercent){
+                                    let discountDecimal = returnedCoupon.couponPercent / 100;
+                                    this.items[CID].itemTotalPrice *= (1 - discountDecimal);
+                                }
 
-                    
+                                //Check to make sure price isn't below 0
+                                if(this.items[CID].itemTotalPrice < 0){
+                                    this.items[CID].itemTotalPrice = 0;
+                                }
+                            }
+                        }
+                    } else {
+                        if(returnedCoupon.couponAmount){
+                            totalFlatReduction += returnedCoupon.couponAmount
+                        } else if(returnedCoupon.couponPercent){
+                            totalPercentReduction += returnedCoupon.couponPercent;
+                        }
+                    }
+                                        
                 }
                 //Update basket total price with coupons applied.
                 this.basketTotalPrice=0;
