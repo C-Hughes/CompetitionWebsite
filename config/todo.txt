@@ -5,6 +5,7 @@ When buying tickets:
 - Add subtotal field to basket / order schemas
 
 Competitions:
+- Change /addtobasket to a post request...
 
 User:
 - Schema for challenge board & challenge board functionality

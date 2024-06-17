@@ -75,7 +75,7 @@ module.exports = function Basket(oldBasket){
         return arr;
     }
 
-    //Update whole basket with latest info from DB.
+    //Update whole basket with latest info from DB. Returns any error messages[]
     this.updateBasket = async function(user) {
         //TODO ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
 

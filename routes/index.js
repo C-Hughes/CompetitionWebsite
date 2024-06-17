@@ -169,7 +169,7 @@ router.get('/competition/:id', async (req, res, next) => {
 //////////////////////////// Basket Routes /////////////////////////////
 
 router.get('/basket', saveRedirectURL, async function(req, res, next) {
-    const error = req.flash('error');
+    var error = req.flash('error');
     const success = req.flash('success');
 
     try {
@@ -177,7 +177,10 @@ router.get('/basket', saveRedirectURL, async function(req, res, next) {
             return res.render('basket', { title: 'Basket', products: null });
         } else {
             var basket = new Basket(req.session.basket);
-            error = await basket.updateBasket(req.user); // Update the basket
+            var basketErrors = await basket.updateBasket(req.user); // Update the basket
+
+            //Merge Error messages
+            error = error.concat(basketErrors);
 
             req.session.basket = basket;
             res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
@@ -624,8 +627,6 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
 router.post('/applyCoupon', async (req, res, next) => {
     try {
         var couponValid = false;
-
-        console.log('OLDURL'+req.session.oldUrl);
 
         //Lookup couponCode
         var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") }}).populate('competitionReference');
