@@ -54,13 +54,13 @@ passport.use('local.signup', new LocalStrategy({
 
     try {
         // Check if email already exists
-        const emailUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(email, "i") } });
+        const emailUser = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+email+'$', "i") } });
         if (emailUser && email != "") {
             return done(null, false, req.flash('sError', 'Email is already in use.'));
         }
 
         // Check if username already exists
-        const foundUser = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
+        const foundUser = await User.findOne({ "username" : { $regex : new RegExp('^'+username+'$', "i") } });
         if (foundUser) {
             return done(null, false, req.flash('sError', 'Username is already in use.'));
         }
@@ -120,7 +120,7 @@ passport.use('local.login', new LocalStrategy({
         }
 
         // Find email for login
-        let user = await User.findOne({ "emailAddress" : { $regex : new RegExp(username, "i") } });
+        let user = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+username+'$', "i") } });
 
         if (user) {
             // If user found and password is valid
@@ -132,7 +132,7 @@ passport.use('local.login', new LocalStrategy({
             }
         } else {
             // Find username for login
-            user = await User.findOne({ "username" : { $regex : new RegExp(username, "i") } });
+            user = await User.findOne({ "username" : { $regex : new RegExp('^'+username+'$', "i") } });
             if (user && user.validPassword(password)) {
                 await User.findOneAndUpdate({ _id: user._id }, { lastLogin: new Date() }, { upsert: false });
                 return done(null, user);
@@ -145,7 +145,6 @@ passport.use('local.login', new LocalStrategy({
         return done(err);
     }
 }));
-
 
 ///////////////////////////////Update Password////////////////////////////////
 passport.use('local.updatePassword', new LocalStrategy({

@@ -629,7 +629,10 @@ router.post('/applyCoupon', async (req, res, next) => {
         var couponValid = false;
 
         //Lookup couponCode
-        var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") }}).populate('competitionReference');
+        var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+req.body.couponCode+'$', "i") }}).populate('competitionReference');
+
+        console.log(returnedCoupon);
+
         if(!returnedCoupon){
             req.flash('error', 'Coupon Code Not Found');
             if(req.session.oldUrl){

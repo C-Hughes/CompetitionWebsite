@@ -57,9 +57,9 @@ router.get('/competitionEntries/:id', async (req, res, next) => {
     try {
         const competition = await Competition.findOne({ _id: compID});
         const correctTickets = await Ticket.find({ competitionReference: compID, compAnswer: competition.correctAnswer }).populate('userReference');
-        const incorrectTickets = await Ticket.find({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(competition.correctAnswer, 'i') } } }).populate('userReference');
+        const incorrectTickets = await Ticket.find({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp('^'+competition.correctAnswer+'$', 'i') } } }).populate('userReference');
         const correctUsers = await Ticket.countDocuments({ competitionReference: compID, compAnswer: competition.correctAnswer });
-        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp(competition.correctAnswer, 'i') } } });
+        const incorrectUsers = await Ticket.countDocuments({ competitionReference: compID, "compAnswer": { "$not": { $regex: new RegExp('^'+competition.correctAnswer+'$', 'i') } } });
 
         if (competition) {
             res.render('admin/competitionEntries', {
@@ -425,7 +425,7 @@ router.post('/addAdministrator', function(req, res, next) {
         lastUpdated: new Date().toISOString(),
     };
     //Update most recent order to include updated basket with ticket numbers.
-    User.findOneAndUpdate({ "username" : { $regex : new RegExp(addAdminName, "i") } }, userUpdate, {upsert: false})
+    User.findOneAndUpdate({ "username" : { $regex : new RegExp('^'+addAdminName+'$', "i") } }, userUpdate, {upsert: false})
     .then((foundAdmin) => {
         if(foundAdmin){
             console.log('Admin Added');
@@ -797,9 +797,9 @@ router.post('/submitPostalEntry', async (req, res, next) => {
         }
 
         //Get User Information
-        const postalUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.userInfo, "i") } });
+        const postalUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
         if (!postalUser) {
-            const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(req.body.userInfo, "i") } });
+            const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
             if (!postalUser) {
                 req.flash('error', 'Username / Email Address not found');
                 return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
@@ -1084,7 +1084,8 @@ router.post('/createDrawResult', async (req, res) => {
         }
 
         //Lookup username and find userID
-        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
+        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
+
         if(returnedUser){
             var userReference = returnedUser._id;
         } else {
@@ -1153,7 +1154,7 @@ router.post('/updateDrawResult', async (req, res, next) => {
     }
 
     //Lookup username and find userID
-    var returnedUser = await User.findOne({ "username" : { $regex : new RegExp(req.body.username, "i") } });
+    var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
         
     if(returnedUser){
         var userReference = returnedUser._id;
@@ -1436,18 +1437,18 @@ router.post('/users', async (req, res, next) => {
     }
 
     try {
-        var foundUser = await User.find({ "username" : { $regex : new RegExp(userLookupInfo, "i") } }).populate('shippingAddressReference');
+        var foundUser = await User.find({ "username" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } }).populate('shippingAddressReference');
         if(foundUser.length == 0){
-            foundUser = await User.find({ "emailAddress" : { $regex : new RegExp(userLookupInfo, "i") } });
+            foundUser = await User.find({ "emailAddress" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } });
         }
         if(foundUser.length == 0){
-            foundUser = await User.find({ "displayName" : { $regex : new RegExp(userLookupInfo, "i") } });
+            foundUser = await User.find({ "displayName" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } });
         }
         if(foundUser.length == 0){
-            foundUser = await User.find({ "firstName" : { $regex : new RegExp(userLookupInfo, "i") } });
+            foundUser = await User.find({ "firstName" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } });
         }
         if(foundUser.length == 0){
-            foundUser = await User.find({ "lastName" : { $regex : new RegExp(userLookupInfo, "i") } });
+            foundUser = await User.find({ "lastName" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } });
         }
 
         if(foundUser.length > 0){
@@ -1654,11 +1655,11 @@ async function clearAllBaskets() {
 async function findUserID(userInfo) {
     try {
         var foundUser;
-        foundUser = await User.findOne({ "emailAddress" : { $regex : new RegExp(userInfo, "i") } });
+        foundUser = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+userInfo+'$', "i") } });
         if(foundUser){
             return foundUser._id;
         }
-        foundUser = await User.findOne({ "username" : { $regex : new RegExp(userInfo, "i") } });
+        foundUser = await User.findOne({ "username" : { $regex : new RegExp('^'+userInfo+'$', "i") } });
         if(foundUser){
             return foundUser._id;
         }
