@@ -168,7 +168,10 @@ router.get('/competition/:id', async (req, res, next) => {
 
 //////////////////////////// Basket Routes /////////////////////////////
 
-router.get('/basket', async function(req, res, next) {
+router.get('/basket', saveRedirectURL, async function(req, res, next) {
+    const error = req.flash('error');
+    const success = req.flash('success');
+
     try {
         if (!req.session.basket || req.session.basket.totalPrice == 0) {
             return res.render('basket', { title: 'Basket', products: null });
@@ -177,7 +180,7 @@ router.get('/basket', async function(req, res, next) {
             error = await basket.updateBasket(req.user); // Update the basket
 
             req.session.basket = basket;
-            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, error: error, hasError: error.length > 0});
+            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
         }
     } catch (error) {
         console.log('Error updating basket:', error);
@@ -284,7 +287,7 @@ router.get('/reduceOneItem/:id', function(req, res, next) {
 ////////////////////// Basket Checkout/Payment/OrderReceived ////////////////////////////////
 
 //Must be logged in to access checkout
-router.get('/checkout', isLoggedIn, isNotBanned, function(req, res, next) {
+router.get('/checkout',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
     var errors = req.flash('error');
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
@@ -314,7 +317,7 @@ router.get('/checkout', isLoggedIn, isNotBanned, function(req, res, next) {
     }
 });
 
-router.get('/processCard', isLoggedIn, isNotBanned, function(req, res, next) {
+router.get('/processCard',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
@@ -620,8 +623,9 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
 
 router.post('/applyCoupon', async (req, res, next) => {
     try {
-        req.session.oldUrl = req.url;
         var couponValid = false;
+
+        console.log('OLDURL'+req.session.oldUrl);
 
         //Lookup couponCode
         var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp(req.body.couponCode, "i") }}).populate('competitionReference');
@@ -638,7 +642,7 @@ router.post('/applyCoupon', async (req, res, next) => {
         }
         //Check if coupon is currently active...
         if(!returnedCoupon.active){
-            req.flash('error', 'Coupon Code Not Found');
+            req.flash('error', 'Coupon Code No Longer Active');
         } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
             //Check if coupon date has expired...
             req.flash('error', 'Coupon Code Has Expired');
@@ -844,10 +848,11 @@ module.exports = router;
 
 //Check if logged in
 function isLoggedIn(req, res, next){
+    req.session.oldUrl = req.url;
     if(req.isAuthenticated()){
       return next();
     }
-    req.session.oldUrl = req.url;
+    //req.session.oldUrl = req.url;
     res.redirect('/login');
 }
 
@@ -865,6 +870,12 @@ function isNotBanned(req, res, next){
       return next();
     }
     res.redirect('/basket');
+}
+
+//Check if logged in
+function saveRedirectURL(req, res, next){
+    req.session.oldUrl = req.url;
+    return next();
 }
 
 //Timer to check if order has been completed or if it needs to be cancelled (After 10 minutes)

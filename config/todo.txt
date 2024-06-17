@@ -2,6 +2,7 @@
 
 When buying tickets:
 - ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
+- Add subtotal field to basket / order schemas
 
 Competitions:
 
@@ -9,7 +10,7 @@ User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for Coupons
 - Coupon redeemed check/functionality on rewards page
-- When user has taken timout display a message when they try to go to checkout
+
 
 Other:
 - Coupons
@@ -62,6 +63,7 @@ User:
 - Take time out radiobuttons and functionality
 - Take time out users can still log in, but not make any purchases
 - Display current time out date/Time on safeplaying page if applicable and datetime is in the future
+- When user has taken timout display a message when they try to go to checkout
 
 
 Other:
