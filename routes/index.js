@@ -630,9 +630,6 @@ router.post('/applyCoupon', async (req, res, next) => {
 
         //Lookup couponCode
         var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+req.body.couponCode+'$', "i") }}).populate('competitionReference');
-
-        console.log(returnedCoupon);
-
         if(!returnedCoupon){
             req.flash('error', 'Coupon Code Not Found');
             if(req.session.oldUrl){
@@ -640,13 +637,12 @@ router.post('/applyCoupon', async (req, res, next) => {
                 req.session.oldUrl = null;
                 return res.redirect(redirect);
             } else {
-                console.log('Old URL not found');
                 return res.redirect('/basket');
             }
         }
         //Check if coupon is currently active...
         if(!returnedCoupon.active){
-            req.flash('error', 'Coupon Code No Longer Active');
+            req.flash('error', 'Coupon Code Is Not Active');
         } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
             //Check if coupon date has expired...
             req.flash('error', 'Coupon Code Has Expired');
@@ -700,7 +696,6 @@ router.post('/applyCoupon', async (req, res, next) => {
             req.session.oldUrl = null;
             return res.redirect(redirect);
         } else {
-            console.log('Old URL not found');
             return res.redirect('/basket');
         }
     } catch (err) {
@@ -711,7 +706,6 @@ router.post('/applyCoupon', async (req, res, next) => {
             req.session.oldUrl = null;
             return res.redirect(redirect);
         } else {
-            console.log('Old URL not found');
             return res.redirect('/basket');
         }
     }

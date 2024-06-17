@@ -65,9 +65,7 @@
             <div class="columns">
                 <div class="column is-3">
                     <p class="title is-6">Coupon Code</p>
-                    <p class="subtitle is-6">{{foundCouponInfo.couponCode}}</p>
-                </div>
-                <div class="column is-2">
+                    <p class="subtitle is-6 is-spaced">{{foundCouponInfo.couponCode}}</p>
                     <p class="title is-6">Discount</p>
                     {{#if foundCouponInfo.couponAmount}}
                         <p class="subtitle is-6">£{{foundCouponInfo.couponAmount}}</p>
@@ -80,6 +78,14 @@
                     <p class="subtitle is-6">{{formatDate foundCouponInfo.couponExpiryDate}}</p>
                 </div>
                 <div class="column is-2">
+                    <p class="title is-6">Applies to Specific User?</p>
+                    {{#if foundCouponInfo.userReference}}
+                        <p class="subtitle is-6">Yes</p>
+                    {{else}}
+                        <p class="subtitle is-6">No</p>
+                    {{/if}}
+                </div>
+                <div class="column is-2">
                     <p class="title is-6">Active</p>
                     {{#if foundCouponInfo.active}}
                         <p class="subtitle is-6">Yes</p>
@@ -87,7 +93,7 @@
                         <p class="subtitle is-6">No</p>
                     {{/if}}
                 </div>             
-                <div class="column is-2">
+                <div class="column is-narrow">
                     <div class="buttons has-addons is-right">
                         <button class="button" onclick="toggleElement('userInfo_{{foundCouponInfo._id}}', true)">
                             <span class="icon is-small">
@@ -151,9 +157,7 @@
                                         <div class="columns">
                                             <div class="column is-3">
                                                 <p class="title is-6">Coupon Code</p>
-                                                <p class="subtitle is-6">{{this.couponCode}}</p>
-                                            </div>
-                                            <div class="column is-2">
+                                                <p class="subtitle is-6 is-spaced">{{this.couponCode}}</p>
                                                 <p class="title is-6">Discount</p>
                                                 {{#if this.couponAmount}}
                                                     <p class="subtitle is-6">£{{this.couponAmount}}</p>
@@ -166,6 +170,14 @@
                                                 <p class="subtitle is-6">{{formatDate this.couponExpiryDate}}</p>
                                             </div>
                                             <div class="column is-2">
+                                                <p class="title is-6">Applies to Specific User?</p>
+                                                {{#if this.userReference}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-2">
                                                 <p class="title is-6">Active</p>
                                                 {{#if this.active}}
                                                     <p class="subtitle is-6">Yes</p>
@@ -173,7 +185,7 @@
                                                     <p class="subtitle is-6">No</p>
                                                 {{/if}}
                                             </div>             
-                                            <div class="column is-2">
+                                            <div class="column is-narrow">
                                                 <div class="buttons has-addons is-right">
                                                     <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
                                                         <span class="icon is-small">
@@ -230,9 +242,7 @@
                                         <div class="columns">
                                             <div class="column is-3">
                                                 <p class="title is-6">Coupon Code</p>
-                                                <p class="subtitle is-6">{{this.couponCode}}</p>
-                                            </div>
-                                            <div class="column is-2">
+                                                <p class="subtitle is-6 is-spaced">{{this.couponCode}}</p>
                                                 <p class="title is-6">Discount</p>
                                                 {{#if this.couponAmount}}
                                                     <p class="subtitle is-6">£{{this.couponAmount}}</p>
@@ -245,6 +255,14 @@
                                                 <p class="subtitle is-6">{{formatDate this.couponExpiryDate}}</p>
                                             </div>
                                             <div class="column is-2">
+                                                <p class="title is-6">Applies to Specific User?</p>
+                                                {{#if this.userReference}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-2">
                                                 <p class="title is-6">Active</p>
                                                 {{#if this.active}}
                                                     <p class="subtitle is-6">Yes</p>
@@ -252,7 +270,7 @@
                                                     <p class="subtitle is-6">No</p>
                                                 {{/if}}
                                             </div>             
-                                            <div class="column is-2">
+                                            <div class="column is-narrow">
                                                 <div class="buttons has-addons is-right">
                                                     <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
                                                         <span class="icon is-small">
@@ -279,8 +297,8 @@
                                                     <p><strong>Competition Title:</strong> {{this.competitionReference.title}}</p>
                                                 </div>
                                                 <div class="column is-7">
-                                                    <p class="title is-6">More Info</p>   
-                                                    <p><strong>Coupon ID:</strong> {{this.id}}</p>  
+                                                    <p class="title is-6">More Info</p>  
+                                                    <p><strong>Coupon ID:</strong> {{this.id}}</p>   
                                                     <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUsesPerPerson}}</p>
                                                     <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{this.totalNumberOfUses}}</p>
                                                     <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
