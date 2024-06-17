@@ -97,12 +97,12 @@
                             {{#if basketCoupons}}
                             <div class="column is-full">
                                 <p class="subtitle is-12"><strong>Applied Coupons:</strong></p>
-                                <span class="tag is-large is-info">
-                                    {{# each basketCoupons}}
+                                {{# each basketCoupons}}
+                                    <span class="tag is-medium is-info">
                                         {{this}}
-                                        <a href="/removeCoupon/{{this}}" class="delete is-small"></a>
-                                    {{/each}}
-                                </span>
+                                        <a href="/removeCoupon/test" class="delete is-small"></a>
+                                    </span>
+                                {{/each}}
                             </div>
                             {{/if}}
                             <div class="column is-full is-flex is-justify-content-center is-align-items-center">
