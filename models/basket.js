@@ -82,12 +82,7 @@ module.exports = function Basket(oldBasket){
 
     //Update whole basket with latest info from DB. Returns any error messages[]
     this.updateBasket = async function(user) {
-        //TODO ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
-
-
-
-
-
+ 
         //console.log('Updating Basket...');
         this.totalPrice = 0;
         this.subtotalPrice = 0;
@@ -142,7 +137,6 @@ module.exports = function Basket(oldBasket){
                         this.totalQty -= excessQty;
                         basketComps[currentCompID].totalQty -= excessQty;
                         messages.push('Maximum Tickets Per Person for '+foundCompetition.title+' is '+maxAllowedPerPerson+'. Ticket Quantity Reduced.');
-
                     }
                     //If less than 0 remove item, otherwise do additional checks
                     if(this.items[id].qty <= 0){
@@ -204,33 +198,73 @@ module.exports = function Basket(oldBasket){
                     this.removeItem(id);
                     messages.push('Competition Not Found - Removed From Basket');
                 }
-                //IF COUPON IS APPLIED TO BASKET
-
-                //Do coupon checks again, make sure it is still valid etc.....
-
-
-                //If still valid update basket total/subtotal...
-
             } catch (err) {
                 console.log(err);
             }
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
+        if(this.couponsApplied){
+            console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
+            for (var coupon in this.couponsApplied){
+
+                var couponValid = false;
+                //Lookup couponCode from DB
+                var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+                if(!returnedCoupon){
+                    //Not Found Remove from Basket
+                    this.removeCoupon(coupon);
+                    messages.push('Coupon Not Found - Removed From Basket');
+                }
+
+                //Check if coupon is currently active...
+                if(!returnedCoupon.active){
+                    this.removeCoupon(coupon);
+                    messages.push('Coupon Code Is Not Active');
+                } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
+                    //Check if coupon date has expired...
+                    this.removeCoupon(coupon);
+                    messages.push('Coupon Code Has Expired');
+                } else if (returnedCoupon.userReference){
+                    //If it applies to a specific user check if current user is that user...
+                    if(user._id != returnedCoupon.userReference){
+                        this.removeCoupon(coupon);
+                        messages.push('Invalid Coupon Code');
+                    }
+                } else if (returnedCoupon.competitionReference){
+                    //If it applies to a specific competition, make sure that competition is in the basket...
+                    for (var comp in this.items){
+                        //Get competition from basket item
+                        var compInBasket = false;
+                        if (comp.item._id == returnedCoupon.competitionReference.id) {
+                            compInBasket = true;
+                        }
+                    }
+                    if(!compInBasket){
+                        if(user._id != returnedCoupon.userReference){
+                            this.removeCoupon(coupon);
+                            messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
+                        }
+                    }
+                } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
+                    //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
+                    this.removeCoupon(coupon);
+                    messages.push('This Coupon has Already Been Redeemed');
+                } else if (numberOfUsesPerPerson){
+                    //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
+                    var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
+
+                    if(userCouponOrders.length >= numberOfUsesPerPerson){
+                        this.removeCoupon(coupon);
+                        messages.push('This Coupon has Already Been Redeemed');
+                    }
+                }
+                //If still valid update basket total/subtotal...
+
+                
+            }
+
+        }
        return messages;
-    }
-
-    //Make sure a user cannot add more tickets than is allowed per person
-    this.checkMaxTicketsPerPerson = function() {
-        //Check tickets db to see if user has already purchased any tickets
-
-        //Check to see if user has added more tickets to basket than is allowed per person
-
-        //Set basket to be max allowed
-    }
-
-    //Make sure a user cannot add more tickets if a competition is sold out
-    this.checkCurrentCompTicketsSold = function() {
-
-        //If competition is almost sold out set ticket qty to be max allowed
-
     }
 };
