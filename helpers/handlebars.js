@@ -105,6 +105,10 @@ module.exports = {
             return "";
         }
     },
+    formatPriceDifference: function(subTotal, total, options){
+        var price = subTotal - total;
+        return (Math.round(price * 100) / 100).toFixed(2);
+    },
     isTrue: function(value, options){
         if(value === true) {
             return options.fn(this);
@@ -119,6 +123,9 @@ module.exports = {
     },
     ifOR: function(value, value2, options){
         return (value || value2) ? options.fn(this) : options.inverse(this);
+    },
+    ifNotEquals: function(value, value2, options){
+        return (value != value2) ? options.fn(this) : options.inverse(this);
     },
     viewJSON: function(value, options){
         return JSON.stringify(value);
