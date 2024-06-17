@@ -1,5 +1,6 @@
 var Competition = require('../models/competition');
 var Ticket = require('../models/ticket');
+var Coupon = require('../models/coupon');
 
 module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
@@ -208,17 +209,14 @@ module.exports = function Basket(oldBasket){
             console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
             for (var coupon in this.couponsApplied){
 
-                var couponValid = false;
                 //Lookup couponCode from DB
                 var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
                 if(!returnedCoupon){
                     //Not Found Remove from Basket
                     this.removeCoupon(coupon);
                     messages.push('Coupon Not Found - Removed From Basket');
-                }
-
-                //Check if coupon is currently active...
-                if(!returnedCoupon.active){
+                } else if(!returnedCoupon.active){
+                    //Check if coupon is currently active...
                     this.removeCoupon(coupon);
                     messages.push('Coupon Code Is Not Active');
                 } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
@@ -261,7 +259,7 @@ module.exports = function Basket(oldBasket){
                 }
                 //If still valid update basket total/subtotal...
 
-                
+
             }
 
         }
