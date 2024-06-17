@@ -12,7 +12,7 @@ module.exports = function Basket(oldBasket){
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
         if(!storedItem){
-            //var price = qty * item.price;
+            //var price = qty * item.itemTotalprice;
             storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, itemSubtotalPrice:0, itemTotalprice: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
@@ -21,10 +21,10 @@ module.exports = function Basket(oldBasket){
         storedItem.item = item;
         //this.checkPrice();
         if(storedItem.item.discountPrice){
-            storedItem.price += storedItem.item.discountPrice * storedItem.qty;
+            itemTotalprice += storedItem.item.discountPrice * storedItem.qty;
             this.basketTotalPrice += storedItem.item.discountPrice * storedItem.qty;
         } else {
-            storedItem.price += storedItem.item.price * storedItem.qty;
+            itemTotalprice += storedItem.item.price * storedItem.qty;
             this.basketTotalPrice += storedItem.item.price * storedItem.qty;
         }
     };
@@ -63,7 +63,7 @@ module.exports = function Basket(oldBasket){
     this.removeItem = function(id){
         console.log('Basket - Removing Item');
         this.basketTotalQty -= this.items[id].qty;
-        this.basketTotalPrice -= this.items[id].price;
+        this.basketTotalPrice -= this.items[id].itemTotalprice;
         delete this.items[id];
 
         if(this.items.length == 0 || Object.keys(this.items).length == 0){
@@ -188,12 +188,12 @@ module.exports = function Basket(oldBasket){
                     //Update Item Price
                     if(foundCompetition.discountPrice){
                         //Update using discounted price
-                        this.items[id].price = this.items[id].item.discountPrice * this.items[id].qty;
+                        this.items[id].itemTotalprice = this.items[id].item.discountPrice * this.items[id].qty;
                     } else {
-                        this.items[id].price = this.items[id].item.price * this.items[id].qty;
+                        this.items[id].itemTotalprice = this.items[id].item.price * this.items[id].qty;
                     }
-                    this.items[id].fullPrice = this.items[id].price;
-                    this.basketTotalPrice += this.items[id].price;
+                    this.items[id].fullPrice = this.items[id].itemTotalprice;
+                    this.basketTotalPrice += this.items[id].itemTotalprice;
                     this.basketSubtotalPrice = this.basketTotalPrice;
 
                 } else {
@@ -278,14 +278,14 @@ module.exports = function Basket(oldBasket){
                             if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
                                 //Reduce price of this item by the coupon amount
                                 if(returnedCoupon.couponAmount){
-                                    this.items[CID].price -= returnedCoupon.couponAmount;
+                                    this.items[CID].itemTotalprice -= returnedCoupon.couponAmount;
                                 } else if(returnedCoupon.couponPercent){
                 
                                 }
 
                                 //Check to make sure price isn't below 0
-                                if(this.items[CID].price < 0){
-                                    this.items[CID].price = 0;
+                                if(this.items[CID].itemTotalprice < 0){
+                                    this.items[CID].itemTotalprice = 0;
                                 }
                             }
                         }
@@ -297,7 +297,7 @@ module.exports = function Basket(oldBasket){
                 }
                 this.basketTotalPrice=0;
                 for (var id in this.items){
-                    this.basketTotalPrice += this.items[id].price;
+                    this.basketTotalPrice += this.items[id].itemTotalprice;
                 }
 
             }
