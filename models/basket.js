@@ -17,14 +17,15 @@ module.exports = function Basket(oldBasket){
         }
         storedItem.qty+= Number(qty);
         this.basketTotalQty+= Number(qty);
+
         //Update item to latest info
         storedItem.item = item;
         //this.checkPrice();
         if(storedItem.item.discountPrice){
-            itemTotalPrice += storedItem.item.discountPrice * storedItem.qty;
+            this.itemTotalPrice += storedItem.item.discountPrice * storedItem.qty;
             this.basketTotalPrice += storedItem.item.discountPrice * storedItem.qty;
         } else {
-            itemTotalPrice += storedItem.item.price * storedItem.qty;
+            this.itemTotalPrice += storedItem.item.price * storedItem.qty;
             this.basketTotalPrice += storedItem.item.price * storedItem.qty;
         }
     };
