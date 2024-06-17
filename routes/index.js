@@ -183,7 +183,7 @@ router.get('/basket', saveRedirectURL, async function(req, res, next) {
             error = error.concat(basketErrors);
 
             req.session.basket = basket;
-            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
+            res.render('basket', { title: 'Basket', products: basket.generateArray(), totalPrice: basket.totalPrice, basketCoupons: basket.couponsApplied, error: error, hasError: error.length > 0, success: success, hasSuccess: success.length > 0});
         }
     } catch (error) {
         console.log('Error updating basket:', error);
@@ -640,6 +640,7 @@ router.post('/applyCoupon', async (req, res, next) => {
                 return res.redirect('/basket');
             }
         }
+
         //Check if coupon is currently active...
         if(!returnedCoupon.active){
             req.flash('error', 'Coupon Code Is Not Active');
@@ -649,7 +650,7 @@ router.post('/applyCoupon', async (req, res, next) => {
         } else if (returnedCoupon.userReference){
             //If it applies to a specific user check if current user is that user...
             if(req.user != returnedCoupon.userReference){
-                req.flash('error', 'Coupon Code Is Not Valid');
+                req.flash('error', 'Invalid Coupon Code');
             }
         } else if (returnedCoupon.competitionReference){
             //If it applies to a specific competition, make sure that competition is in the basket...
@@ -660,7 +661,7 @@ router.post('/applyCoupon', async (req, res, next) => {
             for (let comp of competitionEntries) {
                 //Get competition from basket item
                 var compInBasket = false;
-                if (comp.item._id == competitionEntries) {
+                if (comp.item._id == returnedCoupon.competitionReference.id) {
                     compInBasket = true;
                 }
             }
@@ -668,7 +669,7 @@ router.post('/applyCoupon', async (req, res, next) => {
                 couponValid = true;
             } else {
                 if(req.user != returnedCoupon.userReference){
-                    req.flash('error', 'This Coupon Apples to a Specific Competition that is not in the Basket - '+returnedCoupon.competitionReference.title);
+                    req.flash('error', 'This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
                 }
             }
         } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
@@ -687,10 +688,12 @@ router.post('/applyCoupon', async (req, res, next) => {
 
         if(couponValid){
             //If all checks pass then apply the coupon code to the basket and update price...
+            req.flash('success', 'Coupon Applied to Basket');
             basket.addCoupon(returnedCoupon.couponCode);
             req.session.basket = basket;
         } 
         //Redirect back to old page
+
         if(req.session.oldUrl){
             var redirect = req.session.oldUrl;
             req.session.oldUrl = null;

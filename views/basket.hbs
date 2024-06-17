@@ -94,6 +94,15 @@
                     <div class="column">
 
                         <div class="columns is-multiline">
+                            {{#if basketCoupons}}
+                            <div class="column is-full">
+                                <p class="subtitle is-12"><strong>Applied Coupons:</strong></p>
+                                <span class="tag is-large is-info">
+                                    {{basketCoupons}}
+                                    <button class="delete is-small"></button>
+                                </span>
+                            </div>
+                            {{/if}}
                             <div class="column is-full is-flex is-justify-content-center is-align-items-center">
                                 <form action="/applyCoupon" method="post">
                                     <div class="field has-addons">
