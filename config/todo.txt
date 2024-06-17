@@ -1,13 +1,15 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- ADD CHECK TO BASKET... IF COUPONS THEN APPLY DISCOUNTS...
+- ADD CHECK TO BASKET.JS... IF COUPONS THEN APPLY DISCOUNTS...
 - Add subtotal field to basket / order schemas
 - Display basket errors in /checkout and /processOrder
 - If error message when updating basket for /processOrder, redirect to /basket
 
+
 Competitions:
 - Change /addtobasket to a post request...
+
 
 User:
 - Schema for challenge board & challenge board functionality
@@ -46,6 +48,7 @@ Reset all DBs and test order cancellation if order not completed within time lim
 Adding multiple items to basket and make sure when order is cancelled that pending entries are removed.
 Check all updateBasket checks are working correctly
 Check postal vote entry
+Testing for coupons
 
 -----------------------------------------------------------------------------------------
 

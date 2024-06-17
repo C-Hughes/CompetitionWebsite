@@ -5,6 +5,7 @@ module.exports = function Basket(oldBasket){
     this.items = oldBasket.items || {};
     this.totalQty = oldBasket.totalQty || 0;
     this.totalPrice = oldBasket.totalPrice || 0;
+    this.subtotalPrice = oldBasket.subtotalPrice || 0;
     this.couponsApplied = oldBasket.couponsApplied || [];
 
     this.add = function(item, id, answer, qty){
@@ -89,6 +90,7 @@ module.exports = function Basket(oldBasket){
 
         //console.log('Updating Basket...');
         this.totalPrice = 0;
+        this.subtotalPrice = 0;
         var messages = [];
         //Store competitionIds of each item in basket, if two competition IDs are the same, user is buying tickets for the same competition with different answers...
         //Extra checks required to make sure user can not buy more tickets than max allowed...  
@@ -202,6 +204,13 @@ module.exports = function Basket(oldBasket){
                     this.removeItem(id);
                     messages.push('Competition Not Found - Removed From Basket');
                 }
+                //IF COUPON IS APPLIED TO BASKET
+
+                //Do coupon checks again, make sure it is still valid etc.....
+
+
+                //If still valid update basket total/subtotal...
+
             } catch (err) {
                 console.log(err);
             }
