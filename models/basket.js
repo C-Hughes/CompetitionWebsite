@@ -13,7 +13,7 @@ module.exports = function Basket(oldBasket){
         var storedItem = this.items[id+answer];
         if(!storedItem){
             //var price = qty * item.price;
-            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, price: 0, questionAnswer: answer, ticketNumbers: []};
+            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, fullPrice:0, price: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
         this.totalQty+= Number(qty);
@@ -92,8 +92,10 @@ module.exports = function Basket(oldBasket){
         //Extra checks required to make sure user can not buy more tickets than max allowed...  
         var basketComps = {};
 
-        for (var id in this.items){
-            try {
+        try {
+
+            for (var id in this.items){
+            
                 var currentCompID = this.items[id].item._id
                 const foundCompetition = await Competition.findOne({ _id: currentCompID });
                 
@@ -190,8 +192,9 @@ module.exports = function Basket(oldBasket){
                     } else {
                         this.items[id].price = this.items[id].item.price * this.items[id].qty;
                     }
+                    this.items[id].fullPrice = this.items[id].price;
                     this.totalPrice += this.items[id].price;
-
+                    this.subtotalPrice = this.totalPrice;
 
                 } else {
                     //If competition is not found or is invisible, remove it from the basket.
@@ -199,74 +202,107 @@ module.exports = function Basket(oldBasket){
                     this.removeItem(id);
                     messages.push('Competition Not Found - Removed From Basket');
                 }
-            } catch (err) {
-                console.log(err);
             }
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
-        if(this.couponsApplied){
-            console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
+            if(this.couponsApplied){
+                console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
 
-            console.log('COUPONS = '+this.couponsApplied);
+                console.log('COUPONS = '+this.couponsApplied);
 
-            for (var id in this.couponsApplied){
+                for (var id in this.couponsApplied){
 
-                console.log('CHECKING COUPON = '+this.couponsApplied[id]);
-                var coupon = this.couponsApplied[id];
-                //Lookup couponCode from DB
-                var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
-                if(!returnedCoupon){
-                    //Not Found Remove from Basket
-                    this.removeCoupon(coupon);
-                    messages.push('Coupon Not Found - Removed From Basket');
-                } else if(!returnedCoupon.active){
-                    //Check if coupon is currently active...
-                    this.removeCoupon(coupon);
-                    messages.push('Coupon Code Is Not Active');
-                } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
-                    //Check if coupon date has expired...
-                    this.removeCoupon(coupon);
-                    messages.push('Coupon Code Has Expired');
-                } else if (returnedCoupon.userReference){
-                    //If it applies to a specific user check if current user is that user...
-                    if(user._id != returnedCoupon.userReference){
+                    console.log('CHECKING COUPON = '+this.couponsApplied[id]);
+                    var coupon = this.couponsApplied[id];
+                    //Lookup couponCode from DB
+                    var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+                    if(!returnedCoupon){
+                        //Not Found Remove from Basket
                         this.removeCoupon(coupon);
-                        messages.push('Invalid Coupon Code');
-                    }
-                } else if (returnedCoupon.competitionReference){
-                    //If it applies to a specific competition, make sure that competition is in the basket...
-                    for (var CID in this.items){
-                        //Get competition from basket item
-                        var compInBasket = false;
-                        if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
-                            compInBasket = true;
-                        }
-                    }
-                    if(!compInBasket){
+                        messages.push('Coupon Not Found - Removed From Basket');
+                    } else if(!returnedCoupon.active){
+                        //Check if coupon is currently active...
+                        this.removeCoupon(coupon);
+                        messages.push('Coupon Code Is Not Active');
+                    } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
+                        //Check if coupon date has expired...
+                        this.removeCoupon(coupon);
+                        messages.push('Coupon Code Has Expired');
+                    } else if (returnedCoupon.userReference){
+                        //If it applies to a specific user check if current user is that user...
                         if(user._id != returnedCoupon.userReference){
                             this.removeCoupon(coupon);
-                            messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
+                            messages.push('Invalid Coupon Code');
                         }
-                    }
-                } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
-                    //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-                    this.removeCoupon(coupon);
-                    messages.push('This Coupon has Already Been Redeemed');
-                } else if (numberOfUsesPerPerson){
-                    //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-                    var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
-
-                    if(userCouponOrders.length >= numberOfUsesPerPerson){
+                    } else if (returnedCoupon.competitionReference){
+                        //If it applies to a specific competition, make sure that competition is in the basket...
+                        for (var CID in this.items){
+                            //Get competition from basket item
+                            var compInBasket = false;
+                            if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
+                                compInBasket = true;
+                            }
+                        }
+                        if(!compInBasket){
+                            if(user._id != returnedCoupon.userReference){
+                                this.removeCoupon(coupon);
+                                messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
+                            }
+                        }
+                    } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
+                        //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
                         this.removeCoupon(coupon);
                         messages.push('This Coupon has Already Been Redeemed');
-                    }
-                }
-                //If still valid update basket total/subtotal...
+                    } else if (numberOfUsesPerPerson){
+                        //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
+                        var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
 
+                        if(userCouponOrders.length >= numberOfUsesPerPerson){
+                            this.removeCoupon(coupon);
+                            messages.push('This Coupon has Already Been Redeemed');
+                        }
+                    }
+
+
+                    //If still valid update basket total/subtotal...
+                    if(returnedCoupon.couponAmount){
+                        
+                    } else if(returnedCoupon.couponPercent){
+
+                    }
+
+                    //If coupon applies to specific competition
+                    if (returnedCoupon.competitionReference){
+                        for (var CID in this.items){
+                            //Get competition from basket item
+                            if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
+                                //Reduce price of this item by the coupon amount
+                                if(returnedCoupon.couponAmount){
+                                    this.items[CID].price -= returnedCoupon.couponAmount;
+                                } else if(returnedCoupon.couponPercent){
+                
+                                }
+
+                                //Check to make sure price isn't below 0
+                                if(this.items[CID].price < 0){
+                                    this.items[CID].price = 0;
+                                }
+                            }
+                        }
+                    } else {
+
+                    }
+                    //Update Basket Total Price
+
+                }
+                this.totalPrice=0;
+                for (var id in this.items){
+                    this.totalPrice += this.items[id].price;
+                }
 
             }
-
+        } catch (err) {
+            console.log(err);
         }
        return messages;
     }

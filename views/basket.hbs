@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="column is-3 is-flex is-justify-content-center is-align-items-center">
-                                <p class="subtitle is-6"><strong>£{{formatPrice this.price}}</strong></p>
+                                <p class="subtitle is-6"><s><small><strong>£{{formatPrice this.fullPrice}}</strong></small></s> <span><strong>£{{formatPrice this.price}}</strong></span></p>
                             </div>
                             <div class="column is-2 is-flex is-justify-content-center is-align-items-center">
                                 <a href="/removeItem/{{this.item._id}}{{this.questionAnswer}}" class="is-link">
@@ -117,6 +117,14 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="column is-full">
+                                <p class="subtitle is-5 is-pulled-left"><strong>Subtotal</strong></p>
+                                <p class="subtitle is-5 is-pulled-right"><strong>£{{formatPrice subtotalPrice}}</strong></p>
+                            </div>
+                            <div class="column is-full">
+                                <p class="subtitle is-6 is-pulled-left"><strong>Discount</strong></p>
+                                <p class="subtitle is-6 is-pulled-right"><strong>£{{formatPrice totalPrice}}</strong></p>
                             </div>
                             <div class="column is-full">
                                 <p class="subtitle is-4 is-pulled-left"><strong>Total</strong></p>
