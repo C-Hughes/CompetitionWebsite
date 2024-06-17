@@ -35,10 +35,10 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    {{#ifGreaterThan0 session.basket.totalQty}}
+                    {{#ifGreaterThan0 session.basket.basketTotalQty}}
                     <a href="/basket" class="button is-primary">
                         <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
-                        <span title="Badge top right" class="badge is-danger is-right">{{session.basket.totalQty}}</span>
+                        <span title="Badge top right" class="badge is-danger is-right">{{session.basket.basketTotalQty}}</span>
                         Basket
                     </a>
                     {{else}}

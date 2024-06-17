@@ -12,8 +12,8 @@ module.exports = function Basket(oldBasket){
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
         if(!storedItem){
-            //var price = qty * item.itemTotalprice;
-            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, itemSubtotalPrice:0, itemTotalprice: 0, questionAnswer: answer, ticketNumbers: []};
+            //var price = qty * item.itemTotalPrice;
+            storedItem = this.items[id+answer] = {item: item, uniqueID: Date.now(), qty: 0, itemSubtotalPrice:0, itemTotalPrice: 0, questionAnswer: answer, ticketNumbers: []};
         }
         storedItem.qty+= Number(qty);
         this.basketTotalQty+= Number(qty);
@@ -21,10 +21,10 @@ module.exports = function Basket(oldBasket){
         storedItem.item = item;
         //this.checkPrice();
         if(storedItem.item.discountPrice){
-            itemTotalprice += storedItem.item.discountPrice * storedItem.qty;
+            itemTotalPrice += storedItem.item.discountPrice * storedItem.qty;
             this.basketTotalPrice += storedItem.item.discountPrice * storedItem.qty;
         } else {
-            itemTotalprice += storedItem.item.price * storedItem.qty;
+            itemTotalPrice += storedItem.item.price * storedItem.qty;
             this.basketTotalPrice += storedItem.item.price * storedItem.qty;
         }
     };
@@ -63,7 +63,7 @@ module.exports = function Basket(oldBasket){
     this.removeItem = function(id){
         console.log('Basket - Removing Item');
         this.basketTotalQty -= this.items[id].qty;
-        this.basketTotalPrice -= this.items[id].itemTotalprice;
+        this.basketTotalPrice -= this.items[id].itemTotalPrice;
         delete this.items[id];
 
         if(this.items.length == 0 || Object.keys(this.items).length == 0){
@@ -188,12 +188,12 @@ module.exports = function Basket(oldBasket){
                     //Update Item Price
                     if(foundCompetition.discountPrice){
                         //Update using discounted price
-                        this.items[id].itemTotalprice = this.items[id].item.discountPrice * this.items[id].qty;
+                        this.items[id].itemTotalPrice = this.items[id].item.discountPrice * this.items[id].qty;
                     } else {
-                        this.items[id].itemTotalprice = this.items[id].item.price * this.items[id].qty;
+                        this.items[id].itemTotalPrice = this.items[id].item.price * this.items[id].qty;
                     }
-                    this.items[id].fullPrice = this.items[id].itemTotalprice;
-                    this.basketTotalPrice += this.items[id].itemTotalprice;
+                    this.items[id].itemSubtotalPrice = this.items[id].itemTotalPrice;
+                    this.basketTotalPrice += this.items[id].itemTotalPrice;
                     this.basketSubtotalPrice = this.basketTotalPrice;
 
                 } else {
@@ -205,7 +205,7 @@ module.exports = function Basket(oldBasket){
             }
             ///////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
-            if(this.basketCouponsApplied){
+            if(this.basketCouponsApplied.length > 0){
                 console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
 
                 console.log('COUPONS = '+this.basketCouponsApplied);
@@ -236,18 +236,18 @@ module.exports = function Basket(oldBasket){
                         }
                     } else if (returnedCoupon.competitionReference){
                         //If it applies to a specific competition, make sure that competition is in the basket...
+                        var compInBasket = false;
                         for (var CID in this.items){
                             //Get competition from basket item
-                            var compInBasket = false;
+                            console.log('compRef='+returnedCoupon.competitionReference.id);
                             if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
                                 compInBasket = true;
+                                console.log('BasketCompRef='+this.items[CID].item._id);
                             }
                         }
                         if(!compInBasket){
-                            if(user._id != returnedCoupon.userReference){
-                                this.removeCoupon(coupon);
-                                messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
-                            }
+                            this.removeCoupon(coupon);
+                            messages.push('This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
                         }
                     } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
@@ -278,14 +278,14 @@ module.exports = function Basket(oldBasket){
                             if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
                                 //Reduce price of this item by the coupon amount
                                 if(returnedCoupon.couponAmount){
-                                    this.items[CID].itemTotalprice -= returnedCoupon.couponAmount;
+                                    this.items[CID].itemTotalPrice -= returnedCoupon.couponAmount;
                                 } else if(returnedCoupon.couponPercent){
                 
                                 }
 
                                 //Check to make sure price isn't below 0
-                                if(this.items[CID].itemTotalprice < 0){
-                                    this.items[CID].itemTotalprice = 0;
+                                if(this.items[CID].itemTotalPrice < 0){
+                                    this.items[CID].itemTotalPrice = 0;
                                 }
                             }
                         }
@@ -297,7 +297,7 @@ module.exports = function Basket(oldBasket){
                 }
                 this.basketTotalPrice=0;
                 for (var id in this.items){
-                    this.basketTotalPrice += this.items[id].itemTotalprice;
+                    this.basketTotalPrice += this.items[id].itemTotalPrice;
                 }
 
             }

@@ -303,15 +303,22 @@ router.post('/applyCoupon', async (req, res, next) => {
         var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+req.body.couponCode+'$', "i") }}).populate('competitionReference');
         if(!returnedCoupon){
             req.flash('error', 'Coupon Code Not Found');
-            if(req.session.oldUrl){
-                var redirect = req.session.oldUrl;
-                req.session.oldUrl = null;
-                return res.redirect(redirect);
-            } else {
-                return res.redirect('/basket');
-            }
+        } else {
+            req.flash('success', 'Coupon Applied to Basket');
+            var basket = new Basket(req.session.basket);
+            basket.addCoupon(returnedCoupon.couponCode);
+            req.session.basket = basket;
         }
 
+        if(req.session.oldUrl){
+            var redirect = req.session.oldUrl;
+            req.session.oldUrl = null;
+            return res.redirect(redirect);
+        } else {
+            return res.redirect('/basket');
+        }
+
+        /*
         //Check if coupon is currently active...
         if(!returnedCoupon.active){
             req.flash('error', 'Coupon Code Is Not Active');
@@ -372,6 +379,7 @@ router.post('/applyCoupon', async (req, res, next) => {
         } else {
             return res.redirect('/basket');
         }
+            */
     } catch (err) {
         console.log(err);
         req.flash('error', 'Error Applying Coupon');
