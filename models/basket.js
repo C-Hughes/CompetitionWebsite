@@ -240,15 +240,16 @@ module.exports = function Basket(oldBasket){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
                         this.removeCoupon(coupon);
                         messages.push('This Coupon has Already Been Redeemed');
-                    } else if (returnedCoupon.numberOfUsesPerPerson){
-                        //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-                        var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
-
-                        if(userCouponOrders.length >= returnedCoupon.numberOfUsesPerPerson){
-                            this.removeCoupon(coupon);
-                            messages.push('This Coupon has Already Been Redeemed');
-                        }
                     } else {
+                        if (returnedCoupon.numberOfUsesPerPerson){
+                            //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
+                            var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
+    
+                            if(userCouponOrders.length >= returnedCoupon.numberOfUsesPerPerson){
+                                this.removeCoupon(coupon);
+                                messages.push('This Coupon has Already Been Redeemed');
+                            }
+                        }
                         if (returnedCoupon.userReference){
                             //If it applies to a specific user check if current user is that user...
     
