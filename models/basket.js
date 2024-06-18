@@ -8,7 +8,7 @@ module.exports = function Basket(oldBasket){
     this.basketTotalQty = oldBasket.basketTotalQty || 0;
     this.basketTotalPrice = oldBasket.basketTotalPrice || 0;
     this.basketSubtotalPrice = oldBasket.basketSubtotalPrice || 0;
-    this.basketCouponsApplied = oldBasket.basketCouponsApplied || [];
+    this.basketCouponsApplied = oldBasket.basketCouponsApplied || [{}];
 
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
@@ -31,15 +31,27 @@ module.exports = function Basket(oldBasket){
         }
     };
 
-    this.addCoupon = function(couponCode){
+    this.addCoupon = async function(couponCode){
         if(!this.basketCouponsApplied.includes(couponCode)){
-            this.basketCouponsApplied.push(couponCode);
+            //Find coupon and add to array
+            var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+couponCode+'$', "i") }}).populate('competitionReference');
+            if(returnedCoupon){
+                this.basketCouponsApplied.push(returnedCoupon);
+            }
         }
     };
 
     this.removeCoupon = function(couponCode){
-        if(this.basketCouponsApplied.includes(couponCode)){
-            this.basketCouponsApplied.splice(this.basketCouponsApplied.indexOf(couponCode), 1);
+        //if(this.basketCouponsApplied.includes(couponCode)){
+        //    this.basketCouponsApplied.splice(this.basketCouponsApplied.indexOf(couponCode), 1);
+        //}
+
+        console.log('RemoveCoupon');
+        const foundCoupon = this.basketCouponsApplied.find(coupon => coupon.couponCode === couponCode);
+        if (foundCoupon) {
+            console.log('Coupon in basket currently');
+            //console.log("Coupon code is already in the array.");
+            this.basketCouponsApplied = this.basketCouponsApplied.filter(coupon => coupon.couponCode !== couponCode);
         }
     };
 
@@ -216,14 +228,20 @@ module.exports = function Basket(oldBasket){
             if(this.basketCouponsApplied.length > 0){
                 console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
 
-                console.log('COUPONS = '+this.basketCouponsApplied);
-
                 for (var id in this.basketCouponsApplied){
 
-                    console.log('CHECKING COUPON = '+this.basketCouponsApplied[id]);
-                    var coupon = this.basketCouponsApplied[id];
+                    console.log('CHECKING COUPON = '+this.basketCouponsApplied[id].couponCode);
+                    var coupon = this.basketCouponsApplied[id].couponCode;
                     //Lookup couponCode from DB
                     var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+
+                    //If Found update item in basket.
+                    if(returnedCoupon){
+                        console.log('Updating coupon info in basket');
+                        this.basketCouponsApplied = this.basketCouponsApplied.map(appliedCoupon => 
+                            appliedCoupon.couponCode === coupon ? returnedCoupon : appliedCoupon
+                        );
+                    }
                     if(!returnedCoupon){
                         //Not Found Remove from Basket
                         this.removeCoupon(coupon);

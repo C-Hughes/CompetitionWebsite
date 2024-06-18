@@ -103,8 +103,8 @@
                                 <p class="subtitle is-12"><strong>Applied Coupons:</strong></p>
                                 {{# each basketCoupons}}
                                     <span class="tag is-medium is-info">
-                                        {{this}}
-                                        <a href="/removeCoupon/{{this}}" class="delete is-small"></a>
+                                        {{this.couponCode}}
+                                        <a href="/removeCoupon/{{this.couponCode}}" class="delete is-small"></a>
                                     </span>
                                 {{/each}}
                                 <div class="has-text-danger">
