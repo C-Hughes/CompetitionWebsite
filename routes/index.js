@@ -173,7 +173,7 @@ router.get('/basket', saveRedirectURL, async function(req, res, next) {
     const success = req.flash('success');
 
     try {
-        if (!req.session.basket || req.session.basket.totalPrice == 0) {
+        if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0) {
             return res.render('basket', { title: 'Basket', products: null });
         } else {
             var basket = new Basket(req.session.basket);
@@ -337,38 +337,52 @@ router.post('/applyCoupon', async (req, res, next) => {
 ////////////////////// Basket Checkout/Payment/OrderReceived ////////////////////////////////
 
 //Must be logged in to access checkout
-router.get('/checkout',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
-    var errors = req.flash('error');
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
-        return res.redirect('/basket');
-    } else {
+router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, res, next) => {
+    var error = req.flash('error');
+    try {
+        if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0) {
+            return res.redirect('/basket');
+        }
 
         var basket = new Basket(req.session.basket);
-        basket.updateBasket(req.user)
-        .then(() => {
-            req.session.basket = basket;
-            BillingAddress.findOne({userReference: req.user})
-            .then(foundBAddress => {
-                if (foundBAddress) {
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.basketTotalPrice, subtotalPrice: basket.basketSubtotalPrice, basketCoupons: basket.basketCouponsApplied, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
-                } else {
-                    console.log("No Address Saved");
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.basketTotalPrice, subtotalPrice: basket.basketSubtotalPrice, basketCoupons: basket.basketCouponsApplied, error: errors, errors: errors.length > 0});
-                }
-            })
-            .catch(err => {
-                console.log(err);
+        var basketErrors = await basket.updateBasket(req.user);
+        //Merge Error messages
+        error = error.concat(basketErrors);
+        req.session.basket = basket;
+
+        let foundBAddress = await BillingAddress.findOne({ userReference: req.user });
+
+        if (foundBAddress) {
+            res.render('checkout', {
+                title: 'Checkout',
+                products: basket.generateArray(),
+                totalPrice: basket.basketTotalPrice,
+                subtotalPrice: basket.basketSubtotalPrice,
+                basketCoupons: basket.basketCouponsApplied,
+                userBillingAddress: foundBAddress,
+                error: error,
+                hasError: error.length > 0
             });
-        })
-        .catch(err => {
-            console.log('Error checking price:', err);
-            res.redirect('/');
-        });
+        } else {
+            console.log("No Address Saved");
+            res.render('checkout', {
+                title: 'Checkout',
+                products: basket.generateArray(),
+                totalPrice: basket.basketTotalPrice,
+                subtotalPrice: basket.basketSubtotalPrice,
+                basketCoupons: basket.basketCouponsApplied,
+                error: error,
+                hasError: error.length > 0
+            });
+        }
+    } catch (err) {
+        console.log('Error checking price:', err);
+        res.redirect('/');
     }
 });
 
 router.get('/processCard',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
-    if (!req.session.basket || req.session.basket.basketTotalPrice == 0){
+    if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0 || req.session.basket.basketTotalPrice == 0){
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);

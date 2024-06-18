@@ -223,6 +223,8 @@ module.exports = function Basket(oldBasket){
                 }
             }
             ///////////////////////////////////////////////////////////////////////////////////////////////
+
+            
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
             if(this.basketCouponsApplied.length > 0){
                 //console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
