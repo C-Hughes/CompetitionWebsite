@@ -13,8 +13,10 @@ async function cancelExpiredPendingOrders() {
         // Find all orders that are pending and were created over 15 mins ago
         const ordersToCancel = await Order.find({orderStatus: 'Pending', created: { $lt: fifteenMinutesAgo }});
 
+        var cancelledNumber = 0;
         // Cancel each order and remove ticket qty from each competitions pendingEntries.
         for (const order of ordersToCancel) {
+            cancelledNumber++;
             // a. Update order status
             order.orderStatus = 'Cancelled';
             await order.save();
@@ -31,11 +33,11 @@ async function cancelExpiredPendingOrders() {
                     $inc: { 'pendingEntries': -comp.qty },
                     lastUpdated: new Date().toISOString(),
                 };
-                console.log('CRON Cancelled Order Found - Competition qty to reduce = '+comp.qty);
+                //console.log('CRON Cancelled Order Found - Competition qty to reduce = '+comp.qty);
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
             }
         }
-        console.log('Completed CRON - cancelExpiredPendingOrders');
+        console.log('Completed CRON - cancelExpiredPendingOrders - '+cancelledNumber+' Orders Cancelled');
     } catch (error) {
         console.error('Error CRON - cancelExpiredPendingOrders', error);
     }
