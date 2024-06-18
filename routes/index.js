@@ -381,7 +381,6 @@ router.get('/processCard',saveRedirectURL, isLoggedIn, isNotBanned, function(req
             console.log('Error checking price:', err);
             res.redirect('/');
         });
-        
     }
 });
 

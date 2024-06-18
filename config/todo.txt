@@ -1,12 +1,11 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- ADD CHECK TO BASKET.JS... IF COUPONS THEN APPLY DISCOUNTS...
-- Add subtotal field to basket / order schemas
 - Display basket errors in /checkout and /processOrder
 - If error message when updating basket for /processOrder, redirect to /basket
 - After order is successful, update coupon times used etc...
 - If final price is 0 then allow user to submit order without making a payment.
+
 
 
 Competitions:
@@ -115,6 +114,8 @@ When Buying Tickets:
 - check to see how many user has bought already and if they can buy anymore
 - If a competition is not active / last entry date has passed then do not let users buy tickets for it. (Basket Function)
 - Check to make sure user cannot exceed max tickets per person, check for different answers to the same question...
+- ADD CHECK TO BASKET.JS... IF COUPONS THEN APPLY DISCOUNTS...
+- Add subtotal field to basket / order schemas
 
 
 Admin:
