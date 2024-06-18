@@ -229,33 +229,31 @@ module.exports = function Basket(oldBasket){
                 console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
 
                 for (var id in this.basketCouponsApplied){
-
                     console.log('CHECKING COUPON = '+this.basketCouponsApplied[id].couponCode);
+
+                    var couponRemovedFromBasket = false;
                     var coupon = this.basketCouponsApplied[id].couponCode;
                     //Lookup couponCode from DB
                     var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
 
-                    //If Found update item in basket.
-                    if(returnedCoupon){
-                        console.log('Updating coupon info in basket');
-                        this.basketCouponsApplied = this.basketCouponsApplied.map(appliedCoupon => 
-                            appliedCoupon.couponCode === coupon ? returnedCoupon : appliedCoupon
-                        );
-                    }
                     if(!returnedCoupon){
                         //Not Found Remove from Basket
+                        couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('Coupon Not Found - Removed From Basket');
                     } else if(!returnedCoupon.active){
                         //Check if coupon is currently active...
+                        couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('Coupon Code Is Not Active');
                     } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
                         //Check if coupon date has expired...
+                        couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('Coupon Code Has Expired');
                     } else if (returnedCoupon.totalNumberOfUses > 0 && (returnedCoupon.totalNumberOfUses >= timesUsed)){
                         //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
+                        couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('This Coupon has Already Been Redeemed');
                     } else {
@@ -264,6 +262,7 @@ module.exports = function Basket(oldBasket){
                             var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
     
                             if(userCouponOrders.length >= returnedCoupon.numberOfUsesPerPerson){
+                                couponRemovedFromBasket = true;
                                 this.removeCoupon(coupon);
                                 messages.push('This Coupon has Already Been Redeemed');
                             }
@@ -272,6 +271,7 @@ module.exports = function Basket(oldBasket){
                             //If it applies to a specific user check if current user is that user...
     
                             if(user._id.toString() != returnedCoupon.userReference.toString()){
+                                couponRemovedFromBasket = true;
                                 this.removeCoupon(coupon);
                                 messages.push('Invalid Coupon Code');
                             }
@@ -286,39 +286,48 @@ module.exports = function Basket(oldBasket){
                                 }
                             }
                             if(!compInBasket){
+                                couponRemovedFromBasket = true;
                                 this.removeCoupon(coupon);
                                 messages.push('Coupon '+coupon+' is only valid for competition: '+returnedCoupon.competitionReference.title);
                             }
                         }
                     }
-                        
-                    //If coupon applies to specific competition
-                    if (returnedCoupon.competitionReference){
-                        for (var CID in this.items){
-                            //Get competition from basket item
-                            if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
-                                //Reduce price of this item by the coupon amount
-                                if(returnedCoupon.couponAmount){
-                                    this.items[CID].itemTotalPrice -= returnedCoupon.couponAmount;
-                                } else if(returnedCoupon.couponPercent){
-                                    let discountDecimal = returnedCoupon.couponPercent / 100;
-                                    this.items[CID].itemTotalPrice *= (1 - discountDecimal);
-                                }
 
-                                //Check to make sure price isn't below 0
-                                if(this.items[CID].itemTotalPrice < 0){
-                                    this.items[CID].itemTotalPrice = 0;
+                    if(!couponRemovedFromBasket){
+                        //If coupon has not been removed from the basket after checks - update item in basket.
+                        console.log('Updating coupon info in basket');
+                        this.basketCouponsApplied = this.basketCouponsApplied.map(appliedCoupon => 
+                            appliedCoupon.couponCode === coupon ? returnedCoupon : appliedCoupon
+                        );
+
+                        //If coupon has not been removed, than update basket pricing...
+                        //If coupon applies to specific competition
+                        if (returnedCoupon.competitionReference){
+                            for (var CID in this.items){
+                                //Get competition from basket item
+                                if (this.items[CID].item._id == returnedCoupon.competitionReference.id) {
+                                    //Reduce price of this item by the coupon amount
+                                    if(returnedCoupon.couponAmount){
+                                        this.items[CID].itemTotalPrice -= returnedCoupon.couponAmount;
+                                    } else if(returnedCoupon.couponPercent){
+                                        let discountDecimal = returnedCoupon.couponPercent / 100;
+                                        this.items[CID].itemTotalPrice *= (1 - discountDecimal);
+                                    }
+
+                                    //Check to make sure price isn't below 0
+                                    if(this.items[CID].itemTotalPrice < 0){
+                                        this.items[CID].itemTotalPrice = 0;
+                                    }
                                 }
                             }
+                        } else {
+                            if(returnedCoupon.couponAmount){
+                                totalFlatReduction += returnedCoupon.couponAmount
+                            } else if(returnedCoupon.couponPercent){
+                                totalPercentReduction = returnedCoupon.couponPercent;
+                            }
                         }
-                    } else {
-                        if(returnedCoupon.couponAmount){
-                            totalFlatReduction += returnedCoupon.couponAmount
-                        } else if(returnedCoupon.couponPercent){
-                            totalPercentReduction += returnedCoupon.couponPercent;
-                        }
-                    }
-                                        
+                    }                
                 }
                 //Update basket total price with coupons applied.
                 this.basketTotalPrice=0;
