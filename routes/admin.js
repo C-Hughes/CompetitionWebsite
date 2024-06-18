@@ -853,6 +853,7 @@ router.post('/submitPostalEntry', async (req, res, next) => {
             paymentID: 'PostalEntry',
             paymentMethod: 'PostalEntry',
             paymentPrice: 0,
+            paymentSubtotalPrice: 0,
             orderStatus: 'Completed',
         });
         var savedOrder = await newOrder.save();
