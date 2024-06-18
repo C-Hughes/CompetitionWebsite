@@ -533,6 +533,14 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
             };
             await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
         }
+
+
+        
+        //IF ORDER TOTAL = 0,
+        //Complete order & redirect to orderReceived.
+
+
+
         //Start Timer to check if order
         startPendingOrderTimer(savedOrder._id);
         res.redirect('/processCard');
@@ -594,7 +602,7 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
                             $inc: { 'pendingEntries': -comp.qty },
                             lastUpdated: new Date().toISOString(),
                         };
-                        console.log('Cancelllled - Competition qty to reduce = '+comp.qty);
+                        console.log('Cancelled - Competition qty to reduce = '+comp.qty);
                         await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
                     }
                     return res.redirect('/checkout');

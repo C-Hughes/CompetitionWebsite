@@ -247,23 +247,35 @@
                             </span>
                         </div>
                     </div>
-                    <div class="column is-full">
-                        <input type="hidden" name="csrfToken" value="{{csrfToken}}">
-                        <button type="submit" class="button is-medium is-fullwidth is-primary">
-                            <span class="icon">
-                                <i class="fa-solid fa-credit-card"></i>
-                            </span>
-                            <span>Pay with Card</span>
-                        </button>
-                    </div>
-                    <div class="column is-full">
-                        <button type="submit" class="button is-medium is-fullwidth is-warning">
-                            <span class="icon">
-                                <i class="fa-brands fa-paypal"></i>
-                            </span>
-                            <span>Pay with PayPal</span>
-                        </button>
-                    </div>
+                    <input type="hidden" name="csrfToken" value="{{csrfToken}}">
+                    {{#ifGreaterThan0 totalPrice}}
+                        <div class="column is-full">
+                            <button type="submit" class="button is-medium is-fullwidth is-primary">
+                                <span class="icon">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                </span>
+                                <span>Pay with Card</span>
+                            </button>
+                        </div>
+                        <div class="column is-full">
+                            <button type="submit" class="button is-medium is-fullwidth is-warning">
+                                <span class="icon">
+                                    <i class="fa-brands fa-paypal"></i>
+                                </span>
+                                <span>Pay with PayPal</span>
+                            </button>
+                        </div>
+                    {{else}}
+                        <div class="column is-full">
+                            <button type="submit" class="button is-medium is-fullwidth is-warning">
+                                <span class="icon">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </span>
+                                <span>Submit Order</span>
+                            </button>
+                        </div>
+                    {{/ifGreaterThan0}}
+
                 </div>
             </div>
         </div>
