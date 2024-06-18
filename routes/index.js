@@ -381,20 +381,28 @@ router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, re
     }
 });
 
-router.get('/processCard',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
-    if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0 || req.session.basket.basketTotalPrice == 0){
-        return res.redirect('/basket');
-    } else {
+router.get('/processCard', saveRedirectURL, isLoggedIn, isNotBanned, async (req, res, next) => {
+    //var error = req.flash('error');
+    try {
+        if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0 || req.session.basket.basketTotalPrice == 0) {
+            return res.redirect('/basket');
+        }
+
         var basket = new Basket(req.session.basket);
-        basket.updateBasket(req.user)
-        .then(() => {
-            req.session.basket = basket;
-            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.basketTotalPrice});
-        })
-        .catch(err => {
-            console.log('Error checking price:', err);
-            res.redirect('/');
-        });
+        var basketErrors = await basket.updateBasket(req.user);
+        //Merge Error messages
+        //var error = error.concat(basketErrors);
+        req.session.basket = basket;
+
+        if(basketErrors.length > 0){
+            req.flash('error', basketErrors);
+            return res.redirect('/basket');
+        }
+
+        res.render('processCard', { title: 'Pay with Card', totalPrice: basket.basketTotalPrice });
+    } catch (err) {
+        console.log('Error checking price:', err);
+        res.redirect('/');
     }
 });
 
