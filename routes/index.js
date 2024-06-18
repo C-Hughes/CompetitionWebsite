@@ -509,6 +509,7 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
             billingAddressReference: foundBAddress._id,
             billingAddress: foundBAddress,
             paymentID: '-',
+            paymentMethod: 'Debit/Credit Card',
             orderStatus: 'Pending',
             couponCodeUsed: req.session.basket.basketCouponsApplied,
             paymentSubtotalPrice: req.session.basket.basketSubtotalPrice,

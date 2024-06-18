@@ -9,6 +9,7 @@ var orderSchema = new Schema({
     billingAddressReference: {type: Schema.Types.ObjectId, ref: 'BillingAddress', required: false},
     billingAddress: {type: Object, required: false},
     paymentID: {type: String, required: true},
+    paymentMethod: {type: String, required: true},
     paymentSubtotalPrice: {type: Number, required: true},
     paymentPrice: {type: Number, required: true},
     couponCodeUsed: [{type: String, required: false}],
