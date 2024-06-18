@@ -1194,6 +1194,8 @@ router.post('/createCoupon', async (req, res) => {
 
         var couponCode = req.body.couponCode.replace(/[^a-z0-9-_]/gi, "");
         couponCode = couponCode.toLowerCase();
+
+        var couponDescription = req.body.couponDescription.replace(/[^a-z0-9£% _-]/gi, "");
         //Input Validation
         req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
         req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
@@ -1260,7 +1262,7 @@ router.post('/createCoupon', async (req, res) => {
             competitionReference: foundCompID,
             sitewide: sitewide,
             couponCode: couponCode,
-            couponDescription: req.body.couponDescription,
+            couponDescription: couponDescription,
             couponAmount: req.body.couponAmount,
             couponPercent: req.body.couponPercent,
             minimumSpend: req.body.couponMinimumSpend,
@@ -1297,6 +1299,8 @@ router.post('/updateCoupon', async (req, res, next) => {
 
     var couponCode = req.body.couponCode.replace(/[^a-z0-9-_]/gi, "");
     couponCode = couponCode.toLowerCase();
+
+    var couponDescription = req.body.couponDescription.replace(/[^a-z0-9£% _-]/gi, "");
     //Input Validation
     req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
     req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
@@ -1365,7 +1369,7 @@ router.post('/updateCoupon', async (req, res, next) => {
         competitionReference: foundCompID,
         sitewide: sitewide,
         couponCode: couponCode,
-        couponDescription: req.body.couponDescription,
+        couponDescription: couponDescription,
         couponAmount: req.body.couponAmount,
         couponPercent: req.body.couponPercent,
         minimumSpend: req.body.couponMinimumSpend,
