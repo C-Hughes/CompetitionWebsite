@@ -382,7 +382,6 @@ router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, re
 });
 
 router.get('/processCard', saveRedirectURL, isLoggedIn, isNotBanned, async (req, res, next) => {
-    //var error = req.flash('error');
     try {
         if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0 || req.session.basket.basketTotalPrice == 0) {
             return res.redirect('/basket');
@@ -390,11 +389,10 @@ router.get('/processCard', saveRedirectURL, isLoggedIn, isNotBanned, async (req,
 
         var basket = new Basket(req.session.basket);
         var basketErrors = await basket.updateBasket(req.user);
-        //Merge Error messages
-        //var error = error.concat(basketErrors);
         req.session.basket = basket;
 
         if(basketErrors.length > 0){
+            //Basket has changed, redirect and display message.
             req.flash('error', basketErrors);
             return res.redirect('/basket');
         }
@@ -553,6 +551,14 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
         try {
             var basket = new Basket(req.session.basket);
             var competitionEntries = basket.generateArray();
+            var basketErrors = await basket.updateBasket(req.user);
+            req.session.basket = basket;
+    
+            if(basketErrors.length > 0){
+                basketErrors.unshift('Your basket changed before payment was made. You have not been charged. Please try again.');
+                req.flash('error', basketErrors);
+                return res.redirect('/basket');
+            }
 
             // Get BillingAddress Reference from UserID
             const foundBAddress = await BillingAddress.findOne({ userReference: req.user });
