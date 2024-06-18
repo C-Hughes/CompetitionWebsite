@@ -48,7 +48,7 @@ Reset all DBs and test order cancellation if order not completed within time lim
 Adding multiple items to basket and make sure when order is cancelled that pending entries are removed.
 Check all updateBasket checks are working correctly
 Check postal vote entry
-Testing for coupons
+Thorough Testing for coupons - Test every combination of coupon applied to basket. Also test multiple competitions added to basket.
 
 -----------------------------------------------------------------------------------------
 

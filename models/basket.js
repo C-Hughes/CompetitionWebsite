@@ -299,7 +299,7 @@ module.exports = function Basket(oldBasket){
                         }
                     }
                     //If 1 whole basket % reduction coupon has already been applied, remove the second coupon 
-                    if(sitewidePercentApplied){
+                    if(sitewidePercentApplied && returnedCoupon.couponPercent){
                         couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('Only one basket % reduction Coupon can be applied');
@@ -364,6 +364,6 @@ module.exports = function Basket(oldBasket){
         } catch (err) {
             console.log(err);
         }
-       return messages;
+        return messages;
     }
 };
