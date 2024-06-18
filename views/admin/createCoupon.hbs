@@ -86,6 +86,16 @@
                     </div>
 
                     <div class="field">
+                        <label class="label">Coupon Description (3-100 Characters A-Z0-9_-) *</label>
+                        <div class="control has-icons-left">
+                            <input id="couponDescription" name="couponDescription" class="input" type="text" placeholder="Coupon Description">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-align-left"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label class="label">Coupon Amount (£ Discount from Whole Basket)</label>
                         <div class="control has-icons-left">
                             <input id="couponAmount" name="couponAmount" class="input" type="text" placeholder="Coupon £ Amount Reduction">
@@ -103,7 +113,17 @@
                                 <i class="fa-solid fa-percent"></i>
                             </span>
                         </div>
-                    </div>                    
+                    </div>           
+
+                    <div class="field">
+                        <label class="label">Coupon Minimum Spend (Amount that needs to be spent before discount can be applied. E.g. Spend £10, get £10 off)</label>
+                        <div class="control has-icons-left">
+                            <input id="couponMinimumSpend" name="couponMinimumSpend" class="input" type="text" placeholder="Coupon % Percent Reduction">
+                            <span class="icon is-small is-left">
+                                <i class="fa-solid fa-sterling-sign"></i>
+                            </span>
+                        </div>
+                    </div>           
 
                     <div class="field">
                         <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until) (Format: 2024-12-25:19:00) *</label>
