@@ -231,6 +231,8 @@ module.exports = function Basket(oldBasket){
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
             if(this.basketCouponsApplied.length > 0){
                 console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
+                //Only 1 whole basket % reduction coupon can be applied  
+                var sitewidePercentApplied = false;
 
                 for (var id in this.basketCouponsApplied){
                     console.log('CHECKING COUPON = '+this.basketCouponsApplied[id].couponCode);
@@ -296,15 +298,27 @@ module.exports = function Basket(oldBasket){
                             }
                         }
                     }
+                    //If 1 whole basket % reduction coupon has already been applied, remove the second coupon 
+                    if(sitewidePercentApplied){
+                        couponRemovedFromBasket = true;
+                        this.removeCoupon(coupon);
+                        messages.push('Only one basket % reduction Coupon can be applied');
+                    }
 
+                    //If coupon has not been removed from the basket after checks
                     if(!couponRemovedFromBasket){
-                        //If coupon has not been removed from the basket after checks - update item in basket.
+                        //If coupon is a % reduction, then update variable
+                        if(returnedCoupon.couponPercent){
+                            sitewidePercentApplied = true;
+                        }
+
+                        //Update coupon item in basket from latest DB version.
                         console.log('Updating coupon info in basket');
                         this.basketCouponsApplied = this.basketCouponsApplied.map(appliedCoupon => 
                             appliedCoupon.couponCode === coupon ? returnedCoupon : appliedCoupon
                         );
 
-                        //If coupon has not been removed, than update basket pricing...
+                        //If coupon has not been removed, then update basket pricing...
                         //If coupon applies to specific competition
                         if (returnedCoupon.competitionReference){
                             for (var CID in this.items){
