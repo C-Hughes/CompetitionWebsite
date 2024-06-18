@@ -845,15 +845,15 @@ router.post('/submitPostalEntry', async (req, res, next) => {
                     item: competition,
                     uniqueID: Date.now(),
                     qty: 1,
-                    price: 0,
+                    itemTotalPrice: 0,
                     questionAnswer: req.body.postalAnswer,
                     ticketNumbers: newTicketNumbers
                 }
                 ],
             paymentID: 'PostalEntry',
+            paymentMethod: 'PostalEntry',
             paymentPrice: 0,
             orderStatus: 'Completed',
-            postalAnswer: req.body.postalAnswer
         });
         var savedOrder = await newOrder.save();
 

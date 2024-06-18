@@ -514,9 +514,31 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
         
         //If order total is 0, place order directly, do not make payment
         if(basket.basketTotalPrice === 0){
-            //If nothing to pay, Submit order & redirect to orderReceived.
-            res.redirect('/orderReceived');
+            //If nothing to pay, Generate tickets
 
+            //Add pending order to DB
+            const order = new Order({
+                userReference: req.user,
+                basket: competitionEntries,
+                billingAddressReference: foundBAddress._id,
+                billingAddress: foundBAddress,
+                paymentID: '-',
+                paymentMethod: 'N/A',
+                orderStatus: 'Pending',
+                couponCodeUsed: req.session.basket.basketCouponsApplied,
+                paymentSubtotalPrice: req.session.basket.basketSubtotalPrice,
+                paymentPrice: req.session.basket.basketTotalPrice,
+            });
+            const savedOrder = await order.save();
+
+            var ticketGenerated = await generateOrderCompTickets(req, res, next);
+
+            if(ticketGenerated){
+                req.flash('success', 'Your purchase was successful');
+                console.log("Success Purchase Successful");
+                req.session.basket = null;
+                return res.redirect('/orderReceived');
+            }
         } else {
             const order = new Order({
                 userReference: req.user,

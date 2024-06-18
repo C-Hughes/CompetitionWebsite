@@ -11,7 +11,7 @@ Competitions:
 
 User:
 - Schema for challenge board & challenge board functionality
-- Redeem points for Coupons
+- Redeem points for account credit
 - Coupon redeemed check/functionality on rewards page
 
 
