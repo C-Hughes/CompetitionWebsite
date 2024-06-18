@@ -25,9 +25,11 @@ module.exports = function Basket(oldBasket){
         if(storedItem.item.discountPrice){
             this.itemTotalPrice += storedItem.item.discountPrice * storedItem.qty;
             this.basketTotalPrice += storedItem.item.discountPrice * storedItem.qty;
+            this.basketSubtotalPrice = this.basketTotalPrice;
         } else {
             this.itemTotalPrice += storedItem.item.price * storedItem.qty;
             this.basketTotalPrice += storedItem.item.price * storedItem.qty;
+            this.basketSubtotalPrice = this.basketTotalPrice;
         }
     };
 
@@ -224,7 +226,7 @@ module.exports = function Basket(oldBasket){
             }
             ///////////////////////////////////////////////////////////////////////////////////////////////
 
-            
+
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
             if(this.basketCouponsApplied.length > 0){
                 //console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');

@@ -535,7 +535,7 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
         }
 
 
-        
+
         //IF ORDER TOTAL = 0,
         //Complete order & redirect to orderReceived.
 
@@ -557,11 +557,16 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
         return res.redirect('/basket');
     } else {
         try {
+
+
             var basket = new Basket(req.session.basket);
             var competitionEntries = basket.generateArray();
             var basketErrors = await basket.updateBasket(req.user);
             req.session.basket = basket;
-    
+            
+            await checkBasketPendingOrder(req, res, next);
+
+            /*
             if(basketErrors.length > 0){
                 basketErrors.unshift('Your basket changed before payment was made. You have not been charged. Please try again.');
                 req.flash('error', basketErrors);
@@ -608,6 +613,8 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
                     return res.redirect('/checkout');
                 }
             }
+
+            */
 
             //If order found and basket is the same, generate ticket numbers and update competitions info
             for (let comp of competitionEntries) {
@@ -709,6 +716,66 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
 });
 
 
+const checkBasketPendingOrder = async (req, res, next) => {
+    try{
+        var basket = new Basket(req.session.basket);
+        var competitionEntries = basket.generateArray();
+        var basketErrors = await basket.updateBasket(req.user);
+        req.session.basket = basket;
+
+        if(basketErrors.length > 0){
+            basketErrors.unshift('Your basket changed before payment was made. You have not been charged. Please try again.');
+            req.flash('error', basketErrors);
+            return res.redirect('/basket');
+        }
+
+        // Get BillingAddress Reference from UserID
+        const foundBAddress = await BillingAddress.findOne({ userReference: req.user });
+        if (!foundBAddress) {
+            console.log("No Address Saved");
+            req.flash('error', 'Billing address error. Your billing address was not found. Order not saved.');
+            return res.redirect('/checkout');
+        }
+
+        //Find users most recent Order that has a status of pending
+        const savedOrder = await Order.findOne({ userReference: req.user, orderStatus: 'Pending'}).sort({ created: -1 });
+        if (!savedOrder) {
+            console.log("No Order Found");
+            req.flash('error', 'No pending order found. Please complete all orders within 10 minutes. Please try again.');
+            return res.redirect('/checkout');
+        } else {
+            //If found, check basket to make sure price and qty match, otherwise there is an error.
+            if(competitionEntries.totalPrice != savedOrder.basket.totalPrice || competitionEntries.totalQty != savedOrder.basket.totalQty || competitionEntries.length != savedOrder.basket.length){
+                req.flash('error', 'Order error. Your pending order record & basket do not match. Pending order has been cancelled. Please try again.');
+                
+                //If basket and found order basket do not match, cancel the order and remove 
+                await Order.findOneAndUpdate({ _id: savedOrder._id }, { orderStatus: 'Cancelled' }, { upsert: false });
+
+                for (let comp of competitionEntries) {
+                    //Get competition from basket item
+                    const foundCompetition = await Competition.findOne({ _id: comp.item._id });
+                    if (!foundCompetition) {
+                        req.flash('error', 'This competition does not exist.');
+                    }
+
+                    ///////////////UPDATE COMPETITION RECORD - SUB TICKET QTY FROM pendingEntries count/////////////////
+                    var competitionPendingUpdate = {
+                        $inc: { 'pendingEntries': -comp.qty },
+                        lastUpdated: new Date().toISOString(),
+                    };
+                    console.log('Cancelled - Competition qty to reduce = '+comp.qty);
+                    await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+                }
+                return res.redirect('/checkout');
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'An error occurred during processing. Please try again.');
+        return res.redirect('/checkout');
+    }
+    
+}
 ///////////////////////////////////////////////////////////////////
 
 ///////// Logged in users cannot access routes below //////////////
