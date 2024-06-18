@@ -1197,8 +1197,12 @@ router.post('/createCoupon', async (req, res) => {
         //Input Validation
         req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
         req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
+        req.checkBody('couponDescription', 'Coupon Description cannot be empty').notEmpty();
+        req.checkBody('couponDescription', 'Coupon Description Must be between 3 and 100 characters').isLength({min:3, max:100});
         req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
         req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
+        req.checkBody('couponMinimumSpend', 'Minimum Spend cannot be empty').notEmpty();
+        req.checkBody('couponMinimumSpend', 'Minimum Spend must be a number').isInt();
         req.checkBody('numberOfUsesPerPerson', 'Number of uses per person cannot be empty').notEmpty();
         req.checkBody('numberOfUsesPerPerson', 'Number of uses must be a number').isInt();
         req.checkBody('totalNumberOfUses', 'Total Number of uses cannot be empty').notEmpty();
@@ -1256,8 +1260,10 @@ router.post('/createCoupon', async (req, res) => {
             competitionReference: foundCompID,
             sitewide: sitewide,
             couponCode: couponCode,
+            couponDescription: req.body.couponDescription,
             couponAmount: req.body.couponAmount,
             couponPercent: req.body.couponPercent,
+            minimumSpend: req.body.couponMinimumSpend,
             couponExpiryDate: req.body.couponExpiryDate,
             numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
             totalNumberOfUses: req.body.totalNumberOfUses,
@@ -1294,8 +1300,12 @@ router.post('/updateCoupon', async (req, res, next) => {
     //Input Validation
     req.checkBody('couponCode', 'Coupon Code cannot be empty').notEmpty();
     req.checkBody('couponCode', 'Coupon Code Must be between 3 and 20 characters').isLength({min:3, max:30});
+    req.checkBody('couponDescription', 'Coupon Description cannot be empty').notEmpty();
+    req.checkBody('couponDescription', 'Coupon Description Must be between 3 and 100 characters').isLength({min:3, max:100});
     req.checkBody('couponExpiryDate', 'Coupon expiry date cannot be empty').notEmpty();
     req.checkBody('couponExpiryDate', 'Coupon expiry date format is invalid').isDate();
+    req.checkBody('couponMinimumSpend', 'Minimum Spend cannot be empty').notEmpty();
+    req.checkBody('couponMinimumSpend', 'Minimum Spend must be a number').isInt();
     req.checkBody('numberOfUsesPerPerson', 'Number of uses per person cannot be empty').notEmpty();
     req.checkBody('numberOfUsesPerPerson', 'Number of uses must be a number').isInt();
     req.checkBody('totalNumberOfUses', 'Total Number of uses cannot be empty').notEmpty();
@@ -1355,8 +1365,10 @@ router.post('/updateCoupon', async (req, res, next) => {
         competitionReference: foundCompID,
         sitewide: sitewide,
         couponCode: couponCode,
+        couponDescription: req.body.couponDescription,
         couponAmount: req.body.couponAmount,
         couponPercent: req.body.couponPercent,
+        minimumSpend: req.body.couponMinimumSpend,
         couponExpiryDate: req.body.couponExpiryDate,
         numberOfUsesPerPerson: req.body.numberOfUsesPerPerson,
         totalNumberOfUses: req.body.totalNumberOfUses,
