@@ -183,8 +183,14 @@
                             <tfoot>
                                 <tr>
                                     <th>Subtotal</th>
-                                    <th>£{{totalPrice}}-Discounts</th>
+                                    <th>£{{subtotalPrice}}</th>
                                 </tr>
+                                {{#ifNotEquals subtotalPrice totalPrice}}
+                                <tr>
+                                    <th>Discount(s)</th>
+                                    <th>-£{{formatPriceDifference subtotalPrice totalPrice}}</th>
+                                </tr>
+                                {{/ifNotEquals}}
                                 <tr>
                                     <th>Total</th>
                                     <th>£{{totalPrice}}</th>
@@ -194,7 +200,7 @@
                                 {{# each products}}
                                 <tr>
                                     <td>Win this {{this.item.title}}! <strong>x {{this.qty}}</strong></td>
-                                    <th>£{{formatPrice this.price}}</th>
+                                    <th>£{{formatPrice this.itemTotalPrice}}</th>
                                 </tr>
                                 {{/each}}
                             </tbody>

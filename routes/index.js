@@ -321,69 +321,6 @@ router.post('/applyCoupon', async (req, res, next) => {
         } else {
             return res.redirect('/basket');
         }
-
-        /*
-        //Check if coupon is currently active...
-        if(!returnedCoupon.active){
-            req.flash('error', 'Coupon Code Is Not Active');
-        } else if (new Date(returnedCoupon.couponExpiryDate.getTime()) < Date.now()){
-            //Check if coupon date has expired...
-            req.flash('error', 'Coupon Code Has Expired');
-        } else if (returnedCoupon.userReference){
-            //If it applies to a specific user check if current user is that user...
-            if(req.user != returnedCoupon.userReference){
-                req.flash('error', 'Invalid Coupon Code');
-            }
-        } else if (returnedCoupon.competitionReference){
-            //If it applies to a specific competition, make sure that competition is in the basket...
-            var basket = new Basket(req.session.basket);
-            var competitionEntries = basket.generateArray();
-
-            //Go through each competition in basket.
-            for (let comp of competitionEntries) {
-                //Get competition from basket item
-                var compInBasket = false;
-                if (comp.item._id == returnedCoupon.competitionReference.id) {
-                    compInBasket = true;
-                }
-            }
-            if(compInBasket){
-                couponValid = true;
-            } else {
-                if(req.user != returnedCoupon.userReference){
-                    req.flash('error', 'This coupon is only valid for competition: '+returnedCoupon.competitionReference.title);
-                }
-            }
-        } else if (totalNumberOfUses > 0 && (totalNumberOfUses >= timesUsed)){
-            //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-            req.flash('error', 'This Coupon has Already Been Redeemed');
-        } else if (numberOfUsesPerPerson){
-            //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-            var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
-
-            if(userCouponOrders.length >= numberOfUsesPerPerson){
-                req.flash('error', 'This Coupon has Already Been Redeemed');
-            }
-        } else {
-            couponValid = true;
-        }
-
-        if(couponValid){
-            //If all checks pass then apply the coupon code to the basket and update price...
-            req.flash('success', 'Coupon Applied to Basket');
-            basket.addCoupon(returnedCoupon.couponCode);
-            req.session.basket = basket;
-        } 
-        //Redirect back to old page
-
-        if(req.session.oldUrl){
-            var redirect = req.session.oldUrl;
-            req.session.oldUrl = null;
-            return res.redirect(redirect);
-        } else {
-            return res.redirect('/basket');
-        }
-            */
     } catch (err) {
         console.log(err);
         req.flash('error', 'Error Applying Coupon');
@@ -413,10 +350,10 @@ router.get('/checkout',saveRedirectURL, isLoggedIn, isNotBanned, function(req, r
             BillingAddress.findOne({userReference: req.user})
             .then(foundBAddress => {
                 if (foundBAddress) {
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.basketTotalPrice, subtotalPrice: basket.basketSubtotalPrice, basketCoupons: basket.basketCouponsApplied, userBillingAddress: foundBAddress, error: errors, errors: errors.length > 0});
                 } else {
                     console.log("No Address Saved");
-                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.totalPrice, error: errors, errors: errors.length > 0});
+                    res.render('checkout', { title: 'Checkout', products: basket.generateArray(), totalPrice: basket.basketTotalPrice, subtotalPrice: basket.basketSubtotalPrice, basketCoupons: basket.basketCouponsApplied, error: errors, errors: errors.length > 0});
                 }
             })
             .catch(err => {
