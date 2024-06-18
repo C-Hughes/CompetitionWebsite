@@ -368,14 +368,14 @@ router.get('/checkout',saveRedirectURL, isLoggedIn, isNotBanned, function(req, r
 });
 
 router.get('/processCard',saveRedirectURL, isLoggedIn, isNotBanned, function(req, res, next) {
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
+    if (!req.session.basket || req.session.basket.basketTotalPrice == 0){
         return res.redirect('/basket');
     } else {
         var basket = new Basket(req.session.basket);
         basket.updateBasket(req.user)
         .then(() => {
             req.session.basket = basket;
-            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.totalPrice});
+            res.render('processCard', { title: 'Pay with Card', totalPrice: basket.basketTotalPrice});
         })
         .catch(err => {
             console.log('Error checking price:', err);
@@ -491,7 +491,9 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
             billingAddress: foundBAddress,
             paymentID: '-',
             orderStatus: 'Pending',
-            paymentPrice: req.session.basket.totalPrice,
+            couponCodeUsed: req.session.basket.basketCouponsApplied,
+            paymentSubtotalPrice: req.session.basket.basketSubtotalPrice,
+            paymentPrice: req.session.basket.basketTotalPrice,
         });
         const savedOrder = await order.save();
 

@@ -6,6 +6,8 @@ When buying tickets:
 - Display basket errors in /checkout and /processOrder
 - If error message when updating basket for /processOrder, redirect to /basket
 - After order is successful, update coupon times used etc...
+- If final price is 0 then allow user to submit order without making a payment.
+
 
 Competitions:
 - Change /addtobasket to a post request...
