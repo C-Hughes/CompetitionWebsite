@@ -96,6 +96,10 @@ module.exports = function Basket(oldBasket){
     }
 
     //Update whole basket with latest info from DB. Returns any error messages[]
+    //First check all competition in basket. Make sure it is still valid and can be entered.
+    //Update basket price with updated basket entries after checks.
+    //Second check any coupons that are applied to the basket.
+    //Finally update the price with coupons applied
     this.updateBasket = async function(user) {
  
         //console.log('Updating Basket...');
