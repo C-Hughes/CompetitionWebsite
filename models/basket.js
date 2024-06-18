@@ -42,11 +42,6 @@ module.exports = function Basket(oldBasket){
     };
 
     this.removeCoupon = function(couponCode){
-        //if(this.basketCouponsApplied.includes(couponCode)){
-        //    this.basketCouponsApplied.splice(this.basketCouponsApplied.indexOf(couponCode), 1);
-        //}
-
-        console.log('RemoveCoupon');
         const foundCoupon = this.basketCouponsApplied.find(coupon => coupon.couponCode === couponCode);
         if (foundCoupon) {
             console.log('Coupon in basket currently');
@@ -75,7 +70,7 @@ module.exports = function Basket(oldBasket){
     };
 
     this.removeItem = function(id){
-        console.log('Basket - Removing Item');
+        //console.log('Basket - Removing Item');
         this.basketTotalQty -= this.items[id].qty;
         this.basketTotalPrice -= this.items[id].itemTotalPrice;
         delete this.items[id];
@@ -230,7 +225,7 @@ module.exports = function Basket(oldBasket){
             ///////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
             if(this.basketCouponsApplied.length > 0){
-                console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
+                //console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
                 //Only 1 whole basket % reduction coupon can be applied  
                 var sitewidePercentApplied = false;
 
@@ -313,7 +308,7 @@ module.exports = function Basket(oldBasket){
                         }
 
                         //Update coupon item in basket from latest DB version.
-                        console.log('Updating coupon info in basket');
+                        //console.log('Updating coupon info in basket');
                         this.basketCouponsApplied = this.basketCouponsApplied.map(appliedCoupon => 
                             appliedCoupon.couponCode === coupon ? returnedCoupon : appliedCoupon
                         );
