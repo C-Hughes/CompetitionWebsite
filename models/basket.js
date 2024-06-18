@@ -110,7 +110,6 @@ module.exports = function Basket(oldBasket){
         var basketComps = {};
 
         try {
-
             for (var id in this.items){
             
                 var currentCompID = this.items[id].item._id
@@ -358,7 +357,9 @@ module.exports = function Basket(oldBasket){
                     let discountDecimal = totalPercentReduction / 100;
                     this.basketTotalPrice*= (1 - discountDecimal);
                 }
-                
+                if(this.basketTotalPrice < 0){
+                    this.basketTotalPrice = 0;
+                }
             }
         } catch (err) {
             console.log(err);

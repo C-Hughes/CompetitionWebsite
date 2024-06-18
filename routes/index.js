@@ -500,51 +500,59 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
     try {
         const foundBAddress = await BillingAddress.findOneAndUpdate({ userReference: req.user }, billingAddressUpdate, { upsert: true, new: true });
         //req.flash('success', 'Your billing details were saved');
-        
-        const basket = new Basket(req.session.basket);
+
+        var basket = new Basket(req.session.basket);
         var competitionEntries = basket.generateArray();
-        const order = new Order({
-            userReference: req.user,
-            basket: competitionEntries,
-            billingAddressReference: foundBAddress._id,
-            billingAddress: foundBAddress,
-            paymentID: '-',
-            paymentMethod: 'Debit/Credit Card',
-            orderStatus: 'Pending',
-            couponCodeUsed: req.session.basket.basketCouponsApplied,
-            paymentSubtotalPrice: req.session.basket.basketSubtotalPrice,
-            paymentPrice: req.session.basket.basketTotalPrice,
-        });
-        const savedOrder = await order.save();
-
-        //Go through each competition in basket.
-        for (let comp of competitionEntries) {
-            //Get competition from basket item
-            const foundCompetition = await Competition.findOne({ _id: comp.item._id });
-            if (!foundCompetition) {
-                req.flash('error', 'This competition does not exist.');
-                console.log('/Checkout POST - ERROR COMPETITION DOES NOT EXIST');
-                return res.redirect('/basket');
-            }
-
-            ///////////////UPDATE COMPETITION RECORD - ADD TICKET QTY TO pendingEntries count/////////////////
-            var competitionPendingUpdate = {
-                $inc: { 'pendingEntries': comp.qty },
-                lastUpdated: new Date().toISOString(),
-            };
-            await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+        var basketErrors = await basket.updateBasket(req.user);
+        req.session.basket = basket;
+        
+        if(basketErrors.length > 0){
+            basketErrors.unshift('Your basket has changed. Please try again.');
+            req.flash('error', basketErrors);
+            return res.redirect('/basket');
         }
+        
+        //If order total is 0, place order directly, do not make payment
+        if(basket.basketTotalPrice === 0){
+            //If nothing to pay, Submit order & redirect to orderReceived.
+            res.redirect('/orderReceived');
 
-
-
-        //IF ORDER TOTAL = 0,
-        //Complete order & redirect to orderReceived.
-
-
-
-        //Start Timer to check if order
-        startPendingOrderTimer(savedOrder._id);
-        res.redirect('/processCard');
+        } else {
+            const order = new Order({
+                userReference: req.user,
+                basket: competitionEntries,
+                billingAddressReference: foundBAddress._id,
+                billingAddress: foundBAddress,
+                paymentID: '-',
+                paymentMethod: 'Debit/Credit Card',
+                orderStatus: 'Pending',
+                couponCodeUsed: req.session.basket.basketCouponsApplied,
+                paymentSubtotalPrice: req.session.basket.basketSubtotalPrice,
+                paymentPrice: req.session.basket.basketTotalPrice,
+            });
+            const savedOrder = await order.save();
+    
+            //Go through each competition in basket - Add ticket QTY to competition pending tickets to reserve them
+            for (let comp of competitionEntries) {
+                //Get competition from basket item
+                const foundCompetition = await Competition.findOne({ _id: comp.item._id });
+                if (!foundCompetition) {
+                    req.flash('error', 'This competition does not exist.');
+                    console.log('/Checkout POST - ERROR COMPETITION DOES NOT EXIST');
+                    //return res.redirect('/basket');
+                } else {
+                    ///////////////UPDATE COMPETITION RECORD - ADD TICKET QTY TO pendingEntries count/////////////////
+                    var competitionPendingUpdate = {
+                        $inc: { 'pendingEntries': comp.qty },
+                        lastUpdated: new Date().toISOString(),
+                    };
+                    await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
+                }
+            }
+            //Start Timer to check if order
+            startPendingOrderTimer(savedOrder._id);
+            res.redirect('/processCard');
+        }
     } catch (err) {
         console.log(err);
         req.flash('error', 'An error occurred during checkout');
@@ -610,6 +618,7 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
                 }
             }
 
+            //If no issues with basket then generate tickets for the competitions
             var ticketGenerated = await generateOrderCompTickets(req, res, next);
 
             if(ticketGenerated){
