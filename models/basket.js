@@ -8,7 +8,7 @@ module.exports = function Basket(oldBasket){
     this.basketTotalQty = oldBasket.basketTotalQty || 0;
     this.basketTotalPrice = oldBasket.basketTotalPrice || 0;
     this.basketSubtotalPrice = oldBasket.basketSubtotalPrice || 0;
-    this.basketCouponsApplied = oldBasket.basketCouponsApplied || [{}];
+    this.basketCouponsApplied = oldBasket.basketCouponsApplied || [];
 
     this.add = function(item, id, answer, qty){
         var storedItem = this.items[id+answer];
