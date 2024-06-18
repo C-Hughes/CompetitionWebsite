@@ -297,17 +297,21 @@ router.get('/removeCoupon/:couponCode', function(req, res, next) {
 
 router.post('/applyCoupon', async (req, res, next) => {
     try {
-        var couponValid = false;
-
         //Lookup couponCode
         var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+req.body.couponCode+'$', "i") }}).populate('competitionReference');
         if(!returnedCoupon){
             req.flash('error', 'Coupon Code Not Found');
         } else {
-            req.flash('success', 'Coupon Applied to Basket');
-            var basket = new Basket(req.session.basket);
+            var basket = new Basket(req.session.basket ? req.session.basket : {});
             basket.addCoupon(returnedCoupon.couponCode);
+            var basketErrors = await basket.updateBasket(req.user); // Update the basket
             req.session.basket = basket;
+
+            if(basketErrors.length == 0){
+                req.flash('success', 'Coupon Applied to Basket');
+            } else {
+                req.flash('error', basketErrors);
+            }
         }
 
         if(req.session.oldUrl){

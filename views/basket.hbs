@@ -107,6 +107,11 @@
                                         <a href="/removeCoupon/{{this}}" class="delete is-small"></a>
                                     </span>
                                 {{/each}}
+                                <div class="has-text-danger">
+                                    {{# each basketCoupons}}
+                                        <p>{{this.couponDescription}}</p>
+                                    {{/each}}
+                                </div>
                             </div>
                             {{/if}}
                             <div class="column is-full is-flex is-justify-content-center is-align-items-center">
