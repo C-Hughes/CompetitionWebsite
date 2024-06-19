@@ -223,10 +223,10 @@ module.exports = function Basket(oldBasket){
                     messages.push('Competition Not Found - Removed From Basket');
                 }
             }
-            ///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            ////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////IF COUPON IS APPLIED TO BASKET/////////////////////////////////
             if(this.basketCouponsApplied.length > 0){
                 //console.log('UPDATE BASKET - COUPON IS APPLIED TO BASKET');
                 //Only 1 whole basket % reduction coupon can be applied  
@@ -262,13 +262,13 @@ module.exports = function Basket(oldBasket){
                         messages.push('This Coupon has Already Been Redeemed');
                     } else {
                         if (returnedCoupon.numberOfUsesPerPerson){
-                            //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson
-                            var userCouponOrders = await Order.find({couponCodeUsed: returnedCoupon.couponCode});
-    
+                            //Check users completed orders to find coupons used. Check it doesn't exceeed numberOfUsesPerPerson //, couponCodeUsed: returnedCoupon.couponCode
+                            var userCouponOrders = await Order.find({userReference: user._id, couponCodeUsed: {$elemMatch: { 'couponCode': returnedCoupon.couponCode }}});
+
                             if(userCouponOrders.length >= returnedCoupon.numberOfUsesPerPerson){
                                 couponRemovedFromBasket = true;
                                 this.removeCoupon(coupon);
-                                messages.push('This Coupon has Already Been Redeemed');
+                                messages.push('This Coupon has Been Redeemed The Maximum Times Allowed');
                             }
                         }
                         if (returnedCoupon.userReference){
