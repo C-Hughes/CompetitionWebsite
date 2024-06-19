@@ -24,6 +24,7 @@ Other:
 - Add * to all required fields / add required html tag to required fields
 - Update all userlookups in forms to use findUser function. Also save userID in DB.
 - Date verification for DOB, make sure user is 18+
+- Check pending error going below 0 bug
 
 
 Admin functionality:

@@ -40,7 +40,7 @@
     <form action="/admin/createCompetition" method="post" enctype="multipart/form-data" ref='createCompetitionForm' id='createCompetitionForm' >
         <div class="card">
             <div class="card-content">
-                <label class="label">Main Image</label>
+                <label class="label">Main Image *</label>
                 <div class="container">
                     <figure class="image">
                     <img
@@ -53,7 +53,7 @@
 
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
+                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/ required>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -64,13 +64,13 @@
                         </label>
                     </div>
 
-                    <label class="label">Additional Image(s)</label>
+                    <label class="label">Additional Image(s) *</label>
                     <div class="columns is-multiline" id="additionalImageColumns">
                     </div>
 
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="additionalImages" id="additionalImages" multiple />
+                            <input class="file-input" type="file" name="additionalImages" id="additionalImages" multiple / required>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -83,9 +83,9 @@
 
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -101,9 +101,9 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Price</label>
+                        <label class="label">Price *</label>
                         <div class="control has-icons-left">
-                            <input id="price" name="price" class="input is-primary" type="text" placeholder="Price">
+                            <input id="price" name="price" class="input is-primary" type="text" placeholder="Price" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
@@ -119,81 +119,81 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Max Entries</label>
+                        <label class="label">Max Entries *</label>
                         <div class="control has-icons-left">
-                            <input id="maxEntries" name="maxEntries" class="input" type="text" placeholder="Max Entries">
+                            <input id="maxEntries" name="maxEntries" class="input" type="text" placeholder="Max Entries" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Max Entries Per Person</label>
+                        <label class="label">Max Entries Per Person *</label>
                         <div class="control has-icons-left">
-                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" class="input" type="text" placeholder="Max Entries Per Person">
+                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" class="input" type="text" placeholder="Max Entries Per Person" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Max Postal Votes Per Person</label>
+                        <label class="label">Max Postal Entries Per Person *</label>
                         <div class="control has-icons-left">
-                            <input id="maxPostalVotes" name="maxPostalVotes" class="input" type="text" placeholder="Max Postal Votes Per Person" value="1">
+                            <input id="maxPostalEntries" name="maxPostalEntries" class="input" type="text" placeholder="Max Postal Entries Per Person" value="1" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-envelope"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Draw Date (Format: 2024-12-25:19:00)</label>
+                        <label class="label">Draw Date * (Format: 2024-12-25:19:00)</label>
                         <div class="control has-icons-left">
-                            <input id="drawDate" name="drawDate" class="input" type="text" placeholder="Draw Date">
+                            <input id="drawDate" name="drawDate" class="input" type="text" placeholder="Draw Date" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Entry Close Date (Format: 2024-12-25:18:00)</label>
+                        <label class="label">Entry Close Date * (Format: 2024-12-25:18:00)</label>
                         <div class="control has-icons-left">
-                            <input id="entryCloseDate" name="entryCloseDate" class="input" type="text" placeholder="Entry Close Date">
+                            <input id="entryCloseDate" name="entryCloseDate" class="input" type="text" placeholder="Entry Close Date" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-clock"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Question Text</label>
+                        <label class="label">Question Text *</label>
                         <div class="control has-icons-left">
-                            <input id="questionText" name="questionText" class="input" type="text" placeholder="Question Text">
+                            <input id="questionText" name="questionText" class="input" type="text" placeholder="Question Text" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-question"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                        <label class="label">Question Answers * (Format: Answer1,Answer2,Answer3,Answer4)</label>
                         <div class="control has-icons-left">
-                            <input id="questionAnswers" name="questionAnswers" class="input" type="text" placeholder="Question Answers">
+                            <input id="questionAnswers" name="questionAnswers" class="input" type="text" placeholder="Question Answers" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-circle-question"></i>
                             </span>
                         </div>
                     </div>  
                     <div class="field">
-                        <label class="label">Correct Answer</label>
+                        <label class="label">Correct Answer *</label>
                         <div class="control has-icons-left">
-                            <input id="correctAnswer" name="correctAnswer" class="input" type="text" placeholder="Correct Answer">
+                            <input id="correctAnswer" name="correctAnswer" class="input" type="text" placeholder="Correct Answer" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-circle-check"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Competition Description</label>
+                        <label class="label">Competition Description *</label>
                         <div class="control">
-                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description"></textarea>
+                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description" required></textarea>
                         </div>
                     </div>
 

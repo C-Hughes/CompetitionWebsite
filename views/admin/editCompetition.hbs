@@ -49,7 +49,7 @@
     <form action="/admin/updateCompetition" enctype="multipart/form-data" method="post" ref='updateCompetitionForm' id='updateCompetitionForm'>
         <div class="card">
             <div class="card-content">
-                <label class="label">Main Image</label>
+                <label class="label">Main Image *</label>
                 <div class="card-image">
                     <figure class="image">
                     <img
@@ -77,25 +77,25 @@
                     </div>
 
 
-                    <label class="label">Additional Image(s)</label>
+                    <label class="label">Additional Image(s) *</label>
 
                     <div class="columns is-multiline" id="additionalImageColumns">
                         {{# each competition.additionalImagePaths}}
-                        <div class="column is-narrow">
-                            <div class="">
-                                <figure class="image is-128x128 is-square ">
-                                    <img
-                                        src="{{this}}"
-                                        alt="Additional Comp Image"
-                                    />
-                                    <a href="/admin/removeAdditionalImage/{{../competition._id}}?imageID={{this}}" class="button is-danger is-small">
-                                        <span class="icon is-small">
-                                            <i class="fa-regular fa-trash-can"></i>
-                                        </span>
-                                    </a>
-                                </figure>
+                            <div class="column is-narrow">
+                                <div class="">
+                                    <figure class="image is-128x128 is-square ">
+                                        <img
+                                            src="{{this}}"
+                                            alt="Additional Comp Image"
+                                        />
+                                        <a href="/admin/removeAdditionalImage/{{../competition._id}}?imageID={{this}}" class="button is-danger is-small">
+                                            <span class="icon is-small">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </span>
+                                        </a>
+                                    </figure>
+                                </div>
                             </div>
-                        </div>
                         {{/each}}
                     </div>
 
@@ -113,9 +113,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}">
+                            <input id="title" name="title" class="input is-large" type="text" placeholder="Title" value="{{competition.title}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -137,10 +137,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Price</label>
+                    <label class="label">Price *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="price" name="price" type="text" class="input  is-primary" placeholder="Price" value="{{competition.price}}" readonly>
+                            <input id="price" name="price" type="text" class="input  is-primary" placeholder="Price" value="{{competition.price}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
@@ -186,10 +186,10 @@
                         <progress class="progress is-info" value="{{calculateCompTotalEntries competition.currentEntries competition.pendingEntries}}" max="{{competition.maxEntries}}"></progress>
                     </div>
 
-                    <label class="label">Max Entries</label>
+                    <label class="label">Max Entries *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="maxEntries" name="maxEntries" type="text" class="input" placeholder="Max Entries" value="{{competition.maxEntries}}" readonly>
+                            <input id="maxEntries" name="maxEntries" type="text" class="input" placeholder="Max Entries" value="{{competition.maxEntries}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
@@ -201,10 +201,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Max Entries Per Person</label>
+                    <label class="label">Max Entries Per Person *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" type="text" class="input" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}" readonly>
+                            <input id="maxEntriesPerPerson" name="maxEntriesPerPerson" type="text" class="input" placeholder="Max Entries Per Person" value="{{competition.maxEntriesPerPerson}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>
@@ -217,25 +217,25 @@
                     </div>
 
 
-                    <label class="label">Max Postal Votes Per Person</label>
+                    <label class="label">Max Postal Entries Per Person *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="maxPostalVotes" name="maxPostalVotes" type="text" class="input" placeholder="Max Postal Votes Per Person" value="{{competition.maxPostalVotes}}" readonly>
+                            <input id="maxPostalEntries" name="maxPostalEntries" type="text" class="input" placeholder="Max Postal Entries Per Person" value="{{competition.maxPostalEntries}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-envelope"></i>
                             </span>
                         </div>
                         <div class="control">
-                            <button id="maxPostalVotesBtn" class="button is-medium is-info" onclick="toggleEditInput('maxPostalVotes', 'maxPostalVotesBtn')" type="button">
+                            <button id="maxPostalEntriesBtn" class="button is-medium is-info" onclick="toggleEditInput('maxPostalEntries', 'maxPostalEntriesBtn')" type="button">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </div>
                     </div>
 
-                    <label class="label">Draw Date (Format: 2024-12-25:19:00)</label>
+                    <label class="label">Draw Date * (Format: 2024-12-25:19:00)</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="drawDate" name="drawDate" type="text" class="input" placeholder="Draw Date" value="{{competition.drawDate}}" readonly>
+                            <input id="drawDate" name="drawDate" type="text" class="input" placeholder="Draw Date" value="{{competition.drawDate}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
@@ -247,10 +247,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Entry Close Date (Format: 2024-12-25:18:00)</label>
+                    <label class="label">Entry Close Date * (Format: 2024-12-25:18:00)</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="entryCloseDate" name="entryCloseDate" type="text" class="input" placeholder="Entry Close Date" value="{{competition.entryCloseDate}}" readonly>
+                            <input id="entryCloseDate" name="entryCloseDate" type="text" class="input" placeholder="Entry Close Date" value="{{competition.entryCloseDate}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-clock"></i>
                             </span>
@@ -262,10 +262,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Question Text</label>
+                    <label class="label">Question Text *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="questionText" name="questionText" type="text" class="input" placeholder="Question Text" value="{{competition.questionText}}" readonly>
+                            <input id="questionText" name="questionText" type="text" class="input" placeholder="Question Text" value="{{competition.questionText}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-question"></i>
                             </span>
@@ -277,10 +277,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Question Answers (Format: Answer1,Answer2,Answer3,Answer4)</label>
+                    <label class="label">Question Answers * (Format: Answer1,Answer2,Answer3,Answer4)</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="questionAnswers" name="questionAnswers" type="text" class="input" placeholder="Question Answers" value="{{competition.questionAnswers}}" readonly>
+                            <input id="questionAnswers" name="questionAnswers" type="text" class="input" placeholder="Question Answers" value="{{competition.questionAnswers}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-list-ol"></i>
                             </span>
@@ -292,10 +292,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Correct Answer</label>
+                    <label class="label">Correct Answer *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="correctAnswer" name="correctAnswer" type="text" class="input" placeholder="Correct Answer" value="{{competition.correctAnswer}}" readonly>
+                            <input id="correctAnswer" name="correctAnswer" type="text" class="input" placeholder="Correct Answer" value="{{competition.correctAnswer}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-circle-check"></i>
                             </span>
@@ -323,9 +323,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Competition Description</label>
+                        <label class="label">Competition Description *</label>
                         <div class="control">
-                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description">{{competition.description}}</textarea>
+                            <textarea id="description" name="description" class="textarea" placeholder="Competition Description" required>{{competition.description}}</textarea>
                         </div>
                     </div>
 

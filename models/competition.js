@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var competitionSchema = new Schema({
-    imagePath: {type: String, required: false},
-    additionalImagePaths: [{type: String, required: false}],
+    imagePath: {type: String, required: true},
+    additionalImagePaths: [{type: String, required: true}],
     title: {type: String, required: true},
     description: {type: String, required: true},
     cashAlternative: {type: Number, required: false},
@@ -15,7 +15,7 @@ var competitionSchema = new Schema({
     pendingEntries: {type: Number, required: true, default: 0},
     maxEntries: {type: Number, required: true},
     maxEntriesPerPerson: {type: Number, required: true, default: 100},
-    maxPostalVotes: {type: Number, required: true, default: 1},
+    maxPostalEntries: {type: Number, required: true, default: 1},
     ticketNumbersSold: [{type: Number, required: true, default:''}],
     winningTicketNumber: {type: Number, required: false},
     questionText: {type: String, required: true},
