@@ -639,8 +639,8 @@ router.post('/createCompetition', async (req, res) => {
             return res.redirect('/admin/createCompetition/');
         }
         //If discount price is submitted, make sure it is less than original price and higher than 0
-        console.log(req.body.discountPrice);
-        console.log(req.body.price);
+        //console.log(req.body.discountPrice);
+        //console.log(req.body.price);
         if(req.body.discountPrice && (req.body.discountPrice > req.body.price || req.body.discountPrice < 0)){
             req.flash('error', 'The discount price "'+req.body.discountPrice+'" must be less than the price "'+req.body.price+'". Discount price must also be more than 0.');
             return res.redirect('/admin/createCompetition/');
@@ -668,6 +668,9 @@ router.post('/createCompetition', async (req, res) => {
                 req.flash('error', 'Error uploading image - ' + uploadPath);
                 return res.redirect('/admin/createCompetition/');
             }
+        } else {
+            req.flash('error', 'Main Image required.');
+            return res.redirect('/admin/createCompetition/');
         }
         //If additional images have been selected
         if(req.files && req.files.additionalImages){
@@ -926,151 +929,6 @@ router.post('/submitPostalEntry', async (req, res, next) => {
 
 
 //////////////////////////////////////////////////////////////////////
-////////////////////// Create a new winner card //////////////////////
-router.post('/createWinner', async (req, res) => {
-    try {
-        //Set mainImageFile to current compImagePath
-        var mainImageFile = req.body.winnerImagePath;
-
-        //Input Validation
-        req.checkBody('title', 'Title cannot be empty').notEmpty();
-        req.checkBody('description', 'Description cannot be empty').notEmpty();
-        req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
- 
-        var errors = req.validationErrors();
-        if (errors){
-            var messages = [];
-            errors.forEach(function(error){
-                messages.push(error.msg);
-            });
-            req.flash('error', messages);
-            return res.redirect('/admin/createWinner');
-        }
-
-        // If a new image has been uploaded
-        if (req.files && req.files.mainImageUpload) {
-            mainImageFile = req.files.mainImageUpload;
-            const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
-
-            try {
-                await moveFile(mainImageFile, uploadPath);
-                mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
-                //console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
-                //console.log('New Main Image - '+mainImageFile);
-            } catch (err) {
-                //console.log("error path: " + uploadPath);
-                req.flash('error', 'Error uploading image - ' + uploadPath);
-                return res.redirect('/admin/createWinner/');
-            }
-        }
-
-        const visible = req.body.visible === 'on';
-        const pinned = req.body.pinned === 'on';
-        
-        const newWinner = new Winner({
-            imagePath: mainImageFile,
-            title: req.body.title,
-            description: req.body.description,
-            visible: visible,
-            pinned: pinned,
-            competitionReference: req.body.compID,
-        });
-
-        const savedWinner = await newWinner.save();
-
-        if (savedWinner) {
-            console.log('Winner Card Saved!');
-            res.redirect('/admin/winners');
-        } else {
-            console.log('Error Saving Winner Card');
-            res.redirect('/admin/createWinner');
-        }
-    } catch (err) {
-        console.log(err);
-        req.flash('error', 'Error Creating Winner Card');
-        res.redirect('/admin/createWinner');
-    }
-});
-
-//Edit winner card
-router.post('/updateWinner', async (req, res, next) => {
-
-    //If no competition id is submitted with the form
-    if (!req.body.winnerID) {
-        req.flash('error', 'Winner ID Missing');
-        return res.redirect('/admin/winners');
-    }
-
-    //Set mainImageFile to current compImagePath
-    var mainImageFile = req.body.winnerImagePath;
-    //console.log('updateWinner req.body = ' + JSON.stringify(req.body));
-
-    //Input Validation
-    req.checkBody('title', 'Title cannot be empty').notEmpty();
-    req.checkBody('description', 'Description cannot be empty').notEmpty();
-    req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
-
-    var errors = req.validationErrors();
-    if (errors){
-        var messages = [];
-        errors.forEach(function(error){
-            messages.push(error.msg);
-        });
-        req.flash('error', messages);
-        return res.redirect('/admin/editWinner/'+req.body.winnerID);
-    }
-
-    console.log(req.files);
-    // If a new image has been uploaded
-    if (req.files && req.files.mainImageUpload) {
-        console.log('TRUE');
-        console.log(req.files.mainImageUpload);
-
-        mainImageFile = req.files.mainImageUpload;
-        const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
-
-        try {
-            await moveFile(mainImageFile, uploadPath);
-            mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
-            console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
-            console.log('New Main Image - '+mainImageFile);
-        } catch (err) {
-            //console.log("error path: " + uploadPath);
-            req.flash('error', 'Error uploading image - ' + uploadPath);
-            return res.redirect('/admin/editWinner/' + req.body.winnerID);
-        }
-    } else if (!mainImageFile) {
-        req.flash('error', 'Winner image is required');
-        return res.redirect('/admin/editWinner/' + req.body.winnerID);
-    }
-
-    // Set visible and active checkboxes
-    const visible = req.body.visible === 'on';
-    const pinned = req.body.pinned === 'on';
-
-    var winnerUpdate = {
-        imagePath: mainImageFile,
-        title: req.body.title,
-        description: req.body.description,
-        competitionReference: req.body.compID,
-        visible: visible,
-        pinned: pinned,
-        lastUpdated: new Date().toISOString(),
-    };
-
-    try {
-        await Winner.findOneAndUpdate({ _id: req.body.winnerID }, winnerUpdate, { upsert: false });
-
-        req.flash('success', 'Winner Card Successfully Updated');
-        res.redirect('/admin/editWinner/' + req.body.winnerID);
-    } catch (err) {
-        console.log(err);
-        req.flash('error', 'Error updating Winner Card');
-        res.redirect('/admin/editWinner/' + req.body.winnerID);
-    }
-});
-
-/////////////////////////////////////////////////////////////////////////
 //////////////////// Create a new draw result card /////////////////////
 router.post('/createDrawResult', async (req, res) => {
     try {
@@ -1140,7 +998,7 @@ router.post('/createDrawResult', async (req, res) => {
     }
 });
 
-//Edit draw result card/////////////////////////////////////////////
+//Edit draw result card/
 router.post('/updateDrawResult', async (req, res, next) => {
 
     //If no draw Result ID is submitted with the form
@@ -1203,6 +1061,157 @@ router.post('/updateDrawResult', async (req, res, next) => {
         res.redirect('/admin/editDrawResult/' + req.body.drawResultID);
     }
 });
+//////////////////////////////////////////////////////////////////////
+////////////////////// Create a new winner card //////////////////////
+router.post('/createWinner', async (req, res) => {
+    try {
+        //Set mainImageFile to current compImagePath
+        var mainImageFile = req.body.winnerImagePath;
+
+        //Input Validation
+        req.checkBody('title', 'Title cannot be empty').notEmpty();
+        req.checkBody('description', 'Description cannot be empty').notEmpty();
+        req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
+ 
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/createWinner');
+        }
+
+        // If a new image has been uploaded
+        if (req.files && req.files.mainImageUpload) {
+            mainImageFile = req.files.mainImageUpload;
+            const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
+
+            try {
+                await moveFile(mainImageFile, uploadPath);
+                mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+                //console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+                //console.log('New Main Image - '+mainImageFile);
+            } catch (err) {
+                //console.log("error path: " + uploadPath);
+                req.flash('error', 'Error uploading image - ' + uploadPath);
+                return res.redirect('/admin/createWinner/');
+            }
+        } else {
+            req.flash('error', 'Main Image required.');
+            return res.redirect('/admin/createWinner/');
+        }
+
+        const visible = req.body.visible === 'on';
+        const pinned = req.body.pinned === 'on';
+        
+        const newWinner = new Winner({
+            imagePath: mainImageFile,
+            title: req.body.title,
+            description: req.body.description,
+            visible: visible,
+            pinned: pinned,
+            competitionReference: req.body.compID,
+        });
+
+        const savedWinner = await newWinner.save();
+
+        if (savedWinner) {
+            console.log('Winner Card Saved!');
+            res.redirect('/admin/winners');
+        } else {
+            console.log('Error Saving Winner Card');
+            res.redirect('/admin/createWinner');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Creating Winner Card');
+        res.redirect('/admin/createWinner');
+    }
+});
+
+//Edit winner card
+router.post('/updateWinner', async (req, res, next) => {
+
+    //If no competition id is submitted with the form
+    if (!req.body.winnerID) {
+        req.flash('error', 'Winner ID Missing');
+        return res.redirect('/admin/winners');
+    }
+
+    //Set mainImageFile to current compImagePath
+    var mainImageFile = req.body.winnerImagePath;
+    //console.log('updateWinner req.body = ' + JSON.stringify(req.body));
+
+    //Input Validation
+    req.checkBody('winnerImagePath', 'Main Image cannot be empty').notEmpty();
+    req.checkBody('title', 'Title cannot be empty').notEmpty();
+    req.checkBody('description', 'Description cannot be empty').notEmpty();
+    req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
+
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/editWinner/'+req.body.winnerID);
+    }
+
+    //console.log(req.files);
+    // If a new image has been uploaded
+    if (req.files && req.files.mainImageUpload) {
+        //console.log('TRUE');
+        //console.log(req.files.mainImageUpload);
+
+        mainImageFile = req.files.mainImageUpload;
+        const uploadPath = __dirname + '/../imageUploads/' + mainImageFile.name;
+
+        try {
+            await moveFile(mainImageFile, uploadPath);
+            mainImageFile = req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name;
+            console.log('Test URL: ' + req.protocol + '://' + req.get('host') + '/images/' + mainImageFile.name);
+            console.log('New Main Image - '+mainImageFile);
+        } catch (err) {
+            //console.log("error path: " + uploadPath);
+            req.flash('error', 'Error uploading image - ' + uploadPath);
+            return res.redirect('/admin/editWinner/' + req.body.winnerID);
+        }
+    } else if (!mainImageFile) {
+        req.flash('error', 'Winner image is required');
+        return res.redirect('/admin/editWinner/' + req.body.winnerID);
+    }
+
+    // Set visible and active checkboxes
+    const visible = req.body.visible === 'on';
+    const pinned = req.body.pinned === 'on';
+
+    var winnerUpdate = {
+        imagePath: mainImageFile,
+        title: req.body.title,
+        description: req.body.description,
+        competitionReference: req.body.compID,
+        visible: visible,
+        pinned: pinned,
+        lastUpdated: new Date().toISOString(),
+    };
+
+    try {
+        await Winner.findOneAndUpdate({ _id: req.body.winnerID }, winnerUpdate, { upsert: false });
+
+        req.flash('success', 'Winner Card Successfully Updated');
+        res.redirect('/admin/editWinner/' + req.body.winnerID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating Winner Card');
+        res.redirect('/admin/editWinner/' + req.body.winnerID);
+    }
+});
+
+
 //////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////Create a New Coupon////////////////////////////////////////
 router.post('/createCoupon', async (req, res) => {

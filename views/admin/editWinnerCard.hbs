@@ -40,7 +40,7 @@
     <form action="/admin/updateWinner" id='updateWinnerForm' method="post" enctype="multipart/form-data" ref='updateWinnerForm' >
         <div class="card">
             <div class="card-content">
-                <label class="label">Main Image</label>
+                <label class="label">Main Image *</label>
                 <div class="card-image">
                     <figure class="image">
                     <img
@@ -68,9 +68,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{winner.title}}">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{winner.title}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -78,9 +78,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Card Description</label>
+                        <label class="label">Winner Card Description *</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{winner.description}}">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{winner.description}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -88,9 +88,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
+                        <label class="label">Competition ID *</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{winner.competitionReference}}">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{winner.competitionReference}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>

@@ -40,7 +40,7 @@
     <form action="/admin/createWinner" method="post" enctype="multipart/form-data" ref='createWinnerForm' id='createWinnerForm'>
         <div class="card">
             <div class="card-content">
-                <label class="label">Main Image</label>
+                <label class="label">Main Image *</label>
                 <div class="container">
                     <figure class="image">
                     <img
@@ -53,7 +53,7 @@
 
                     <div class="file is-normal has-name">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/>
+                            <input class="file-input" type="file" name="mainImageUpload" onchange="document.getElementById('mainImageDisplay').src = window.URL.createObjectURL(this.files[0])"/ required>
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -65,9 +65,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -75,9 +75,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Card Description</label>
+                        <label class="label">Winner Card Description *</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -85,9 +85,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
+                        <label class="label">Competition ID *</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="compID" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
