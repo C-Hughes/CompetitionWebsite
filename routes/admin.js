@@ -303,6 +303,12 @@ router.get('/users', function(req, res, next) {
     });
 });
 
+router.get('/viewOrders', function(req, res, next) {
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+});
 
 router.get('/admins', function(req, res, next) {
     var success = req.flash('success');
@@ -1574,6 +1580,46 @@ router.post('/updateUserAccountCredit', async (req, res, next) => {
         req.flash('error', 'Error Updating User Account Credit');
         console.log('error');
         res.redirect('/admin/users/');
+    }
+});
+
+////////////Find Order Details from submitted form////////////
+router.post('/viewOrders', async (req, res, next) => {
+
+    var orderLookupInfo = req.body.orderLookupInfo;
+    //If no draw Result ID is submitted with the form
+    if (!orderLookupInfo) {
+        req.flash('error', 'Order Information input is missing');
+        return res.redirect('/admin/viewOrders');
+    }
+
+    try {
+        //Try find order by id
+        var foundOrder;
+        if(ObjectId.isValid(orderLookupInfo)){
+            foundOrder = await Order.findById({_id: orderLookupInfo});
+        }
+
+        //If order not found from OrderID, try look for user details
+        if(!foundOrder){
+            var foundUser = await findUserID(orderLookupInfo);
+
+            //If userID found, lookup last 25 orders
+            if(foundUser){
+                foundOrder = await Order.find({ userReference: foundUser._id });
+            }
+        }
+
+        //if order is found
+        if(foundOrder){
+            res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, orderInfo: foundOrder});
+        } else {
+            res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, errors: true, error: ["Order Details Not Found"]});
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Finding Orders');
+        res.redirect('/admin/viewOrders/');
     }
 });
 ///////////////////////////////////////////////////////////////////////////////////

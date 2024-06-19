@@ -1,7 +1,7 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- After order is successful, update coupon times used etc...
+
 
 
 Competitions:
@@ -15,7 +15,6 @@ User:
 
 
 Other:
-- Coupons
 - Setup stripe for payments
 - Add functionality for instant win competitions
 - Email sending capability
@@ -81,6 +80,7 @@ Other:
 - Update to use .env
 - Button in Footer to change light / dark theme
 - Extra checks for all forms that accept date values. Make sure that the dates submitted are valid.
+- Coupons
 
 
 Competition:
@@ -115,6 +115,7 @@ When Buying Tickets:
 - Display basket errors in /checkout and /processOrder
 - If error message when updating basket for /processOrder, redirect to /basket
 - If final price is 0 then allow user to submit order without making a payment.
+- After order is successful, update coupon times used etc...
 
 
 Admin:

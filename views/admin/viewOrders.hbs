@@ -1,0 +1,109 @@
+<section class="hero is-danger">
+  <div class="hero-body has-text-centered">
+    <p class="title">Orders</p>
+  </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-fullhd">
+    <div class="content my-6">
+        <h1 class="title">Lookup Orders</h1>
+    </div>
+    {{#if hasError}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <form action="/admin/viewOrders" method="post">
+        <div class="field">
+            <label class="label">Order ID / User ID / Username / User Email Address</label>
+            <div class="control has-icons-left">
+                <input id="orderLookupInfo" name="orderLookupInfo" class="input" type="text" placeholder="Order / User Information">
+                <span class="icon is-small is-left">
+                    <i class="fa-solid fa-circle-info"></i>
+                </span>
+            </div>
+        </div>
+       
+        <input type="hidden" name="csrfToken" value="{{csrfToken}}"> 
+        <button type="submit" class="button is-fullwidth is-link mb-3">
+            <span class="icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <span>Lookup Order</span>
+        </button>
+    </form>
+
+    {{#if orderInfo}}
+        {{#each orderInfo}}
+            <div class="container notification">
+                <div class="columns">
+                    <div class="column is-2">
+                        <p class="title is-6">OrderID</p>
+                        <p class="subtitle is-6">{{this._id}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Order Status</p>
+                        <p class="subtitle is-6">{{this.orderStatus}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">First Name</p>
+                        <p class="subtitle is-6">{{this.firstName}}</p>
+                    </div>
+                    <div class="column is-2">
+                        <p class="title is-6">Last Name</p>
+                        <p class="subtitle is-6">{{this.lastName}}</p>
+                    </div>     
+                    <div class="column is-3">
+                        <p class="title is-6">Email Address</p>
+                        <p class="subtitle is-6">{{this.emailAddress}}</p>
+                    </div>                 
+                    <div class="column is-1">
+                        <button class="button is-link" onclick="toggleElement('orderInfo_{{this._id}}', true)">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div id="orderInfo_{{this._id}}" style="display:none">
+                    <div class="columns is-vcentered is-multiline">
+                        <div class="column is-5">
+                            <p class="title is-6">Shipping Address</p>
+                            <p>{{this.shippingAddressReference.firstName}}</p>
+                            <p>{{this.shippingAddressReference.lastName}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress1}}</p>
+                            <p>{{this.shippingAddressReference.streetAddress2}}</p>
+                            <p>{{this.shippingAddressReference.townCity}}</p>
+                            <p>{{this.shippingAddressReference.county}}</p>
+                            <p>{{this.shippingAddressReference.postcode}}</p>
+                        </div>
+                        <div class="column is-7">
+                            <p class="title is-6">User Info</p>
+                            <p><strong>Reward Points:</strong> {{this.rewardPoints}}</p>
+                            <p><strong>Reward Level:</strong> {{this.rewardLevel}}</p>
+                            <p><strong>Referral Code used at signup:</strong> {{this.signupReferralCodeUsed}}</p>
+                            <p><strong>Other Users Referred:</strong> {{this.usersReferred}}</p>
+                            <p><strong>Join Date:</strong> {{formatDate this.created}}</p>
+                            <p><strong>Last Login:</strong> {{formatDate this.lastUpdated}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+</div>
