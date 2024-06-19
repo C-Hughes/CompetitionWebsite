@@ -42,9 +42,9 @@
             <div class="card-content">
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
+                        <label class="label">Competition ID *</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{drawResult.competitionReference.id}}">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID" value="{{drawResult.competitionReference.id}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner User ID</label>
+                        <label class="label">Winner UserID</label>
                         <div class="control has-icons-left">
                             <input id="winnerID" name="winnerID" class="input" type="text" value="{{drawResult.userReference._id}}" disabled>
                             <span class="icon is-small is-left">
@@ -82,9 +82,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Username</label>
+                        <label class="label">Winner UserID / Username / User Email Address *</label>
                         <div class="control has-icons-left">
-                            <input id="username" name="username" class="input" type="text" placeholder="Winner Username" value="{{drawResult.userReference.username}}">
+                            <input id="userInfo" name="userInfo" class="input" type="text" placeholder="Winner User Info" value="{{drawResult.userReference._id}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                             </span>
@@ -92,9 +92,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{drawResult.title}}">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{drawResult.title}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -102,9 +102,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Draw Result Card Description</label>
+                        <label class="label">Draw Result Card Description *</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{drawResult.description}}">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{drawResult.description}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -112,9 +112,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winning Ticket Number</label>
+                        <label class="label">Winning Ticket Number *</label>
                         <div class="control has-icons-left">
-                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number" value="{{drawResult.winningTicketNumber}}">
+                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number" value="{{drawResult.winningTicketNumber}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>

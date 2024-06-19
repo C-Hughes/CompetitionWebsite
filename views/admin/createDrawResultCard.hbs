@@ -42,9 +42,9 @@
             <div class="card-content">
 
                     <div class="field">
-                        <label class="label">Competition ID</label>
+                        <label class="label">Competition ID *</label>
                         <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="compID">
+                            <input id="compID" name="compID" class="input" type="text" placeholder="compID" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-database"></i>
                             </span>
@@ -52,9 +52,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Username</label>
+                        <label class="label">Winner UserID / Username / User Email Address *</label>
                         <div class="control has-icons-left">
-                            <input id="username" name="username" class="input" type="text" placeholder="Winner Username">
+                            <input id="userInfo" name="userInfo" class="input" type="text" placeholder="User Info" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                             </span>
@@ -62,9 +62,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Title</label>
+                        <label class="label">Title *</label>
                         <div class="control has-icons-left">
-                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="[Winner Name] won this [Competition Title]!">
+                            <input id="title" name="title" class="input" type="text" placeholder="Title" value="[Winner Name] won this [Competition Title]!" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-heading"></i>
                             </span>
@@ -72,9 +72,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winner Card Description</label>
+                        <label class="label">Winner Card Description *</label>
                         <div class="control has-icons-left">
-                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]">
+                            <input id="description" name="description" class="input" type="text" placeholder="Description" value="Winning ticket - #[NUMBER]! Draw date: [DRAW DATE]" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-bars"></i>
                             </span>
@@ -82,9 +82,9 @@
                     </div>
 
                     <div class="field">
-                        <label class="label">Winning Ticket Number</label>
+                        <label class="label">Winning Ticket Number *</label>
                         <div class="control has-icons-left">
-                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number">
+                            <input id="winningTicketNumber" name="winningTicketNumber" class="input" type="text" placeholder="Winning Ticket Number" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-ticket"></i>
                             </span>

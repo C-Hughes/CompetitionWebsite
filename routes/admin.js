@@ -1077,9 +1077,11 @@ router.post('/createDrawResult', async (req, res) => {
 
         //Input Validation
         req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
-        req.checkBody('username', 'Winner username cannot be empty').notEmpty();
+        req.checkBody('userInfo', 'userInfo username cannot be empty').notEmpty();
         req.checkBody('title', 'Title cannot be empty').notEmpty();
         req.checkBody('description', 'Description cannot be empty').notEmpty();
+        req.checkBody('winningTicketNumber', 'winningTicketNumber cannot be empty').notEmpty();
+        req.checkBody('winningTicketNumber', 'winningTicketNumber must be a number').isInt();
  
         var errors = req.validationErrors();
         if (errors){
@@ -1092,12 +1094,14 @@ router.post('/createDrawResult', async (req, res) => {
         }
 
         //Lookup username and find userID
-        var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
+        //var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
+
+        var returnedUser = await findUserID(req.body.userInfo);
 
         if(returnedUser){
             var userReference = returnedUser._id;
         } else {
-            req.flash('error', 'Username not found');
+            req.flash('error', 'User not found');
             return res.redirect('/admin/createDrawResult');
         }
 
@@ -1147,9 +1151,11 @@ router.post('/updateDrawResult', async (req, res, next) => {
 
     //Input Validation
     req.checkBody('compID', 'Competition ID cannot be empty').notEmpty();
-    req.checkBody('username', 'Winner username cannot be empty').notEmpty();
+    req.checkBody('userInfo', 'userInfo username cannot be empty').notEmpty();
     req.checkBody('title', 'Title cannot be empty').notEmpty();
     req.checkBody('description', 'Description cannot be empty').notEmpty();
+    req.checkBody('winningTicketNumber', 'winningTicketNumber cannot be empty').notEmpty();
+    req.checkBody('winningTicketNumber', 'winningTicketNumber must be a number').isInt();
 
     var errors = req.validationErrors();
     if (errors){
@@ -1162,12 +1168,14 @@ router.post('/updateDrawResult', async (req, res, next) => {
     }
 
     //Lookup username and find userID
-    var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
+    //var returnedUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.username+'$', "i") } });
         
+    var returnedUser = await findUserID(req.body.userInfo);
+
     if(returnedUser){
         var userReference = returnedUser._id;
     } else {
-        req.flash('error', 'Username not found');
+        req.flash('error', 'User not found');
         return res.redirect('/admin/editDrawResult'+ req.body.drawResultID);
     }
 
