@@ -1597,7 +1597,7 @@ router.post('/viewOrders', async (req, res, next) => {
         //Try find order by id
         var foundOrder;
         if(ObjectId.isValid(orderLookupInfo)){
-            foundOrder = await Order.findById({_id: orderLookupInfo});
+            foundOrder = await Order.find({_id: orderLookupInfo});
         }
 
         //If order not found from OrderID, try look for user details
@@ -1614,7 +1614,7 @@ router.post('/viewOrders', async (req, res, next) => {
         if(foundOrder){
             res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, orderInfo: foundOrder});
         } else {
-            res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, errors: true, error: ["Order Details Not Found"]});
+            res.render('admin/viewOrders', { title: 'View Orders', active: { orders: true }, hasError: true, error: ["Order Details Not Found"]});
         }
     } catch (err) {
         console.log(err);
