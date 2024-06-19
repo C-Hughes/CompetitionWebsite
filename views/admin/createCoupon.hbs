@@ -58,27 +58,53 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Competition ID (If Coupon Only Applies to a Specific Competition)</label>
-                        <div class="control has-icons-left">
-                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-dice"></i>
-                            </span>
+                    <div class="tabs-wrapper">
+                        <label class="label">Discount Competition Restriction (Sitewide or Specific Competition) *</label>
+                        <div class="tabs is-centered is-boxed">
+                            <ul>
+                                <li class="is-active">
+                                    <a>
+                                        <span>Sitewide</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span>Competition Specific</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-content mb-4">
+                            <ul>
+                                <li class="is-active">
+                                    <div class="field">
+                                        <label class="label">Is Sitewide (If Coupon Applies to Any Competition Across the Whole Website)</label>
+                                        <i class="fa-solid fa-tag"></i>
+                                        <input id="sitewide" name="sitewide" type="checkbox">
+                                        <label for="PostalCheckbox">Sitewide</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="field">
+                                        <label class="label">Competition ID (If Coupon Only Applies to a Specific Competition)</label>
+                                        <div class="control has-icons-left">
+                                            <input id="compID" name="compID" class="input" type="text" placeholder="Competition ID">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-dice"></i>
+                                            </span>
+                                        </div>
+                                    </div>                                  
+                                </li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Is Sitewide (If Coupon Applies to Any Competition Across the Whole Website)</label>
-                        <i class="fa-solid fa-tag"></i>
-                        <input id="sitewide" name="sitewide" type="checkbox">
-                        <label for="PostalCheckbox">Sitewide</label>
-                    </div>
+                    <hr />
 
                     <div class="field">
                         <label class="label">Coupon Code (3-30 Characters A-Z0-9_-) *</label>
                         <div class="control has-icons-left">
-                            <input id="couponCode" name="couponCode" class="input" type="text" placeholder="Coupon Code">
+                            <input id="couponCode" name="couponCode" class="input" type="text" placeholder="Coupon Code" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-barcode"></i>
                             </span>
@@ -88,37 +114,64 @@
                     <div class="field">
                         <label class="label">Coupon Description (3-100 Characters A-Z0-9_% £-) *</label>
                         <div class="control has-icons-left">
-                            <input id="couponDescription" name="couponDescription" class="input" type="text" placeholder="Coupon Description">
+                            <input id="couponDescription" name="couponDescription" class="input" type="text" placeholder="Coupon Description" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-align-left"></i>
                             </span>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Coupon Amount (£ Discount from Whole Basket)</label>
-                        <div class="control has-icons-left">
-                            <input id="couponAmount" name="couponAmount" class="input" type="text" placeholder="Coupon £ Amount Reduction">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-sterling-sign"></i>
-                            </span>
+                    
+                    <div class="tabs-wrapper">
+                        <label class="label">Discount Type (Flat £ Reduction or % Reduction) *</label>
+                        <div class="tabs is-centered is-boxed">
+                            <ul>
+                                <li class="is-active">
+                                    <a>
+                                        <span>£ Amount</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span>% Percent</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-content mb-4">
+                            <ul>
+                                <li class="is-active">
+                                    <div class="field">
+                                        <label class="label">Coupon Amount (£ Discount from Whole Basket)</label>
+                                        <div class="control has-icons-left">
+                                            <input id="couponAmount" name="couponAmount" class="input" type="text" placeholder="Coupon £ Amount Reduction">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-sterling-sign"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="field">
+                                        <label class="label">Coupon Percent (% Discount from Whole Basket)</label>
+                                        <div class="control has-icons-left">
+                                            <input id="couponPercent" name="couponPercent" class="input" type="text" placeholder="Coupon % Percent Reduction">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-percent"></i>
+                                            </span>
+                                        </div>
+                                    </div>                                        
+                                </li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Coupon Percent (% Discount from Whole Basket)</label>
-                        <div class="control has-icons-left">
-                            <input id="couponPercent" name="couponPercent" class="input" type="text" placeholder="Coupon % Percent Reduction">
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-percent"></i>
-                            </span>
-                        </div>
-                    </div>           
+                    <hr />
 
                     <div class="field">
                         <label class="label">Coupon Minimum Spend (Amount that needs to be spent before discount can be applied. E.g. Spend £10, get £10 off) (0 = No Minimum Spend)*</label>
                         <div class="control has-icons-left">
-                            <input id="couponMinimumSpend" name="couponMinimumSpend" class="input" type="text" placeholder="Coupon % Percent Reduction">
+                            <input id="couponMinimumSpend" name="couponMinimumSpend" class="input" type="text" placeholder="Coupon % Percent Reduction" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-sterling-sign"></i>
                             </span>
@@ -128,7 +181,7 @@
                     <div class="field">
                         <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until) (Format: 2024-12-25:19:00) *</label>
                         <div class="control has-icons-left">
-                            <input id="couponExpiryDate" name="couponExpiryDate" class="input" type="text" placeholder="Date of Expiry for Coupon">
+                            <input id="couponExpiryDate" name="couponExpiryDate" class="input" type="text" placeholder="Date of Expiry for Coupon" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
@@ -138,7 +191,7 @@
                     <div class="field">
                         <label class="label">Number Of Uses Per Person (How Many Times the Coupon Code Can be Used Per Person) *</label>
                         <div class="control has-icons-left">
-                            <input id="numberOfUsesPerPerson" name="numberOfUsesPerPerson" class="input" type="text" placeholder="Number of Coupon Uses (Per Person)">
+                            <input id="numberOfUsesPerPerson" name="numberOfUsesPerPerson" class="input" type="text" placeholder="Number of Coupon Uses (Per Person)" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-hashtag"></i>
                             </span>
@@ -148,7 +201,7 @@
                     <div class="field">
                         <label class="label">Total Number Of Uses (Number of Times Coupon Can Be Used Before it Expires) (0 = Unlimited)*</label>
                         <div class="control has-icons-left">
-                            <input id="totalNumberOfUses" name="totalNumberOfUses" class="input" type="text" placeholder="Total Number of Uses">
+                            <input id="totalNumberOfUses" name="totalNumberOfUses" class="input" type="text" placeholder="Total Number of Uses" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-hashtag"></i>
                             </span>
