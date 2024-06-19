@@ -60,16 +60,16 @@
                     <div class="container">
                         <p class="subtitle is-3"><strong>Billing details</strong></p>
                         <div class="field">
-                            <label class="label">First Name</label>
+                            <label class="label">First Name *</label>
                             <div class="control has-icons-left">
-                                <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userBillingAddress.firstName}}">
+                                <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userBillingAddress.firstName}}" required>
                                 <span class="icon is-small is-left">
                                 <i class="fa-solid fa-user"></i>
                                 </span>
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Last Name</label>
+                            <label class="label">Last Name *</label>
                             <div class="control has-icons-left">
                                 <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userBillingAddress.lastName}}">
                                 <span class="icon is-small is-left">
@@ -78,10 +78,10 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Country / Region</label>
+                            <label class="label">Country / Region *</label>
                             <p class="control has-icons-left">
                                 <span class="select is-fullwidth">
-                                <select id="countryRegion" name="countryRegion">
+                                <select id="countryRegion" name="countryRegion" required>
                                     <option selected>{{userBillingAddress.countryRegion}}</option>
                                     {{> countryDropdown}}
                                 </select>
@@ -92,9 +92,9 @@
                             </p>
                         </div>
                         <div class="field">
-                            <label class="label">Street Address</label>
+                            <label class="label">Street Address *</label>
                             <div class="control has-icons-left">
-                                <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}">
+                                <input id="streetAddress1" name="streetAddress1" class="input" type="text" placeholder="Street Address 1" value="{{userBillingAddress.streetAddress1}}" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-road"></i>
                                 </span>
@@ -109,9 +109,9 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Town / City</label>
+                            <label class="label">Town / City *</label>
                             <div class="control has-icons-left">
-                                <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}">
+                                <input id="townCity" name="townCity" class="input" type="text" placeholder="Town / City" value="{{userBillingAddress.townCity}}" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-city"></i>
                                 </span>
@@ -127,57 +127,107 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Postcode</label>
+                            <label class="label">Postcode *</label>
                             <div class="control has-icons-left">
-                                <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}">
+                                <input id="postcode" name="postcode" class="input" type="text" placeholder="Postcode" value="{{userBillingAddress.postcode}}" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Phone Number</label>
+                            <label class="label">Phone Number *</label>
                             <div class="control has-icons-left">
-                                <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}">
+                                <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-phone"></i>
                                 </span>
                             </div>
                         </div>
-                        <label class="label">Date of Birth</label>
+                        <label class="label">Date of Birth *</label>
                         <div class="field is-grouped">
                             <p class="control">
                                 <span class="select">
-                                    <select id="DOBDD" name="DOBDD">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
+                                <select id="DOBDD" name="DOBDD" required>
+                                    {{#if userBillingAddress.DOBDD}}
+                                        <option selected>{{userBillingAddress.DOBDD}}</option>
+                                    {{else}}
+                                        <option></option>
+                                    {{/if}}
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                    <option>13</option>
+                                    <option>14</option>
+                                    <option>15</option>
+                                    <option>16</option>
+                                    <option>17</option>
+                                    <option>18</option>
+                                    <option>19</option>
+                                    <option>20</option>
+                                    <option>21</option>
+                                    <option>22</option>
+                                    <option>23</option>
+                                    <option>24</option>
+                                    <option>25</option>
+                                    <option>26</option>
+                                    <option>27</option>
+                                    <option>28</option>
+                                    <option>29</option>
+                                    <option>30</option>
+                                    <option>31</option>
+                                </select>
                                 </span>
                             </p>
                             <p class="control">
                                 <span class="select">
-                                    <select id="DOBMM" name="DOBMM">
-                                        <option>January</option>
-                                        <option>February</option>
-                                        <option>March</option>
-                                    </select>
+                                <select id="DOBMM" name="DOBMM" required>
+                                    {{#if userBillingAddress.DOBMM}}
+                                        <option selected>{{userBillingAddress.DOBMM}}</option>
+                                    {{else}}
+                                        <option selected></option>
+                                    {{/if}}
+                                    <option>January</option>
+                                    <option>February</option>
+                                    <option>March</option>
+                                    <option>April</option>
+                                    <option>May</option>
+                                    <option>June</option>
+                                    <option>July</option>
+                                    <option>August</option>
+                                    <option>September</option>
+                                    <option>October</option>
+                                    <option>November</option>
+                                    <option>December</option>
+                                </select>
                                 </span>
                             </p>
                             <p class="control">
                                 <span class="select">
-                                    <select id="DOBYY" name="DOBYY">
-                                        <option>2024</option>
-                                        <option>2023</option>
-                                        <option>2022</option>
-                                    </select>
+                                <select id="DOBYY" name="DOBYY" required>
+                                    {{#if userBillingAddress.DOBYY}}
+                                        <option selected>{{userBillingAddress.DOBYY}}</option>
+                                    {{else}}
+                                        <option selected></option>
+                                    {{/if}}
+                                    {{> DOBYear}}
+                                </select>
                                 </span>
                             </p>
                         </div>
                         <div class="field">
-                            <label class="label">Email Address</label>
+                            <label class="label">Email Address *</label>
                             <p class="control is-expanded has-icons-left has-icons-right">
-                                <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userBillingAddress.emailAddress}}">
+                                <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userBillingAddress.emailAddress}}" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
