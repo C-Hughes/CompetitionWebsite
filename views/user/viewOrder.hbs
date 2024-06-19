@@ -75,13 +75,16 @@
 
     {{#ifNotEquals order.paymentSubtotalPrice order.paymentPrice}}
         <div class="container">
-            <p class="subtitle is-6 is-pulled-left"><strong>Discount(s):</strong></p>
-            <p class="subtitle is-6 is-pulled-right"><strong>
-                {{order.couponCodeUsed}}
+            <p class="subtitle is-6"><strong>Discount(s):</strong></p>
+            <div class="content">
                 {{#each order.couponCodeUsed}}
-                    
-                    <p>{{this}} - {{couponDescription}}</p>
-                {{/each}}</strong></p>
+                    <p>
+                        <span class="tag is-medium is-info">
+                            {{this.couponCode}}
+                        </span> {{this.couponDescription}}
+                    </p>
+                {{/each}}
+            </div>    
         </div>
         <br />
         <hr />

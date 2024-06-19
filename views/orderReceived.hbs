@@ -65,6 +65,23 @@
     <br />
     <hr />
 
+    {{#ifNotEquals order.paymentSubtotalPrice order.paymentPrice}}
+        <div class="container">
+            <p class="subtitle is-6"><strong>Discount(s):</strong></p>
+            <div class="content">
+                {{#each order.couponCodeUsed}}
+                    <p>
+                        <span class="tag is-medium is-info">
+                            {{this.couponCode}}
+                        </span> {{this.couponDescription}}
+                    </p>
+                {{/each}}
+            </div>    
+        </div>
+        <br />
+        <hr />
+    {{/ifNotEquals}}
+
     <div class="container px-3">
         <p class="subtitle is-6 is-pulled-left"><strong>Payment method:</strong></p>
         <p class="subtitle is-6 is-pulled-right"><strong>{{order.paymentMethod}}</strong></p>
