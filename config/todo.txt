@@ -3,7 +3,6 @@
 When buying tickets:
 
 
-
 Competitions:
 - Change /addtobasket to a post request...
 
@@ -24,11 +23,12 @@ Other:
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 - Add * to all required fields / add required html tag to required fields
 - Update all userlookups in forms to use findUser function. Also save userID in DB.
+- Date verification for DOB, make sure user is 18+
 
 
 Admin functionality:
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
-- View order functionality for admins
+
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
@@ -132,6 +132,7 @@ Admin:
 - Ability for admin to manually enter people into competitions that have posted in.
 - Ban users for x amount of time
 - Administrate coupon codes
+- View order functionality for admins
 
 
 AntiCheat / User monitoring:

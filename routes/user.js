@@ -129,16 +129,7 @@ router.post('/address/:addressType', async function(req, res, next) {
             req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
             req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
             req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-            if (req.body.emailAddress) {
-                req.checkBody('emailAddress', 'Email is not valid').isEmail();
-            }
-            if (req.body.DOBDD || req.body.DOBMM || req.body.DOBYY) {
-                req.checkBody('DOBDD', 'Date of Birth Day cannot be empty').notEmpty();
-                req.checkBody('DOBMM', 'Date of Birth Month cannot be empty').notEmpty();
-                req.checkBody('DOBYY', 'Date of Birth Year cannot be empty').notEmpty();
-                req.checkBody('DOBDD', 'Date of Birth Day must be a Number').isInt();
-                req.checkBody('DOBYY', 'Date of Birth Year must be a Number').isInt();
-            }
+            req.checkBody('phoneNumber', 'Phone Number cannot be empty').notEmpty();
 
             const errors = req.validationErrors();
             if (errors) {
@@ -157,11 +148,6 @@ router.post('/address/:addressType', async function(req, res, next) {
                 county: req.body.county,
                 postcode: req.body.postcode,
                 phoneNumber: req.body.phoneNumber,
-                DOB: new Date(`${req.body.DOBDD}/${req.body.DOBMM}/${req.body.DOBYY}`),
-                DOBDD: req.body.DOBDD,
-                DOBMM: req.body.DOBMM,
-                DOBYY: req.body.DOBYY,
-                emailAddress: req.body.emailAddress,
                 lastUpdated: new Date().toISOString(),
             };
 
@@ -175,9 +161,6 @@ router.post('/address/:addressType', async function(req, res, next) {
             req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
             req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
             req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
-            if (req.body.emailAddress) {
-                req.checkBody('emailAddress', 'Email is not valid').isEmail();
-            }
 
             const errors = req.validationErrors();
             if (errors) {
@@ -195,8 +178,6 @@ router.post('/address/:addressType', async function(req, res, next) {
                 townCity: req.body.townCity,
                 county: req.body.county,
                 postcode: req.body.postcode,
-                phoneNumber: req.body.phoneNumber,
-                emailAddress: req.body.emailAddress,
                 lastUpdated: new Date().toISOString(),
             };
 

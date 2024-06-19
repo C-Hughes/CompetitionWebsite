@@ -457,6 +457,7 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
     req.checkBody('streetAddress1', 'Street Address 1 cannot be empty').notEmpty();
     req.checkBody('townCity', 'Town / City cannot be empty').notEmpty();
     req.checkBody('postcode', 'Postcode cannot be empty').notEmpty();
+    req.checkBody('phoneNumber', 'Phone Number cannot be empty').notEmpty();
     if(req.body.emailAddress){
         req.checkBody('emailAddress', 'Email is not valid').isEmail();
     }

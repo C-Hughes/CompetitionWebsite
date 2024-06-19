@@ -11,7 +11,7 @@ var billingAddressSchema = new Schema({
     townCity: {type: String, required: true},
     county: {type: String, required: false},
     postcode: {type: String, required: true},
-    phoneNumber: {type: String, required: false},
+    phoneNumber: {type: String, required: true},
     emailAddress: {type: String, required: false},
     DOB: {type: Date, required: false},
     DOBDD: {type: Number, required: false},
