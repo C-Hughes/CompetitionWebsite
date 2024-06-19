@@ -814,10 +814,10 @@ router.post('/submitPostalEntry', async (req, res, next) => {
         }
 
         // Check if user has not exceeded max postal entries per person      
-        var postalVotesSubmitted = await findPostalEntry(postalUser._id, req.body.compID);
+        var postalEntriesSubmitted = await findPostalEntry(postalUser._id, req.body.compID);
 
-        if (postalVotesSubmitted >= competition.maxPostalVotes) {
-            req.flash('error', 'User has reached maximum postal entries for this competition. Postal Entries = '+postalVotesSubmitted);
+        if (postalEntriesSubmitted >= competition.maxPostalEntries) {
+            req.flash('error', 'User has reached maximum postal entries for this competition. Postal Entries = '+postalEntriesSubmitted);
             return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
         }
 
