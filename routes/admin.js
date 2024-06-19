@@ -1606,7 +1606,7 @@ router.post('/viewOrders', async (req, res, next) => {
 
             //If userID found, lookup last 25 orders
             if(foundUser){
-                foundOrder = await Order.find({ userReference: foundUser._id });
+                foundOrder = await Order.find({ userReference: foundUser._id }).sort({created: -1});
             }
         }
 

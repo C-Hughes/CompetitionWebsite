@@ -50,7 +50,7 @@
 
     {{#if orderInfo}}
         {{#each orderInfo}}
-            <div class="container notification">
+            <div class="container notification is-danger">
                 <div class="columns">
                     <div class="column is-2">
                         <p class="title is-6">OrderID</p>
@@ -61,16 +61,16 @@
                         <p class="subtitle is-6">{{this.orderStatus}}</p>
                     </div>
                     <div class="column is-2">
-                        <p class="title is-6">First Name</p>
-                        <p class="subtitle is-6">{{this.firstName}}</p>
+                        <p class="title is-6">Payment Price</p>
+                        <p class="subtitle is-6">{{formatPrice this.paymentPrice}}</p>
                     </div>
                     <div class="column is-2">
-                        <p class="title is-6">Last Name</p>
-                        <p class="subtitle is-6">{{this.lastName}}</p>
+                        <p class="title is-6">Payment Method</p>
+                        <p class="subtitle is-6">{{this.paymentMethod}}</p>
                     </div>     
                     <div class="column is-3">
-                        <p class="title is-6">Email Address</p>
-                        <p class="subtitle is-6">{{this.emailAddress}}</p>
+                        <p class="title is-6">Order Created</p>
+                        <p class="subtitle is-6">{{formatDate this.created}}</p>
                     </div>                 
                     <div class="column is-1">
                         <button class="button is-link" onclick="toggleElement('orderInfo_{{this._id}}', true)">
@@ -81,25 +81,103 @@
                     </div>
                 </div>
                 <div id="orderInfo_{{this._id}}" style="display:none">
-                    <div class="columns is-vcentered is-multiline">
-                        <div class="column is-5">
-                            <p class="title is-6">Shipping Address</p>
-                            <p>{{this.shippingAddressReference.firstName}}</p>
-                            <p>{{this.shippingAddressReference.lastName}}</p>
-                            <p>{{this.shippingAddressReference.streetAddress1}}</p>
-                            <p>{{this.shippingAddressReference.streetAddress2}}</p>
-                            <p>{{this.shippingAddressReference.townCity}}</p>
-                            <p>{{this.shippingAddressReference.county}}</p>
-                            <p>{{this.shippingAddressReference.postcode}}</p>
+                    <div class="columns is-multiline">
+                        <div class="column is-12">
+                            <p class="title is-6">More Info</p>
+                            <p><strong>Order Subtotal:</strong> {{formatPrice this.paymentSubtotalPrice}}</p>
+                            <p><strong>Last Updated:</strong> {{formatDate this.lastUpdated}}</p>
                         </div>
-                        <div class="column is-7">
-                            <p class="title is-6">User Info</p>
-                            <p><strong>Reward Points:</strong> {{this.rewardPoints}}</p>
-                            <p><strong>Reward Level:</strong> {{this.rewardLevel}}</p>
-                            <p><strong>Referral Code used at signup:</strong> {{this.signupReferralCodeUsed}}</p>
-                            <p><strong>Other Users Referred:</strong> {{this.usersReferred}}</p>
-                            <p><strong>Join Date:</strong> {{formatDate this.created}}</p>
-                            <p><strong>Last Login:</strong> {{formatDate this.lastUpdated}}</p>
+                        <div class="column is-12">
+                            <p class="title is-3">Basket</p>
+                            <div class="container">
+                                {{# each this.basket}}
+                                    <div class="columns is-vcentered is-mobile is-multiline">
+                                        <div class="column is-9">
+                                            <div class="columns">
+                                                <div class="column">
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <figure class="image is-64x64">
+                                                            <img
+                                                                src="{{this.item.imagePath}}" 
+                                                                alt="Placeholder image"
+                                                            />
+                                                            </figure>
+                                                        </div>
+                                                        <div class="media-content py-1">
+                                                            <p class="title is-6"><a href="/competition/{{this.item._id}}"><span class="subtitle is-6"> Win this {{this.item.title}}!</a></span> x {{this.qty}}</p>
+                                                            <p class="subtitle is-6"><strong>Answer:</strong> {{this.questionAnswer}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-3">
+                                            <div class="columns is-mobile">
+                                                <div class="column is-flex is-justify-content-right is-align-items-right">
+                                                    <p class="subtitle is-6"><strong>£{{this.itemTotalPrice}}</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-12">
+                                            <p class="subtitle is-6"><strong>Ticket Number(s):</strong> {{formatTicketNumberOutput this.ticketNumbers}}.</p>
+                                        </div>
+                                    </div> 
+                                    <hr />
+                                {{/each}}
+                            </div>
+                            <div class="container">
+                                <p class="subtitle is-6 is-pulled-left"><strong>Subtotal:</strong></p>
+                                <p class="subtitle is-6 is-pulled-right"><strong>£{{this.paymentSubtotalPrice}}</strong></p>
+                            </div>
+                            <br />
+                            <hr />
+
+                            {{#ifNotEquals this.paymentSubtotalPrice this.paymentPrice}}
+                                <div class="container">
+                                    <p class="subtitle is-6"><strong>Discount(s):</strong></p>
+                                    <div class="content">
+                                        {{#each this.couponCodeUsed}}
+                                            <p>
+                                                <span class="tag is-medium is-info">
+                                                    {{this.couponCode}}
+                                                </span> {{this.couponDescription}}
+                                            </p>
+                                        {{/each}}
+                                    </div>    
+                                </div>
+                                <br />
+                                <hr />
+                            {{/ifNotEquals}}
+
+                            <div class="container">
+                                <p class="subtitle is-6 is-pulled-left"><strong>Payment method:</strong></p>
+                                <p class="subtitle is-6 is-pulled-right"><strong>{{this.paymentMethod}}</strong></p>
+                            </div>
+                            <br />
+                            <hr />
+
+                            <div class="container">
+                                <p class="subtitle is-6 is-pulled-left"><strong>Total</strong></p>
+                                <p class="subtitle is-6 is-pulled-right"><strong>£{{this.paymentPrice}}</strong></p>
+                            </div>
+                            <br />
+                            <hr />
+
+                            {{#if this.billingAddress}}
+                                <h1 class="title is-3">Billing Address</strong></h2>
+                                <p>{{this.billingAddress.firstName}} {{this.billingAddress.lastName}}</p>
+                                <p>{{this.billingAddress.streetAddress1}}</p>
+                                <p>{{this.billingAddress.townCity}}</p>
+                                <p>{{this.billingAddress.postcode}}</p>
+                                <p>{{this.billingAddress.phoneNumber}}</p>
+                                <br />
+                                <p>{{this.billingAddress.emailAddress}}</p>
+                            {{else}}
+                                {{#isPostalEntry this.paymentID}}
+                                    <h1 class="title is-3">Postal Entry</strong></h2>
+                                {{/isPostalEntry}}
+                            {{/if}}
                         </div>
                     </div>
                 </div>
