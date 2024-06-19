@@ -807,13 +807,14 @@ router.post('/submitPostalEntry', async (req, res, next) => {
         }
 
         //Get User Information
-        const postalUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
+        //const postalUser = await User.findOne({ "username" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
+        var postalUser = await findUserID(req.body.userInfo);
         if (!postalUser) {
-            const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
-            if (!postalUser) {
-                req.flash('error', 'Username / Email Address not found');
+            //const postalUser = await User.findOne({ "emailAddress" : { $regex : new RegExp('^'+req.body.userInfo+'$', "i") } });
+            //if (!postalUser) {
+                req.flash('error', 'User not found');
                 return res.redirect('/admin/submitPostalEntry/'+req.body.compID);
-            }
+            //}
         }
 
         // Check if user has not exceeded max postal entries per person      

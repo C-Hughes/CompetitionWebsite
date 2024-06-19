@@ -121,16 +121,16 @@
 
     <form action="/admin/submitPostalEntry" method="post">
         <div class="field">
-            <label class="label">Postal Entrants Username or Email Address</label>
+            <label class="label">Postal Entrants UserID / Username / Email Address *</label>
             <div class="control has-icons-left">
-                <input id="userInfo" name="userInfo" class="input" type="text" placeholder="Username or Email Address">
+                <input id="userInfo" name="userInfo" class="input" type="text" placeholder="User Information">
                 <span class="icon is-small is-left">
                     <i class="fa-solid fa-user"></i>
                 </span>
             </div>
         </div>
 
-        <label class="label">{{competition.questionText}}</label>
+        <label class="label">{{competition.questionText}} *</label>
         <div id="errorMessage" class="has-text-danger is-dark has-text-centered">
             {{#if hasError}}
                 {{#each error}}
