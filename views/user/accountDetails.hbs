@@ -36,9 +36,9 @@
         <div class="container">
             <form action="/user/accountDetails/updateDetails" method="post">
                 <div class="field">
-                    <label class="label">First Name</label>
+                    <label class="label">First Name *</label>
                     <div class="control has-icons-left">
-                        <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userDetails.firstName}}">
+                        <input id="firstName" name="firstName" class="input" type="text" placeholder="First Name" value="{{userDetails.firstName}}" required>
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-user"></i>
                         </span>
@@ -46,9 +46,9 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Last Name</label>
+                    <label class="label">Last Name *</label>
                     <div class="control has-icons-left">
-                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userDetails.lastName}}">
+                        <input id="lastName" name="lastName" class="input" type="text" placeholder="Last Name" value="{{userDetails.lastName}}" required>
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-user"></i>
                         </span>
@@ -56,9 +56,9 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Display Name <span class="has-text-weight-light">(How your name is displayed in the account section and in reviews)</span></label>
+                    <label class="label">Display Name * <span class="has-text-weight-light">(How your name is displayed in the account section and in reviews)</span></label>
                     <div class="control has-icons-left">
-                        <input id="displayName" name="displayName" class="input" type="text" placeholder="Display Name" value="{{userDetails.displayName}}">
+                        <input id="displayName" name="displayName" class="input" type="text" placeholder="Display Name" value="{{userDetails.displayName}}" required>
                         <span class="icon is-small is-left">
                         <i class="fa-solid fa-id-card"></i>
                         </span>
@@ -66,24 +66,24 @@
                 </div>
 
                 <div class="field">
-                    <label class="label">Email Address</label>
+                    <label class="label">Email Address *</label>
                     <p class="control is-expanded has-icons-left has-icons-right">
-                        <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userDetails.emailAddress}}">
+                        <input id="emailAddress" name="emailAddress" class="input" type="email" placeholder="Email Address" value="{{userDetails.emailAddress}}" required>
                         <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                         </span>
                     </p>
                 </div>
 
-                <label class="label">Date of Birth</label>
+                <label class="label">Date of Birth *</label>
                 <div class="field is-grouped">
                     <p class="control">
                         <span class="select">
-                        <select id="DOBDD" name="DOBDD">
+                        <select id="DOBDD" name="DOBDD" required>
                             {{#if userDetails.DOBDD}}
                                 <option selected>{{userDetails.DOBDD}}</option>
                             {{else}}
-                                <option selected>Day</option>
+                                <option></option>
                             {{/if}}
                             <option>1</option>
                             <option>2</option>
@@ -121,11 +121,11 @@
                     </p>
                     <p class="control">
                         <span class="select">
-                        <select id="DOBMM" name="DOBMM">
+                        <select id="DOBMM" name="DOBMM" required>
                             {{#if userDetails.DOBMM}}
                                 <option selected>{{userDetails.DOBMM}}</option>
                             {{else}}
-                                <option selected>Month</option>
+                                <option selected></option>
                             {{/if}}
                             <option>January</option>
                             <option>February</option>
@@ -144,11 +144,11 @@
                     </p>
                     <p class="control">
                         <span class="select">
-                        <select id="DOBYY" name="DOBYY">
+                        <select id="DOBYY" name="DOBYY" required>
                             {{#if userDetails.DOBYY}}
                                 <option selected>{{userDetails.DOBYY}}</option>
                             {{else}}
-                                <option selected>Year</option>
+                                <option selected></option>
                             {{/if}}
                             {{> DOBYear}}
                         </select>
@@ -184,10 +184,10 @@
     <div class="mx-3">
         <div class="container">
             <form action="/user/updatePassword" method="post">
-                <label class="label">Current Password</label>
+                <label class="label">Current Password *</label>
                 <div class="field has-addons">
                     <div class="control is-expanded has-icons-left">
-                        <input id="password" name="password" type="password" class="input" placeholder="Current Password">
+                        <input id="password" name="password" type="password" class="input" placeholder="Current Password" required>
                         <span class="icon is-left">
                             <i class="fas fa-lock"></i>
                         </span>
@@ -198,10 +198,10 @@
                         </button>
                     </div>
                 </div>
-                <label class="label">New Password</label>
+                <label class="label">New Password *</label>
                 <div class="field has-addons">
                     <div class="control is-expanded has-icons-left">
-                        <input id="newPassword" name="newPassword" type="password" class="input" placeholder="New Password">
+                        <input id="newPassword" name="newPassword" type="password" class="input" placeholder="New Password" required>
                         <span class="icon is-left">
                             <i class="fas fa-lock"></i>
                         </span>
@@ -213,10 +213,10 @@
                     </div>
                 </div>
 
-                <label class="label">Confirm New Password</label>
+                <label class="label">Confirm New Password *</label>
                 <div class="field has-addons">
                     <div class="control is-expanded has-icons-left">
-                        <input id="newPasswordConf" name="newPasswordConf" type="password" class="input" placeholder="Confirm New Password">
+                        <input id="newPasswordConf" name="newPasswordConf" type="password" class="input" placeholder="Confirm New Password" required>
                         <span class="icon is-left">
                             <i class="fas fa-lock"></i>
                         </span>
