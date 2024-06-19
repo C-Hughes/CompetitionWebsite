@@ -30,7 +30,7 @@ Other:
 
 Admin functionality:
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
-
+- View order functionality for admins
 
 AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users

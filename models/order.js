@@ -12,7 +12,7 @@ var orderSchema = new Schema({
     paymentMethod: {type: String, required: true},
     paymentSubtotalPrice: {type: Number, required: true},
     paymentPrice: {type: Number, required: true},
-    couponCodeUsed: [{type: String, required: false}],
+    couponCodeUsed: [{type: Object, required: false}],
     orderStatus: {type: String, required: true, default: '-'},
     created: {type: Date, default: Date.now, required: true},
     lastUpdated: {type: Date, default: Date.now, required: true}

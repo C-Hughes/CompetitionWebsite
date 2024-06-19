@@ -447,7 +447,7 @@ router.get('/images/:imageName', (req, res) => {
 ////////////////////////// ROUTE POSTS ////////////////////////////
 
 router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
-    if (!req.session.basket || req.session.basket.totalPrice == 0){
+    if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0){
         return res.redirect('/basket');
     }
     //Input Validation
@@ -539,6 +539,7 @@ router.post('/checkout', isLoggedIn, isNotBanned, async (req, res, next) => {
                 req.session.basket = null;
                 return res.redirect('/orderReceived');
             }
+        //If order total is more than 0, then ser order as pending and redirect to /processCard    
         } else {
             const order = new Order({
                 userReference: req.user,
@@ -745,6 +746,14 @@ const generateOrderCompTickets = async (req, res, next) => {
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 ////////////////////////////////////////////////////////////////            
+            }
+        }
+        //If any coupon codes have been used, then update coupon DB information
+        var basketCoupons = basket.basketCouponsApplied;
+        if(basketCoupons.length > 0){
+            //Loop through all coupon codes
+            for (let coupon of basketCoupons) {
+                await Coupon.findOneAndUpdate({ "couponCode" : { $regex : new RegExp('^'+coupon.couponCode+'$', "i") }}, {$inc: { timesUsed: 1 }, lastUpdated: new Date().toISOString()}, { upsert: false });
             }
         }
         //Update order with new basket which contains the purchased ticket numbers. This is displayed on the /orderReceived GET route & /viewOrder route.

@@ -68,10 +68,24 @@
     
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Subtotal:</strong></p>
-        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentPrice}}</strong></p>
+        <p class="subtitle is-6 is-pulled-right"><strong>£{{order.paymentSubtotalPrice}}</strong></p>
     </div>
     <br />
     <hr />
+
+    {{#ifNotEquals order.paymentSubtotalPrice order.paymentPrice}}
+        <div class="container">
+            <p class="subtitle is-6 is-pulled-left"><strong>Discount(s):</strong></p>
+            <p class="subtitle is-6 is-pulled-right"><strong>
+                {{order.couponCodeUsed}}
+                {{#each order.couponCodeUsed}}
+                    
+                    <p>{{this}} - {{couponDescription}}</p>
+                {{/each}}</strong></p>
+        </div>
+        <br />
+        <hr />
+    {{/ifNotEquals}}
 
     <div class="container">
         <p class="subtitle is-6 is-pulled-left"><strong>Payment method:</strong></p>
