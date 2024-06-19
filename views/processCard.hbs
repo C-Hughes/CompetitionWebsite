@@ -13,9 +13,9 @@
                 <form action="/processCard" method="post">
                     <div class="container">
                         <div class="field">
-                            <label class="label">Card Number</label>
+                            <label class="label">Card Number *</label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Card Number">
+                                <input id="cardNumber" name="cardNumber" class="input" type="text" placeholder="Card Number" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa-solid fa-credit-card"></i>
                                 </span>
@@ -23,18 +23,18 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <label class="label">Expiry date</label>
+                                <label class="label">Expiry date *</label>
                                 <p class="control is-expanded has-icons-left">
-                                    <input class="input" type="text" placeholder="MM/YY">
+                                    <input id="cardExpiry" name="" class="input" type="text" placeholder="MM/YY" required>
                                     <span class="icon is-small is-left">
                                         <i class="fa-solid fa-calendar-days"></i>
                                     </span>
                                 </p>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Security Code</label>
+                                    <label class="label">Security Code *</label>
                                     <p class="control is-expanded has-icons-left has-icons-right">
-                                        <input class="input" type="text" placeholder="CVV">
+                                        <input id="cardCvv" name="cvv" class="input" type="text" placeholder="CVV" required>
                                         <span class="icon is-small is-left">
                                             <i class="fa-solid fa-shield"></i>
                                         </span>

@@ -587,6 +587,28 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
     if (!req.session.basket || req.session.basket.totalPrice == 0){
         return res.redirect('/basket');
     } else {
+
+        //Input Validation
+        req.checkBody('cardNumber', 'Card Number cannot be empty').notEmpty();
+        req.checkBody('cardNumber', 'Invalid Card Number').isInt();
+        req.checkBody('cardNumber', 'Invalid Card Length').isLength({min:7, max:20});
+        req.checkBody('cardExpiry', 'Card Expiry cannot be empty').notEmpty();
+        req.checkBody('cardCvv', 'Invalid Card Expiry Length').isLength({min:2, max:8});
+        req.checkBody('cardCvv', 'CVV cannot be empty').notEmpty();
+        req.checkBody('cardCvv', 'Invalid CVV').isInt();
+        req.checkBody('cardCvv', 'Invalid CVV Length').isLength({min:2, max:5});
+        
+
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/checkout');
+        }
+
         try {
             var basket = new Basket(req.session.basket);
             var competitionEntries = basket.generateArray();
