@@ -22,7 +22,7 @@ Other:
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 - Date verification for DOB, make sure user is 18+
-- Check pending error going below 0 bug
+
 
 
 Admin functionality:
@@ -33,6 +33,10 @@ AntiCheat / User monitoring:
 - Show users that share the same shipping / billing addresses with other users
 - Show users who have the highest rewardpoints / reward level
 
+
+Bug Fixes:
+- Check pending error going below 0 bug
+- Fix basket not appearing when logging out and back in again
 
 
 Testing:
