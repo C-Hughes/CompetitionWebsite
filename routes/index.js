@@ -742,6 +742,7 @@ router.post('/login', async (req, res, next) => {
             });
         });
 
+
         if (basketBeforeLogin) {
             // Restore the basket from the temporary variable
             req.session.basket = basketBeforeLogin || {};
@@ -749,7 +750,7 @@ router.post('/login', async (req, res, next) => {
             //Set basket and update basket if basket was present when last logged in
             if(user.basket){
                 var basket = new Basket(user.basket);
-                await basket.updateBasket(); // Update the basket
+                await basket.updateBasket(user); // Update the basket
                 req.session.basket = basket;
             }
         }
