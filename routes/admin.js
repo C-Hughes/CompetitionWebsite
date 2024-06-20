@@ -1275,9 +1275,11 @@ router.post('/createCoupon', async (req, res) => {
             return res.redirect('/admin/createCoupon');
         }
         //If minimum spend is set, make sure it cannot be lower than coupon amount 
-        if((req.body.couponAmount && req.body.couponMinimumSpend > 0) && (req.body.couponMinimumSpend <= req.body.couponAmount)){
-            req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
-            return res.redirect('/admin/createCoupon');
+        if(req.body.couponAmount && req.body.couponMinimumSpend > 0){
+            if(Number(req.body.couponMinimumSpend) <= Number(req.body.couponAmount)){
+                req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
+                return res.redirect('/admin/createCoupon');
+            }
         }
 
         const sitewide = req.body.sitewide === 'on';
@@ -1386,10 +1388,13 @@ router.post('/updateCoupon', async (req, res, next) => {
         return res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
     //If minimum spend is set, make sure it cannot be lower than coupon amount 
-    if((req.body.couponAmount && req.body.couponMinimumSpend > 0) && (req.body.couponMinimumSpend <= req.body.couponAmount)){
-        req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
-        return res.redirect('/admin/editCoupon/' + req.body.couponID);
+    if(req.body.couponAmount && req.body.couponMinimumSpend > 0){
+        if(Number(req.body.couponMinimumSpend) <= Number(req.body.couponAmount)){
+            req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
+            return res.redirect('/admin/editCoupon/' + req.body.couponID);
+        }
     }
+
 
     const sitewide = req.body.sitewide === 'on';
     const active = req.body.active === 'on';
