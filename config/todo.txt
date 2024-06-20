@@ -21,8 +21,6 @@ Other:
 - Email password reset
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
-- Add * to all required fields / add required html tag to required fields
-- Update all userlookups in forms to use findUser function. Also save userID in DB.
 - Date verification for DOB, make sure user is 18+
 - Check pending error going below 0 bug
 
@@ -82,6 +80,8 @@ Other:
 - Button in Footer to change light / dark theme
 - Extra checks for all forms that accept date values. Make sure that the dates submitted are valid.
 - Coupons
+- Update all userlookups in forms to use findUser function.
+- Add * to all required fields / add required html tag to required fields
 
 
 Competition:

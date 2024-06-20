@@ -10,6 +10,34 @@
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
         </a>
+
+        <div class="navbar-item is-hidden-desktop">
+            <div class="buttons">
+                {{#ifGreaterThan0 session.basket.basketTotalQty}}
+                <a href="/basket" class="button is-primary">
+                    <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
+                    <span title="Badge top right" class="badge is-danger is-right">{{session.basket.basketTotalQty}}</span>
+                    Basket
+                </a>
+                {{else}}
+                <a href="/basket" class="button is-primary">
+                    <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
+                    <span>Basket</span>
+                </a>
+                {{/ifGreaterThan0}}
+                {{# if login}}
+                <a href="/user" class="button is-light">
+                    <span class="icon"><i class="fa-regular fa-user"></i></span>
+                    <span>{{user.username}}</span>
+                </a>
+                {{else}}
+                <a href="/login" class="button is-light">
+                    <span class="icon"><i class="fa-regular fa-user"></i></span>
+                    <span>Login / Register</span>
+                </a>
+                {{/if}}
+            </div>
+        </div>
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
@@ -27,44 +55,50 @@
               Draw Results
             </a>
 
+            <a href="/howToPlay" class="navbar-item {{#if active.howToPlay}}is-active{{/if}}">
+              How To Play
+            </a>
+
             <a class="navbar-item {{#if active.faq}}is-active{{/if}}" href="/faq">
               FAQ
             </a>
         </div>
 
         <div class="navbar-end">
-            <div class="navbar-item">
+            <div class="navbar-item is-hidden-touch">
                 <div class="buttons">
                     {{#ifGreaterThan0 session.basket.basketTotalQty}}
-                    <a href="/basket" class="button is-primary">
-                        <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
-                        <span title="Badge top right" class="badge is-danger is-right">{{session.basket.basketTotalQty}}</span>
-                        Basket
-                    </a>
+                        <a href="/basket" class="button is-primary">
+                            <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
+                            <span title="Badge top right" class="badge is-danger is-right">{{session.basket.basketTotalQty}}</span>
+                            Basket
+                        </a>
                     {{else}}
-                    <a href="/basket" class="button is-primary">
-                        <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
-                        <span>Basket</span>
-                    </a>
+                        <a href="/basket" class="button is-primary">
+                            <span class="icon"><i class="fa-solid fa-basket-shopping"></i></span>
+                            <span>Basket</span>
+                        </a>
                     {{/ifGreaterThan0}}
                     {{# if login}}
-                    <a href="/user" class="button is-light">
-                        <span class="icon"><i class="fa-regular fa-user"></i></span>
-                        <span>{{user.username}}</span>
-                    </a>
+                        <a href="/user" class="button is-light">
+                            <span class="icon"><i class="fa-regular fa-user"></i></span>
+                            <span>{{user.username}}</span>
+                        </a>
                     {{else}}
-                    <a href="/login" class="button is-light">
-                        <span class="icon"><i class="fa-regular fa-user"></i></span>
-                        <span>Login / Register</span>
-                    </a>
+                        <a href="/login" class="button is-light">
+                            <span class="icon"><i class="fa-regular fa-user"></i></span>
+                            <span>Login / Register</span>
+                        </a>
                     {{/if}}
-                    {{# if admin }}
+                </div>
+            </div>
+            <div class="navbar-item">
+                {{# if admin }}
                     <a href="/admin" class="button is-danger">
                         <span class="icon"><i class="fa-solid fa-user-shield"></i></span>
                         <span>Admin</span>
                     </a>
-                    {{/if}}
-                </div>
+                {{/if}}
             </div>
         </div>
     </div>
