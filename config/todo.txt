@@ -36,7 +36,6 @@ AntiCheat / User monitoring:
 
 Bug Fixes:
 - Check pending error going below 0 bug
-- Fix basket not appearing when logging out and back in again
 
 
 Testing:
@@ -143,6 +142,12 @@ Admin:
 AntiCheat / User monitoring:
 - Show users who have referred the most people
 - Show users with highest account Credit
+
+
+Bug Fixes:
+- Fix basket not appearing when logging out and back in again
+
+
 
 //   cd ../../../../../ 
 //   cd '.\Program Files\MongoDB\Server\4.2\bin'

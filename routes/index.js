@@ -39,6 +39,10 @@ router.get('/faq', function(req, res, next) {
     res.render('faq', { title: 'FAQ', active: { faq: true } });
 });
 
+router.get('/howToPlay', function(req, res, next) {
+    res.render('howToPlay', { title: 'How To Play', active: { howToPlay: true } });
+});
+
 router.get('/results', function(req, res, next) {
     DrawResult.find({}).populate('competitionReference')
     .then(foundResults => {
