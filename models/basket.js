@@ -300,7 +300,7 @@ module.exports = function Basket(oldBasket){
                     if(sitewidePercentApplied && returnedCoupon.couponPercent){
                         couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
-                        messages.push('Only one basket % reduction Coupon can be applied');
+                        messages.push('Only one Percent % Reduction Coupon can be applied to the basket');
                     }
 
                     //If coupon has not been removed from the basket after checks
