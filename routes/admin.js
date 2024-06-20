@@ -1274,6 +1274,11 @@ router.post('/createCoupon', async (req, res) => {
             req.flash('error', 'Coupon Amount or Coupon Percent must have a value.');
             return res.redirect('/admin/createCoupon');
         }
+        //If minimum spend is set, make sure it cannot be lower than coupon amount 
+        if((req.body.couponAmount && req.body.couponMinimumSpend > 0) && (req.body.couponMinimumSpend <= req.body.couponAmount)){
+            req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
+            return res.redirect('/admin/createCoupon');
+        }
 
         const sitewide = req.body.sitewide === 'on';
         const active = req.body.active === 'on';
@@ -1301,7 +1306,7 @@ router.post('/createCoupon', async (req, res) => {
 
         if (savedCoupon) {
             //console.log('Coupon Saved!');
-            req.flash('success', 'Coupon Created');
+            req.flash('success', 'Coupon Created - '+couponCode);
             res.redirect('/admin/coupons');
         } else {
             console.log('Error Saving Coupon');
@@ -1371,7 +1376,6 @@ router.post('/updateCoupon', async (req, res, next) => {
             return res.redirect('/admin/editCoupon/' + req.body.couponID);
         }
     }
-    console.log('foundCompID'+foundCompID);
 
     //couponType Check
     if(req.body.couponAmount && req.body.couponPercent){
@@ -1379,6 +1383,11 @@ router.post('/updateCoupon', async (req, res, next) => {
         return res.redirect('/admin/editCoupon/' + req.body.couponID);
     } else if(!req.body.couponAmount && !req.body.couponPercent){
         req.flash('error', 'Coupon Amount or Coupon Percent must have a value.');
+        return res.redirect('/admin/editCoupon/' + req.body.couponID);
+    }
+    //If minimum spend is set, make sure it cannot be lower than coupon amount 
+    if((req.body.couponAmount && req.body.couponMinimumSpend > 0) && (req.body.couponMinimumSpend <= req.body.couponAmount)){
+        req.flash('error', 'Coupon Minimum Spend cannot be less than or the same as Coupon Amount.');
         return res.redirect('/admin/editCoupon/' + req.body.couponID);
     }
 
