@@ -150,20 +150,21 @@ router.get('/competition/:id', async (req, res, next) => {
     try {
         const compID = req.params.id;
         const error = req.flash('error');
-
-        const foundCompetition = await Competition.findOne({ _id: compID });
-        const foundTickets = await Ticket.findOne({ userReference: req.user._id, competitionReference: compID });
         var userCompTicketQty = 0;
-        if (foundTickets){
-            userCompTicketQty = foundTickets.ticketQty;
-        }
-        
-        if (foundCompetition) {
-            res.render('competition', {title: 'Win This ' + foundCompetition.title + '!', competition: foundCompetition, userCompTicketQty: userCompTicketQty, error: error, hasError: error.length > 0});
-        } else {
+
+        //Find competition user is navigating to
+        const foundCompetition = await Competition.findOne({ _id: compID });
+        //If not found redirect
+        if(!foundCompetition){
             console.log("Not Found");
             res.redirect('/');
         }
+
+        const foundTickets = await Ticket.findOne({ userReference: req.user._id, competitionReference: compID });
+        if (foundTickets){
+            userCompTicketQty = foundTickets.ticketQty;
+        }
+        res.render('competition', {title: 'Win This ' + foundCompetition.title + '!', competition: foundCompetition, userCompTicketQty: userCompTicketQty, error: error, hasError: error.length > 0});
     } catch (err) {
         console.error(err);
         next(err); // Call next middleware with error to handle it properly
@@ -194,6 +195,7 @@ router.get('/basket', saveRedirectURL, async function(req, res, next) {
         res.redirect('/');
     }
 });
+
 
 router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
     try {
@@ -252,6 +254,7 @@ router.get('/addToBasket/:id/:answer/:qty', async function(req, res, next) {
                     console.log("Add to basket: Competition is not active or not visible");
                     res.redirect('/basket');
                 }
+                //res.redirect('/competition/'+foundCompetition._id);
             } else {
                 console.log("Not Found");
                 res.redirect('/');

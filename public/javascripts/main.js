@@ -1,4 +1,38 @@
-//Update the value of tickets to add to basket
+function answerQuestionsButtons(buttonNumber){
+
+    //Get every button in questionsButtons div
+    var answer1Button = document.getElementById("answer1Button");
+    var answer2Button = document.getElementById("answer2Button");
+    var answer3Button = document.getElementById("answer3Button");
+    var answer4Button = document.getElementById("answer4Button");
+    var addToBasketButton = document.getElementById("addToBasketButton");
+
+    var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
+
+    //Remove is active from every button
+    for (i = 0; i <= buttons.length - 1; i++) {
+        buttons[i].classList.remove("is-focused");
+
+        //If button has a tick icon, remove
+        if (buttons[i].children.length > 1){
+            buttons[i].children[0].remove();
+        }
+    }
+
+    //set is-active to the button just clicked
+    // Add tick icon to button clicked
+    buttons[buttonNumber-1].className += " is-focused";
+    buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
+
+    var questionAnswer = buttons[buttonNumber-1].innerText;
+
+    //Update addToBasketButton URL
+    var url = addToBasketButton.getAttribute("href");
+    var tempArray = url.split("/");
+    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+questionAnswer+"/"+tempArray[4];
+    addToBasketButton.href=newHREF;
+}
+
 function updateTicketCount(change){
 
     var sliderWithValue = document.getElementById("sliderWithValue");
@@ -56,41 +90,28 @@ function updateTicketCount(change){
     addToBasketButton.href=newHREF;
 }
 
-
-////////////////////////// Set competition question button to active //////////////////////////////////////
-function answerQuestionsButtons(buttonNumber){
-
+function verifyCompAnswer(){
     //Get every button in questionsButtons div
     var answer1Button = document.getElementById("answer1Button");
     var answer2Button = document.getElementById("answer2Button");
     var answer3Button = document.getElementById("answer3Button");
     var answer4Button = document.getElementById("answer4Button");
-    var addToBasketButton = document.getElementById("addToBasketButton");
+    var errorMessage = document.getElementById("errorMessage");
 
     var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
-
+    var isFocused = false;
     //Remove is active from every button
     for (i = 0; i <= buttons.length - 1; i++) {
-        buttons[i].classList.remove("is-focused");
-
-        //If button has a tick icon, remove
-        if (buttons[i].children.length > 1){
-            buttons[i].children[0].remove();
+        //If button has is-focused class
+        if (buttons[i].classList.contains("is-focused")){
+            isFocused = true;
+            //console.log(isFocused);
         }
     }
-
-    //set is-active to the button just clicked
-    // Add tick icon to button clicked
-    buttons[buttonNumber-1].className += " is-focused";
-    buttons[buttonNumber-1].insertAdjacentHTML('afterbegin', '<span class="icon"><i class="fa-solid fa-check"></i></span>' );
-
-    var questionAnswer = buttons[buttonNumber-1].innerText;
-
-    //Update addToBasketButton URL
-    var url = addToBasketButton.getAttribute("href");
-    var tempArray = url.split("/");
-    var newHREF = "/"+tempArray[1]+"/"+tempArray[2]+"/"+questionAnswer+"/"+tempArray[4];
-    addToBasketButton.href=newHREF;
+    if(isFocused == false){
+        errorMessage.innerText = "Please select an answer";
+    }
+    return isFocused;
 }
 
 ///////////////////////////////// Open modal //////////////////////////////////////////////////
@@ -235,30 +256,6 @@ function editForm(defaultDisplay, defaultClosed, button, buttonType){
     }
 }
 
-
-function verifyCompAnswer(){
-    //Get every button in questionsButtons div
-    var answer1Button = document.getElementById("answer1Button");
-    var answer2Button = document.getElementById("answer2Button");
-    var answer3Button = document.getElementById("answer3Button");
-    var answer4Button = document.getElementById("answer4Button");
-    var errorMessage = document.getElementById("errorMessage");
-
-    var buttons = new Array(answer1Button, answer2Button, answer3Button, answer4Button);
-    var isFocused = false;
-    //Remove is active from every button
-    for (i = 0; i <= buttons.length - 1; i++) {
-        //If button has is-focused class
-        if (buttons[i].classList.contains("is-focused")){
-            isFocused = true;
-            console.log(isFocused);
-        }
-    }
-    if(isFocused == false){
-        errorMessage.innerText = "Please select an answer";
-    }
-    return isFocused;
-}
 
 function copyShareLink(type, text){
 
