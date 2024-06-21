@@ -26,25 +26,28 @@
 
     <form action="/checkout" method="post">
         <div class="columns is-multiline">
+            
             <div class="column is-full my-6">
-                <div class="container is-max-desktop">
-                    <div class="notification is-info has-text-centered">
-                        Have a coupon? <button type="button" class="is-link" onclick="toggleElement('couponInput')"><u>Click here to enter your code</u></button>
-                    </div>
-                    <div id="couponInput" class="field is-centered" style="display: none;">
-                        <label class="label">If you have a coupon code, please apply it below.</label>
-                        <div class="field-body">
-                            <div class="field has-addons">
-                                <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Coupon Code">
-                                </div>
-                                <div class="control">
-                                    <button class="button is-primary">Apply Coupon</button>
+                {{#unless basketCoupons}}
+                    <div class="container is-max-desktop">
+                        <div class="notification is-info has-text-centered">
+                            Have a coupon? <button type="button" class="is-link" onclick="toggleElement('couponInput')"><u>Click here to enter your code</u></button>
+                        </div>
+                        <div id="couponInput" class="field is-centered" style="display: none;">
+                            <label class="label">If you have a coupon code, please apply it below.</label>
+                            <div class="field-body">
+                                <div class="field has-addons">
+                                    <div class="control is-expanded">
+                                        <input class="input" type="text" placeholder="Coupon Code">
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-primary">Apply Coupon</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {{/unless}}
             </div>
             {{#if errors}}
             <div class="column is-full">
@@ -245,8 +248,8 @@
                         <table class="table is-bordered is-striped is-narrow is-fullwidth">
                             <thead>
                                 <tr>
-                                <th>Product</th>
-                                <th>Subtotal</th>
+                                    <th class="has-text-centered">Product</th>
+                                    <th class="has-text-centered">Subtotal</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -254,11 +257,23 @@
                                     <th>Subtotal</th>
                                     <th>£{{subtotalPrice}}</th>
                                 </tr>
+                                {{#if basketCoupons}}
+                                        <tr>
+                                            <th class="has-text-centered">Coupons Applied</th>
+                                            <th></th>
+                                        </tr>
+                                    {{# each basketCoupons}}
+                                        <tr>
+                                            <td>{{this.couponCode}} - {{this.couponDescription}}</td>
+                                            <th></th>
+                                        </tr>
+                                    {{/each}}
+                                {{/if}}
                                 {{#ifNotEquals subtotalPrice totalPrice}}
-                                <tr>
-                                    <th>Discount(s)</th>
-                                    <th>-£{{formatPriceDifference subtotalPrice totalPrice}}</th>
-                                </tr>
+                                    <tr>
+                                        <th>Discount</th>
+                                        <th>-£{{formatPriceDifference subtotalPrice totalPrice}}</th>
+                                    </tr>
                                 {{/ifNotEquals}}
                                 <tr>
                                     <th>Total</th>
