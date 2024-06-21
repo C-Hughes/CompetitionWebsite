@@ -1,7 +1,6 @@
 ***Put website live on Digital Ocean
 
 When buying tickets:
-- Coupon Minimum Spend
 
 
 Competitions:
@@ -35,7 +34,7 @@ AntiCheat / User monitoring:
 
 Bug Fixes:
 - Check pending error going below 0 bug
-- Check ticket entries in Updatebasket and /competition. Make sure all ticket entries to a competition are accounted for (If user has entered multiple times with different answers)
+- Check number of ticket entries in Updatebasket and /competition. Make sure all ticket entries to a competition are counted properly for (If user has entered multiple times with different answers) (FindOne to find)
 
 
 Testing:
@@ -121,6 +120,7 @@ When Buying Tickets:
 - If error message when updating basket for /processOrder, redirect to /basket
 - If final price is 0 then allow user to submit order without making a payment.
 - After order is successful, update coupon times used etc...
+- Implement Coupon Minimum Spend
 
 
 Admin:
