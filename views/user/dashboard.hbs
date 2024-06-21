@@ -37,7 +37,7 @@
                                 {{#each competitions}}
                                     {{#ifDateInPast this.competitionDrawDate}}
                                         <div class="column is-one-third">
-                                            <div class="box">
+                                            <div class="notification">
                                                 <div class="has-text-centered">
                                                     <div>
                                                         <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
@@ -88,7 +88,7 @@
                                     {{#ifDateInPast this.competitionDrawDate}}
                                     {{else}}
                                         <div class="column is-one-third">
-                                            <div class="box">
+                                            <div class="notification">
                                                 <div class="has-text-centered">
                                                     <div>
                                                         <p class="title is-6" style="height: 50px">Win this {{this.competitionTitle}}!</p>
