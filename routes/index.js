@@ -419,7 +419,7 @@ router.get('/processCard', saveRedirectURL, isLoggedIn, isNotBanned, async (req,
 router.get('/orderReceived', function(req, res, next) {
     var success = req.flash('success');
 
-    Order.findOne({userReference: req.user}, {}, { sort: { 'created' : -1 } })
+    Order.findOne({userReference: req.user, orderStatus: 'Complete'}, {}, { sort: { 'created' : -1 } })
     .then(foundOrder => {
         if (foundOrder) {
             var basket;
