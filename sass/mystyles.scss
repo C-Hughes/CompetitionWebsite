@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+$purple: #8a4d76;
+$pink: #fa7c91;
+$brown: #757763;
+$beige-light: #d0d1cd;
+$beige-lighter: #eff0eb;
+$background-grey: #f5f3f4;
+$body-background-color-light: #8d1e1e; // Light theme background color
+$body-background-color-dark: #259751; // Dark theme background color
+
+// Path to Bulma's sass folder
+@use "../node_modules/bulma/sass" with (
+  $family-primary: '"Nunito", sans-serif',
+  $grey-dark: $brown,
+  $grey-light: $beige-light,
+  $control-border-width: 2px,
+  $input-shadow: none,
+  $white-bis: $purple,
+  $background: $purple,
+  $body-background-color: $background-grey,
+  $white: $pink,
+);
+
+
+// Import the Google Font
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/sass/utilities/derived-variables.scss";
+@import "../node_modules/bulma/sass/base/_index.scss";
+@import "../node_modules/bulma/sass/elements/_index.scss";
+@import "../node_modules/bulma/sass/form/_index.scss";
+@import "../node_modules/bulma/sass/components/_index.scss";
+@import "../node_modules/bulma/sass/layout/_index.scss";
+@import "../node_modules/bulma/sass/themes";
+@import "../node_modules/bulma/bulma.scss";
+
+
