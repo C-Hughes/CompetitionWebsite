@@ -315,7 +315,7 @@ router.post('/applyCoupon', async (req, res, next) => {
             req.session.basket = basket;
 
             if(basketErrors.length == 0){
-                req.flash('success', 'Coupon Applied to Basket');
+                req.flash('success', 'Coupon Applied');
             } else {
                 req.flash('error', basketErrors);
             }
@@ -346,6 +346,7 @@ router.post('/applyCoupon', async (req, res, next) => {
 //Must be logged in to access checkout
 router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, res, next) => {
     var error = req.flash('error');
+    var success = req.flash('success');
     try {
         if (!req.session.basket || req.session.basket.basketSubtotalPrice == 0) {
             return res.redirect('/basket');
@@ -367,6 +368,8 @@ router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, re
                 subtotalPrice: basket.basketSubtotalPrice,
                 basketCoupons: basket.basketCouponsApplied,
                 userBillingAddress: foundBAddress,
+                success: success,
+                hasSuccess: success.length > 0,
                 error: error,
                 hasError: error.length > 0
             });
@@ -378,6 +381,8 @@ router.get('/checkout', saveRedirectURL, isLoggedIn, isNotBanned, async (req, re
                 totalPrice: basket.basketTotalPrice,
                 subtotalPrice: basket.basketSubtotalPrice,
                 basketCoupons: basket.basketCouponsApplied,
+                success: success,
+                hasSuccess: success.length > 0,
                 error: error,
                 hasError: error.length > 0
             });
