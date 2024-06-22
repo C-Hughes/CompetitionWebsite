@@ -75,8 +75,8 @@
                                 <p class="control has-icons-left">
                                     <span class="select is-fullwidth">
                                         <select id="countryRegion" name="countryRegion" required>
-                                            {{#if billingAddress.countryRegion}}
-                                                <option selected>{{billingAddress.countryRegion}}</option>
+                                            {{#if userBillingAddress.countryRegion}}
+                                                <option selected>{{userBillingAddress.countryRegion}}</option>
                                             {{else}}
                                                 <option value="">Country</option>
                                             {{/if}}
@@ -135,7 +135,7 @@
                             <div class="field">
                                 <label class="label">Phone Number *</label>
                                 <div class="control has-icons-left">
-                                    <input id="phoneNumber" name="phoneNumber" class="input" type="text" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}" required>
+                                    <input id="phoneNumber" name="phoneNumber" class="input" type="tel" placeholder="Phone Number" value="{{userBillingAddress.phoneNumber}}" required>
                                     <span class="icon is-small is-left">
                                         <i class="fa-solid fa-phone"></i>
                                     </span>
