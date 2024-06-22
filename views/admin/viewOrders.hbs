@@ -50,7 +50,7 @@
 
     {{#if orderInfo}}
         {{#each orderInfo}}
-            <div class="container notification is-dark">
+            <div class="container notification is-link">
                 <div class="columns">
                     <div class="column is-2">
                         <p class="title is-6">OrderID</p>
@@ -73,7 +73,7 @@
                         <p class="subtitle is-6">{{formatDate this.created}}</p>
                     </div>                 
                     <div class="column is-1">
-                        <button class="button is-link" onclick="toggleElement('orderInfo_{{this._id}}', true)">
+                        <button class="button is-dark" onclick="toggleElement('orderInfo_{{this._id}}', true)">
                             <span class="icon is-small">
                                 <i class="fa-solid fa-chevron-down"></i>
                             </span>
