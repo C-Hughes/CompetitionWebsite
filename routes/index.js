@@ -675,7 +675,7 @@ router.post('/processCard', isLoggedIn, isNotBanned, async (req, res, next) => {
                         console.log('Cancelled - Competition qty to reduce = '+comp.qty);
                         await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionPendingUpdate, { upsert: false });
                     }
-                    return res.redirect('/checkout');
+                    return res.redirect('/basket');
                 }
             }
 
@@ -916,7 +916,7 @@ const generateOrderCompTickets = async (req, res, next) => {
                     },
                     lastUpdated: new Date().toISOString(),
                 };
-                console.log('Complete - Competition qty to reduce = '+comp.qty);
+                //console.log('Complete - Competition qty to reduce = '+comp.qty);
                 //Update competition to include purchased ticket numbers and total purchased qty.
                 await Competition.findOneAndUpdate({ _id: comp.item._id }, competitionTicketsUpdate, { upsert: false });
                 ////////////////////////////////////////////////////////////////            
