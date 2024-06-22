@@ -146,10 +146,14 @@ module.exports = function Basket(oldBasket){
                     basketComps[currentCompID].instances.push(id);
 
                     //Get Number of tickets User has already purchased for competition.
-                    const userEntries = await Ticket.findOne({ userReference: user._id, competitionReference: currentCompID});
-
-                    let userPurchasedEntries = userEntries ? userEntries.ticketQty : 0;
+                    let userPurchasedEntries = 0;
                     let maxAllowedPerPerson = foundCompetition.maxEntriesPerPerson;
+                    const userEntries = await Ticket.find({ userReference: user._id, competitionReference: currentCompID });
+                    if (userEntries){
+                        for (let comp of userEntries) {
+                            userPurchasedEntries+=comp.ticketQty;
+                        }
+                    }
 
                     //Check to see if user is trying to purchase more than maximum allowed.
                     if(userPurchasedEntries + basketComps[currentCompID].basketTotalQty > maxAllowedPerPerson){
