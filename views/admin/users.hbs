@@ -105,10 +105,10 @@
                     <div class="columns is-vcentered is-multiline">
                         <div class="column is-12">
                             <form action="/admin/updateUserBan" method="post">
-                                <label class="label">User Banned Until Date (Format: 2024-12-25:19:00) (Leave Blank is User is Not Banned)</label>
+                                <label class="label">User Banned Until Date (Leave Blank is User is Not Banned)</label>
                                 <div class="field has-addons">
                                     <div class="control is-expanded has-icons-left">
-                                        <input id="userBannedUntil" name="userBannedUntil" type="text" class="input" placeholder="Date User is Banned Until" value="{{this.bannedUntilDate}}" readonly>
+                                        <input id="userBannedUntil" name="userBannedUntil" type="datetime-local" class="input" placeholder="Date User is Banned Until" value="{{formatDateInput this.bannedUntilDate}}" readonly>
                                         <span class="icon is-left">
                                             <i class="fa-solid fa-user-lock"></i>
                                         </span>

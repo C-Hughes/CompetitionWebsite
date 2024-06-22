@@ -170,9 +170,9 @@
                     </div>                 
 
                     <div class="field">
-                        <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until) (Format: 2024-12-25:19:00) *</label>
+                        <label class="label">Coupon Expiry Date (Date That the Coupon Can be Used Until) *</label>
                         <div class="control has-icons-left">
-                            <input id="couponExpiryDate" name="couponExpiryDate" class="input" type="text" placeholder="Date of Expiry for Coupon" value="{{formatDate coupon.couponExpiryDate}}" required>
+                            <input id="couponExpiryDate" name="couponExpiryDate" class="input" type="datetime-local" placeholder="Date of Expiry for Coupon" value="{{formatDateInput coupon.couponExpiryDate}}" required>
                             <span class="icon is-small is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>

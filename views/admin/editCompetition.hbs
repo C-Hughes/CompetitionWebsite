@@ -232,10 +232,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Draw Date * (Format: 2024-12-25:19:00)</label>
+                    <label class="label">Draw Date *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="drawDate" name="drawDate" type="text" class="input" placeholder="Draw Date" value="{{competition.drawDate}}" readonly required>
+                            <input id="drawDate" name="drawDate" type="datetime-local" class="input" placeholder="Draw Date" value="{{formatDateInput competition.drawDate}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </span>
@@ -247,10 +247,10 @@
                         </div>
                     </div>
 
-                    <label class="label">Entry Close Date * (Format: 2024-12-25:18:00)</label>
+                    <label class="label">Entry Close Date *</label>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input id="entryCloseDate" name="entryCloseDate" type="text" class="input" placeholder="Entry Close Date" value="{{competition.entryCloseDate}}" readonly required>
+                            <input id="entryCloseDate" name="entryCloseDate" type="datetime-local" class="input" placeholder="Entry Close Date" value="{{formatDateInput competition.entryCloseDate}}" readonly required>
                             <span class="icon is-left">
                                 <i class="fa-solid fa-clock"></i>
                             </span>

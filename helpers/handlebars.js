@@ -71,6 +71,17 @@ module.exports = {
         var newDate = `${day}-${month}-${year} @ ${time}`;
         return newDate;
     },
+    formatDateInput: function(cond1, options){
+        var date = new Date(cond1);
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+        var day = date.getDate().toString().padStart(2, '0');
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        // Format required 2019-08-18T00:00
+        var newDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+        return newDate;
+    },
     formatDateCompCard: function(cond1, options){
         var date = new Date(cond1);
         var weekday = new Intl.DateTimeFormat('en', { weekday: 'long' }).format(date);
