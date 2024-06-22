@@ -160,12 +160,15 @@ router.get('/competition/:id', async (req, res, next) => {
             res.redirect('/');
         }
 
-        const foundTickets = await Ticket.find({ userReference: req.user._id, competitionReference: compID });
-        if (foundTickets){
-            for (let comp of foundTickets) {
-                userCompTicketQty+=comp.ticketQty;
+        if(foundCompetition.active && foundCompetition.visible){
+            const foundTickets = await Ticket.find({ userReference: req.user._id, competitionReference: compID });
+            if (foundTickets){
+                for (let comp of foundTickets) {
+                    userCompTicketQty+=comp.ticketQty;
+                }
             }
         }
+
         res.render('competition', {title: 'Win This ' + foundCompetition.title + '!', competition: foundCompetition, userCompTicketQty: userCompTicketQty, error: error, hasError: error.length > 0});
     } catch (err) {
         console.error(err);
