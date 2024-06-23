@@ -324,6 +324,43 @@ router.get('/createUserChallenge', function(req, res, next) {
     res.render('admin/createUserChallenge', { title: 'Create User Challenge', active: { userRewards: true }, error: errors, errors: errors.length > 0 });
 });
 
+router.get('/editUserChallenge/:id', async function(req, res, next) {
+    const userChallengeID = req.params.id;
+    const success = req.flash('success');
+    const errors = req.flash('error');
+
+    try {
+        const foundUserChallenge = await UserChallenge.findOne({ _id: userChallengeID });
+
+        if (foundUserChallenge) {
+            res.render('admin/editUserChallenge', {
+                title: 'Edit Draw Result',
+                active: { userRewards: true },
+                userChallenge: foundUserChallenge,
+                success: success,
+                hasSuccess: success.length > 0,
+                error: errors,
+                errors: errors.length > 0
+            });
+        } else {
+            console.log("Error finding draw result");
+            res.render('admin/editUserChallenge', {
+                title: 'Draw Results',
+                active: { userRewards: true }
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.render('admin/editUserChallenge', {
+            title: 'Draw Results',
+            active: { userRewards: true },
+            error: ['An error occurred while fetching the user challenge.'],
+            errors: true
+        });
+    }
+});
+
+//////////////////////////////////////////////////////////////
 router.get('/viewOrders', function(req, res, next) {
     var success = req.flash('success');
     var errors = req.flash('error');
