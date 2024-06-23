@@ -1324,7 +1324,7 @@ router.post('/updateUserChallenge', async (req, res, next) => {
 
     //If no draw Result ID is submitted with the form
     if (!req.body.userChallengeID) {
-        req.flash('error', 'Draw Result ID Missing');
+        req.flash('error', 'User ID Missing');
         return res.redirect('/admin/userRewards');
     }
 
