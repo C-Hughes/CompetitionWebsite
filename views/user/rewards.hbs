@@ -18,8 +18,8 @@
 
 
 
-    <div class="columns">
-        <div class="column">
+    <div class="columns is-multiline">
+        <div class="column is-6">
             <article class="message">
                 <div class="message-body">
                     <div class="card-content">
@@ -37,7 +37,7 @@
             </article>
         </div>
 
-        <div class="column">
+        <div class="column is-6">
             <article class="message">
                 <div class="message-body">
                     <div class="card-content">
@@ -48,6 +48,24 @@
                             <div class="media-content py-1">
                                 <p class="title is-3">{{user.rewardLevel}}</p>
                                 <p class="subtitle is-6">655 Points to Silver</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="column is-6">
+            <article class="message">
+                <div class="message-body">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left py-1">
+                                <span class="icon is-large fas fa-2x"><i class="fa-solid fa-sterling-sign"></i></span>
+                            </div>
+                            <div class="media-content py-1">
+                                <p class="title is-3">Account Credit</p>
+                                <p class="subtitle is-6">£{{user.accountCredit}}</p>
                             </div>
                         </div>
                     </div>
