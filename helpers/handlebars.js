@@ -141,6 +141,10 @@ module.exports = {
     viewJSON: function(value, options){
         return JSON.stringify(value);
     },
+    isCompletedChallenge: function(challengeId, completedChallenges, options){
+        const isCompleted = completedChallenges.some(completedId => completedId.toString() === challengeId.toString());
+        return isCompleted ? options.fn(this) : options.inverse(this);
+    },
     checkActive: function(array, options){
         let hasActive = false;
 

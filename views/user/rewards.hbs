@@ -93,9 +93,15 @@
                                                         <p class="subtitle is-7">{{this.points}} Points</p>
                                                     {{/ifGreaterThan0}}
                                                 </div>
-                                                <span class="icon fa-2x">
-                                                    <i class="fa-solid fa-clock"></i>
-                                                </span>
+                                                {{#isCompletedChallenge this._id ../user.completedChallenges}}
+                                                    <span class="icon fa-2x has-text-green">
+                                                        <i class="fa-solid fa-circle-check"></i>
+                                                    </span>
+                                                {{else}}
+                                                    <span class="icon fa-2x">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </span>
+                                                {{/isCompletedChallenge}}
                                             </div>
                                         </div>
                                     </div>
