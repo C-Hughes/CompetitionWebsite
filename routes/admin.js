@@ -18,6 +18,7 @@ var Ticket = require('../models/ticket');
 var Order = require('../models/order');
 var ShippingAddress = require('../models/shippingAddress');
 var Coupon = require('../models/coupon');
+var UserChallenge = require('../models/userChallenge');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -265,10 +266,6 @@ router.get('/createCoupon', function(req, res, next) {
     res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true }, error: errors, hasError: errors.length > 0 });
 });
 
-router.get('/createUserChallenge', function(req, res, next) {
-    var errors = req.flash('error');
-    res.render('admin/createUserChallenge', { title: 'Create User Challenge', active: { userRewards: true }, error: errors, errors: errors.length > 0 });
-});
 
 router.get('/editCoupon/:id', function(req, res, next) {
     var couponID = req.params.id;
@@ -311,10 +308,12 @@ router.get('/users', function(req, res, next) {
 router.get('/userRewards', function(req, res, next) {
     var success = req.flash('success');
     var errors = req.flash('error');
-
-
     res.render('admin/userRewards', { title: 'User Rewards', active: { userRewards: true }, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+});
 
+router.get('/createUserChallenge', function(req, res, next) {
+    var errors = req.flash('error');
+    res.render('admin/createUserChallenge', { title: 'Create User Challenge', active: { userRewards: true }, error: errors, errors: errors.length > 0 });
 });
 
 router.get('/viewOrders', function(req, res, next) {
@@ -1226,6 +1225,53 @@ router.post('/updateWinner', async (req, res, next) => {
     }
 });
 
+router.post('/createUserChallenge', async (req, res) => {
+    try {
+
+        //Input Validation
+        req.checkBody('title', 'Title cannot be empty').notEmpty();
+        req.checkBody('description', 'Description cannot be empty').notEmpty();
+        req.checkBody('icon', 'Icon cannot be empty').notEmpty();
+        req.checkBody('points', 'Reward Points cannot be empty').notEmpty();
+        req.checkBody('points', 'Reward Points must be a number').isInt();
+        req.checkBody('accountCredit', 'Account Credit cannot be empty').notEmpty();
+ 
+        var errors = req.validationErrors();
+        if (errors){
+            var messages = [];
+            errors.forEach(function(error){
+                messages.push(error.msg);
+            });
+            req.flash('error', messages);
+            return res.redirect('/admin/createUserChallenge');
+        }
+
+        const active = req.body.active === 'on';
+        
+        const newUserChallenge = new UserChallenge({
+            title: req.body.title,
+            description: req.body.description,
+            icon: req.body.icon,
+            points: req.body.points,
+            accountCredit: req.body.accountCredit,
+            active: active,
+        });
+
+        const savedUserChallenge = await newUserChallenge.save();
+
+        if (savedUserChallenge) {
+            console.log('User Challenge Saved');
+            res.redirect('/admin/userRewards');
+        } else {
+            console.log('Error Saving User Challenge');
+            res.redirect('/admin/userRewards');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error Creating User Challenge');
+        res.redirect('/admin/userRewards');
+    }
+});
 
 //////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////Create a New Coupon////////////////////////////////////////
