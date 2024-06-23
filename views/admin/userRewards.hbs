@@ -71,7 +71,9 @@
                                                         <p class="title is-5">{{this.title}}</p>
                                                         <p class="subtitle is-6 is-spaced">{{this.description}}</p>
                                                         <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
-                                                        <p class="subtitle is-7">{{this.points}} Points</p>
+                                                        {{#ifGreaterThan0 this.points}}
+                                                            <p class="subtitle is-7">{{this.points}} Points</p>
+                                                        {{/ifGreaterThan0}}
                                                     </div>
                                                     <span class="icon fa-2x">
                                                         <i class="fa-solid fa-clock"></i>
@@ -123,7 +125,9 @@
                                                         <p class="title is-5">{{this.title}}</p>
                                                         <p class="subtitle is-6 is-spaced">{{this.description}}</p>
                                                         <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
-                                                        <p class="subtitle is-7">{{this.points}} Points</p>
+                                                        {{#ifGreaterThan0 this.points}}
+                                                            <p class="subtitle is-7">{{this.points}} Points</p>
+                                                        {{/ifGreaterThan0}}
                                                     </div>
                                                     <span class="icon fa-2x">
                                                         <i class="fa-solid fa-clock"></i>

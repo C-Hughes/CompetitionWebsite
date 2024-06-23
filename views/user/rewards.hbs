@@ -71,58 +71,43 @@
                         <p class="subtitle is-6">Collect badges and get rewarded</p>
                     </div>
                     
-                    <div class="columns is-mobile">
-                        <div class="column">
-                            <div class="box">
-                                <div class="has-text-centered">
-                                    <span class="icon fas fa-2x mb-3">
-                                        <i class="fa-solid fa-star "></i>
-                                    </span>
-                                    <br />
-                                    <div style="height:80px">
-                                        <p class="subtitle is-7">Leave a TrustPilot Review</p>
-                                        <p class="title is-6">200 Points</p>
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center is-vcentered">
+                        {{#if hasUserChallenges}}
+                            {{#each userChallenges}}
+                                {{#if this.active}}
+                                    <!-- Competition Column -->
+                                    <div class="column is-half-mobile is-half-tablet is-half-desktop is-4-fullhd has-text-centered">
+                                        <div class="notification">
+                                            <div class="has-text-centered">
+                                                <span class="icon fas fa-2x mb-3">
+                                                    {{{this.icon}}}
+                                                </span>
+                                                <br />
+                                                <div class="" style="min-height:150px">
+                                                    <p class="title is-5">{{this.title}}</p>
+                                                    <p class="subtitle is-6 is-spaced">{{this.description}}</p>
+                                                </div>
+                                                <div style="min-height:70px">
+                                                    <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
+                                                    {{#ifGreaterThan0 this.points}}
+                                                        <p class="subtitle is-7">{{this.points}} Points</p>
+                                                    {{/ifGreaterThan0}}
+                                                </div>
+                                                <span class="icon fa-2x">
+                                                    <i class="fa-solid fa-clock"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="icon fa-lg has-text-success">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </span>
+                                {{/if}}    
+                            {{/each}}
+                        {{else}}
+                            <div class="column is-full">
+                                <div class="notification">
+                                    <p>No user challenges to show.</p>
                                 </div>
                             </div>
-                        </div>  
-                        <div class="column">
-                            <div class="box">
-                                <div class="has-text-centered">
-                                    <span class="icon fas fa-2x mb-3">
-                                        <i class="fa-solid fa-cake-candles"></i>
-                                    </span>
-                                    <br />
-                                    <div style="height:80px">
-                                        <p class="subtitle is-7">Happy Birthday!</p>
-                                        <p class="title is-6">100 Points</p>
-                                    </div>
-                                    <span class="icon fa-lg">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="box">
-                                <div class="has-text-centered">
-                                    <span class="icon fas fa-2x mb-3">
-                                        <i class="fa-solid fa-receipt"></i>
-                                    </span>
-                                    <br />
-                                    <div style="height:80px">
-                                        <p class="subtitle is-7" >First Draw</p>
-                                        <p class="title is-6">100 Points</p>
-                                    </div>
-                                    <span class="icon fa-lg has-text-success">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>

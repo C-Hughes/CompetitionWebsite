@@ -8,6 +8,7 @@ var ShippingAddress = require('../models/shippingAddress');
 var User = require('../models/user');
 var Ticket = require('../models/ticket');
 var Order = require('../models/order');
+var UserChallenge = require('../models/userChallenge');
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
 router.use('/', isLoggedIn, function(req, res, next) {
@@ -103,8 +104,18 @@ router.get('/accountDetails', function(req, res, next) {
     });
 });
 
-router.get('/rewards', function(req, res, next) {
-    res.render('user/rewards', { title: 'Rewards', active: { rewards: true } });
+router.get('/rewards', async (req, res, next) => {
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+    try {
+        const userChallenges = await UserChallenge.find({active: true});
+
+        res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 router.get('/safePlaying', function(req, res, next) {
