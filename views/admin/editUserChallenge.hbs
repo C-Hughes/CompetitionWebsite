@@ -1,0 +1,111 @@
+<section class="hero is-danger">
+    <div class="hero-body has-text-centered">
+        <p class="title">Edit User Challenge</p>
+    </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-widescreen mb-4">
+    <nav class="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/admin/userRewards">User Rewards</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Edit User Challenge</a></li>
+        </ul>
+    </nav>
+</div>
+
+{{#if errors}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-danger is-light">
+            {{#each error}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+{{#if hasSuccess}}
+    <div class="container is-max-desktop mb-4">
+        <div class="notification is-success is-light">
+            {{#each success}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
+
+
+<div class="container is-max-widescreen">
+    <form action="/admin/editUserChallenge" method="post">
+        <div class="card">
+            <div class="card-content">
+                <div class="field">
+                    <label class="label">Title *</label>
+                    <div class="control has-icons-left">
+                        <input id="title" name="title" class="input" type="text" placeholder="Title" value="{{userChallenge.title}}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-heading"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Description *</label>
+                    <div class="control has-icons-left">
+                        <input id="description" name="description" class="input" type="text" placeholder="Description" value="{{userChallenge.description}}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-bars"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Challenge Card FontAwesome Icon *</label>
+                    <div class="control has-icons-left">
+                        <input id="icon" name="icon" class="input" type="text" placeholder="FontAwesome Icon" value="{{userChallenge.icon}}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-icons"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Reward Points *</label>
+                    <div class="control has-icons-left">
+                        <input id="points" name="points" class="input" type="text" placeholder="Reward Points" value="{{userChallenge.points}}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-coins"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Reward Account Credit *</label>
+                    <div class="control has-icons-left">
+                        <input id="accountCredit" name="accountCredit" class="input" type="text" placeholder="Reward Account Credit" value="{{userChallenge.accountCredit}}" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-sterling-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Is Active</label>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <input id="active" name="active" type="checkbox">
+                    <label for="PostalCheckbox">Active</label>
+                </div>
+
+                <input type="hidden" name="csrfToken" value="{{csrfToken}}">  
+                <button type="submit" class="button is-medium is-fullwidth is-link">
+                    <span class="icon">
+                        <i class="fa-solid fa-upload"></i>
+                    </span>
+                    <span>Update User Challenge</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+                                        
