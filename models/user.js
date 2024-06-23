@@ -20,6 +20,7 @@ var userSchema = new Schema({
     postComms: {type: Boolean, required: true, default: true},
     rewardPoints: {type: Number, default: 0},
     rewardLevel: {type: String, default: "Bronze (Level 1)"},
+    completedChallenges: [{ type: Schema.Types.ObjectId, ref: 'userChallenge' }],
     accountCredit: {type: Number, required: true, default: 0},
     referralCode: {type: String, required: true, required: true},
     signupReferralCodeUsed: {type: String, required: false},
