@@ -61,45 +61,29 @@
                                     {{#if this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
-                                                <div class="card" style="">
-                                                    <header class="card-header">
-                                                        {{#if this.visible}}
-                                                            <p class="card-header-title">Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{else}}
-                                                            <p class="card-header-title">Not Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye-slash"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{/if}}
-                                                    </header>
-                                                    <div class="card-image">
-                                                        <figure class="image is-4by3">
-                                                            <img src="{{this.competitionReference.imagePath}}" alt="Competition Image" />
-                                                        </figure>
+                                            <div class="notification">
+                                                <div class="has-text-centered">
+                                                    <span class="icon fas fa-2x mb-3">
+                                                        {{{this.icon}}}
+                                                    </span>
+                                                    <br />
+                                                    <div style="min-height:150px">
+                                                        <p class="title is-5">{{this.title}}</p>
+                                                        <p class="subtitle is-6 is-spaced">{{this.description}}</p>
+                                                        <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
+                                                        <p class="subtitle is-7">{{this.points}} Points</p>
                                                     </div>
-                                                    <div class="card-content">
-                                                        <div class="content" style="height: 100px;">
-                                                            <p class="title is-4">{{this.title}}</p>
-                                                            <p class="subtitle is-6">{{this.description}}</p>
-                                                        </div>
-                                                        <button class="button is-fullwidth is-link">
-                                                            <span class="icon is-small">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </span>
-                                                            <span>Edit Draw Result</span>
-                                                        </button>
-                                                    </div>
-
+                                                    <span class="icon fa-2x">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </span>
+                                                    <a href="/admin/editUserChallenge/{{this.id}}" class="button is-fullwidth is-link mt-3">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </span>
+                                                        <span>Edit User Challenge</span>
+                                                    </a> 
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     {{/if}}    
                                 {{/each}}
@@ -129,44 +113,29 @@
                                     {{#unless this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
-                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
-                                                <div class="card" style="">
-                                                    <header class="card-header">
-                                                        {{#if this.visible}}
-                                                            <p class="card-header-title">Visible</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{else}}
-                                                            <p class="card-header-title">Hidden</p>
-                                                            <button class="card-header-icon" aria-label="more options">
-                                                                <span class="icon">
-                                                                    <i class="fa-solid fa-eye-slash"></i>
-                                                                </span>
-                                                            </button>
-                                                        {{/if}}
-                                                    </header>
-                                                    <div class="card-image">
-                                                        <figure class="image is-4by3">
-                                                            <img src="{{this.imagePath}}" alt="Competition Image" />
-                                                        </figure>
+                                            <div class="notification">
+                                                <div class="has-text-centered">
+                                                    <span class="icon fas fa-2x mb-3">
+                                                        {{{this.icon}}}
+                                                    </span>
+                                                    <br />
+                                                    <div style="min-height:150px">
+                                                        <p class="title is-5">{{this.title}}</p>
+                                                        <p class="subtitle is-6 is-spaced">{{this.description}}</p>
+                                                        <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
+                                                        <p class="subtitle is-7">{{this.points}} Points</p>
                                                     </div>
-                                                    <div class="card-content">
-                                                        <div class="content" style="height: 100px;">
-                                                            <p class="title is-4">{{this.title}}</p>
-                                                            <p class="subtitle is-6">{{this.description}}</p>
-                                                        </div>
-                                                        <button class="button is-fullwidth is-link">
-                                                            <span class="icon is-small">
-                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                            </span>
-                                                            <span>Edit Draw Result</span>
-                                                        </button>
-                                                    </div>
+                                                    <span class="icon fa-2x">
+                                                        <i class="fa-solid fa-clock"></i>
+                                                    </span>
+                                                    <a href="/admin/editUserChallenge/{{this.id}}" class="button is-fullwidth is-link mt-3">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </span>
+                                                        <span>Edit User Challenge</span>
+                                                    </a> 
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     {{/unless}}
                                 {{/each}}

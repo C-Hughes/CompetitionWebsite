@@ -1236,6 +1236,8 @@ router.post('/updateWinner', async (req, res, next) => {
 router.post('/createUserChallenge', async (req, res) => {
     try {
 
+        //Strip script tags from icon input
+
         //Input Validation
         req.checkBody('title', 'Title cannot be empty').notEmpty();
         req.checkBody('description', 'Description cannot be empty').notEmpty();

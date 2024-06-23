@@ -35,6 +35,7 @@ AntiCheat / User monitoring:
 
 Bug Fixes:
 - Check pending error going below 0 bug
+- Strip <script tags> from competition description and user challenge icon input fields
 
 
 Testing:
