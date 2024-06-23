@@ -265,6 +265,11 @@ router.get('/createCoupon', function(req, res, next) {
     res.render('admin/createCoupon', { title: 'Create Coupon', active: { coupons: true }, error: errors, hasError: errors.length > 0 });
 });
 
+router.get('/createUserChallenge', function(req, res, next) {
+    var errors = req.flash('error');
+    res.render('admin/createUserChallenge', { title: 'Create User Challenge', active: { userRewards: true }, error: errors, errors: errors.length > 0 });
+});
+
 router.get('/editCoupon/:id', function(req, res, next) {
     var couponID = req.params.id;
     var success = req.flash('success');
@@ -301,6 +306,15 @@ router.get('/users', function(req, res, next) {
     .catch(err => {
         console.log(err);
     });
+});
+
+router.get('/userRewards', function(req, res, next) {
+    var success = req.flash('success');
+    var errors = req.flash('error');
+
+
+    res.render('admin/userRewards', { title: 'User Rewards', active: { userRewards: true }, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+
 });
 
 router.get('/viewOrders', function(req, res, next) {

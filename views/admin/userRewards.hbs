@@ -1,0 +1,193 @@
+<section class="hero is-danger">
+  <div class="hero-body has-text-centered">
+    <p class="title">User Rewards</p>
+  </div>
+</section>
+
+{{> adminNav}}
+
+<div class="container is-max-fullhd">
+    <div class="content my-6">
+        <h1 class="title">User Rewards</h1>
+    </div>
+    <div class="container is-max-desktop mb-4">
+        <a href="/admin/createuserChallenge" class="button is-fullwidth is-link is-outlined">
+            <span class="icon">
+            <i class="fa-solid fa-plus"> </i>
+            </span>
+            <span>Create New User Challenge</span>
+         </a>
+    </div>
+    {{#if errors}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-danger is-light">
+                {{#each error}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    {{#if hasSuccess}}
+        <div class="container is-max-desktop mb-4">
+            <div class="notification is-success is-light">
+                {{#each success}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    <div class="tabs-wrapper">
+        <div class="tabs is-centered mt-6 is-boxed">
+            <ul>
+                <li class="is-active">
+                    <a>
+                        <span>Active</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span>Inactive</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tabs-content">
+            <ul>
+                <li class="is-active">
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                        {{#if hasDrawResults}}
+                            {{#checkVisible drawResults}}
+                                {{#each drawResults}}
+                                    {{#if this.visible}}
+                                        <!-- Competition Column -->
+                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
+                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
+                                                <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Not Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
+                                                    <div class="card-image">
+                                                        <figure class="image is-4by3">
+                                                            <img src="{{this.competitionReference.imagePath}}" alt="Competition Image" />
+                                                        </figure>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="content" style="height: 100px;">
+                                                            <p class="title is-4">{{this.title}}</p>
+                                                            <p class="subtitle is-6">{{this.description}}</p>
+                                                        </div>
+                                                        <button class="button is-fullwidth is-link">
+                                                            <span class="icon is-small">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </span>
+                                                            <span>Edit Draw Result</span>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {{/if}}    
+                                {{/each}}
+                                {{#unless hasVisible}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No user challenges show.</p>
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/checkVisible}}
+                        {{else}}
+                            <div class="column is-full">
+                                <div class="notification">
+                                    <p>No visible user challenges to show.</p>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                </li>
+                <!-- Invisible Draw Result Cards -->
+                <li>
+                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
+                        {{#if hasDrawResults}}
+                            {{#checkInvisible drawResults}}
+                                {{#each drawResults}}
+                                    {{#unless this.visible}}
+                                        <!-- Competition Column -->
+                                        <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
+                                            <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
+                                                <div class="card" style="">
+                                                    <header class="card-header">
+                                                        {{#if this.visible}}
+                                                            <p class="card-header-title">Visible</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{else}}
+                                                            <p class="card-header-title">Hidden</p>
+                                                            <button class="card-header-icon" aria-label="more options">
+                                                                <span class="icon">
+                                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                                </span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </header>
+                                                    <div class="card-image">
+                                                        <figure class="image is-4by3">
+                                                            <img src="{{this.imagePath}}" alt="Competition Image" />
+                                                        </figure>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="content" style="height: 100px;">
+                                                            <p class="title is-4">{{this.title}}</p>
+                                                            <p class="subtitle is-6">{{this.description}}</p>
+                                                        </div>
+                                                        <button class="button is-fullwidth is-link">
+                                                            <span class="icon is-small">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </span>
+                                                            <span>Edit Draw Result</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {{/unless}}
+                                {{/each}}
+                                {{#unless hasInvisible}}
+                                    <div class="column is-full">
+                                        <div class="notification">
+                                            <p>No Invisible user challenges to show.</p>
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/checkInvisible}}
+                        {{else}}
+                            <div class="column is-full">
+                                <div class="notification">
+                                    <p>No Invisible user challenges to show.</p>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
