@@ -120,6 +120,12 @@ module.exports = {
         var price = subTotal - total;
         return (Math.round(price * 100) / 100).toFixed(2);
     },
+    formatCurrency: function(value, options){
+        // Convert the integer to a float representing pounds
+        const pounds = (value / 100).toFixed(2);
+        // Format the result with the pound sign
+        return pounds;
+    },
     isTrue: function(value, options){
         if(value === true) {
             return options.fn(this);
