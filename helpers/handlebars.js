@@ -141,34 +141,34 @@ module.exports = {
     viewJSON: function(value, options){
         return JSON.stringify(value);
     },
-    checkActiveCompetitions: function(competitions, options){
+    checkActive: function(array, options){
         let hasActive = false;
 
         // Iterate through competitions to check for active ones
-        for (let i = 0; i < competitions.length; i++) {
-            if (competitions[i].active) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].active) {
                 hasActive = true;
                 break;
             }
         }
 
         // Pass the result to the template context
-        this.hasActiveCompetitions = hasActive;
+        this.hasActive = hasActive;
         return options.fn(this);
     },
-    checkInactiveCompetitions: function(competitions, options){
+    checkInactive: function(array, options){
         let hasInactive = false;
 
         // Iterate through competitions to check for active ones
-        for (let i = 0; i < competitions.length; i++) {
-            if (!competitions[i].active) {
+        for (let i = 0; i < array.length; i++) {
+            if (!array[i].active) {
                 hasInactive = true;
                 break;
             }
         }
 
         // Pass the result to the template context
-        this.hasInactiveCompetitions = hasInactive;
+        this.hasInactive = hasInactive;
         return options.fn(this);
     },
     checkVisible: function(array, options){

@@ -55,10 +55,10 @@
             <ul>
                 <li class="is-active">
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
-                        {{#if hasDrawResults}}
-                            {{#checkVisible drawResults}}
-                                {{#each drawResults}}
-                                    {{#if this.visible}}
+                        {{#if hasUserChallenges}}
+                            {{#checkActive userChallenges}}
+                                {{#each userChallenges}}
+                                    {{#if this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                                             <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
@@ -103,18 +103,18 @@
                                         </div>
                                     {{/if}}    
                                 {{/each}}
-                                {{#unless hasVisible}}
+                                {{#unless hasActive}}
                                     <div class="column is-full">
                                         <div class="notification">
                                             <p>No user challenges show.</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkVisible}}
+                            {{/checkActive}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
-                                    <p>No visible user challenges to show.</p>
+                                    <p>No active user challenges to show.</p>
                                 </div>
                             </div>
                         {{/if}}
@@ -123,10 +123,10 @@
                 <!-- Invisible Draw Result Cards -->
                 <li>
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
-                        {{#if hasDrawResults}}
-                            {{#checkInvisible drawResults}}
-                                {{#each drawResults}}
-                                    {{#unless this.visible}}
+                        {{#if hasUserChallenges}}
+                            {{#checkInactive userChallenges}}
+                                {{#each userChallenges}}
+                                    {{#unless this.active}}
                                         <!-- Competition Column -->
                                         <div class="column is-half-mobile is-one-third-tablet is-4-desktop is-3-fullhd has-text-centered">
                                             <a href="/admin/editDrawResult/{{this.id}}" class="is-link">
@@ -170,18 +170,18 @@
                                         </div>
                                     {{/unless}}
                                 {{/each}}
-                                {{#unless hasInvisible}}
+                                {{#unless hasInactive}}
                                     <div class="column is-full">
                                         <div class="notification">
-                                            <p>No Invisible user challenges to show.</p>
+                                            <p>No Inactive user challenges to show.</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkInvisible}}
+                            {{/checkInactive}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
-                                    <p>No Invisible user challenges to show.</p>
+                                    <p>No Inactive user challenges to show.</p>
                                 </div>
                             </div>
                         {{/if}}

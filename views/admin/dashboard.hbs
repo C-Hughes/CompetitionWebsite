@@ -56,7 +56,7 @@
                 <li class="is-active">
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center is-vcentered">
                         {{#if hasCompetitions}}
-                            {{#checkActiveCompetitions competitions}}
+                            {{#checkActive competitions}}
                                 {{#each competitions}}
                                     {{#if this.active}}
                                         <!-- Competition Column -->
@@ -129,14 +129,14 @@
                                         </div>
                                     {{/if}}
                                 {{/each}}
-                                {{#unless hasActiveCompetitions}}
+                                {{#unless hasActive}}
                                     <div class="column is-full">
                                         <div class="notification">
                                             <p>No active competitions to show.</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkActiveCompetitions}}
+                            {{/checkActive}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">
@@ -149,7 +149,7 @@
                 <li>
                     <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
                         {{#if hasCompetitions}}
-                            {{#checkInactiveCompetitions competitions}}
+                            {{#checkInactive competitions}}
                                 {{#each competitions}}
                                     {{#unless this.active}}
                                     <!-- Competition Column -->
@@ -215,14 +215,14 @@
                                         </div>
                                     {{/unless}}
                                 {{/each}}
-                                {{#unless hasInactiveCompetitions}}
+                                {{#unless hasInactive}}
                                     <div class="column is-full">
                                         <div class="notification">
                                             <p>No inactive competitions to show.</p>
                                         </div>
                                     </div>
                                 {{/unless}}
-                            {{/checkInactiveCompetitions}}
+                            {{/checkInactive}}
                         {{else}}
                             <div class="column is-full">
                                 <div class="notification">

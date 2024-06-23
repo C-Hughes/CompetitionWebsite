@@ -305,10 +305,18 @@ router.get('/users', function(req, res, next) {
     });
 });
 
-router.get('/userRewards', function(req, res, next) {
+router.get('/userRewards', async (req, res, next) => {
     var success = req.flash('success');
     var errors = req.flash('error');
-    res.render('admin/userRewards', { title: 'User Rewards', active: { userRewards: true }, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+
+    try {
+        const userChallenges = await UserChallenge.find({});
+
+        res.render('admin/userRewards', { title: 'User Rewards', active: { userRewards: true }, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 router.get('/createUserChallenge', function(req, res, next) {
