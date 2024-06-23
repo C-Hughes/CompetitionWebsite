@@ -1320,6 +1320,55 @@ router.post('/createUserChallenge', async (req, res) => {
     }
 });
 
+router.post('/updateUserChallenge', async (req, res, next) => {
+
+    //If no draw Result ID is submitted with the form
+    if (!req.body.userChallengeID) {
+        req.flash('error', 'Draw Result ID Missing');
+        return res.redirect('/admin/userRewards');
+    }
+
+    //Input Validation
+    req.checkBody('title', 'Title cannot be empty').notEmpty();
+    req.checkBody('description', 'Description cannot be empty').notEmpty();
+    req.checkBody('icon', 'Icon cannot be empty').notEmpty();
+    req.checkBody('points', 'Reward Points cannot be empty').notEmpty();
+    req.checkBody('points', 'Reward Points must be a number').isInt();
+    req.checkBody('accountCredit', 'Account Credit cannot be empty').notEmpty();
+
+    var errors = req.validationErrors();
+    if (errors){
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        req.flash('error', messages);
+        return res.redirect('/admin/editUserChallenge/'+req.body.userChallengeID);
+    }
+
+    // Set visible and active checkboxes
+    const active = req.body.active === 'on';
+
+    var newUserChallenge = {
+        title: req.body.title,
+        description: req.body.description,
+        icon: req.body.icon,
+        points: req.body.points,
+        accountCredit: req.body.accountCredit,
+        active: active,
+    };
+
+    try {
+        await UserChallenge.findOneAndUpdate({ _id: req.body.userChallengeID }, newUserChallenge, { upsert: false });
+
+        req.flash('success', 'User Challenge Successfully Updated');
+        res.redirect('/admin/editUserChallenge/' + req.body.userChallengeID);
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'Error updating User Challenge');
+        res.redirect('/admin/editUserChallenge/' + req.body.userChallengeID);
+    }
+});
 //////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////Create a New Coupon////////////////////////////////////////
 router.post('/createCoupon', async (req, res) => {
