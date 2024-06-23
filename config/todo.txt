@@ -5,6 +5,7 @@ When buying tickets:
 
 Competitions:
 
+
 User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for account credit
