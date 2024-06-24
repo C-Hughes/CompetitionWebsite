@@ -9,6 +9,7 @@ var User = require('../models/user');
 var Ticket = require('../models/ticket');
 var Order = require('../models/order');
 var UserChallenge = require('../models/userChallenge');
+const user = require('../models/user');
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
 router.use('/', isLoggedIn, function(req, res, next) {
@@ -110,6 +111,10 @@ router.get('/rewards', async (req, res, next) => {
 
     try {
         const userChallenges = await UserChallenge.find({active: true});
+
+
+        await updateUserChallengeProgress(req.user, userChallenges);
+
 
         res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
 
@@ -326,6 +331,58 @@ router.post('/timeOut', async (req, res, next) => {
 
 module.exports = router;
 
+//Search username/email/userID to find a users account
+async function updateUserChallengeProgress(userInfo, userChallengesDB) {
+    try {
+
+        //Go through each userChallenge, if user has reward already skip, if not check and update their progress.
+        for (let challenge of userChallengesDB) {
+            //If user has not completed challenge then check
+            var userCompletedChallenges = userInfo.userCompleted || [];
+            if(!userCompletedChallenges.includes(challenge)){
+                
+                if(challenge.title == "10 Entries"){
+                    //Find number of unique competitions user has entered into
+                    const uniqueComps = await Ticket.aggregate([
+                        // Match tickets for the specific user
+                        { $match: { userReference: userInfo._id } },
+                        
+                        // Group by competitionReference and collect tickets in each group
+                        {
+                            $group: {
+                                _id: "$competitionReference",
+                                ticket: { $first: "$$ROOT" } // Take the first ticket in each group
+                            }
+                        },
+                        
+                        // Replace the root document with the ticket document
+                        { $replaceRoot: { newRoot: "$ticket" } }
+                    ]);
+
+                    console.log('Unique competition entries: '+uniqueComps.length);
+
+                } else if(challenge.title == "25 Entries"){
+
+                } else if(challenge.title == "50 Entries"){
+
+                } else if(challenge.title == "Happy Birthday!"){
+
+                } else if(challenge.title == "One lap around the sun!"){
+
+                } else if(challenge.title == "Refer a Friend"){
+
+                } else if(challenge.title == "Refer a Friend 10"){
+
+                } else if(challenge.title == "5 Friends"){
+
+                }
+            }
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 //Check if logged in
 function isLoggedIn(req, res, next){
