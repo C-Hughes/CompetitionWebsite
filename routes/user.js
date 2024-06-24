@@ -338,8 +338,8 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
         //Go through each userChallenge, if user has reward already skip, if not check and update their progress.
         for (let challenge of userChallengesDB) {
             //If user has not completed challenge then check
-            var userCompletedChallenges = userInfo.userCompleted || [];
-            if(!userCompletedChallenges.includes(challenge)){
+            var userCompletedChallenges = userInfo.completedChallenges || [];
+            if(!userCompletedChallenges.includes(challenge._id)){
                 
                 if(challenge.title == "10 Entries"){
                     //Find number of unique competitions user has entered into
@@ -361,8 +361,8 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
 
                     //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 10){
-                       await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: Date.now}, { upsert: true }); 
-                       await User.findOneAndUpdate({ userReference: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: Date.now}, { upsert: false });
+                       await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: new Date().toISOString()}, { upsert: true }); 
+                       await User.findOneAndUpdate({ _id: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: new Date().toISOString()}, { upsert: false });
                     }
                     
                 } else if(challenge.title == "25 Entries"){
@@ -370,7 +370,14 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                 } else if(challenge.title == "50 Entries"){
 
                 } else if(challenge.title == "Happy Birthday!"){
-
+                    const test = await User.findOneAndUpdate(
+                        { _id: userInfo._id },
+                        {
+                            $push: { completedChallenges: challenge._id },
+                            $set: { lastUpdated: new Date().toISOString() }
+                        },
+                        { upsert: false, new: true }  // new: true returns the updated document
+                    );
                 } else if(challenge.title == "One lap around the sun!"){
 
                 } else if(challenge.title == "Refer a Friend"){
