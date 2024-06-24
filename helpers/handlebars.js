@@ -148,7 +148,7 @@ module.exports = {
         return JSON.stringify(value);
     },
     isCompletedChallenge: function(challengeId, completedChallenges, options){
-        const isCompleted = completedChallenges.some(completedId => completedId.toString() === challengeId.toString());
+        const isCompleted = completedChallenges.includes(challengeId);
         return isCompleted ? options.fn(this) : options.inverse(this);
     },
     checkActive: function(array, options){
