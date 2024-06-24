@@ -359,8 +359,12 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                         { $replaceRoot: { newRoot: "$ticket" } }
                     ]);
 
-                    console.log('Unique competition entries: '+uniqueComps.length);
-
+                    //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
+                    if(uniqueComps.length >= 10){
+                       await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: Date.now}, { upsert: true }); 
+                       await User.findOneAndUpdate({ userReference: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: Date.now}, { upsert: false });
+                    }
+                    
                 } else if(challenge.title == "25 Entries"){
 
                 } else if(challenge.title == "50 Entries"){
