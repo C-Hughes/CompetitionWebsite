@@ -366,12 +366,12 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                         markComplete = true;
                     }
                 } else if(challenge.title == "25 Entries"){
-                    //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
+                    //If entered 25 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 25){
                         markComplete = true;
                      }
                 } else if(challenge.title == "50 Entries"){
-                    //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
+                    //If entered 50 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 50){
                         markComplete = true;
                      }
@@ -397,6 +397,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                         markComplete = true;
                     }
                 } else if(challenge.title == "One lap around the sun!"){
+                    //Your account is one year old! Reward for your One-Year Anniversary.
                     const created = new Date(userInfo.joinDate);
                     const currentDate = new Date();
 
@@ -406,13 +407,15 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             markComplete = true;
                         }
                     }
-
                 } else if(challenge.title == "Refer a Friend"){
+                    //Reward for referring a user that enters a paid competition
 
                 } else if(challenge.title == "Refer a Friend 10"){
+                    //Reward for referring a user that enters 10 different paid competitions
 
                 } else if(challenge.title == "5 Friends"){
-
+                    //Reward for referring 5 different users that each enter a paid competition
+                    
                 }
 
                 //If user challenge has been completed, then update DB
