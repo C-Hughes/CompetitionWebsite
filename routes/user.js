@@ -335,50 +335,69 @@ module.exports = router;
 async function updateUserChallengeProgress(userInfo, userChallengesDB) {
     try {
 
+        //Get number of unique competition the user has entered into
+        var uniqueComps = await Ticket.aggregate([
+            // Match tickets for the specific user
+            { $match: { userReference: userInfo._id } },
+            
+            // Group by competitionReference and collect tickets in each group
+            {
+                $group: {
+                    _id: "$competitionReference",
+                    ticket: { $first: "$$ROOT" } // Take the first ticket in each group
+                }
+            },
+            
+            // Replace the root document with the ticket document
+            { $replaceRoot: { newRoot: "$ticket" } }
+        ]);
+
         //Go through each userChallenge, if user has reward already skip, if not check and update their progress.
         for (let challenge of userChallengesDB) {
             //If user has not completed challenge then check
             var userCompletedChallenges = userInfo.completedChallenges || [];
             if(!userCompletedChallenges.includes(challenge._id)){
+                var markComplete = false;
                 
                 if(challenge.title == "10 Entries"){
-                    //Find number of unique competitions user has entered into
-                    const uniqueComps = await Ticket.aggregate([
-                        // Match tickets for the specific user
-                        { $match: { userReference: userInfo._id } },
-                        
-                        // Group by competitionReference and collect tickets in each group
-                        {
-                            $group: {
-                                _id: "$competitionReference",
-                                ticket: { $first: "$$ROOT" } // Take the first ticket in each group
-                            }
-                        },
-                        
-                        // Replace the root document with the ticket document
-                        { $replaceRoot: { newRoot: "$ticket" } }
-                    ]);
-
                     //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 10){
-                       await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: new Date().toISOString()}, { upsert: true }); 
-                       await User.findOneAndUpdate({ _id: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: new Date().toISOString()}, { upsert: false });
+                        markComplete = true;
                     }
-                    
                 } else if(challenge.title == "25 Entries"){
-
+                    //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
+                    if(uniqueComps.length >= 25){
+                        markComplete = true;
+                     }
                 } else if(challenge.title == "50 Entries"){
-
+                    //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
+                    if(uniqueComps.length >= 50){
+                        markComplete = true;
+                     }
                 } else if(challenge.title == "Happy Birthday!"){
-                    const test = await User.findOneAndUpdate(
-                        { _id: userInfo._id },
-                        {
-                            $push: { completedChallenges: challenge._id },
-                            $set: { lastUpdated: new Date().toISOString() }
-                        },
-                        { upsert: false, new: true }  // new: true returns the updated document
-                    );
+                    //If users date of birth is today or since the users account was created then mark as completed
+                    // Parse the DOB and creation date strings to Date objects
+                    const dob = new Date(userInfo.DOB);
+                    const created = new Date(userInfo.joinDate);
+
+                    // Extract the month and day from the DOB
+                    const dobMonth = dob.getMonth(); // getMonth() returns 0-11 for Jan-Dec
+                    const dobDay = dob.getDate(); // getDate() returns 1-31 for the day of the month
+                    const createdYear = created.getFullYear();
+                    const birthdayThisYear = new Date(createdYear, dobMonth, dobDay);
+
+                    // Calculate the date 3 months after the account creation date
+                    const threeMonthsAfterCreation = new Date(created);
+                    threeMonthsAfterCreation.setMonth(created.getMonth() + 3);
+
+                    //If birthdays has passed this year since account was created (+3 months to prevent abuse)
+                    var hasPassedSinceCreated = (threeMonthsAfterCreation < birthdayThisYear) && (new Date() > birthdayThisYear);
+                    if(hasPassedSinceCreated){
+                        markComplete = true;
+                    }
                 } else if(challenge.title == "One lap around the sun!"){
+
+
 
                 } else if(challenge.title == "Refer a Friend"){
 
@@ -386,6 +405,12 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
 
                 } else if(challenge.title == "5 Friends"){
 
+                }
+
+                //If user challenge has been completed, then update DB
+                if(markComplete == true){
+                    await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: new Date().toISOString()}, { upsert: true }); 
+                    await User.findOneAndUpdate({ _id: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: new Date().toISOString()}, { upsert: false });
                 }
             }
         }

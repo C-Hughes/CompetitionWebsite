@@ -10,6 +10,7 @@ User:
 - Schema for challenge board & challenge board functionality
 - Redeem points for account credit
 - Coupon redeemed check/functionality on rewards page
+- Client side login / signup validation
 
 
 Other:
@@ -21,7 +22,7 @@ Other:
 - Email order recipiets
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 - Date verification for DOB, make sure user is 18+
-
+- We are live banner
 
 
 Admin functionality:
