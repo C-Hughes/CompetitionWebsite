@@ -9,6 +9,7 @@ var User = require('../models/user');
 var Ticket = require('../models/ticket');
 var Order = require('../models/order');
 var UserChallenge = require('../models/userChallenge');
+var CompletedChallenge = require('../models/completedChallenge');
 const user = require('../models/user');
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
@@ -396,8 +397,15 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                         markComplete = true;
                     }
                 } else if(challenge.title == "One lap around the sun!"){
+                    const created = new Date(userInfo.joinDate);
+                    const currentDate = new Date();
 
-
+                    const yearsDifference = currentDate.getFullYear() - created.getFullYear();
+                    if (yearsDifference > 1 || yearsDifference === 1) {
+                        if (currentDate.getMonth() > created.getMonth() || (currentDate.getMonth() === created.getMonth() && currentDate.getDate() >= created.getDate())) {
+                            markComplete = true;
+                        }
+                    }
 
                 } else if(challenge.title == "Refer a Friend"){
 
@@ -409,7 +417,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
 
                 //If user challenge has been completed, then update DB
                 if(markComplete == true){
-                    await completedChallengeSchema.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: new Date().toISOString()}, { upsert: true }); 
+                    await CompletedChallenge.findOneAndUpdate({ userReference: userInfo._id, challengeReference: challenge._id}, {completed: true, lastUpdated: new Date().toISOString()}, { upsert: true }); 
                     await User.findOneAndUpdate({ _id: userInfo._id}, {$push: { completedChallenges: challenge._id }, lastUpdated: new Date().toISOString()}, { upsert: false });
                 }
             }
