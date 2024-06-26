@@ -38,7 +38,6 @@ AntiCheat / User monitoring:
 
 Bug Fixes:
 - Check pending error going below 0 bug
-- Strip <script tags> from competition description and user challenge icon input fields
 
 
 Testing:
@@ -51,7 +50,6 @@ Check all updateBasket checks are working correctly
 Check postal vote entry
 Thorough Testing for coupons - Test every combination of coupon applied to basket. Also test multiple competitions added to basket.
 Thorough testing of all user challenges!!!
-Test for XSS on competition description and user challenge icon input fields
 userSeeder.JS
 ticketSeeder.JS
 
@@ -158,6 +156,12 @@ AntiCheat / User monitoring:
 Bug Fixes:
 - Fix basket not appearing when logging out and back in again
 - Check number of ticket entries in Updatebasket and /competition. Make sure all ticket entries to a competition are counted properly for (If user has entered multiple times with different answers) (FindOne to find)
+- Strip <script tags> from competition description and user challenge icon input fields (FIXED ALL XSS VULNS)
+
+
+TESTING:
+- Test for XSS on competition description and user challenge icon input fields
+
 
 
 //   cd ../../../../../ 

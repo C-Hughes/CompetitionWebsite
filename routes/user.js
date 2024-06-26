@@ -113,12 +113,15 @@ router.get('/rewards', async (req, res, next) => {
     try {
         const userChallenges = await UserChallenge.find({active: true});
 
-
-        await updateUserChallengeProgress(req.user, userChallenges);
-
-
+        const currentDate = new Date();
+        const timeToWait = new Date(currentDate.getTime() - 15 * 60 * 1000); // 10 minutes in milliseconds
+        req.session.checkedUserChallengeProgress = req.session.checkedUserChallengeProgress || new Date();
+        if(new Date(req.session.checkedUserChallengeProgress).getTime() <= timeToWait){
+            req.session.checkedUserChallengeProgress = new Date();
+            //Only update after timeToWait mins has passed to avoid excessive DB queries
+            await updateUserChallengeProgress(req.user, userChallenges);
+        }
         res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
-
     } catch (err) {
         console.error(err);
     }
