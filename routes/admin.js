@@ -1649,7 +1649,13 @@ router.post('/users', async (req, res, next) => {
     }
 
     try {
-        var foundUser = await User.find({ "username" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } }).populate('shippingAddressReference');
+        var foundUser = [];
+        if(ObjectId.isValid(userLookupInfo)){
+            foundUser = await User.find({_id: userLookupInfo});
+        }
+        if(foundUser.length == 0){
+            foundUser = await User.find({ "username" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } }).populate('shippingAddressReference');
+        }
         if(foundUser.length == 0){
             foundUser = await User.find({ "emailAddress" : { $regex : new RegExp('^'+userLookupInfo+'$', "i") } });
         }
@@ -1664,13 +1670,6 @@ router.post('/users', async (req, res, next) => {
         }
 
         if(foundUser.length > 0){
-            //Get shipping address of foundUsers
-            for (let user of foundUser) {
-                //Get competition from basket item
-                const foundSAddress = await ShippingAddress.findOne({ userReference: user._id });
-                
-            }
-
             res.render('admin/users', { title: 'Users', active: { users: true }, userInfo: foundUser});
         } else {
             res.render('admin/users', { title: 'Users', active: { users: true }, errors: true, error: ["User Details Not Found"]});

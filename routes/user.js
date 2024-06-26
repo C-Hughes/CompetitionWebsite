@@ -340,7 +340,6 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
         var uniqueComps = await Ticket.aggregate([
             // Match tickets for the specific user
             { $match: { userReference: userInfo._id } },
-            
             // Group by competitionReference and collect tickets in each group
             {
                 $group: {
@@ -348,10 +347,30 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                     ticket: { $first: "$$ROOT" } // Take the first ticket in each group
                 }
             },
-            
             // Replace the root document with the ticket document
             { $replaceRoot: { newRoot: "$ticket" } }
         ]);
+
+        const referralCode = userInfo.referralCode;
+        // Find users who signed up using this referral code
+        const referredUsers = await User.find({ signupReferralCodeUsed: referralCode }, '_id');
+        const referredUserIds = referredUsers.map(user => user._id);
+
+        console.log('referralCode= '+referralCode);
+        console.log('REFERED USERS= '+referredUserIds);
+
+        if(referredUserIds.length > 0){
+            const uniqueCompetitions = await Ticket.aggregate([
+                { $match: { userReference: { $in: referredUserIds } } },
+                { $group: { _id: "$competitionReference" } }
+            ]);
+            
+            var uniqueCompetitionCount = uniqueCompetitions.length;
+        } else {
+            var uniqueCompetitionCount = 0;
+        }
+
+
 
         //Go through each userChallenge, if user has reward already skip, if not check and update their progress.
         for (let challenge of userChallengesDB) {
@@ -409,13 +428,19 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                     }
                 } else if(challenge.title == "Refer a Friend"){
                     //Reward for referring a user that enters a paid competition
-
+                    if(uniqueCompetitionCount >= 1){
+                        //markComplete = true;
+                    }
                 } else if(challenge.title == "Refer a Friend 10"){
                     //Reward for referring a user that enters 10 different paid competitions
-
+                    if(uniqueCompetitionCount >= 10){
+                        markComplete = true;
+                    }
                 } else if(challenge.title == "5 Friends"){
                     //Reward for referring 5 different users that each enter a paid competition
-                    
+                    if(uniqueCompetitionCount >= 50){
+                        markComplete = true;
+                    }
                 }
 
                 //If user challenge has been completed, then update DB
