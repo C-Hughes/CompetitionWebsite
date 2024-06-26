@@ -18,6 +18,7 @@ const favicon = require('serve-favicon');
 require('dotenv').config();
 //var multer  = require('multer');
 //var upload = multer({ dest: 'uploads/' });
+const Banner = require('./models/banner');
 
 
 var indexRouter = require('./routes/index');
@@ -82,6 +83,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //Might need to remove
 app.use(express.urlencoded({ extended: true }));
+// Middleware to pass banner state to views
+app.use(async (req, res, next) => {
+    try {
+        const banner = await Banner.findOne();
+        res.locals.bannerVisible = banner ? banner.isVisible : false;
+    } catch (err) {
+        res.locals.bannerVisible = false;
+    }
+    next();
+});
 
 
 app.use('/admin', adminRouter);
