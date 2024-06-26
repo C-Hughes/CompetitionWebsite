@@ -115,8 +115,9 @@ router.get('/rewards', async (req, res, next) => {
 
         const currentDate = new Date();
         const timeToWait = new Date(currentDate.getTime() - 15 * 60 * 1000); // 10 minutes in milliseconds
-        req.session.checkedUserChallengeProgress = req.session.checkedUserChallengeProgress || new Date();
+        req.session.checkedUserChallengeProgress = req.session.checkedUserChallengeProgress ? req.session.basket : new Date();
         if(new Date(req.session.checkedUserChallengeProgress).getTime() <= timeToWait){
+            console.log('Update req.session.checkedUserChallengeProgress');
             req.session.checkedUserChallengeProgress = new Date();
             //Only update after timeToWait mins has passed to avoid excessive DB queries
             await updateUserChallengeProgress(req.user, userChallenges);
