@@ -336,7 +336,9 @@ module.exports = router;
 async function updateUserChallengeProgress(userInfo, userChallengesDB) {
     try {
 
-        //Get number of unique competition the user has entered into
+        //ADD CODE TO ONLY RUN THIS AFTER 10MINS HAS PASSED SINCE THE LAST TIME
+
+        ////////////////////////////Get number of unique competitions the user has entered into///////////////////////////////////////////////
         var uniqueComps = await Ticket.aggregate([
             // Match tickets for the specific user
             { $match: { userReference: userInfo._id } },
@@ -351,28 +353,43 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
             { $replaceRoot: { newRoot: "$ticket" } }
         ]);
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////GET NUMBER OF REFERRED USERS THAT HAVE ENTERED COMPETITIONS/////////////////////////////////////
+        let highestReferredUserCompEntries = 0; //Variable to track the referred user that has entered the highest number of unique competitions. For Refer a Friend 10
+        let numberOfReferredUsersThatEnteredComps = 0; //Variable to count the total number of referred users that have entered at least 1 competition
         const referralCode = userInfo.referralCode;
         // Find users who signed up using this referral code
         const referredUsers = await User.find({ signupReferralCodeUsed: referralCode }, '_id');
         const referredUserIds = referredUsers.map(user => user._id);
 
-        console.log('referralCode= '+referralCode);
-        console.log('REFERED USERS= '+referredUserIds);
+        //console.log('referralCode= '+referralCode);
+        //console.log('REFERED USERS= '+referredUserIds);
 
         if(referredUserIds.length > 0){
-            const uniqueCompetitions = await Ticket.aggregate([
+            //Get each referred user and the number of competitions they have entered.
+            var referredUserCompEntriesCounts = await Ticket.aggregate([
                 { $match: { userReference: { $in: referredUserIds } } },
-                { $group: { _id: "$competitionReference" } }
+                { $group: { _id: { userReference: "$userReference", competitionReference: "$competitionReference" } } },
+                { $group: { _id: "$_id.userReference", uniqueCompetitionCount: { $sum: 1 } } }
             ]);
             
-            var uniqueCompetitionCount = uniqueCompetitions.length;
-        } else {
-            var uniqueCompetitionCount = 0;
-        }
+            //Check each referred user and the number of competitions they have entered and find the highest compEntries
+            for (const entry of referredUserCompEntriesCounts) {
+                if (entry.uniqueCompetitionCount > highestReferredUserCompEntries) {
+                    highestReferredUserCompEntries = entry.uniqueCompetitionCount;
+                }
+                if(entry.uniqueCompetitionCount > 0){
+                    numberOfReferredUsersThatEnteredComps++;
+                }
+            }
+        } 
+        //console.log('referredUserCompEntriesCounts= '+JSON.stringify(referredUserCompEntriesCounts));
+        //console.log('LengthOfreferredUserCompEntriesCounts= '+referredUserCompEntriesCounts.length);
+        //console.log('numberOfReferredUsersThatEnteredComps= '+numberOfReferredUsersThatEnteredComps);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-        //Go through each userChallenge, if user has reward already skip, if not check and update their progress.
+//////////////////Go through each userChallenge, if user has reward already skip, if not check and update their progress.///////////////////////
         for (let challenge of userChallengesDB) {
             //If user has not completed challenge then check
             var userCompletedChallenges = userInfo.completedChallenges || [];
@@ -428,18 +445,21 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                     }
                 } else if(challenge.title == "Refer a Friend"){
                     //Reward for referring a user that enters a paid competition
-                    if(uniqueCompetitionCount >= 1){
-                        //markComplete = true;
+                    if(highestReferredUserCompEntries >= 1){
+                        markComplete = true;
+                        //console.log('Refer a Friend');
                     }
                 } else if(challenge.title == "Refer a Friend 10"){
                     //Reward for referring a user that enters 10 different paid competitions
-                    if(uniqueCompetitionCount >= 10){
+                    if(highestReferredUserCompEntries >= 10){
                         markComplete = true;
+                        //console.log('Refer a Friend 10');
                     }
                 } else if(challenge.title == "5 Friends"){
                     //Reward for referring 5 different users that each enter a paid competition
-                    if(uniqueCompetitionCount >= 50){
+                    if(numberOfReferredUsersThatEnteredComps >= 5){
                         markComplete = true;
+                        //console.log('5 Friends');
                     }
                 }
 
