@@ -7,22 +7,24 @@ Competitions:
 
 
 User:
-- Schema for challenge board & challenge board functionality
 - Redeem points for account credit
 - Coupon redeemed check/functionality on rewards page
 - Client side login / signup validation
-
+- Add check to updateUserChallengeProgress only run again after 10 mins has passed
 
 Other:
 - Setup stripe for payments
 - Add functionality for instant win competitions
+- Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
+- Date verification for DOB, make sure user is 18+
+- We are live banner
+
+
+Email Functionality:
 - Email sending capability
 - Email user verification
 - Email password reset
 - Email order recipiets
-- Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
-- Date verification for DOB, make sure user is 18+
-- We are live banner
 
 
 Admin functionality:
@@ -48,6 +50,11 @@ Adding multiple items to basket and make sure when order is cancelled that pendi
 Check all updateBasket checks are working correctly
 Check postal vote entry
 Thorough Testing for coupons - Test every combination of coupon applied to basket. Also test multiple competitions added to basket.
+Thorough testing of all user challenges!!!
+Test for XSS on competition description and user challenge icon input fields
+userSeeder.JS
+ticketSeeder.JS
+
 
 -----------------------------------------------------------------------------------------
 
@@ -69,6 +76,7 @@ User:
 - Take time out users can still log in, but not make any purchases
 - Display current time out date/Time on safeplaying page if applicable and datetime is in the future
 - When user has taken timout display a message when they try to go to checkout
+- Schema for challenge board & challenge board functionality
 
 
 Other:
