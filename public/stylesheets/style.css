@@ -73,3 +73,21 @@ a {
 .fade-in {
     opacity: 1;
 }
+
+
+.is-greyed-out {
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+    border-color: #d0d0d0;
+}
+
+.is-greyed-out .title,
+.is-greyed-out .subtitle,
+.is-greyed-out .icon {
+    color: #a0a0a0;
+    border-color: #a0a0a0;
+}
+
+.is-greyed-out .icon i {
+    opacity: 0.5;
+}

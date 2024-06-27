@@ -92,7 +92,7 @@
                                 {{#if this.active}}
                                     <!-- Competition Column -->
                                     <div class="column is-half-mobile is-half-tablet is-half-desktop is-4-fullhd has-text-centered">
-                                        <div class="notification">
+                                        <div class="notification {{#isCompletedChallenge this._id ../user.completedChallenges}}{{else}}is-greyed-out{{/isCompletedChallenge}}">
                                             <div class="has-text-centered">
                                                 <span class="icon fas fa-2x mb-3">
                                                     <i class="{{this.icon}}"></i>
