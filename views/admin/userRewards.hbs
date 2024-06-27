@@ -70,7 +70,12 @@
                                                     <div style="min-height:150px">
                                                         <p class="title is-5">{{this.title}}</p>
                                                         <p class="subtitle is-6 is-spaced">{{this.description}}</p>
-                                                        <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
+                                                        {{#if this.accountCredit}}
+                                                            <p class="title is-5">Account Credit: £{{this.accountCredit}}</p>
+                                                        {{/if}}
+                                                        {{#if this.voucherDescription}}
+                                                            <p class="title is-5">{{this.voucherDescription}} Voucher</p>
+                                                        {{/if}}
                                                         {{#ifGreaterThan0 this.points}}
                                                             <p class="subtitle is-7">{{this.points}} Points</p>
                                                         {{/ifGreaterThan0}}
