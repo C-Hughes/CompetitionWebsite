@@ -10,14 +10,13 @@ User:
 - Redeem points for account credit
 - Coupon redeemed check/functionality on rewards page
 - Client side login / signup validation
-- Add check to updateUserChallengeProgress only run again after 10 mins has passed
+
 
 Other:
 - Setup stripe for payments
 - Add functionality for instant win competitions
 - Make website wcag2.2 standard complient - https://www.magentaa11y.com/web/ - https://www.w3.org/WAI/ARIA/apg/patterns/
 - Date verification for DOB, make sure user is 18+
-- We are live banner
 
 
 Email Functionality:
@@ -75,6 +74,7 @@ User:
 - Display current time out date/Time on safeplaying page if applicable and datetime is in the future
 - When user has taken timout display a message when they try to go to checkout
 - Schema for challenge board & challenge board functionality
+- Add check to updateUserChallengeProgress only run again after 10 mins has passed
 
 
 Other:
@@ -93,6 +93,7 @@ Other:
 - Update all userlookups in forms to use findUser function.
 - Add * to all required fields / add required html tag to required fields
 - Create how to play page
+- We are live banner
 
 
 Competition:

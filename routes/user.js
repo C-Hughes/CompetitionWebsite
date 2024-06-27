@@ -10,7 +10,7 @@ var Ticket = require('../models/ticket');
 var Order = require('../models/order');
 var UserChallenge = require('../models/userChallenge');
 var CompletedChallenge = require('../models/completedChallenge');
-const user = require('../models/user');
+var Coupon = require('../models/coupon');
 
 /* MUST BE LOGGED IN TO ACCESS BELOW */
 router.use('/', isLoggedIn, function(req, res, next) {
@@ -403,17 +403,65 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                 if(challenge.title == "10 Entries"){
                     //If entered 10 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 10){
-                        markComplete = true;
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: '10Entries',
+                            couponDescription: '£5 Off',
+                            couponAmount: 5,
+                            minimumSpend: 0,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                     }
                 } else if(challenge.title == "25 Entries"){
                     //If entered 25 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 25){
-                        markComplete = true;
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: '25Entries',
+                            couponDescription: '£5 Off',
+                            couponAmount: 5,
+                            minimumSpend: 0,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                      }
                 } else if(challenge.title == "50 Entries"){
                     //If entered 50 or more unique comps, add entry to completedChallengeSchema & update User.completedChallenges
                     if(uniqueComps.length >= 50){
-                        markComplete = true;
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: '50Entries',
+                            couponDescription: '£10 Off',
+                            couponAmount: 10,
+                            minimumSpend: 0,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                      }
                 } else if(challenge.title == "Happy Birthday!"){
                     //If users date of birth is today or since the users account was created then mark as completed
@@ -434,7 +482,23 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                     //If birthdays has passed this year since account was created (+3 months to prevent abuse)
                     var hasPassedSinceCreated = (threeMonthsAfterCreation < birthdayThisYear) && (new Date() > birthdayThisYear);
                     if(hasPassedSinceCreated){
-                        markComplete = true;
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: 'HappyBirthday',
+                            couponDescription: '£5 Off £10 Basket',
+                            couponAmount: 5,
+                            minimumSpend: 10,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                     }
                 } else if(challenge.title == "One lap around the sun!"){
                     //Your account is one year old! Reward for your One-Year Anniversary.
@@ -444,26 +508,87 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                     const yearsDifference = currentDate.getFullYear() - created.getFullYear();
                     if (yearsDifference > 1 || yearsDifference === 1) {
                         if (currentDate.getMonth() > created.getMonth() || (currentDate.getMonth() === created.getMonth() && currentDate.getDate() >= created.getDate())) {
-                            markComplete = true;
+                            //Create Coupon
+                            const newCoupon = {
+                                userReference: userInfo._id,
+                                sitewide: true,
+                                couponCode: 'OneLap',
+                                couponDescription: '£5 Off £10 Basket',
+                                couponAmount: 5,
+                                minimumSpend: 10,
+                                couponExpiryDate: new Date("2099-01-01"),
+                                numberOfUsesPerPerson: 1,
+                                totalNumberOfUses: 1,
+                                active: true,
+                            };
+                            const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                            if (savedCoupon) {
+                                markComplete = true;
+                            }
                         }
                     }
                 } else if(challenge.title == "Refer a Friend"){
                     //Reward for referring a user that enters a paid competition
                     if(highestReferredUserCompEntries >= 1){
-                        markComplete = true;
-                        //console.log('Refer a Friend');
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: 'ReferAFriend',
+                            couponDescription: '£5 Off £10 Basket',
+                            couponAmount: 5,
+                            minimumSpend: 10,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                     }
                 } else if(challenge.title == "Refer a Friend 10"){
                     //Reward for referring a user that enters 10 different paid competitions
                     if(highestReferredUserCompEntries >= 10){
-                        markComplete = true;
-                        //console.log('Refer a Friend 10');
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: 'ReferAFriend10',
+                            couponDescription: '£10 Off',
+                            couponAmount: 10,
+                            minimumSpend: 0,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                     }
                 } else if(challenge.title == "5 Friends"){
                     //Reward for referring 5 different users that each enter a paid competition
                     if(numberOfReferredUsersThatEnteredComps >= 5){
-                        markComplete = true;
-                        //console.log('5 Friends');
+                        //Create Coupon
+                        const newCoupon = {
+                            userReference: userInfo._id,
+                            sitewide: true,
+                            couponCode: 'Refer5Friends',
+                            couponDescription: '£5 Off',
+                            couponAmount: 5,
+                            minimumSpend: 0,
+                            couponExpiryDate: new Date("2099-01-01"),
+                            numberOfUsesPerPerson: 1,
+                            totalNumberOfUses: 1,
+                            active: true,
+                        };
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        if (savedCoupon) {
+                            markComplete = true;
+                        }
                     }
                 }
 

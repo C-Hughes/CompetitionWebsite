@@ -1304,7 +1304,6 @@ router.post('/createUserChallenge', async (req, res) => {
         req.checkBody('icon', 'Icon cannot be empty').notEmpty();
         req.checkBody('points', 'Reward Points cannot be empty').notEmpty();
         req.checkBody('points', 'Reward Points must be a number').isInt();
-        req.checkBody('accountCredit', 'Account Credit cannot be empty').notEmpty();
  
         var errors = req.validationErrors();
         if (errors){
@@ -1316,6 +1315,12 @@ router.post('/createUserChallenge', async (req, res) => {
             return res.redirect('/admin/createUserChallenge');
         }
 
+        //couponType Check
+        if(req.body.accountCredit && req.body.voucherDescription){
+            req.flash('error', 'Account Credit & Voucher Description cannot both have a value. Select One.');
+            return res.redirect('/admin/createUserChallenge');
+        } 
+
         const active = req.body.active === 'on';
         
         const newUserChallenge = new UserChallenge({
@@ -1324,6 +1329,7 @@ router.post('/createUserChallenge', async (req, res) => {
             icon: req.body.icon,
             points: req.body.points,
             accountCredit: req.body.accountCredit,
+            voucherDescription: req.body.voucherDescription,
             active: active,
         });
 
@@ -1369,6 +1375,12 @@ router.post('/updateUserChallenge', async (req, res, next) => {
         return res.redirect('/admin/editUserChallenge/'+req.body.userChallengeID);
     }
 
+    //couponType Check
+    if(req.body.accountCredit && req.body.voucherDescription){
+        req.flash('error', 'Account Credit & Voucher Description cannot both have a value. Select One.');
+        return res.redirect('/admin/editUserChallenge/'+req.body.userChallengeID);
+    } 
+
     // Set visible and active checkboxes
     const active = req.body.active === 'on';
 
@@ -1378,6 +1390,7 @@ router.post('/updateUserChallenge', async (req, res, next) => {
         icon: req.body.icon,
         points: req.body.points,
         accountCredit: req.body.accountCredit,
+        voucherDescription: req.body.voucherDescription,
         active: active,
     };
 

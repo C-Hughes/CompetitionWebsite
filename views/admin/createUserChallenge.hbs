@@ -80,15 +80,51 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Reward Account Credit *</label>
-                        <div class="control has-icons-left">
-                            <input id="accountCredit" name="accountCredit" class="input" type="text" placeholder="Reward Account Credit" required>
-                            <span class="icon is-small is-left">
-                                <i class="fa-solid fa-sterling-sign"></i>
-                            </span>
+                    <div class="tabs-wrapper">
+                        <label class="label">Reward Type (Account Credit or Voucher Description) *</label>
+                        <div class="tabs is-centered is-boxed">
+                            <ul>
+                                <li>
+                                    <a>
+                                        <span>Account Credit</span>
+                                    </a>
+                                </li>
+                                <li class="is-active">
+                                    <a>
+                                        <span>Voucher Description</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tabs-content mb-4">
+                            <ul>
+                                <li>
+                                    <div class="field">
+                                        <label class="label">Reward Account Credit (Leave Blank for No Account Credit)</label>
+                                        <div class="control has-icons-left">
+                                            <input id="accountCredit" name="accountCredit" class="input" type="text" placeholder="Reward Account Credit">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-sterling-sign"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="is-active">
+                                    <div class="field">
+                                        <label class="label">Reward Voucher Description</label>
+                                        <div class="control has-icons-left">
+                                            <input id="voucherDescription" name="voucherDescription" class="input" type="text" placeholder="Reward Voucher Description">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-receipt"></i>
+                                            </span>
+                                        </div>
+                                    </div>                                      
+                                </li>
+                            </ul>
                         </div>
                     </div>
+
+                    <hr />
 
                     <div class="field">
                         <label class="label">Is Active</label>
