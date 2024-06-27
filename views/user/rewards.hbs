@@ -184,69 +184,51 @@
                                     </div>
                                 </li>
                                 <li class="is-active">
-                                    <div class="columns">
-                                        <div class="column">
-                                            <div class="card">
-                                                <header class="card-header">
-                                                    <p class="card-header-title">10.74 GBP Coupon</p>
-                                                </header>
-                                                <div class="card-content">
-                                                    <div class="has-text-centered">
-                                                        <span class="icon fas fa-2x">
-                                                            <i class="fa-solid fa-sack-dollar"></i>
-                                                        </span>
-                                                        <br />
-                                                        <p>Not Yet Redeemed</p>
-                                                        <time datetime="2024-04-22">Created on 2024-04-22</time>
-                                                        <br />
-                                                        <div class="field has-addons mt-3">
-                                                            <p class="control">
-                                                                <input class="input is-small" type="text" value="DDrLhu1MIu" readonly>
-                                                            </p>
-                                                            <p class="control">
-                                                                <span class="button">
-                                                                    <i class="fa-solid fa-copy"></i>
-                                                                </span>
-                                                            </p>
+                                    <div class="columns is-multiline is-mobile is-flex is-justify-content-center is-vcentered">
+                                        {{#if hasUserCoupons}}
+                                            {{#each userCoupons}}
+                                                {{#if this.active}}
+                                                    <!-- Competition Column -->
+                                                    <div class="column is-half-mobile is-half-tablet is-half-desktop is-half-fullhd has-text-centered">
+                                                        <div class="card">
+                                                            <header class="card-header has-text-centered">
+                                                                <p class="card-header-title">{{this.couponDescription}}</p>
+                                                            </header>
+                                                            <div class="card-content">
+                                                                <div class="has-text-centered">
+                                                                    <span class="icon fas fa-2x">
+                                                                        <i class="fa-solid fa-circle-check"></i>
+                                                                    </span>
+                                                                    <br />
+                                                                    <p>Redeemed</p>
+                                                                    <time datetime="2024-04-22">Created on {{formatDateShort this.created}}</time>
+                                                                    <br />
+                                                                    <div class="field has-addons mt-3">
+                                                                        <p class="control is-expanded">
+                                                                            <input class="input is-small" type="text" value="{{this.couponCode}}" readonly>
+                                                                        </p>
+                                                                        <p class="control">
+                                                                            <span class="button">
+                                                                                <i class="fa-solid fa-copy"></i>
+                                                                            </span>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <footer class="card-footer">
+                                                                <a href="#" class="button card-footer-item is-static is-link" disabled>Apply Coupon</a>
+                                                            </footer>
                                                         </div>
                                                     </div>
+                                                {{/if}}    
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="column is-full">
+                                                <div class="notification">
+                                                    <p>No Coupons to show.</p>
                                                 </div>
-                                                <footer class="card-footer">
-                                                    <a href="#" class="button card-footer-item is-link">Apply Coupon</a>
-                                                </footer>
                                             </div>
-                                        </div>
-                                        <div class="column">
-                                            <div class="card">
-                                                <header class="card-header">
-                                                    <p class="card-header-title">15.77 GBP Coupon</p>
-                                                </header>
-                                                <div class="card-content">
-                                                    <div class="has-text-centered">
-                                                        <span class="icon fas fa-2x">
-                                                            <i class="fa-solid fa-circle-check"></i>
-                                                        </span>
-                                                        <br />
-                                                        <p>Redeemed</p>
-                                                        <time datetime="2024-04-22">Created on 2023-12-09</time>
-                                                        <br />
-                                                        <div class="field has-addons mt-3">
-                                                            <p class="control">
-                                                                <input class="input is-small" type="text" value="ulQkpwUzLf" readonly>
-                                                            </p>
-                                                            <p class="control">
-                                                                <span class="button">
-                                                                    <i class="fa-solid fa-copy"></i>
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <footer class="card-footer">
-                                                    <a href="#" class="button card-footer-item is-static" disabled>Apply Coupon</a>
-                                                </footer>
-                                            </div>
-                                        </div>
+                                        {{/if}}
                                     </div>
                                 </li>
                             </ul>

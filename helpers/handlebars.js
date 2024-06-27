@@ -91,6 +91,14 @@ module.exports = {
         var newDate = `${weekday} ${day} ${month} - ${time}`;
         return newDate;
     },
+    formatDateShort: function(cond1, options){
+        var date = new Date(cond1);
+        var year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+        var month = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
+        var day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+        var newDate = `${day}-${month}-${year}`;
+        return newDate;
+    },
     ifCompClosed: function(entryCloseDate, options){
         //If competition entryCloseDate has passed, do not allow users to buy
         return new Date(entryCloseDate.getTime()) < Date.now() ? options.fn(this) : options.inverse(this);

@@ -52,7 +52,7 @@ Thorough Testing for coupons - Test every combination of coupon applied to baske
 Thorough testing of all user challenges!!!
 userSeeder.JS
 ticketSeeder.JS
-
+Test completing challenges and user coupons being created
 
 -----------------------------------------------------------------------------------------
 

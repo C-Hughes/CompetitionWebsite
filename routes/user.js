@@ -111,10 +111,14 @@ router.get('/rewards', async (req, res, next) => {
     var errors = req.flash('error');
 
     try {
+        //Find all users coupons
+        const userCoupons = await Coupon.find({userReference: req.user._id, active: true}).populate('competitionReference');
+
+        //Find all User Challenges
         const userChallenges = await UserChallenge.find({active: true});
 
         const currentDate = new Date();
-        const timeToWait = new Date(currentDate.getTime() - 15 * 60 * 1000); // 10 minutes in milliseconds
+        const timeToWait = new Date(currentDate.getTime() - 15 * 60 * 1000); // 15 minutes in milliseconds
         req.session.checkedUserChallengeProgress = req.session.checkedUserChallengeProgress ? req.session.basket : new Date();
         if(new Date(req.session.checkedUserChallengeProgress).getTime() <= timeToWait){
             console.log('Update req.session.checkedUserChallengeProgress');
@@ -122,7 +126,7 @@ router.get('/rewards', async (req, res, next) => {
             //Only update after timeToWait mins has passed to avoid excessive DB queries
             await updateUserChallengeProgress(req.user, userChallenges);
         }
-        res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
+        res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userCoupons: userCoupons, hasUserCoupons: userCoupons.length > 0, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
     } catch (err) {
         console.error(err);
     }
@@ -599,7 +603,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                 }
             }
         }
-
+        //await User.findOneAndUpdate({ _id: userInfo._id}, {completedChallenges: []}, { upsert: false });
     } catch (err) {
         console.error(err);
     }
