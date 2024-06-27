@@ -159,6 +159,21 @@ module.exports = {
         const isCompleted = completedChallenges.includes(challengeId);
         return isCompleted ? options.fn(this) : options.inverse(this);
     },
+    ifCouponUsed: function(coupon, options){
+        console.log(coupon.timesUsed >= coupon.numberOfUsesPerPerson);
+        console.log(coupon.timesUsed >= coupon.totalNumberOfUses);
+
+        var isUsed = false;
+        if(coupon.numberOfUsesPerPerson && (coupon.timesUsed >= coupon.numberOfUsesPerPerson)){
+            var isUsed = true;
+        }
+        if(coupon.totalNumberOfUses && (coupon.timesUsed >= coupon.totalNumberOfUses)){
+            var isUsed = true;
+        }
+
+        //const isUsed = ((coupon.timesUsed >= coupon.numberOfUsesPerPerson) || (coupon.timesUsed >= coupon.totalNumberOfUses));
+        return isUsed ? options.fn(this) : options.inverse(this);
+    },
     checkActive: function(array, options){
         let hasActive = false;
 

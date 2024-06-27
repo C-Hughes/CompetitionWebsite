@@ -272,6 +272,7 @@ function copyShareLink(type, text){
 
         var copyText = document.getElementById("referralCodeText");
     }
+    
     // Select the text field
     copyText.select();
     copyText.setSelectionRange(0, 99999); // For mobile devices

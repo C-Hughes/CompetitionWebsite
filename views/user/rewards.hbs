@@ -196,11 +196,36 @@
                                                             </header>
                                                             <div class="card-content">
                                                                 <div class="has-text-centered">
-                                                                    <span class="icon fas fa-2x">
-                                                                        <i class="fa-solid fa-circle-check"></i>
-                                                                    </span>
-                                                                    <br />
-                                                                    <p>Redeemed</p>
+                                                                    {{#ifCouponUsed this}}
+                                                                        <span class="icon fas fa-2x">
+                                                                            <i class="fa-solid fa-circle-check"></i>
+                                                                        </span>
+                                                                        <br />
+                                                                        <p>Redeemed</p>
+                                                                    {{else}}
+                                                                        <span class="icon fas fa-2x">
+                                                                            <i class="fa-solid fa-sack-dollar"></i>
+                                                                        </span>
+                                                                        <br />
+                                                                    {{/ifCouponUsed}}
+                                                                    {{#if this.couponAmount}}
+                                                                        <p>£{{this.couponAmount}} Discount</p>
+                                                                    {{/if}}
+                                                                    {{#if this.couponPercent}}
+                                                                        <p>{{this.couponPercent}}% Discount</p>
+                                                                    {{/if}}
+                                                                    {{#if this.minimumSpend}}
+                                                                        <p>Minimum Spend: {{this.minimumSpend}}</p>
+                                                                    {{/if}}
+                                                                    <p>Expiry Date: {{formatDateShort this.couponExpiryDate}}</p>
+                                                                    {{#if this.numberOfUsesPerPerson}}
+                                                                        <p>Uses: {{this.numberOfUsesPerPerson}}</p>
+                                                                    {{/if}}
+                                                                    {{#if this.timesUsed}}
+                                                                        <p>Times Used: {{this.timesUsed}}</p>
+                                                                    {{else}}
+                                                                        <p>Times Used: 0</p>
+                                                                    {{/if}}
                                                                     <time datetime="2024-04-22">Created on {{formatDateShort this.created}}</time>
                                                                     <br />
                                                                     <div class="field has-addons mt-3">
