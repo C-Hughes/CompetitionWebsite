@@ -28,6 +28,7 @@ Email Functionality:
 
 Admin functionality:
 - Add user info stats to admin/users (User joined in last 7/30/90 days etc..)
+- Move image upload routes to seperate file. Add CSRF protection for admin routes
 
 
 AntiCheat / User monitoring:

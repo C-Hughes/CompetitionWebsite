@@ -1319,7 +1319,10 @@ router.post('/createUserChallenge', async (req, res) => {
         if(req.body.accountCredit && req.body.voucherDescription){
             req.flash('error', 'Account Credit & Voucher Description cannot both have a value. Select One.');
             return res.redirect('/admin/createUserChallenge');
-        } 
+        } else if(!req.body.accountCredit && !req.body.voucherDescription){
+            req.flash('error', 'Account Credit or Voucher Description must have a value.');
+            return res.redirect('/admin/createUserChallenge');
+        }
 
         const active = req.body.active === 'on';
         
@@ -1379,7 +1382,10 @@ router.post('/updateUserChallenge', async (req, res, next) => {
     if(req.body.accountCredit && req.body.voucherDescription){
         req.flash('error', 'Account Credit & Voucher Description cannot both have a value. Select One.');
         return res.redirect('/admin/editUserChallenge/'+req.body.userChallengeID);
-    } 
+    } else if(!req.body.accountCredit && !req.body.voucherDescription){
+        req.flash('error', 'Account Credit or Voucher Description must have a value.');
+        return res.redirect('/admin/editUserChallenge/'+req.body.userChallengeID);
+    }
 
     // Set visible and active checkboxes
     const active = req.body.active === 'on';
