@@ -1366,7 +1366,6 @@ router.post('/updateUserChallenge', async (req, res, next) => {
     req.checkBody('icon', 'Icon cannot be empty').notEmpty();
     req.checkBody('points', 'Reward Points cannot be empty').notEmpty();
     req.checkBody('points', 'Reward Points must be a number').isInt();
-    req.checkBody('accountCredit', 'Account Credit cannot be empty').notEmpty();
 
     var errors = req.validationErrors();
     if (errors){
