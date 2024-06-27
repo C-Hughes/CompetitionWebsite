@@ -10,10 +10,11 @@
     <link rel='stylesheet' href='/stylesheets/bulma-extensions.min.css' />
     <link rel='stylesheet' href='/stylesheets/bulma-badge.min.css' />
   </head>
+  
   {{> header}}
-  <body class="has-navbar-fixed-top">
+  <body class="has-navbar-fixed-top" >
 
-    <div class="block">
+    <div class="block" {{#if bannerVisible}}style="margin-top: 60px"{{/if}}>
       {{{body}}}
     </div>
     

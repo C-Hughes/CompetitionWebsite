@@ -11,9 +11,15 @@
         <h1 class="title">Competitions</h1>
     </div>
     <div class="container is-max-desktop mb-4">
+        <a href="/admin/liveBanner/{{#if bannerVisible}}Hide{{else}}Show{{/if}}" class="button is-fullwidth is-success is-outlined my-4">
+            <span class="icon">
+                <i class="fa-solid fa-microphone-lines"></i>
+            </span>
+            <span>{{#if bannerVisible}}Hide{{else}}Show{{/if}} 'We Are Live' Banner</span>
+        </a>
         <a href="/admin/createCompetition" class="button is-fullwidth is-link is-outlined">
             <span class="icon">
-            <i class="fa-solid fa-plus"> </i>
+                <i class="fa-solid fa-plus"> </i>
             </span>
             <span>Create New Competition</span>
          </a>

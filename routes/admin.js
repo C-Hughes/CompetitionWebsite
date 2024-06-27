@@ -19,6 +19,7 @@ var Order = require('../models/order');
 var ShippingAddress = require('../models/shippingAddress');
 var Coupon = require('../models/coupon');
 var UserChallenge = require('../models/userChallenge');
+var Banner = require('../models/banner');
 
 // Define a schema for the sessions collection
 //const sessionSchema = new mongoose.Schema({}, { collection: 'sessions' });
@@ -48,6 +49,28 @@ router.get('/', function(req, res, next) {
       .catch(err => {
             console.log(err);
     });
+});
+
+router.get('/liveBanner/:action', async function(req, res, next) {
+    try {
+        var action = req.params.action;
+
+        let banner = await Banner.findOne();
+        if (!banner) {
+            banner = new Banner();
+        }
+
+        if (action == "Show") {
+            banner.isVisible = true;
+        } else {
+            banner.isVisible = false;
+        }
+        await banner.save();
+        res.redirect('/admin');
+    } catch (err) {
+        console.log(err);
+        res.redirect('/admin');
+    }
 });
 
 router.get('/competitionEntries/:id', async (req, res, next) => {
