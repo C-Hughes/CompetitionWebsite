@@ -181,12 +181,8 @@
                                                 <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
                                             </div>
                                             <div class="column is-2">
-                                                <p class="title is-6">Applies to Specific User?</p>
-                                                {{#if this.userReference}}
-                                                    <p class="subtitle is-6">Yes</p>
-                                                {{else}}
-                                                    <p class="subtitle is-6">No</p>
-                                                {{/if}}
+                                                <p class="title is-6">Times Used</p>
+                                                <p class="subtitle is-6">{{this.timesUsed}}</p>
                                             </div>
                                             <div class="column is-2">
                                                 <p class="title is-6">Active</p>
@@ -262,17 +258,13 @@
                                                     <p class="subtitle is-6">{{this.couponPercent}}%</p>
                                                 {{/if}}
                                             </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Competition</p>
+                                                <p class="subtitle is-6">{{this.competitionReference.title}}</p>
+                                            </div>
                                             <div class="column is-3">
                                                 <p class="title is-6">Expiry Date</p>
                                                 <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
-                                            </div>
-                                            <div class="column is-2">
-                                                <p class="title is-6">Applies to Specific User?</p>
-                                                {{#if this.userReference}}
-                                                    <p class="subtitle is-6">Yes</p>
-                                                {{else}}
-                                                    <p class="subtitle is-6">No</p>
-                                                {{/if}}
                                             </div>
                                             <div class="column is-2">
                                                 <p class="title is-6">Active</p>
@@ -347,17 +339,13 @@
                                                     <p class="subtitle is-6">{{this.couponPercent}}%</p>
                                                 {{/if}}
                                             </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Username</p>
+                                                <p class="subtitle is-6">{{this.userReference.username}}</p>
+                                            </div>
                                             <div class="column is-3">
                                                 <p class="title is-6">Expiry Date</p>
                                                 <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
-                                            </div>
-                                            <div class="column is-2">
-                                                <p class="title is-6">Applies to Specific User?</p>
-                                                {{#if this.userReference}}
-                                                    <p class="subtitle is-6">Yes</p>
-                                                {{else}}
-                                                    <p class="subtitle is-6">No</p>
-                                                {{/if}}
                                             </div>
                                             <div class="column is-2">
                                                 <p class="title is-6">Active</p>
@@ -432,17 +420,15 @@
                                                     <p class="subtitle is-6">{{this.couponPercent}}%</p>
                                                 {{/if}}
                                             </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Username</p>
+                                                <p class="subtitle is-6 is-spaced">{{this.userReference.username}}</p>
+                                                <p class="title is-6">Competition</p>
+                                                <p class="subtitle is-6">{{this.competitionReference.title}}</p>
+                                            </div>
                                             <div class="column is-3">
                                                 <p class="title is-6">Expiry Date</p>
                                                 <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
-                                            </div>
-                                            <div class="column is-2">
-                                                <p class="title is-6">Applies to Specific User?</p>
-                                                {{#if this.userReference}}
-                                                    <p class="subtitle is-6">Yes</p>
-                                                {{else}}
-                                                    <p class="subtitle is-6">No</p>
-                                                {{/if}}
                                             </div>
                                             <div class="column is-2">
                                                 <p class="title is-6">Active</p>
