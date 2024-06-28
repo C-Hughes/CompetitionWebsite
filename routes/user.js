@@ -120,12 +120,12 @@ router.get('/rewards', async (req, res, next) => {
         const currentDate = new Date();
         const timeToWait = new Date(currentDate.getTime() - 15 * 60 * 1000); // 15 minutes in milliseconds
         req.session.checkedUserChallengeProgress = req.session.checkedUserChallengeProgress ? req.session.basket : new Date();
-        //if(new Date(req.session.checkedUserChallengeProgress).getTime() <= timeToWait){
-            console.log('Update req.session.checkedUserChallengeProgress');
+        if(new Date(req.session.checkedUserChallengeProgress).getTime() <= timeToWait){
+            //console.log('Update req.session.checkedUserChallengeProgress');
             req.session.checkedUserChallengeProgress = new Date();
             //Only update after timeToWait mins has passed to avoid excessive DB queries
             await updateUserChallengeProgress(req.user, userChallenges);
-       // }
+        }
         res.render('user/rewards', { title: 'Rewards', active: { rewards: true }, userCoupons: userCoupons, hasUserCoupons: userCoupons.length > 0, userChallenges: userChallenges, hasUserChallenges: userChallenges.length > 0, success: success, hasSuccess: success.length > 0, error: errors, hasError: errors.length > 0}); 
     } catch (err) {
         console.error(err);
@@ -398,8 +398,8 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
 
 
 //////////////////Go through each userChallenge, if user has reward already skip, if not check and update their progress.///////////////////////
-        await User.findOneAndUpdate({ _id: userInfo._id}, {completedChallenges: [], lastUpdated: new Date().toISOString()}, { upsert: false });
-
+        //FOR TESTING to remove completed challenges
+        //await User.findOneAndUpdate({ _id: userInfo._id}, {completedChallenges: [], lastUpdated: new Date().toISOString()}, { upsert: false });
 
         for (let challenge of userChallengesDB) {
             //If user has not completed challenge then check
@@ -423,7 +423,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '10Entries'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
@@ -444,7 +444,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '25Entries'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '25Entries'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
@@ -465,7 +465,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '50Entries'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: '50Entries'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
@@ -502,7 +502,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'HappyBirthday'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'HappyBirthday'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
@@ -528,7 +528,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                                 totalNumberOfUses: 1,
                                 active: true,
                             };
-                            const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'OneLap'}, {newCoupon}, { upsert: true }); 
+                            const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'OneLap'}, { $set: newCoupon }, { upsert: true }); 
                             if (savedCoupon) {
                                 markComplete = true;
                             }
@@ -572,7 +572,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'ReferAFriend10'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'ReferAFriend10'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
@@ -593,7 +593,7 @@ async function updateUserChallengeProgress(userInfo, userChallengesDB) {
                             totalNumberOfUses: 1,
                             active: true,
                         };
-                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'Refer5Friends'}, {newCoupon}, { upsert: true }); 
+                        const savedCoupon = await Coupon.findOneAndUpdate({ userReference: userInfo._id, couponCode: 'Refer5Friends'}, { $set: newCoupon }, { upsert: true }); 
                         if (savedCoupon) {
                             markComplete = true;
                         }
