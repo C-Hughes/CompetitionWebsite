@@ -138,12 +138,22 @@
                 <ul>
                     <li class="is-active">
                         <a>
-                            <span>Sitewide Coupons</span>
+                            <span>Sitewide All User</span>
                         </a>
                     </li>
                     <li>
                         <a>
-                            <span>Other Coupons</span>
+                            <span>Competition All User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <span>Sitewide User Specific</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <span>Competition User Specific</span>
                         </a>
                     </li>
                 </ul>
@@ -152,8 +162,8 @@
                 <ul>
                     <li class="is-active">
                         <div class="columns is-multiline is-mobile is-flex is-justify-content-center">
-                            {{#if hasSCoupons}}
-                                {{#each sitewideCoupons}}
+                            {{#if hasSAUCoupons}}
+                                {{#each sitewideAUCoupons}}
                                     <div class="container notification">
                                         <div class="columns">
                                             <div class="column is-3">
@@ -229,7 +239,7 @@
                             {{else}}
                                 <div class="column is-full">
                                     <div class="notification">
-                                        <p>No Sitewide Coupons show.</p>
+                                        <p>No Sitewide All User Coupons show.</p>
                                     </div>
                                 </div>
                             {{/if}}
@@ -238,8 +248,178 @@
                     <!-- Invisible Draw Result Cards -->
                     <li>
                         <div class="columns is-multiline">
-                            {{#if hasOCoupons}}
-                                {{#each otherCoupons}}
+                            {{#if hasCAUCoupons}}
+                                {{#each compAUCoupons}}
+                                    <div class="container notification">
+                                        <div class="columns">
+                                            <div class="column is-3">
+                                                <p class="title is-6">Coupon Code</p>
+                                                <p class="subtitle is-6 is-spaced">{{this.couponCode}}</p>
+                                                <p class="title is-6">Discount</p>
+                                                {{#if this.couponAmount}}
+                                                    <p class="subtitle is-6">£{{this.couponAmount}}</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">{{this.couponPercent}}%</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-3">
+                                                <p class="title is-6">Expiry Date</p>
+                                                <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
+                                            </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Applies to Specific User?</p>
+                                                {{#if this.userReference}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Active</p>
+                                                {{#if this.active}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>             
+                                            <div class="column is-narrow">
+                                                <div class="buttons has-addons is-right">
+                                                    <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-chevron-down"></i>
+                                                        </span>
+                                                    </button>
+                                                    <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </span>
+                                                        <span>Edit</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="userInfo_{{this._id}}" style="display:none">
+                                            <div class="columns is-multiline">
+                                                <div class="column is-5">
+                                                    <p class="title is-6">Applies To:</p>
+                                                    <p><strong>User ID:</strong> {{this.userReference._id}}</p>
+                                                    <p><strong>Username:</strong> {{this.userReference.username}}</p>
+                                                    <p><strong>User Email Address:</strong> {{this.userReference.emailAddress}}</p>
+                                                    <p><strong>Competition ID:</strong> {{this.competitionReference._id}}</p>
+                                                    <p><strong>Competition Title:</strong> {{this.competitionReference.title}}</p>
+                                                </div>
+                                                <div class="column is-7">
+                                                    <p class="title is-6">More Info</p>  
+                                                    <p><strong>Coupon ID:</strong> {{this.id}}</p>   
+                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUsesPerPerson}}</p>
+                                                    <p><strong>Minimum Spend:</strong> {{this.minimumSpend}}</p>
+                                                    <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{this.totalNumberOfUses}}</p>
+                                                    <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
+                                                    <p><strong>Created:</strong> {{ this.created}}</p>
+                                                    <p><strong>Last Updated:</strong> {{ this.lastUpdated}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            {{else}}
+                                <div class="column is-full">
+                                    <div class="notification">
+                                        <p>No Competition All User Coupons show.</p>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="columns is-multiline">
+                            {{#if hasSSUCoupons}}
+                                {{#each sitewideSUCoupons}}
+                                    <div class="container notification">
+                                        <div class="columns">
+                                            <div class="column is-3">
+                                                <p class="title is-6">Coupon Code</p>
+                                                <p class="subtitle is-6 is-spaced">{{this.couponCode}}</p>
+                                                <p class="title is-6">Discount</p>
+                                                {{#if this.couponAmount}}
+                                                    <p class="subtitle is-6">£{{this.couponAmount}}</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">{{this.couponPercent}}%</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-3">
+                                                <p class="title is-6">Expiry Date</p>
+                                                <p class="subtitle is-6">{{ this.couponExpiryDate}}</p>
+                                            </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Applies to Specific User?</p>
+                                                {{#if this.userReference}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>
+                                            <div class="column is-2">
+                                                <p class="title is-6">Active</p>
+                                                {{#if this.active}}
+                                                    <p class="subtitle is-6">Yes</p>
+                                                {{else}}
+                                                    <p class="subtitle is-6">No</p>
+                                                {{/if}}
+                                            </div>             
+                                            <div class="column is-narrow">
+                                                <div class="buttons has-addons is-right">
+                                                    <button class="button" onclick="toggleElement('userInfo_{{this._id}}', true)">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-chevron-down"></i>
+                                                        </span>
+                                                    </button>
+                                                    <a href="/admin/editCoupon/{{this.id}}" class="button is-link">
+                                                        <span class="icon is-small">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </span>
+                                                        <span>Edit</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="userInfo_{{this._id}}" style="display:none">
+                                            <div class="columns is-multiline">
+                                                <div class="column is-5">
+                                                    <p class="title is-6">Applies To:</p>
+                                                    <p><strong>User ID:</strong> {{this.userReference._id}}</p>
+                                                    <p><strong>Username:</strong> {{this.userReference.username}}</p>
+                                                    <p><strong>User Email Address:</strong> {{this.userReference.emailAddress}}</p>
+                                                    <p><strong>Competition ID:</strong> {{this.competitionReference._id}}</p>
+                                                    <p><strong>Competition Title:</strong> {{this.competitionReference.title}}</p>
+                                                </div>
+                                                <div class="column is-7">
+                                                    <p class="title is-6">More Info</p>  
+                                                    <p><strong>Coupon ID:</strong> {{this.id}}</p>   
+                                                    <p><strong>Times it Can be Used Per Person:</strong> {{this.numberOfUsesPerPerson}}</p>
+                                                    <p><strong>Minimum Spend:</strong> {{this.minimumSpend}}</p>
+                                                    <p><strong>Number of Times Coupon Can Be Used Before it Expires (0 = Unlimited):</strong> {{this.totalNumberOfUses}}</p>
+                                                    <p><strong>Times it Has Been Used:</strong> {{this.timesUsed}}</p>                                              
+                                                    <p><strong>Created:</strong> {{ this.created}}</p>
+                                                    <p><strong>Last Updated:</strong> {{ this.lastUpdated}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            {{else}}
+                                <div class="column is-full">
+                                    <div class="notification">
+                                        <p>No Sitewide User Coupons show.</p>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="columns is-multiline">
+                            {{#if hasCSUCoupons}}
+                                {{#each compSUCoupons}}
                                     <div class="container notification">
                                         <div class="columns">
                                             <div class="column is-3">

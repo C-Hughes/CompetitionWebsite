@@ -263,16 +263,29 @@ router.get('/coupons', async function(req, res, next) {
         const allCoupons = await Coupon.find({}).populate('userReference').populate('competitionReference');
         
         // Separate sitewide and other coupons in memory
-        const sitewideCoupons = allCoupons.filter(coupon => coupon.sitewide);
-        const otherCoupons = allCoupons.filter(coupon => !coupon.sitewide);
+        //const sitewideCoupons = allCoupons.filter(coupon => coupon.sitewide);
+        //const otherCoupons = allCoupons.filter(coupon => !coupon.sitewide);
+        //const userSpecificCoupons = allCoupons.filter(coupon => coupon.userReference);
+
+        const sitewideAllUserCoupons = allCoupons.filter(coupon => coupon.sitewide && !coupon.userReference);
+        const competitionAllUserCoupons = allCoupons.filter(coupon => !coupon.sitewide && !coupon.userReference);
+        const sitewideSpecificUserCoupons = allCoupons.filter(coupon => coupon.sitewide && coupon.userReference);
+        const competitionSpecificUserCoupons = allCoupons.filter(coupon => !coupon.sitewide && coupon.userReference);
 
         res.render('admin/coupons', {
             title: 'Coupons',
             active: { coupons: true },
-            sitewideCoupons: sitewideCoupons,
-            hasSCoupons: sitewideCoupons.length > 0,
-            otherCoupons: otherCoupons,
-            hasOCoupons: otherCoupons.length > 0,
+            sitewideAUCoupons: sitewideAllUserCoupons,
+            hasSAUCoupons: sitewideAllUserCoupons.length > 0,
+
+            compAUCoupons: competitionAllUserCoupons,
+            hasCAUCoupons: competitionAllUserCoupons.length > 0,
+
+            sitewideSUCoupons: sitewideSpecificUserCoupons,
+            hasSSUCoupons: sitewideSpecificUserCoupons.length > 0,
+            
+            compSUCoupons: competitionSpecificUserCoupons,
+            hasCSUCoupons: competitionSpecificUserCoupons.length > 0,
             success: success,
             hasSuccess: success.length > 0,
             error: errors,
