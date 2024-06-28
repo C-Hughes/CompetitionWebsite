@@ -242,7 +242,12 @@ module.exports = function Basket(oldBasket){
                     var couponRemovedFromBasket = false;
                     var coupon = this.basketCouponsApplied[id].couponCode;
                     //Lookup couponCode from DB
-                    var returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+                    var returnedCoupon;
+                    //Find coupon code that applies to current user first, for coupons with duplicate names
+                    returnedCoupon = await Coupon.findOne({userReference: user._id, "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+                    if(!returnedCoupon){
+                        returnedCoupon = await Coupon.findOne({ "couponCode" : { $regex : new RegExp('^'+coupon+'$', "i") }}).populate('competitionReference');
+                    }
 
                     if(!returnedCoupon){
                         //Not Found Remove from Basket
@@ -259,7 +264,7 @@ module.exports = function Basket(oldBasket){
                         couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);
                         messages.push('Coupon Code Has Expired');
-                    } else if (returnedCoupon.totalNumberOfUses > 0 && (returnedCoupon.totalNumberOfUses >= timesUsed)){
+                    } else if (returnedCoupon.totalNumberOfUses > 0 && (returnedCoupon.timesUsed >= returnedCoupon.totalNumberOfUses)){
                         //Check to make sure totalNumberOfUses hasn't been exceeded
                         couponRemovedFromBasket = true;
                         this.removeCoupon(coupon);

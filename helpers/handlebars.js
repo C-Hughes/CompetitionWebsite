@@ -160,8 +160,8 @@ module.exports = {
         return isCompleted ? options.fn(this) : options.inverse(this);
     },
     ifCouponUsed: function(coupon, options){
-        console.log(coupon.timesUsed >= coupon.numberOfUsesPerPerson);
-        console.log(coupon.timesUsed >= coupon.totalNumberOfUses);
+        //console.log(coupon.timesUsed >= coupon.numberOfUsesPerPerson);
+        //console.log(coupon.timesUsed >= coupon.totalNumberOfUses);
 
         var isUsed = false;
         if(coupon.numberOfUsesPerPerson && (coupon.timesUsed >= coupon.numberOfUsesPerPerson)){
