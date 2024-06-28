@@ -13,7 +13,6 @@
         </h2>
         <h2 class="subtitle">
             Earn rewards the more you play and for referring friends!
-            {{user.completedChallenges}}
         </h2>
     </section>
 
@@ -232,7 +231,7 @@
                                                                     <div class="field has-addons mt-3">
                                                                         <p class="control is-expanded">
                                                                             <input id="coupon_{{this._id}}" class="input is-small" type="text" value="{{this.couponCode}}" readonly>
-                                                                             <span id="copied_{{this._id}}" style="display:none;">Copied to clipboard!</span>
+                                                                            <span id="copied_{{this._id}}" style="display:none;">Copied to clipboard!</span>
                                                                         </p>
                                                                         <p class="control" onclick="copyShareLink('coupon_{{this._id}}', 'copied_{{this._id}}')">
                                                                             <span class="button">
@@ -242,9 +241,13 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <footer class="card-footer">
-                                                                <a href="#" class="button card-footer-item is-link {{#ifCouponUsed this}}is-static{{/ifCouponUsed}}" {{#ifCouponUsed this}}disabled{{/ifCouponUsed}}>Apply Coupon</a>
-                                                            </footer>
+                                                            <form action="/applyCoupon" method="post">
+                                                                <input type="hidden" name="csrfToken" value="{{../csrfToken}}">  
+                                                                <input type="hidden" id="couponCode" name="couponCode" value="{{this.couponCode}}">                                                   
+                                                                <footer class="card-footer">
+                                                                    <button type="submit" class="button card-footer-item is-link {{#ifCouponUsed this}}is-static{{/ifCouponUsed}}" {{#ifCouponUsed this}}disabled{{/ifCouponUsed}}>Apply Coupon</button>
+                                                                </footer>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 {{/if}}    
