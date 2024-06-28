@@ -8,7 +8,6 @@ Competitions:
 
 User:
 - Redeem points for account credit
-- Coupon redeemed check/functionality on rewards page
 - Client side login / signup validation
 
 
@@ -76,6 +75,7 @@ User:
 - When user has taken timout display a message when they try to go to checkout
 - Schema for challenge board & challenge board functionality
 - Add check to updateUserChallengeProgress only run again after 10 mins has passed
+- Coupon redeemed check/functionality on rewards page
 
 
 Other:

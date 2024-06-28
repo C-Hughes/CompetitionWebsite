@@ -256,8 +256,23 @@ function editForm(defaultDisplay, defaultClosed, button, buttonType){
     }
 }
 
+function copyShareLink(inputID, elemToShow){
 
-function copyShareLink(type, text){
+    var copyText = document.getElementById(inputID);
+
+    if(elemToShow){
+        var copyInfo = document.getElementById(elemToShow);
+        copyInfo.style.display="block";
+    }
+    
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+}
+
+function OLDcopyShareLink(type, text){
 
     if(type == 'link'){
         var copyLinkInfo = document.getElementById("copyLinkInfo");

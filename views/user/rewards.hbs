@@ -231,9 +231,10 @@
                                                                     <br />
                                                                     <div class="field has-addons mt-3">
                                                                         <p class="control is-expanded">
-                                                                            <input class="input is-small" type="text" value="{{this.couponCode}}" readonly>
+                                                                            <input id="coupon_{{this._id}}" class="input is-small" type="text" value="{{this.couponCode}}" readonly>
+                                                                             <span id="copied_{{this._id}}" style="display:none;">Copied to clipboard!</span>
                                                                         </p>
-                                                                        <p class="control">
+                                                                        <p class="control" onclick="copyShareLink('coupon_{{this._id}}', 'copied_{{this._id}}')">
                                                                             <span class="button">
                                                                                 <i class="fa-solid fa-copy"></i>
                                                                             </span>
@@ -288,7 +289,7 @@
                 <p class="control is-expanded">
                     <input id="referralCodeText" class="input is-success" type="text" value="{{user.referralCode}}" readonly>
                 </p>
-                <p class="control" onclick="copyShareLink('referral')">
+                <p class="control" onclick="copyShareLink('shareLinkText', 'referralCopied')">
                     <span class="button is-medium is-success">
                         <i class="fa-solid fa-copy"></i>
                     </span>
@@ -296,7 +297,7 @@
             </div>
 
             <div class="buttons">
-                <button class="button is-link" onclick="copyShareLink('link')">
+                <button class="button is-link" onclick="copyShareLink('shareLinkText', 'copyLinkInfo')">
                     <span class="icon is-small">
                         <i class="fa-solid fa-copy"></i>
                     </span>
